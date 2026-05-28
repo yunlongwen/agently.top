@@ -1,16 +1,18 @@
-# GitHub + HN 热点报告 Spider
+# GitHub + HN + TLDR AI 热点报告 Spider
 
-每日自动爬取 GitHub Trending 热点项目和 Hacker News Top 10 热门帖子，通过 AI 生成中文总结，合并为一封 HTML 邮件推送到指定邮箱。
+每日自动爬取 GitHub Trending 热点项目、Hacker News Top 10 热门帖子和 TLDR AI 最新一期精选内容，通过 AI 生成中文总结，合并为一封 HTML 邮件推送到指定邮箱。
 
 ## 功能
 
 - 爬取 GitHub Trending **每日热点** 和 **每周热点** (各 Top 5)
 - 爬取 **Hacker News Top 10** 热门帖子及评论 (通过官方 Firebase API)
+- 爬取 **TLDR AI 最新一期** 精选内容 (通过官方归档页)
 - 通过 GitHub Models API (GPT-4o) 生成中文总结
 - GitHub 总结：项目功能、特点、适用场景
 - HN 总结：帖子主题 + 评论区核心观点/争议点
+- TLDR AI 总结：英文 AI 快讯转为面向后端/AI 工程师的中文整理
 - 生成 HTML 表格邮件，支持多收件人
-- GitHub 和 HN 独立容错，任一成功即发送邮件
+- GitHub、HN 和 TLDR AI 独立容错，任一成功即发送邮件
 - 支持 crontab 定时执行
 
 ## 部署
@@ -28,7 +30,7 @@ pip3 install -r requirements.txt
 编辑 `~/.bash_profile`，在末尾追加：
 
 ```bash
-# GitHub + HN Spider
+# GitHub + HN + TLDR AI Spider
 export GITHUB_TOKEN="ghp_你的token"
 export SMTP_USER="changwenbo141@163.com"
 export SMTP_PASSWORD="你的163授权码"
@@ -70,6 +72,7 @@ github-trending-spider/
 ├── main.py              # 主入口，协调全流程
 ├── github_trending.py   # GitHub Trending 爬虫 + AI 总结
 ├── hacker_news.py       # Hacker News API 获取 + 评论抓取 + AI 总结
+├── tldr_ai.py           # TLDR AI 最新一期抓取 + 中文整理
 ├── email_builder.py     # HTML 邮件模板生成
 ├── email_sender.py      # SMTP 邮件发送
 ├── config.py            # 配置中心（从环境变量读取）
@@ -88,6 +91,9 @@ github-trending-spider/
 | `HN_COMMENTS_PER_STORY` | 10 | 每帖获取前 N 条顶级评论 |
 | `HN_MAX_RETRIES` | 5 | HN 请求最大重试次数 |
 | `HN_CONCURRENT_WORKERS` | 10 | 并发请求线程数 |
+| `TLDR_AI_HOME_URL` | https://ai.tldr.tech/ | TLDR AI 官方归档页 |
+| `TLDR_AI_TOP_COUNT` | 8 | TLDR AI 获取前 N 条精选内容 |
+| `TLDR_AI_MAX_RETRIES` | 5 | TLDR AI 请求最大重试次数 |
 | `AI_MODEL` | gpt-4o | AI 模型 |
 
 ## 故障排查

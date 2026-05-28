@@ -2,7 +2,7 @@
 """
 HTML 邮件生成模块
 
-负责将 GitHub Trending 和 Hacker News 数据构建成 HTML 邮件内容。
+负责将 GitHub Trending、Hacker News 和 TLDR AI 数据构建成 HTML 邮件内容。
 """
 
 from datetime import datetime
@@ -12,6 +12,7 @@ from config import AI_MODEL
 
 def _escape_html(text):
     """简单的 HTML 转义。"""
+    text = str(text or "")
     return (
         text.replace("&", "&amp;")
         .replace("<", "&lt;")
@@ -99,18 +100,60 @@ def _build_hn_table(stories):
     return "\n".join(rows)
 
 
-def build_email_html(daily_repos, weekly_repos, hn_stories):
+def _build_tldr_ai_table(items):
+    """构建 TLDR AI 表格的 HTML。"""
+    rows = [
+        "<table>",
+        "<tr>"
+        "<th>#</th>"
+        "<th>标题</th>"
+        "<th>中文摘要</th>"
+        "<th>原文链接</th>"
+        "</tr>",
+    ]
+
+    for i, item in enumerate(items, 1):
+        title = _escape_html(item.get("title", ""))
+        url = _escape_html(item.get("url", ""))
+        ai_summary = _escape_html(item.get("ai_summary") or item.get("summary", ""))
+        category = _escape_html(item.get("category", ""))
+        title_text = "{} ({})".format(title, category) if category else title
+
+        rows.append(
+            "<tr>"
+            "<td>{}</td>"
+            '<td><a href="{}">{}</a></td>'
+            '<td class="summary">{}</td>'
+            '<td><a href="{}">原文</a></td>'
+            "</tr>".format(
+                i,
+                url,
+                title_text,
+                ai_summary,
+                url,
+            )
+        )
+
+    rows.append("</table>")
+    return "\n".join(rows)
+
+
+def build_email_html(daily_repos, weekly_repos, hn_stories, tldr_items=None):
     """
-    将 GitHub Trending 和 Hacker News 数据构建成完整的 HTML 邮件内容。
+    将 GitHub Trending、Hacker News 和 TLDR AI 数据构建成完整的 HTML 邮件内容。
 
     Args:
         daily_repos: GitHub 每日热点仓库列表
         weekly_repos: GitHub 每周热点仓库列表
         hn_stories: Hacker News 热门帖子列表
+        tldr_items: TLDR AI 精选内容列表
 
     Returns:
         str: 完整的 HTML 邮件内容
     """
+    if tldr_items is None:
+        tldr_items = []
+
     today = datetime.now().strftime("%Y-%m-%d")
     html_parts = [
         "<!DOCTYPE html>",
@@ -141,7 +184,7 @@ def build_email_html(daily_repos, weekly_repos, hn_stories):
         "            color: #6a737d; font-size: 12px; }",
         "</style>",
         "</head><body>",
-        "<h1>GitHub + HN 热点报告 - {}</h1>".format(today),
+        "<h1>GitHub + HN + TLDR AI 热点报告 - {}</h1>".format(today),
     ]
 
     # GitHub 板块
@@ -164,16 +207,25 @@ def build_email_html(daily_repos, weekly_repos, hn_stories):
         html_parts.append(_build_hn_table(hn_stories))
         html_parts.append("</div>")
 
+    # TLDR AI 板块
+    if tldr_items:
+        html_parts.append('<div class="section-divider"></div>')
+        html_parts.append('<div class="tldr-ai-section">')
+        html_parts.append("<h2>TLDR AI 今日精选 Top {}</h2>".format(len(tldr_items)))
+        html_parts.append(_build_tldr_ai_table(tldr_items))
+        html_parts.append("</div>")
+
     # 无数据提示
-    if not has_github and not hn_stories:
+    if not has_github and not hn_stories and not tldr_items:
         html_parts.append("<p>今日未能获取到任何热点数据，请检查网络或日志。</p>")
 
     # 页脚
     html_parts.extend([
         '<div class="footer">',
-        "<p>此邮件由 GitHub + HN 热点报告 Spider 自动生成并发送。</p>",
+        "<p>此邮件由 GitHub + HN + TLDR AI 热点报告 Spider 自动生成并发送。</p>",
         "<p>数据来源：<a href='https://github.com/trending'>GitHub Trending</a> "
         "| <a href='https://news.ycombinator.com/'>Hacker News</a> "
+        "| <a href='https://ai.tldr.tech/'>TLDR AI</a> "
         "| AI 总结：GitHub Models ({}) </p>".format(AI_MODEL),
         "</div>",
         "</body></html>",

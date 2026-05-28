@@ -1,3 +1,67 @@
+# Tasks: 新增 TLDR AI 中文内容接入
+
+- Spec 审批: 2026-05-28
+- YOLO Mode: Off
+
+---
+
+## Task 1: 新建 tldr_ai.py — TLDR AI 抓取 + 中文整理 [DONE]
+- 涉及文件: 新建 `tldr_ai.py`
+- [x] 从 `https://ai.tldr.tech/` 获取最新 issue 链接
+- [x] 抓取最新 issue 页面并解析标题、链接、摘要、分类
+- [x] 默认保留前 8 条内容
+- [x] 通过 GitHub Models API 生成中文整理
+- [x] 未配置 `GITHUB_TOKEN` 时降级展示英文摘要并标注原因
+- 验证: PASSED
+
+---
+
+## Task 2: 更新 config.py — 新增 TLDR AI 配置项 [DONE]
+- 涉及文件: `config.py`
+- [x] 新增 `TLDR_AI_HOME_URL`
+- [x] 新增 `TLDR_AI_TOP_COUNT`
+- [x] 新增 `TLDR_AI_MAX_RETRIES`
+- 验证: PASSED
+
+---
+
+## Task 3: 更新 main.py — 接入第三数据源 [DONE]
+- 涉及文件: `main.py`
+- [x] 在 HN 阶段后新增 TLDR AI 阶段
+- [x] 调用 `fetch_latest_tldr_ai_issue` 和 `ai_translate_tldr_ai`
+- [x] 所有数据源失败才退出
+- [x] 邮件标题更新为 `GitHub + HN + TLDR AI 热点报告 - {date}`
+- 验证: PASSED
+
+---
+
+## Task 4: 更新 email_builder.py — 新增 TLDR AI 邮件板块 [DONE]
+- 涉及文件: `email_builder.py`
+- [x] `build_email_html` 新增 `tldr_items` 参数
+- [x] 新增 `TLDR AI 今日精选` 表格
+- [x] 页脚数据来源增加 TLDR AI
+- [x] 无数据提示兼容三数据源
+- 验证: PASSED
+
+---
+
+## Task 5: 更新 README.md — 同步使用说明 [DONE]
+- 涉及文件: `README.md`
+- [x] 更新项目名、功能说明、文件结构
+- [x] 新增 TLDR AI 可选配置项
+- 验证: PASSED
+
+---
+
+## Task 6: 验证 [DONE]
+- [x] 所有模块 import 成功
+- [x] HTML 生成成功，单独 TLDR AI 数据可展示
+- [x] 实际请求 TLDR AI 官方归档页并解析至少 1 条内容
+- [x] 未配置 `GITHUB_TOKEN` 时中文整理流程可降级
+- 验证: PASSED
+
+---
+
 # Tasks: 新增 Hacker News Top 10 + 评论总结功能
 
 - Spec 审批: 2026-05-03

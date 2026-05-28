@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-GitHub + HN 热点报告 Spider 主入口
+GitHub + HN + TLDR AI 热点报告 Spider 主入口
 
-协调 GitHub Trending 爬虫、Hacker News 数据获取、AI 总结和邮件发送。
+协调 GitHub Trending 爬虫、Hacker News 数据获取、TLDR AI 抓取、AI 总结和邮件发送。
 """
 
 import logging
@@ -29,12 +29,13 @@ logger = logging.getLogger(__name__)
 
 def main():
     logger.info("=" * 60)
-    logger.info("GitHub + HN 热点报告 Spider 启动 - %s", datetime.now().isoformat())
+    logger.info("GitHub + HN + TLDR AI 热点报告 Spider 启动 - %s", datetime.now().isoformat())
     logger.info("=" * 60)
 
     # 延迟导入，确保日志配置已初始化
     from github_trending import fetch_trending, ai_summarize
     from hacker_news import fetch_hn_top_stories, fetch_all_comments, ai_summarize_hn
+    from tldr_ai import fetch_latest_tldr_ai_issue, ai_translate_tldr_ai
     from email_builder import build_email_html
     from email_sender import send_email, send_failure_notify
 
@@ -91,9 +92,29 @@ def main():
         hn_stories = []
 
     # ==========================
+    # TLDR AI 阶段
+    # ==========================
+    tldr_items = []
+    logger.info("--- [TLDR AI] 开始获取最新一期 ---")
+    try:
+        tldr_items = fetch_latest_tldr_ai_issue()
+        if tldr_items:
+            logger.info("TLDR AI: 获取到 %d 条精选内容", len(tldr_items))
+
+            logger.info("--- [TLDR AI] 中文整理 ---")
+            time.sleep(5)
+            tldr_items = ai_translate_tldr_ai(tldr_items)
+        else:
+            errors.append("获取 TLDR AI 最新内容失败")
+    except Exception as e:
+        logger.error("TLDR AI 阶段异常: %s", e)
+        errors.append("TLDR AI 阶段异常: {}".format(e))
+        tldr_items = []
+
+    # ==========================
     # 判断是否有数据
     # ==========================
-    if not daily_repos and not weekly_repos and not hn_stories:
+    if not daily_repos and not weekly_repos and not hn_stories and not tldr_items:
         logger.error("所有数据源均获取失败")
         send_failure_notify(
             "所有数据源均获取失败：{}".format("; ".join(errors))
@@ -104,10 +125,10 @@ def main():
     # 生成邮件并发送
     # ==========================
     logger.info("--- 生成邮件内容 ---")
-    html = build_email_html(daily_repos, weekly_repos, hn_stories)
+    html = build_email_html(daily_repos, weekly_repos, hn_stories, tldr_items)
 
     today = datetime.now().strftime("%Y-%m-%d")
-    subject = "GitHub + HN 热点报告 - {}".format(today)
+    subject = "GitHub + HN + TLDR AI 热点报告 - {}".format(today)
 
     logger.info("--- 发送邮件 ---")
     success = send_email(html, subject)

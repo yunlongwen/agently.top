@@ -78,3 +78,18 @@ HN_MAX_RETRIES = int(os.environ.get("HN_MAX_RETRIES", "5"))
 
 # 并发请求线程数
 HN_CONCURRENT_WORKERS = int(os.environ.get("HN_CONCURRENT_WORKERS", "10"))
+
+# =========================================================================
+# TLDR AI 配置
+# =========================================================================
+
+# TLDR AI 官方归档页
+TLDR_AI_HOME_URL = os.environ.get(
+    "TLDR_AI_HOME_URL", "https://ai.tldr.tech/"
+)
+
+# 获取前 N 条 TLDR AI 精选内容
+TLDR_AI_TOP_COUNT = int(os.environ.get("TLDR_AI_TOP_COUNT", "8"))
+
+# TLDR AI 请求最大重试次数
+TLDR_AI_MAX_RETRIES = int(os.environ.get("TLDR_AI_MAX_RETRIES", "5"))
