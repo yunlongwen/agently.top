@@ -2,7 +2,10 @@
   <div class="app-shell">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">AI</div>
+        <div class="brand-mark-wrapper">
+          <div class="brand-mark-ring"></div>
+          <div class="brand-mark">AI</div>
+        </div>
         <div class="brand-text">
           <h1>每日AI前沿信息</h1>
           <p>开源趋势 · 社区热议 · AI 动态</p>
@@ -77,6 +80,7 @@
         </article>
       </section>
     </main>
+    <footer class="site-footer">✨ 微信公众号：程序员博博 ✨</footer>
   </div>
 </template>
 
@@ -390,7 +394,29 @@ a {
   gap: 12px;
 }
 
+.brand-mark-wrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.brand-mark-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 14px;
+  background: var(--brand-grad);
+  opacity: 0.3;
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.15); opacity: 0.1; }
+}
+
 .brand-mark {
+  position: relative;
   width: 40px;
   height: 40px;
   border-radius: 10px;
@@ -400,7 +426,6 @@ a {
   font-weight: 700;
   display: grid;
   place-items: center;
-  flex-shrink: 0;
   letter-spacing: 0.5px;
 }
 
@@ -598,6 +623,7 @@ a {
   color: var(--text-2);
   font-size: 14px;
   line-height: 1.7;
+  white-space: pre-line;
 }
 
 /* ── Item tags ────────────────────────────── */
@@ -805,5 +831,15 @@ a {
     display: inline-block;
     margin-top: 10px;
   }
+}
+
+/* ── Footer ──────────────────────────────── */
+.site-footer {
+  text-align: center;
+  padding: 24px 0;
+  color: var(--text-3);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  margin-top: 32px;
 }
 </style>

@@ -26,7 +26,7 @@ from config import (
 
 logger = logging.getLogger(__name__)
 
-# 技术相关节点白名单，用于从全站热帖中过滤技术内容
+# 技术相关节点白名单，用于排序优先级（白名单节点排前面，其余排后面）
 V2EX_TECH_NODES = {
     # 编程语言
     "programmer", "python", "java", "nodejs", "golang", "rust",
@@ -54,14 +54,14 @@ V2EX_TECH_NODES = {
 # =========================================================================
 def fetch_v2ex_hot_topics(count=None, max_retries=None):
     """
-    获取 V2EX 全站热帖并按节点白名单过滤技术内容。
+    获取 V2EX 全站热帖，按技术相关性排序（技术帖优先，非技术帖靠后）。
 
     Args:
-        count: 获取前 N 个技术帖，默认使用 V2EX_TOP_COUNT 配置
+        count: 最多取前 N 条，默认使用 V2EX_TOP_COUNT 配置
         max_retries: 最大重试次数，默认使用 V2EX_MAX_RETRIES 配置
 
     Returns:
-        list[dict]: 过滤后的技术帖列表，每个 dict 含
+        list[dict]: 排序后的热帖列表（技术帖在前），每个 dict 含
             id, title, content, url, created, node, member
     """
     if count is None:
@@ -82,17 +82,22 @@ def fetch_v2ex_hot_topics(count=None, max_retries=None):
                 logger.warning("V2EX API 返回非列表数据: %s", type(topics))
                 continue
 
-            # 节点白名单过滤
+            # 按技术相关性排序：白名单节点排前面，其他排后面
             tech_topics = [
                 t for t in topics
                 if t.get("node", {}).get("name", "").lower() in V2EX_TECH_NODES
             ]
+            non_tech_topics = [
+                t for t in topics
+                if t.get("node", {}).get("name", "").lower() not in V2EX_TECH_NODES
+            ]
+            sorted_topics = tech_topics + non_tech_topics
             logger.info(
-                "V2EX 热帖: 共 %d 条，技术节点过滤后 %d 条",
-                len(topics), len(tech_topics),
+                "V2EX 热帖: 共 %d 条，技术节点 %d 条在前，非技术 %d 条在后",
+                len(topics), len(tech_topics), len(non_tech_topics),
             )
 
-            return tech_topics[:count]
+            return sorted_topics[:count]
 
         except requests.RequestException as e:
             logger.warning("获取 V2EX 热帖失败: %s", e)
@@ -219,19 +224,22 @@ def ai_summarize_v2ex(topics):
     topics_text = "\n\n".join(topic_text_lines)
 
     prompt = (
-        "以下是 V2EX 今日 Top {} 技术热帖及其热门回复。\n\n"
+        "以下是 V2EX 今日 Top {} 热帖及其热门回复。\n\n"
         "请为每个帖子写中文总结（80-120 字），结构如下：\n"
         "1.【话题】一句话说清这个帖子在讨论什么（15 字以内）\n"
-        "2.【社区声音】挑 2-3 条最有代表性的回复观点，格式：「用户 xxx：具体观点」\n\n"
+        "2.【社区声音】挑 2-3 条最有代表性的回复观点，每条独占一行，格式：\n"
+        "   用户 xxx：具体观点\n"
+        "   用户 yyy：具体观点\n\n"
         "要求：\n"
+        "- 每个用户观点必须用换行符(\\n)分隔，绝对不要用分号连在一起\n"
         "- 回复引用要具体到观点内容，不要\"大家讨论了xxx\"这种废话\n"
         "- 语气像在茶水间跟同事八卦\"V站最近在吵什么\"\n"
         "- 禁止使用：\"引发热议\"\"大家纷纷表示\"\"网友认为\"等新闻体\n"
         "- 如果帖子是求助帖，直接说清问题和最有用的回复建议\n\n"
         "范例：\n"
-        '{{\"index\": 1, \"summary\": \"【远程工作时薪谈崩了】楼主远程岗开价 800/天被甲方砍到 500，'
-        '「用户 zhangsan：500 的话不如去美团送外卖，时薪更高」；'
-        '「用户 lisi：看技术栈，如果是 CRUD 确实不值 800」；'
+        '{{\"index\": 1, \"summary\": \"【远程工作时薪谈崩了】楼主远程岗开价 800/天被甲方砍到 500。\\n'
+        '用户 zhangsan：500 的话不如去美团送外卖，时薪更高\\n'
+        '用户 lisi：看技术栈，如果是 CRUD 确实不值 800\\n'
         '意外发现好几个人推荐了 Toptal 平台接海外单。\"}}\n\n'
         "请严格按照以下 JSON 格式返回，不要包含任何多余内容：\n"
         '{{"summaries": [{{"index": 1, "summary": "中文总结"}}, ...]}}\n\n'

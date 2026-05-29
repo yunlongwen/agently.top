@@ -45,7 +45,7 @@ class TestV2exTechNodes(unittest.TestCase):
             self.assertNotIn(node, V2EX_TECH_NODES, f"节点 {node} 不应在白名单中")
 
     def test_case_sensitivity(self):
-        """白名单使用小写，确认过滤时做 .lower()"""
+        """白名单使用小写，确认排序时做 .lower()"""
         # V2EX API 返回的 node name 通常是小写，但以防万一
         self.assertIn("ai", V2EX_TECH_NODES)
         self.assertNotIn("AI", V2EX_TECH_NODES)  # 白名单本身小写
@@ -68,7 +68,7 @@ class TestFetchV2exHotTopics(unittest.TestCase):
 
     @patch("v2ex.requests.get")
     def test_normal_fetch_with_filter(self, mock_get):
-        """正常获取 + 节点过滤"""
+        """正常获取 + 技术帖排前面非技术帖排后面"""
         topics = [
             self._make_topic(1, "Python 性能优化", "python"),
             self._make_topic(2, "租房推荐", "qna"),        # 非技术
@@ -82,10 +82,13 @@ class TestFetchV2exHotTopics(unittest.TestCase):
         mock_get.return_value = mock_resp
 
         result = fetch_v2ex_hot_topics(count=10, max_retries=1)
-        self.assertEqual(len(result), 3)
+        # 全部保留，技术帖排前面，非技术帖排后面
+        self.assertEqual(len(result), 5)
         self.assertEqual(result[0]["title"], "Python 性能优化")
         self.assertEqual(result[1]["title"], "Redis 集群方案")
         self.assertEqual(result[2]["title"], "Claude API 使用")
+        self.assertEqual(result[3]["title"], "租房推荐")
+        self.assertEqual(result[4]["title"], "周末去哪玩")
 
     @patch("v2ex.requests.get")
     def test_empty_response(self, mock_get):
@@ -100,7 +103,7 @@ class TestFetchV2exHotTopics(unittest.TestCase):
 
     @patch("v2ex.requests.get")
     def test_no_tech_topics(self, mock_get):
-        """全部热帖都是非技术节点"""
+        """全部热帖都是非技术节点时仍然返回"""
         topics = [
             self._make_topic(1, "租房", "qna"),
             self._make_topic(2, "宠物", "pet"),
@@ -112,7 +115,8 @@ class TestFetchV2exHotTopics(unittest.TestCase):
         mock_get.return_value = mock_resp
 
         result = fetch_v2ex_hot_topics(count=10, max_retries=1)
-        self.assertEqual(result, [])
+        # 不过滤，全部保留（都是非技术帖，排在后面但仍然返回）
+        self.assertEqual(len(result), 3)
 
     @patch("v2ex.requests.get")
     def test_count_limit(self, mock_get):
@@ -160,9 +164,10 @@ class TestFetchV2exHotTopics(unittest.TestCase):
         mock_get.return_value = mock_resp
 
         result = fetch_v2ex_hot_topics(count=10, max_retries=1)
-        # 无 node 的帖子 node.name 为空，不在白名单中，应被过滤
-        self.assertEqual(len(result), 1)
-        self.assertEqual(result[0]["title"], "正常帖子")
+        # 无 node 的帖子 node.name 为空，不在白名单中，排在后面但不被过滤
+        self.assertEqual(len(result), 2)
+        self.assertEqual(result[0]["title"], "正常帖子")  # 技术帖排前面
+        self.assertEqual(result[1]["title"], "无节点帖子")  # 非技术排后面
 
     @patch("v2ex.requests.get")
     def test_node_name_case_insensitive(self, mock_get):
