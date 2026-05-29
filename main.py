@@ -11,7 +11,7 @@ import sys
 import time
 from datetime import datetime
 
-from config import LOG_FILE, OUTPUT_JSON_PATH
+from config import LOG_FILE, OUTPUT_JSON_PATH, SEND_EMAIL_ENABLED
 
 # ---------------------------------------------------------------------------
 # 日志配置（全局初始化，其他模块通过 logging.getLogger 获取）
@@ -27,7 +27,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def main():
+def run_spider():
+    """执行一次完整采集流程。"""
     logger.info("=" * 60)
     logger.info("AI 后端专项信息源 Spider 启动 - %s", datetime.now().isoformat())
     logger.info("=" * 60)
@@ -38,6 +39,7 @@ def main():
     from tldr_ai import fetch_latest_tldr_ai_issue, ai_translate_tldr_ai
     from official_ai_sources import fetch_anthropic_news, fetch_infoq_ai_development, fetch_openai_news
     from content_items import build_all_content_items, summarize_content_items, write_content_json
+    from content_store import persist_source_snapshots
     from email_builder import build_email_html
     from email_sender import send_email, send_failure_notify
 
@@ -166,10 +168,11 @@ def main():
     # ==========================
     if not daily_repos and not weekly_repos and not hn_stories and not tldr_items and not ai_source_items:
         logger.error("所有数据源均获取失败")
-        send_failure_notify(
-            "所有数据源均获取失败：{}".format("; ".join(errors))
-        )
-        sys.exit(1)
+        if SEND_EMAIL_ENABLED:
+            send_failure_notify(
+                "所有数据源均获取失败：{}".format("; ".join(errors))
+            )
+        return False
 
     content_items = build_all_content_items(
         daily_repos,
@@ -186,9 +189,23 @@ def main():
         logger.error("统一 JSON 写出失败: %s", e)
         errors.append("统一 JSON 写出失败: {}".format(e))
 
+    logger.info("--- 写出来源归档并刷新 Redis ---")
+    try:
+        store_result = persist_source_snapshots(content_items)
+        logger.info("来源快照处理完成: %s", store_result)
+    except Exception as e:
+        logger.error("来源快照处理失败: %s", e)
+        errors.append("来源快照处理失败: {}".format(e))
+
     # ==========================
     # 生成邮件并发送
     # ==========================
+    if not SEND_EMAIL_ENABLED:
+        logger.info("--- 邮件发送已关闭（SEND_EMAIL_ENABLED=false）---")
+        if errors:
+            logger.warning("部分数据源获取失败（已降级处理）: %s", errors)
+        return True
+
     logger.info("--- 生成邮件内容 ---")
     html = build_email_html(daily_repos, weekly_repos, hn_stories, tldr_items, content_items)
 
@@ -202,10 +219,19 @@ def main():
     else:
         logger.error("邮件发送失败")
         send_failure_notify("邮件发送失败")
-        sys.exit(1)
+        return False
 
     if errors:
         logger.warning("部分数据源获取失败（已降级处理）: %s", errors)
+
+    return True
+
+
+def main():
+    """命令行入口。"""
+    success = run_spider()
+    if not success:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

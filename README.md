@@ -1,6 +1,6 @@
 # AI 后端专项信息源 Spider
 
-每日自动爬取 GitHub Trending、Hacker News、TLDR AI、OpenAI、Anthropic 和 InfoQ AI Development，通过 AI 生成中文总结，合并为 HTML 邮件，并输出统一 JSON 文件供后续后端落 Redis 使用。
+每日自动爬取 GitHub Trending、Hacker News、TLDR AI、OpenAI、Anthropic 和 InfoQ AI Development，通过 AI 生成中文总结，写出统一 JSON、按来源永久归档，并写入 Redis 作为 3 天热数据缓存。项目同时提供 FastAPI 只读接口和 Vue 前端资讯流页面。
 
 ## 功能
 
@@ -17,8 +17,13 @@
 - OpenAI / Anthropic / InfoQ 总结：中文摘要 + 后端工程师关注点
 - 生成 HTML 表格邮件，支持多收件人
 - 生成统一 JSON：默认 `output/latest.json`
-- 六个信息源独立容错，任一成功即发送邮件并输出 JSON
-- 支持 crontab 定时执行
+- 按来源生成永久归档：`output/<source>/<YYYY-MM-DD>/<batch>.json`
+- 写入 Redis 最新快照，默认 TTL 3 天
+- 提供 FastAPI 只读 API，支持 Redis 缺失时降级读取磁盘最新归档
+- 提供 Vue 前端工程资讯流页面
+- 六个信息源独立容错，任一成功即写出 JSON、归档并刷新 Redis
+- 邮件默认关闭，可通过配置开启
+- 启动后端 API 后由 Python 进程内调度器定时执行采集
 
 ## 部署
 
@@ -28,6 +33,13 @@
 git clone https://github.com/wenbochang888/github-trending-spider.git
 cd github-trending-spider
 pip3 install -r requirements.txt
+```
+
+前端依赖：
+
+```bash
+cd frontend
+npm install
 ```
 
 ### 2. 配置环境变量
@@ -40,6 +52,11 @@ export GITHUB_TOKEN="ghp_你的token"
 export SMTP_USER="changwenbo141@163.com"
 export SMTP_PASSWORD="你的163授权码"
 export MAIL_TO="727987105@qq.com"
+export SEND_EMAIL_ENABLED=false
+export REDIS_URL="redis://localhost:6379/0"
+export SPIDER_SCHEDULER_ENABLED=true
+export SPIDER_SCHEDULE_TIMES="07:50,15:50,23:50"
+export SPIDER_RUN_ON_STARTUP=false
 ```
 
 生效：
@@ -50,24 +67,56 @@ source ~/.bash_profile
 
 > GitHub Token 获取：https://github.com/settings/tokens -> Generate new token -> 勾选 `models:read`
 
-### 3. 测试
+### 3. 测试采集
 
 ```bash
 python3 main.py
 ```
 
-收到邮件并生成 `output/latest.json` 就说明成功。日志在 `/root/logs/github-python/trending.log`。
+生成 `output/latest.json`、`output/<source>/<YYYY-MM-DD>/<batch>.json` 并刷新 Redis 就说明采集成功。日志在 `/root/logs/github-python/trending.log`。
 
-### 4. 定时任务
+### 4. 启动后端 API
 
 ```bash
-crontab -e
+./scripts/start_backend.sh
 ```
 
-加一行：
+启动后端后会同时启动 FastAPI 和 Python 进程内采集调度器，默认每天 `07:50`、`15:50`、`23:50` 采集一次。生产环境请保持 uvicorn 单 worker 运行，避免多个 worker 同时启动多套调度器。
 
+### 5. 启动前端
+
+```bash
+./scripts/start_frontend.sh
 ```
-0 8 * * * source ~/.bash_profile && cd /root/work/workspace/gitee/github-trending-spider && /usr/bin/python3 main.py
+
+本地开发时也可以同时启动后端和前端：
+
+```bash
+./scripts/start_all.sh
+```
+
+`start_all.sh` 会把进程号和日志写到 `.runtime/` 目录。
+
+生产部署建议由 Nginx 托管 `frontend/dist/`，并将 `/api/` 反代到 FastAPI 服务。
+
+## 启动脚本
+
+后端：
+
+```bash
+./scripts/start_backend.sh
+```
+
+前端：
+
+```bash
+./scripts/start_frontend.sh
+```
+
+本地联调：
+
+```bash
+./scripts/start_all.sh
 ```
 
 ## 文件结构
@@ -80,10 +129,17 @@ github-trending-spider/
 ├── tldr_ai.py           # TLDR AI 最新一期抓取 + 中文整理
 ├── official_ai_sources.py # OpenAI / Anthropic / InfoQ 抓取
 ├── content_items.py     # 统一信息项、AI 摘要和 JSON 输出
+├── content_store.py     # 按来源归档、Redis 最新快照、磁盘降级读取
+├── redis_client.py      # Redis 进程级连接池
+├── scheduler.py         # FastAPI 进程内采集调度器
+├── source_registry.py   # 来源 ID 与展示信息注册表
+├── api.py               # FastAPI 公开只读接口
 ├── email_builder.py     # HTML 邮件模板生成
 ├── email_sender.py      # SMTP 邮件发送
 ├── config.py            # 配置中心（从环境变量读取）
 ├── test_email.py        # SMTP 邮件发送测试
+├── frontend/            # Vue 3 + Vue CLI 前端资讯流
+├── scripts/             # 后端、前端、本地联调启动脚本
 ├── requirements.txt     # Python 依赖
 └── README.md            # 本文件
 ```
@@ -113,6 +169,16 @@ github-trending-spider/
 | `INFOQ_AI_NEWS_COUNT` | 10 | InfoQ 获取前 N 条内容 |
 | `OFFICIAL_AI_MAX_RETRIES` | 5 | 官方 AI 信息源请求最大重试次数 |
 | `OUTPUT_JSON_PATH` | output/latest.json | 统一 JSON 输出路径 |
+| `OUTPUT_ARCHIVE_DIR` | output | 按来源归档根目录 |
+| `REDIS_URL` | redis://localhost:6379/0 | Redis 连接地址 |
+| `REDIS_SNAPSHOT_TTL_SECONDS` | 259200 | Redis 来源快照 TTL，默认 3 天 |
+| `REDIS_KEY_PREFIX` | github-trending-spider | Redis key 前缀 |
+| `API_MAX_ITEMS_PER_SOURCE` | 100 | API 单来源最多返回条数 |
+| `API_CORS_ORIGINS` | 空 | API 跨域白名单，逗号分隔；同域部署可不配 |
+| `SEND_EMAIL_ENABLED` | false | 是否在每次采集成功后发送邮件 |
+| `SPIDER_SCHEDULER_ENABLED` | true | 启动 API 后是否启用进程内定时采集 |
+| `SPIDER_SCHEDULE_TIMES` | 07:50,15:50,23:50 | 每天采集时间，24 小时制，逗号分隔 |
+| `SPIDER_RUN_ON_STARTUP` | false | API 启动时是否立即采集一次 |
 | `AI_MODEL` | gpt-4o | AI 模型 |
 
 数量配置遵循“最多取 N 条”：例如配置 `INFOQ_AI_NEWS_COUNT=100`，但当前源只解析到 14 条，就只展示 14 条。
@@ -140,7 +206,88 @@ github-trending-spider/
 }
 ```
 
-当前阶段不直接写 Redis。后续后端可以读取该 JSON 后写入 Redis，也可以将 `write_content_json` 替换为 Redis writer。
+## 按来源归档与 Redis
+
+每次采集会额外按来源写出批次快照：
+
+```text
+output/github-daily/2026-05-29/01.json
+output/github-weekly/2026-05-29/01.json
+output/hacker-news/2026-05-29/01.json
+output/tldr-ai/2026-05-29/01.json
+output/openai/2026-05-29/01.json
+output/anthropic/2026-05-29/01.json
+output/infoq/2026-05-29/01.json
+```
+
+当天多次运行时批次号递增为 `02.json`、`03.json`。磁盘归档永久保留；Redis 只保存每个来源的最新快照，默认 3 天过期。API 读取顺序是 Redis 优先，Redis 缺失或不可用时读取磁盘最新批次。
+
+Redis URL 配置示例：
+
+```bash
+# 无密码
+export REDIS_URL="redis://localhost:6379/0"
+
+# 有密码，无用户名
+export REDIS_URL="redis://:password@localhost:6379/0"
+
+# Redis ACL 用户名 + 密码
+export REDIS_URL="redis://username:password@localhost:6379/0"
+```
+
+如果密码包含 `@`、`:`、`/`、`#` 等特殊字符，需要先做 URL encode。例如 `p@ss:word` 应写成 `p%40ss%3Aword`。
+
+Redis client 使用进程级连接池复用连接；每次 API 请求不会重新创建连接池。
+
+## API
+
+```bash
+# 健康检查
+curl http://localhost:8000/api/health
+
+# 来源列表
+curl http://localhost:8000/api/sources
+
+# 单来源最新数据
+curl http://localhost:8000/api/sources/github-daily/latest
+```
+
+第一版 API 只开放公开只读 GET 查询，不提供公开采集、写入或发邮件接口。线上建议在 Nginx 层配置限流和缓存。
+
+## 内置定时采集
+
+启动 `./scripts/start_backend.sh` 后，FastAPI 进程会自动启动后台调度器。默认配置为：
+
+```bash
+export SPIDER_SCHEDULER_ENABLED=true
+export SPIDER_SCHEDULE_TIMES="07:50,15:50,23:50"
+export SPIDER_RUN_ON_STARTUP=false
+```
+
+如需启动后立即跑一次采集，可设置：
+
+```bash
+export SPIDER_RUN_ON_STARTUP=true
+```
+
+不再需要 Linux cron。若将来要用多 worker 部署 API，需要把调度器拆成独立进程或增加分布式锁，否则多个 worker 会重复执行采集。
+
+## 前端
+
+前端位于 `frontend/`，技术栈为 Vue 3 + Vue CLI。开发环境下 `/api` 会代理到 `http://localhost:8000`。
+
+```bash
+cd frontend
+npm install
+npm run serve
+```
+
+构建：
+
+```bash
+cd frontend
+npm run build
+```
 
 ## 故障排查
 
@@ -151,4 +298,10 @@ cat /root/logs/github-python/trending.log
 # 检查环境变量是否生效
 echo $GITHUB_TOKEN
 echo $SMTP_PASSWORD
+```
+
+基础编译检查：
+
+```bash
+python3 -m py_compile main.py config.py github_trending.py hacker_news.py tldr_ai.py official_ai_sources.py content_items.py content_store.py redis_client.py scheduler.py source_registry.py api.py email_builder.py email_sender.py
 ```

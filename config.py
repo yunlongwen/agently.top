@@ -11,6 +11,15 @@ GitHub Trending Spider + Hacker News 配置文件
 
 import os
 
+
+def _get_bool_env(name, default=False):
+    """读取布尔环境变量。"""
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() in ("1", "true", "yes", "on")
+
+
 # =========================================================================
 # GitHub Models API 配置
 # =========================================================================
@@ -156,3 +165,49 @@ OFFICIAL_AI_MAX_RETRIES = int(os.environ.get("OFFICIAL_AI_MAX_RETRIES", "5"))
 
 # 统一 JSON 输出路径，后续可由后端读取后写入 Redis
 OUTPUT_JSON_PATH = os.environ.get("OUTPUT_JSON_PATH", "output/latest.json")
+
+# 按来源归档输出目录。归档结构：
+# output/<source>/<YYYY-MM-DD>/<batch>.json
+OUTPUT_ARCHIVE_DIR = os.environ.get("OUTPUT_ARCHIVE_DIR", "output")
+
+# =========================================================================
+# Redis / API 配置
+# =========================================================================
+
+# Redis 作为 3 天热数据缓存；磁盘归档是长期事实源。
+REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
+REDIS_KEY_PREFIX = os.environ.get(
+    "REDIS_KEY_PREFIX", "github-trending-spider"
+)
+REDIS_SNAPSHOT_TTL_SECONDS = int(
+    os.environ.get("REDIS_SNAPSHOT_TTL_SECONDS", str(3 * 24 * 60 * 60))
+)
+REDIS_SOCKET_TIMEOUT_SECONDS = float(
+    os.environ.get("REDIS_SOCKET_TIMEOUT_SECONDS", "2")
+)
+
+# API 单来源最多返回条数，避免公开只读接口返回过大。
+API_MAX_ITEMS_PER_SOURCE = int(os.environ.get("API_MAX_ITEMS_PER_SOURCE", "100"))
+API_CORS_ORIGINS = os.environ.get("API_CORS_ORIGINS", "")
+
+# =========================================================================
+# 内置采集调度配置
+# =========================================================================
+
+# 启动 API 后是否启用进程内定时采集。
+SPIDER_SCHEDULER_ENABLED = _get_bool_env("SPIDER_SCHEDULER_ENABLED", True)
+
+# 每天运行时间，24 小时制，逗号分隔。
+SPIDER_SCHEDULE_TIMES = os.environ.get(
+    "SPIDER_SCHEDULE_TIMES", "07:50,15:50,23:50"
+)
+
+# API 启动时是否立即跑一次采集。
+SPIDER_RUN_ON_STARTUP = _get_bool_env("SPIDER_RUN_ON_STARTUP", False)
+
+# =========================================================================
+# 邮件发送开关
+# =========================================================================
+
+# 默认不发送邮件；开启后每次采集成功后发送。
+SEND_EMAIL_ENABLED = _get_bool_env("SEND_EMAIL_ENABLED", False)
