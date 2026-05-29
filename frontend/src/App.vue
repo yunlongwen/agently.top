@@ -8,7 +8,7 @@
           <p>开源趋势 · 社区热议 · AI 动态</p>
         </div>
       </div>
-      <div class="update-chip">⏱ 每 8 小时更新</div>
+      <div class="update-chip">⏱ {{ countdownText }}</div>
     </header>
 
     <main class="layout">
@@ -153,6 +153,13 @@ const LANGUAGE_COLORS = {
   'Dockerfile':       '#384d54',
 };
 
+// 每日定时更新时间（24小时制）
+const SCHEDULE_TIMES = [
+  { hour: 7, minute: 50 },
+  { hour: 15, minute: 50 },
+  { hour: 23, minute: 50 },
+];
+
 export default {
   name: 'App',
   data() {
@@ -162,7 +169,9 @@ export default {
       items: [],
       generatedAt: '',
       loading: false,
-      errorMessage: ''
+      errorMessage: '',
+      countdownText: '每 8 小时更新',
+      countdownTimer: null
     };
   },
   computed: {
@@ -176,7 +185,53 @@ export default {
   async created() {
     await this.loadSources();
   },
+  mounted() {
+    this.updateCountdown();
+    this.countdownTimer = setInterval(() => {
+      this.updateCountdown();
+    }, 1000);
+  },
+  beforeUnmount() {
+    if (this.countdownTimer) {
+      clearInterval(this.countdownTimer);
+      this.countdownTimer = null;
+    }
+  },
   methods: {
+    updateCountdown() {
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      let nextUpdate = null;
+
+      // 找今天剩余的更新时间
+      for (const t of SCHEDULE_TIMES) {
+        const candidate = new Date(today.getTime() + t.hour * 3600000 + t.minute * 60000);
+        if (candidate > now) {
+          nextUpdate = candidate;
+          break;
+        }
+      }
+
+      // 如果今天的更新时间都过了，取明天第一个
+      if (!nextUpdate) {
+        const tomorrow = new Date(today.getTime() + 86400000);
+        const first = SCHEDULE_TIMES[0];
+        nextUpdate = new Date(tomorrow.getTime() + first.hour * 3600000 + first.minute * 60000);
+      }
+
+      const diff = nextUpdate - now;
+      const hours = Math.floor(diff / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+
+      if (hours > 0) {
+        this.countdownText = hours + '时' + minutes + '分后更新';
+      } else if (minutes > 0) {
+        this.countdownText = minutes + '分' + seconds + '秒后更新';
+      } else {
+        this.countdownText = seconds + '秒后更新';
+      }
+    },
     getDisplayLabel(source) {
       return (SOURCE_DISPLAY_MAP[source.id] || source).label;
     },

@@ -36,13 +36,6 @@ SOURCE_DEFINITIONS = [
         "category": "社区讨论",
     },
     {
-        "id": SOURCE_TLDR_AI_ID,
-        "name": "TLDR AI",
-        "label": "TLDR AI",
-        "content_source": "TLDR AI",
-        "category": "AI 快讯",
-    },
-    {
         "id": SOURCE_OPENAI_ID,
         "name": "OpenAI",
         "label": "OpenAI",
@@ -62,6 +55,13 @@ SOURCE_DEFINITIONS = [
         "label": "InfoQ AI",
         "content_source": "InfoQ AI Development",
         "category": "AI 工程实践",
+    },
+    {
+        "id": SOURCE_TLDR_AI_ID,
+        "name": "TLDR AI",
+        "label": "TLDR AI",
+        "content_source": "TLDR AI",
+        "category": "AI 快讯",
     },
 ]
 
