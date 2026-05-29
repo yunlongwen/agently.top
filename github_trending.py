@@ -24,6 +24,7 @@ from config import (
     GITHUB_TOKEN,
     AI_MODEL,
     AI_API_URL,
+    GITHUB_TRENDING_TOP_COUNT,
 )
 
 logger = logging.getLogger(__name__)
@@ -45,18 +46,22 @@ HEADERS = {
 # =========================================================================
 # 1. 爬取 GitHub Trending
 # =========================================================================
-def fetch_trending(since="daily", max_retries=10):
+def fetch_trending(since="daily", max_retries=10, count=None):
     """
     爬取 GitHub Trending 页面，返回仓库列表。
 
     Args:
         since: "daily" 或 "weekly"
         max_retries: 最大重试次数
+        count: 获取前 N 个仓库，默认使用 GITHUB_TRENDING_TOP_COUNT 配置
 
     Returns:
         list[dict]: 每个 dict 包含 repo_name, owner, url, description,
                     language, stars, forks, stars_period
     """
+    if count is None:
+        count = GITHUB_TRENDING_TOP_COUNT
+
     url = "{}?since={}".format(TRENDING_URL, since)
     repos = []
 
@@ -83,8 +88,8 @@ def fetch_trending(since="daily", max_retries=10):
         if repo:
             repos.append(repo)
 
-    # 只保留前 5 个热点仓库
-    return repos[:5]
+    # 只保留前 N 个热点仓库；如果页面实际不足 N 个，则返回实际数量
+    return repos[:count]
 
 
 def _parse_article(article, since):

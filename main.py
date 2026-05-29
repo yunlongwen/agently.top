@@ -11,7 +11,7 @@ import sys
 import time
 from datetime import datetime
 
-from config import LOG_FILE
+from config import LOG_FILE, OUTPUT_JSON_PATH
 
 # ---------------------------------------------------------------------------
 # 日志配置（全局初始化，其他模块通过 logging.getLogger 获取）
@@ -29,13 +29,15 @@ logger = logging.getLogger(__name__)
 
 def main():
     logger.info("=" * 60)
-    logger.info("GitHub + HN + TLDR AI 热点报告 Spider 启动 - %s", datetime.now().isoformat())
+    logger.info("AI 后端专项信息源 Spider 启动 - %s", datetime.now().isoformat())
     logger.info("=" * 60)
 
     # 延迟导入，确保日志配置已初始化
     from github_trending import fetch_trending, ai_summarize
     from hacker_news import fetch_hn_top_stories, fetch_all_comments, ai_summarize_hn
     from tldr_ai import fetch_latest_tldr_ai_issue, ai_translate_tldr_ai
+    from official_ai_sources import fetch_anthropic_news, fetch_infoq_ai_development, fetch_openai_news
+    from content_items import build_all_content_items, summarize_content_items, write_content_json
     from email_builder import build_email_html
     from email_sender import send_email, send_failure_notify
 
@@ -112,23 +114,86 @@ def main():
         tldr_items = []
 
     # ==========================
+    # 官方 AI / AI 工程实践阶段
+    # ==========================
+    openai_items = []
+    logger.info("--- [OpenAI] 开始获取官方 News ---")
+    try:
+        openai_items = fetch_openai_news()
+        if openai_items:
+            logger.info("OpenAI News: 获取到 %d 条内容", len(openai_items))
+        else:
+            errors.append("获取 OpenAI News 失败")
+    except Exception as e:
+        logger.error("OpenAI 阶段异常: %s", e)
+        errors.append("OpenAI 阶段异常: {}".format(e))
+        openai_items = []
+
+    anthropic_items = []
+    logger.info("--- [Anthropic] 开始获取官方 Newsroom ---")
+    try:
+        anthropic_items = fetch_anthropic_news()
+        if anthropic_items:
+            logger.info("Anthropic News: 获取到 %d 条内容", len(anthropic_items))
+        else:
+            errors.append("获取 Anthropic News 失败")
+    except Exception as e:
+        logger.error("Anthropic 阶段异常: %s", e)
+        errors.append("Anthropic 阶段异常: {}".format(e))
+        anthropic_items = []
+
+    infoq_items = []
+    logger.info("--- [InfoQ] 开始获取 AI Development RSS ---")
+    try:
+        infoq_items = fetch_infoq_ai_development()
+        if infoq_items:
+            logger.info("InfoQ AI Development: 获取到 %d 条内容", len(infoq_items))
+        else:
+            errors.append("获取 InfoQ AI Development 失败")
+    except Exception as e:
+        logger.error("InfoQ 阶段异常: %s", e)
+        errors.append("InfoQ 阶段异常: {}".format(e))
+        infoq_items = []
+
+    ai_source_items = openai_items + anthropic_items + infoq_items
+    if ai_source_items:
+        logger.info("--- [官方 AI / AI 工程实践] AI 摘要 ---")
+        time.sleep(5)
+        ai_source_items = summarize_content_items(ai_source_items, "AI 官方更新与 AI 工程实践")
+
+    # ==========================
     # 判断是否有数据
     # ==========================
-    if not daily_repos and not weekly_repos and not hn_stories and not tldr_items:
+    if not daily_repos and not weekly_repos and not hn_stories and not tldr_items and not ai_source_items:
         logger.error("所有数据源均获取失败")
         send_failure_notify(
             "所有数据源均获取失败：{}".format("; ".join(errors))
         )
         sys.exit(1)
 
+    content_items = build_all_content_items(
+        daily_repos,
+        weekly_repos,
+        hn_stories,
+        tldr_items,
+        ai_source_items,
+    )
+
+    logger.info("--- 写出统一 JSON ---")
+    try:
+        write_content_json(content_items, OUTPUT_JSON_PATH)
+    except Exception as e:
+        logger.error("统一 JSON 写出失败: %s", e)
+        errors.append("统一 JSON 写出失败: {}".format(e))
+
     # ==========================
     # 生成邮件并发送
     # ==========================
     logger.info("--- 生成邮件内容 ---")
-    html = build_email_html(daily_repos, weekly_repos, hn_stories, tldr_items)
+    html = build_email_html(daily_repos, weekly_repos, hn_stories, tldr_items, content_items)
 
     today = datetime.now().strftime("%Y-%m-%d")
-    subject = "GitHub + HN + TLDR AI 热点报告 - {}".format(today)
+    subject = "AI 后端专项信息源报告 - {}".format(today)
 
     logger.info("--- 发送邮件 ---")
     success = send_email(html, subject)

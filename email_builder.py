@@ -8,6 +8,7 @@ HTML 邮件生成模块
 from datetime import datetime
 
 from config import AI_MODEL
+from content_items import SOURCE_ANTHROPIC, SOURCE_INFOQ_AI, SOURCE_OPENAI
 
 
 def _escape_html(text):
@@ -138,7 +139,52 @@ def _build_tldr_ai_table(items):
     return "\n".join(rows)
 
 
-def build_email_html(daily_repos, weekly_repos, hn_stories, tldr_items=None):
+def _build_content_items_table(items):
+    """构建统一信息项表格。"""
+    rows = [
+        "<table>",
+        "<tr>"
+        "<th>#</th>"
+        "<th>来源</th>"
+        "<th>标题</th>"
+        "<th>发布时间</th>"
+        "<th>中文摘要</th>"
+        "<th>后端关注点</th>"
+        "</tr>",
+    ]
+
+    for i, item in enumerate(items, 1):
+        title = _escape_html(item.get("title", ""))
+        url = _escape_html(item.get("url", ""))
+        source = _escape_html(item.get("source", ""))
+        published_at = _escape_html(item.get("published_at", ""))
+        chinese_summary = _escape_html(item.get("chinese_summary", ""))
+        backend_focus = _escape_html(item.get("backend_focus", ""))
+
+        rows.append(
+            "<tr>"
+            "<td>{}</td>"
+            "<td>{}</td>"
+            '<td><a href="{}">{}</a></td>'
+            "<td>{}</td>"
+            '<td class="summary">{}</td>'
+            '<td class="summary">{}</td>'
+            "</tr>".format(
+                i,
+                source,
+                url,
+                title,
+                published_at,
+                chinese_summary,
+                backend_focus,
+            )
+        )
+
+    rows.append("</table>")
+    return "\n".join(rows)
+
+
+def build_email_html(daily_repos, weekly_repos, hn_stories, tldr_items=None, content_items=None):
     """
     将 GitHub Trending、Hacker News 和 TLDR AI 数据构建成完整的 HTML 邮件内容。
 
@@ -147,12 +193,28 @@ def build_email_html(daily_repos, weekly_repos, hn_stories, tldr_items=None):
         weekly_repos: GitHub 每周热点仓库列表
         hn_stories: Hacker News 热门帖子列表
         tldr_items: TLDR AI 精选内容列表
+        content_items: 统一信息项列表
 
     Returns:
         str: 完整的 HTML 邮件内容
     """
     if tldr_items is None:
         tldr_items = []
+    if content_items is None:
+        content_items = []
+
+    openai_items = [
+        item for item in content_items
+        if item.get("source") == SOURCE_OPENAI
+    ]
+    anthropic_items = [
+        item for item in content_items
+        if item.get("source") == SOURCE_ANTHROPIC
+    ]
+    engineering_items = [
+        item for item in content_items
+        if item.get("source") == SOURCE_INFOQ_AI
+    ]
 
     today = datetime.now().strftime("%Y-%m-%d")
     html_parts = [
@@ -184,7 +246,7 @@ def build_email_html(daily_repos, weekly_repos, hn_stories, tldr_items=None):
         "            color: #6a737d; font-size: 12px; }",
         "</style>",
         "</head><body>",
-        "<h1>GitHub + HN + TLDR AI 热点报告 - {}</h1>".format(today),
+        "<h1>AI 后端专项信息源报告 - {}</h1>".format(today),
     ]
 
     # GitHub 板块
@@ -215,17 +277,49 @@ def build_email_html(daily_repos, weekly_repos, hn_stories, tldr_items=None):
         html_parts.append(_build_tldr_ai_table(tldr_items))
         html_parts.append("</div>")
 
+    # OpenAI 官方更新板块
+    if openai_items:
+        html_parts.append('<div class="section-divider"></div>')
+        html_parts.append('<div class="openai-section">')
+        html_parts.append("<h2>OpenAI 官方更新 Top {}</h2>".format(len(openai_items)))
+        html_parts.append(_build_content_items_table(openai_items))
+        html_parts.append("</div>")
+
+    # Anthropic 官方更新板块
+    if anthropic_items:
+        html_parts.append('<div class="section-divider"></div>')
+        html_parts.append('<div class="anthropic-section">')
+        html_parts.append("<h2>Anthropic 官方更新 Top {}</h2>".format(len(anthropic_items)))
+        html_parts.append(_build_content_items_table(anthropic_items))
+        html_parts.append("</div>")
+
+    # AI 工程实践板块
+    if engineering_items:
+        html_parts.append('<div class="section-divider"></div>')
+        html_parts.append('<div class="ai-engineering-section">')
+        html_parts.append(
+            '<h2>InfoQ AI Development 工程实践 Top {} '
+            '(<a href="https://www.infoq.com/ai-development/">页面</a>)</h2>'.format(
+                len(engineering_items)
+            )
+        )
+        html_parts.append(_build_content_items_table(engineering_items))
+        html_parts.append("</div>")
+
     # 无数据提示
-    if not has_github and not hn_stories and not tldr_items:
+    if not has_github and not hn_stories and not tldr_items and not content_items:
         html_parts.append("<p>今日未能获取到任何热点数据，请检查网络或日志。</p>")
 
     # 页脚
     html_parts.extend([
         '<div class="footer">',
-        "<p>此邮件由 GitHub + HN + TLDR AI 热点报告 Spider 自动生成并发送。</p>",
+        "<p>此邮件由 AI 后端专项信息源 Spider 自动生成并发送。</p>",
         "<p>数据来源：<a href='https://github.com/trending'>GitHub Trending</a> "
         "| <a href='https://news.ycombinator.com/'>Hacker News</a> "
         "| <a href='https://ai.tldr.tech/'>TLDR AI</a> "
+        "| <a href='https://openai.com/news/'>OpenAI</a> "
+        "| <a href='https://www.anthropic.com/news'>Anthropic</a> "
+        "| <a href='https://www.infoq.com/ai-development/'>InfoQ AI Development</a> "
         "| AI 总结：GitHub Models ({}) </p>".format(AI_MODEL),
         "</div>",
         "</body></html>",

@@ -1,163 +1,82 @@
-# Tasks: 新增 TLDR AI 中文内容接入
+# Tasks: AI 后端专项信息源 v1
 
-- Spec 审批: 2026-05-28
+- Spec 审批: 2026-05-29
 - YOLO Mode: Off
 
 ---
 
-## Task 1: 新建 tldr_ai.py — TLDR AI 抓取 + 中文整理 [DONE]
-- 涉及文件: 新建 `tldr_ai.py`
-- [x] 从 `https://ai.tldr.tech/` 获取最新 issue 链接
-- [x] 抓取最新 issue 页面并解析标题、链接、摘要、分类
-- [x] 默认保留前 8 条内容
-- [x] 通过 GitHub Models API 生成中文整理
-- [x] 未配置 `GITHUB_TOKEN` 时降级展示英文摘要并标注原因
+## Task 1: 新增统一信息项与 JSON 输出 [DONE]
+- 涉及文件: `content_items.py`
+- [x] 定义统一信息项字段: source, category, title, url, published_at, original_summary, chinese_summary, backend_focus
+- [x] 提供 6 个来源到统一信息项的适配逻辑
+- [x] 提供统一 AI 摘要逻辑
+- [x] 写出 `output/latest.json`
 - 验证: PASSED
 
 ---
 
-## Task 2: 更新 config.py — 新增 TLDR AI 配置项 [DONE]
-- 涉及文件: `config.py`
-- [x] 新增 `TLDR_AI_HOME_URL`
-- [x] 新增 `TLDR_AI_TOP_COUNT`
-- [x] 新增 `TLDR_AI_MAX_RETRIES`
+## Task 2: 新增 OpenAI / Anthropic / InfoQ 信息源 [DONE]
+- 涉及文件: `official_ai_sources.py`, `config.py`
+- [x] 抓取 OpenAI News 最近内容
+- [x] 抓取 Anthropic Newsroom 最近内容
+- [x] 通过 InfoQ AI Development RSS 抓取工程实践内容
+- [x] 新增可配置 URL、数量和重试次数
 - 验证: PASSED
 
 ---
 
-## Task 3: 更新 main.py — 接入第三数据源 [DONE]
+## Task 3: 接入主流程 [DONE]
 - 涉及文件: `main.py`
-- [x] 在 HN 阶段后新增 TLDR AI 阶段
-- [x] 调用 `fetch_latest_tldr_ai_issue` 和 `ai_translate_tldr_ai`
-- [x] 所有数据源失败才退出
-- [x] 邮件标题更新为 `GitHub + HN + TLDR AI 热点报告 - {date}`
+- [x] 6 个源独立抓取、独立容错
+- [x] 任一源成功即可继续
+- [x] 新增官方 AI / AI 工程实践摘要阶段
+- [x] 同时生成邮件和统一 JSON
 - 验证: PASSED
 
 ---
 
-## Task 4: 更新 email_builder.py — 新增 TLDR AI 邮件板块 [DONE]
+## Task 4: 更新邮件模板 [DONE]
 - 涉及文件: `email_builder.py`
-- [x] `build_email_html` 新增 `tldr_items` 参数
-- [x] 新增 `TLDR AI 今日精选` 表格
-- [x] 页脚数据来源增加 TLDR AI
-- [x] 无数据提示兼容三数据源
+- [x] 保留 GitHub / HN / TLDR AI 原有展示
+- [x] 新增 OpenAI 官方更新板块
+- [x] 新增 Anthropic 官方更新板块
+- [x] 新增 InfoQ AI Development 工程实践板块，并展示 InfoQ 页面链接
+- [x] 页脚同步 6 个数据来源
 - 验证: PASSED
 
 ---
 
-## Task 5: 更新 README.md — 同步使用说明 [DONE]
-- 涉及文件: `README.md`
-- [x] 更新项目名、功能说明、文件结构
-- [x] 新增 TLDR AI 可选配置项
+## Task 4.1: 调整 InfoQ 数据源覆盖范围 [DONE]
+- 涉及文件: `official_ai_sources.py`, `config.py`, `README.md`
+- [x] 解释单个 `ai-development/news` RSS 当前只返回 1 条内容
+- [x] 改为聚合 AI Development / Artificial Intelligence / Generative AI 多个官方 RSS
+- [x] 保留 InfoQ AI Development 页面配置和邮件页面链接
+- 验证: PASSED
+
+---
+
+## Task 5: 文档同步 [DONE]
+- 涉及文件: `README.md`, `.gitignore`
+- [x] README 同步 6 个信息源
+- [x] README 说明统一 JSON 输出和 Redis 预留边界
+- [x] `.gitignore` 忽略运行时 `output/`
 - 验证: PASSED
 
 ---
 
 ## Task 6: 验证 [DONE]
-- [x] 所有模块 import 成功
-- [x] HTML 生成成功，单独 TLDR AI 数据可展示
-- [x] 实际请求 TLDR AI 官方归档页并解析至少 1 条内容
-- [x] 未配置 `GITHUB_TOKEN` 时中文整理流程可降级
+- [x] Python 编译检查通过
+- [x] 邮件 HTML 生成检查通过
+- [x] 统一 JSON 写出检查通过
+- [x] 新源单模块抓取在当前环境中执行验证
 - 验证: PASSED
 
 ---
 
-# Tasks: 新增 Hacker News Top 10 + 评论总结功能
-
-- Spec 审批: 2026-05-03
-- YOLO Mode: Off
-
----
-
-## Task 1: 更新 config.py — 新增 HN 配置项 [DONE]
-- 涉及文件: `config.py`
-- [x] 在文件末尾新增 HN 配置区块
-- [x] 新增配置项:
-  - `HN_API_BASE = "https://hacker-news.firebaseio.com/v0"`
-  - `HN_TOP_COUNT = 10`
-  - `HN_COMMENTS_PER_STORY = 10`
-  - `HN_MAX_RETRIES = 5`
-  - `HN_CONCURRENT_WORKERS = 10`
+## Task 7: 信息源数量环境变量化 [DONE]
+- 涉及文件: `config.py`, `github_trending.py`, `README.md`, `.env.example`
+- [x] 新增 `GITHUB_TRENDING_TOP_COUNT`
+- [x] 将 TLDR AI / OpenAI / Anthropic / InfoQ 默认数量调整为 10
+- [x] 保留 HN 默认 10
+- [x] README 和 `.env.example` 说明数量配置规则：配置值大于实际可抓取数量时，只展示实际数量
 - 验证: PASSED
-
----
-
-## Task 2: 抽出 email_sender.py — 邮件发送模块 [DONE]
-- 涉及文件: 新建 `email_sender.py`
-- [x] 从 `github_trending.py` 提取 `_parse_recipients`, `send_email`, `send_failure_notify`
-- [x] `send_email` 新增 `subject` 参数
-- 验证: PASSED
-
----
-
-## Task 3: 抽出 email_builder.py — HTML 邮件生成模块 [DONE]
-- 涉及文件: 新建 `email_builder.py`
-- [x] 提取 `_escape_html`, 重命名 `_build_github_table`
-- [x] 新增 `_build_hn_table` (# | 标题/链接 | 分数 | 评论数 | AI 总结)
-- [x] 扩展 `build_email_html(daily_repos, weekly_repos, hn_stories)`
-- [x] 并列板块布局 + section-divider + 独立容错
-- 验证: PASSED
-
----
-
-## Task 4: 新建 hacker_news.py — HN 数据获取 + AI 总结 [DONE]
-- 涉及文件: 新建 `hacker_news.py`
-- [x] `fetch_hn_top_stories` - Firebase API + ThreadPoolExecutor 并发
-- [x] `fetch_all_comments` - 每帖 Top 10 顶级评论
-- [x] `ai_summarize_hn` - 一次性 AI 总结
-- [x] `_html_to_text` - HTML 转纯文本 + 截断
-- [x] `_call_hn_ai_api` - 独立 AI 调用（max_tokens=8000）
-- 验证: PASSED (实际 API 调用成功获取数据)
-
----
-
-## Task 5: 重构 github_trending.py — 仅保留 GitHub 爬虫 + AI 总结 [DONE]
-- 涉及文件: `github_trending.py`
-- [x] 删除 HTML 生成、邮件发送、main 函数
-- [x] 保留 fetch_trending, ai_summarize, _call_ai_api
-- [x] 清理无用 import
-- [x] 日志配置移至 main.py
-- 验证: PASSED
-
----
-
-## Task 6: 新建 main.py — 主入口协调全流程 [DONE]
-- 涉及文件: 新建 `main.py`
-- [x] 全局日志配置
-- [x] GitHub 阶段: 爬取 daily/weekly + AI 总结
-- [x] HN 阶段: fetch_hn_top_stories + fetch_all_comments + ai_summarize_hn
-- [x] 独立容错: 任一成功即发邮件，全部失败发通知
-- [x] 邮件标题: "GitHub + HN 热点报告 - {date}"
-- 验证: PASSED
-
----
-
-## Task 7: 更新 .env.example 和 README.md [DONE]
-- [x] `.env.example`: 新增 HN 可选配置注释
-- [x] `README.md`: 更新功能说明、文件结构、运行方式、可选配置表
-- 验证: PASSED
-
----
-
-## Task 8: 端到端测试验证 [DONE]
-- [x] 所有 6 个模块 import 成功，无循环依赖
-- [x] HN API 实际调用成功（获取 3 个帖子 + 8 条评论）
-- [x] HTML 生成正确（含 GitHub section + HN section）
-- 验证: ALL PASSED
-
----
-
-## Commit Message 草稿
-
-```
-feat: 新增 Hacker News Top 10 热点 + 评论总结功能
-
-- 新增 hacker_news.py: 通过 Firebase API 获取 HN Top Stories 和评论
-- 新增 email_builder.py: HTML 邮件模板生成（GitHub + HN 并列板块）
-- 新增 email_sender.py: SMTP 邮件发送模块
-- 新增 main.py: 主入口，协调 GitHub + HN + AI + 邮件全流程
-- 重构 github_trending.py: 仅保留 GitHub 爬虫和 AI 总结
-- 更新 config.py: 新增 HN 相关配置项
-- 独立容错机制: GitHub 和 HN 任一成功即发邮件
-- 使用 ThreadPoolExecutor 并发获取 HN 数据
-```

@@ -30,6 +30,13 @@ AI_API_URL = os.environ.get(
 AI_MODEL = os.environ.get("AI_MODEL", "gpt-4o")
 
 # =========================================================================
+# GitHub Trending 配置
+# =========================================================================
+
+# GitHub Trending 每日/每周分别获取前 N 个仓库
+GITHUB_TRENDING_TOP_COUNT = int(os.environ.get("GITHUB_TRENDING_TOP_COUNT", "10"))
+
+# =========================================================================
 # 邮件配置 (163 邮箱 SMTP)
 # =========================================================================
 
@@ -89,7 +96,63 @@ TLDR_AI_HOME_URL = os.environ.get(
 )
 
 # 获取前 N 条 TLDR AI 精选内容
-TLDR_AI_TOP_COUNT = int(os.environ.get("TLDR_AI_TOP_COUNT", "8"))
+TLDR_AI_TOP_COUNT = int(os.environ.get("TLDR_AI_TOP_COUNT", "10"))
 
 # TLDR AI 请求最大重试次数
 TLDR_AI_MAX_RETRIES = int(os.environ.get("TLDR_AI_MAX_RETRIES", "5"))
+
+# =========================================================================
+# 官方 AI / AI 工程实践信息源配置
+# =========================================================================
+
+# OpenAI 官方新闻页
+OPENAI_NEWS_URL = os.environ.get(
+    "OPENAI_NEWS_URL", "https://openai.com/news/"
+)
+
+# OpenAI 官方新闻 RSS
+OPENAI_NEWS_RSS_URL = os.environ.get(
+    "OPENAI_NEWS_RSS_URL", "https://openai.com/news/rss.xml"
+)
+
+# OpenAI 获取前 N 条内容
+OPENAI_NEWS_COUNT = int(os.environ.get("OPENAI_NEWS_COUNT", "10"))
+
+# Anthropic 官方新闻页
+ANTHROPIC_NEWS_URL = os.environ.get(
+    "ANTHROPIC_NEWS_URL", "https://www.anthropic.com/news"
+)
+
+# Anthropic 获取前 N 条内容
+ANTHROPIC_NEWS_COUNT = int(os.environ.get("ANTHROPIC_NEWS_COUNT", "10"))
+
+# InfoQ AI Development RSS
+INFOQ_AI_RSS_URL = os.environ.get(
+    "INFOQ_AI_RSS_URL", "https://feed.infoq.com/ai-development/news"
+)
+
+# InfoQ AI Development 页面
+INFOQ_AI_PAGE_URL = os.environ.get(
+    "INFOQ_AI_PAGE_URL", "https://www.infoq.com/ai-development/"
+)
+
+# InfoQ 相关 RSS 列表。InfoQ AI Development 单个 news feed 当前条目较少，
+# 所以默认聚合 AI Development / Artificial Intelligence / Generative AI。
+INFOQ_AI_RSS_URLS = os.environ.get(
+    "INFOQ_AI_RSS_URLS",
+    "https://feed.infoq.com/ai-development/news,"
+    "https://feed.infoq.com/ai-development/articles,"
+    "https://feed.infoq.com/artificial_intelligence/news,"
+    "https://feed.infoq.com/artificial_intelligence/articles,"
+    "https://feed.infoq.com/generative-ai/news,"
+    "https://feed.infoq.com/generative-ai/articles",
+)
+
+# InfoQ AI Development 获取前 N 条内容
+INFOQ_AI_NEWS_COUNT = int(os.environ.get("INFOQ_AI_NEWS_COUNT", "10"))
+
+# 官方 AI 信息源请求最大重试次数
+OFFICIAL_AI_MAX_RETRIES = int(os.environ.get("OFFICIAL_AI_MAX_RETRIES", "5"))
+
+# 统一 JSON 输出路径，后续可由后端读取后写入 Redis
+OUTPUT_JSON_PATH = os.environ.get("OUTPUT_JSON_PATH", "output/latest.json")
