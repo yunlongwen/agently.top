@@ -21,6 +21,7 @@
 - `redis_client.py`: Redis 进程级连接池，连接失败时返回 None 供调用方降级。
 - `source_registry.py`: 来源 ID、label、category 注册表，前端/API/Redis key/磁盘路径共用。
 - `api.py`: FastAPI 公开只读接口，提供 `/api/sources` 和 `/api/sources/{id}/latest`。
+- `access_log.py`: API 访问日志中间件，记录每次请求 IP/路径/耗时/状态码，每小时输出统计汇总。
 - `scheduler.py`: FastAPI 进程内采集调度器，按配置时间定时触发 `main.py` 主流程。
 - `email_builder.py`: HTML 邮件内容生成。
 - `email_sender.py`: SMTP 邮件发送。
@@ -184,7 +185,7 @@ source ~/.bash_profile && cd /root/work/workspace/gitee/github-trending-spider &
 基础检查：
 
 ```bash
-python3 -m py_compile main.py config.py github_trending.py hacker_news.py tldr_ai.py official_ai_sources.py content_items.py email_builder.py email_sender.py
+python3 -m py_compile main.py config.py github_trending.py hacker_news.py tldr_ai.py official_ai_sources.py content_items.py content_store.py redis_client.py scheduler.py source_registry.py api.py access_log.py email_builder.py email_sender.py
 ```
 
 本地完整运行：
@@ -194,6 +195,14 @@ source ~/.bash_profile && LOG_FILE=/private/tmp/github-trending-spider-run.log p
 ```
 
 如果只想验证邮件模板或 JSON 写出，优先使用小样本构造测试，避免频繁发送真实邮件。
+
+日志排查命令（部署后可用）：
+
+```bash
+grep "\[访问\]" /root/logs/github-python/trending.log   # 每次请求记录
+grep "\[数据\]" /root/logs/github-python/trending.log   # 数据来源追踪（Redis/磁盘）
+grep "\[统计\]" /root/logs/github-python/trending.log   # 每小时访问汇总
+```
 
 ## 沟通与安全
 

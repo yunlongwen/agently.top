@@ -11,10 +11,10 @@
 - 爬取 **Anthropic Newsroom** 官方最新内容
 - 爬取 **InfoQ AI Development** 最新工程实践内容 (优先 RSS)
 - 通过 GitHub Models API (GPT-4o) 生成中文总结
-- GitHub 总结：项目功能、特点、适用场景
-- HN 总结：帖子主题 + 评论区核心观点/争议点
-- TLDR AI 总结：英文 AI 快讯转为面向后端/AI 工程师的中文整理
-- OpenAI / Anthropic / InfoQ 总结：中文摘要 + 后端工程师关注点
+- GitHub 总结：像资深同事推荐，说清痛点、对比优势、后端怎么用
+- HN 总结：【主题】+【社区精华】+【争议/亮点】，具体引用评论者观点
+- TLDR AI 总结：面向后端工程师的中文快报，关注工程落地和可操作行动
+- OpenAI / Anthropic / InfoQ 总结：中文摘要 + 后端行动点（到 API/SDK 级别）
 - 生成 HTML 表格邮件，支持多收件人
 - 生成统一 JSON：默认 `output/latest.json`
 - 按来源生成永久归档：`output/<source>/<YYYY-MM-DD>/<batch>.json`
@@ -24,6 +24,8 @@
 - 六个信息源独立容错，任一成功即写出 JSON、归档并刷新 Redis
 - 邮件默认关闭，可通过配置开启
 - 启动后端 API 后由 Python 进程内调度器定时执行采集
+- API 访问日志：记录每次请求的 IP、路径、耗时、状态码
+- 每小时输出访问统计：总请求数、独立 IP、热门接口、平均耗时
 
 ## 部署
 
@@ -104,6 +106,7 @@ github-trending-spider/
 ├── scheduler.py         # FastAPI 进程内采集调度器
 ├── source_registry.py   # 来源 ID 与展示信息注册表
 ├── api.py               # FastAPI 公开只读接口
+├── access_log.py        # API 访问日志中间件 + 每小时统计
 ├── email_builder.py     # HTML 邮件模板生成
 ├── email_sender.py      # SMTP 邮件发送
 ├── config.py            # 配置中心（从环境变量读取）
@@ -283,6 +286,21 @@ npm run build
 # 查看日志
 cat /root/logs/github-python/trending.log
 
+# 查看 API 访问记录
+grep "\[访问\]" /root/logs/github-python/trending.log
+
+# 查看数据从 Redis 还是磁盘读取
+grep "\[数据\]" /root/logs/github-python/trending.log
+
+# 查看每小时统计汇总
+grep "\[统计\]" /root/logs/github-python/trending.log
+
+# 查看 Redis 降级情况
+grep "磁盘归档" /root/logs/github-python/trending.log
+
+# 查看某个 IP 的所有访问
+grep "来源IP=123.45.67.89" /root/logs/github-python/trending.log
+
 # 检查环境变量是否生效
 echo $GITHUB_TOKEN
 echo $SMTP_PASSWORD
@@ -291,7 +309,7 @@ echo $SMTP_PASSWORD
 基础编译检查：
 
 ```bash
-python3 -m py_compile main.py config.py github_trending.py hacker_news.py tldr_ai.py official_ai_sources.py content_items.py content_store.py redis_client.py scheduler.py source_registry.py api.py email_builder.py email_sender.py
+python3 -m py_compile main.py config.py github_trending.py hacker_news.py tldr_ai.py official_ai_sources.py content_items.py content_store.py redis_client.py scheduler.py source_registry.py api.py access_log.py email_builder.py email_sender.py
 ```
 
 ## 线上启动与更新

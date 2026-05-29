@@ -85,11 +85,20 @@ def summarize_content_items(items, section_label):
         )
 
     prompt = (
-        "你是一个面向后端开发工程师的 AI 技术信息分析助手。\n"
-        "以下是{}内容。请为每条生成中文摘要和后端工程师关注点。\n"
-        "中文摘要 2-3 句，说明发生了什么和为什么重要；后端关注点 1-2 句，说明工程影响或可行动启发。\n\n"
+        "以下是{}的最新内容。请为每条生成：\n"
+        "- chinese_summary（60-100 字）：说清楚发生了什么 + 为什么后端工程师应该在意\n"
+        "- backend_focus（30-50 字）：对现有后端系统的具体影响或可以立即行动的事\n\n"
+        "写作要求：\n"
+        "- 区分\"真正重要的更新\"和\"营销包装的旧功能\"，后者直说\"包装大于实质\"\n"
+        "- chinese_summary 要让人 5 秒内判断\"要不要点进去看原文\"\n"
+        "- backend_focus 越具体越好，最好到 API/SDK/配置级别\n\n"
+        "范例：\n"
+        '{{\"index\": 1, \"chinese_summary\": \"OpenAI 正式发布 Structured Outputs，API 现在能保证返回严格符合 JSON Schema 的响应。'
+        '之前用 function calling 还是会偶尔格式跑偏，这次彻底解决了。\", '
+        '\"backend_focus\": \"如果你的服务在调 OpenAI 后还有一层 JSON 解析容错逻辑，现在可以移除。'
+        '升级方式：请求体加 response_format 字段即可。\"}}\n\n'
         "请严格按照以下 JSON 格式返回，不要包含任何多余内容：\n"
-        '{{"summaries": [{{"index": 1, "chinese_summary": "中文摘要", "backend_focus": "后端关注点"}}, ...]}}\n\n'
+        '{{"summaries": [{{"index": 1, "chinese_summary": "中文摘要", "backend_focus": "后端行动点"}}, ...]}}\n\n'
         "内容列表：\n{}"
     ).format(section_label, "\n\n".join(item_lines))
 
@@ -226,7 +235,9 @@ def _call_content_ai_api(prompt, max_retries=10):
         "messages": [
             {
                 "role": "system",
-                "content": "你是专业的 AI 后端技术信息分析助手，请始终返回有效 JSON。",
+                "content": "你是一个关注 AI 基础设施动态的后端架构师。"
+                           "你帮团队判断哪些官方更新会影响现有系统，哪些是营销噪音。"
+                           "请始终返回有效 JSON。",
             },
             {"role": "user", "content": prompt},
         ],
