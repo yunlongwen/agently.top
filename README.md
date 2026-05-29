@@ -65,7 +65,7 @@ export SPIDER_RUN_ON_STARTUP=false
 source ~/.bash_profile
 ```
 
-> GitHub Token 获取：https://github.com/settings/tokens -> Generate new token -> 勾选 `models:read`
+> GitHub Token 获取：[https://github.com/settings/tokens](https://github.com/settings/tokens) -> Generate new token -> 勾选 `models:read`
 
 ### 3. 测试采集
 
@@ -148,38 +148,40 @@ github-trending-spider/
 
 以下配置均有默认值，通过环境变量覆盖：
 
-| 环境变量 | 默认值 | 说明 |
-|----------|--------|------|
-| `GITHUB_TRENDING_TOP_COUNT` | 10 | GitHub Daily/Weekly 各获取前 N 个仓库 |
-| `HN_TOP_COUNT` | 10 | HN 获取前 N 个热门帖子 |
-| `HN_COMMENTS_PER_STORY` | 10 | 每帖获取前 N 条顶级评论 |
-| `HN_MAX_RETRIES` | 5 | HN 请求最大重试次数 |
-| `HN_CONCURRENT_WORKERS` | 10 | 并发请求线程数 |
-| `TLDR_AI_HOME_URL` | https://ai.tldr.tech/ | TLDR AI 官方归档页 |
-| `TLDR_AI_TOP_COUNT` | 10 | TLDR AI 获取前 N 条精选内容 |
-| `TLDR_AI_MAX_RETRIES` | 5 | TLDR AI 请求最大重试次数 |
-| `OPENAI_NEWS_URL` | https://openai.com/news/ | OpenAI 官方新闻页 |
-| `OPENAI_NEWS_RSS_URL` | https://openai.com/news/rss.xml | OpenAI 官方新闻 RSS |
-| `OPENAI_NEWS_COUNT` | 10 | OpenAI 获取前 N 条内容 |
-| `ANTHROPIC_NEWS_URL` | https://www.anthropic.com/news | Anthropic 官方新闻页 |
-| `ANTHROPIC_NEWS_COUNT` | 10 | Anthropic 获取前 N 条内容 |
-| `INFOQ_AI_RSS_URL` | https://feed.infoq.com/ai-development/news | InfoQ AI Development 单个 RSS（兼容旧配置） |
-| `INFOQ_AI_PAGE_URL` | https://www.infoq.com/ai-development/ | InfoQ AI Development 页面 |
-| `INFOQ_AI_RSS_URLS` | 多个 InfoQ AI 相关 feed | InfoQ 聚合 RSS 列表 |
-| `INFOQ_AI_NEWS_COUNT` | 10 | InfoQ 获取前 N 条内容 |
-| `OFFICIAL_AI_MAX_RETRIES` | 5 | 官方 AI 信息源请求最大重试次数 |
-| `OUTPUT_JSON_PATH` | output/latest.json | 统一 JSON 输出路径 |
-| `OUTPUT_ARCHIVE_DIR` | output | 按来源归档根目录 |
-| `REDIS_URL` | redis://localhost:6379/0 | Redis 连接地址 |
-| `REDIS_SNAPSHOT_TTL_SECONDS` | 259200 | Redis 来源快照 TTL，默认 3 天 |
-| `REDIS_KEY_PREFIX` | github-trending-spider | Redis key 前缀 |
-| `API_MAX_ITEMS_PER_SOURCE` | 100 | API 单来源最多返回条数 |
-| `API_CORS_ORIGINS` | 空 | API 跨域白名单，逗号分隔；同域部署可不配 |
-| `SEND_EMAIL_ENABLED` | false | 是否在每次采集成功后发送邮件 |
-| `SPIDER_SCHEDULER_ENABLED` | true | 启动 API 后是否启用进程内定时采集 |
-| `SPIDER_SCHEDULE_TIMES` | 07:50,15:50,23:50 | 每天采集时间，24 小时制，逗号分隔 |
-| `SPIDER_RUN_ON_STARTUP` | false | API 启动时是否立即采集一次 |
-| `AI_MODEL` | gpt-4o | AI 模型 |
+
+| 环境变量                         | 默认值                                                                                      | 说明                                 |
+| ---------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------- |
+| `GITHUB_TRENDING_TOP_COUNT`  | 10                                                                                       | GitHub Daily/Weekly 各获取前 N 个仓库     |
+| `HN_TOP_COUNT`               | 10                                                                                       | HN 获取前 N 个热门帖子                     |
+| `HN_COMMENTS_PER_STORY`      | 10                                                                                       | 每帖获取前 N 条顶级评论                      |
+| `HN_MAX_RETRIES`             | 5                                                                                        | HN 请求最大重试次数                        |
+| `HN_CONCURRENT_WORKERS`      | 10                                                                                       | 并发请求线程数                            |
+| `TLDR_AI_HOME_URL`           | [https://ai.tldr.tech/](https://ai.tldr.tech/)                                           | TLDR AI 官方归档页                      |
+| `TLDR_AI_TOP_COUNT`          | 10                                                                                       | TLDR AI 获取前 N 条精选内容                |
+| `TLDR_AI_MAX_RETRIES`        | 5                                                                                        | TLDR AI 请求最大重试次数                   |
+| `OPENAI_NEWS_URL`            | [https://openai.com/news/](https://openai.com/news/)                                     | OpenAI 官方新闻页                       |
+| `OPENAI_NEWS_RSS_URL`        | [https://openai.com/news/rss.xml](https://openai.com/news/rss.xml)                       | OpenAI 官方新闻 RSS                    |
+| `OPENAI_NEWS_COUNT`          | 10                                                                                       | OpenAI 获取前 N 条内容                   |
+| `ANTHROPIC_NEWS_URL`         | [https://www.anthropic.com/news](https://www.anthropic.com/news)                         | Anthropic 官方新闻页                    |
+| `ANTHROPIC_NEWS_COUNT`       | 10                                                                                       | Anthropic 获取前 N 条内容                |
+| `INFOQ_AI_RSS_URL`           | [https://feed.infoq.com/ai-development/news](https://feed.infoq.com/ai-development/news) | InfoQ AI Development 单个 RSS（兼容旧配置） |
+| `INFOQ_AI_PAGE_URL`          | [https://www.infoq.com/ai-development/](https://www.infoq.com/ai-development/)           | InfoQ AI Development 页面            |
+| `INFOQ_AI_RSS_URLS`          | 多个 InfoQ AI 相关 feed                                                                      | InfoQ 聚合 RSS 列表                    |
+| `INFOQ_AI_NEWS_COUNT`        | 10                                                                                       | InfoQ 获取前 N 条内容                    |
+| `OFFICIAL_AI_MAX_RETRIES`    | 5                                                                                        | 官方 AI 信息源请求最大重试次数                  |
+| `OUTPUT_JSON_PATH`           | output/latest.json                                                                       | 统一 JSON 输出路径                       |
+| `OUTPUT_ARCHIVE_DIR`         | output                                                                                   | 按来源归档根目录                           |
+| `REDIS_URL`                  | redis://localhost:6379/0                                                                 | Redis 连接地址                         |
+| `REDIS_SNAPSHOT_TTL_SECONDS` | 259200                                                                                   | Redis 来源快照 TTL，默认 3 天              |
+| `REDIS_KEY_PREFIX`           | github-trending-spider                                                                   | Redis key 前缀                       |
+| `API_MAX_ITEMS_PER_SOURCE`   | 100                                                                                      | API 单来源最多返回条数                      |
+| `API_CORS_ORIGINS`           | 空                                                                                        | API 跨域白名单，逗号分隔；同域部署可不配             |
+| `SEND_EMAIL_ENABLED`         | false                                                                                    | 是否在每次采集成功后发送邮件                     |
+| `SPIDER_SCHEDULER_ENABLED`   | true                                                                                     | 启动 API 后是否启用进程内定时采集                |
+| `SPIDER_SCHEDULE_TIMES`      | 07:50,15:50,23:50                                                                        | 每天采集时间，24 小时制，逗号分隔                 |
+| `SPIDER_RUN_ON_STARTUP`      | false                                                                                    | API 启动时是否立即采集一次                    |
+| `AI_MODEL`                   | gpt-4o                                                                                   | AI 模型                              |
+
 
 数量配置遵循“最多取 N 条”：例如配置 `INFOQ_AI_NEWS_COUNT=100`，但当前源只解析到 14 条，就只展示 14 条。
 
@@ -305,3 +307,75 @@ echo $SMTP_PASSWORD
 ```bash
 python3 -m py_compile main.py config.py github_trending.py hacker_news.py tldr_ai.py official_ai_sources.py content_items.py content_store.py redis_client.py scheduler.py source_registry.py api.py email_builder.py email_sender.py
 ```
+
+## 线上启动与更新
+
+### 后端后台启动
+
+`scripts/start_backend.sh` 会自动完成加载环境变量、安装依赖、停止旧后端进程、后台启动新后端进程和日志写入。直接执行即可，不会阻塞当前终端：
+
+```bash
+cd /root/work/workspace/gitee/github-trending-spider
+bash scripts/start_backend.sh
+```
+
+查看后端是否已经监听 `8000`：
+
+```bash
+ss -lntp | grep 8000
+```
+
+查看后端日志：
+
+```bash
+tail -f /root/logs/github-python/backend.out
+```
+
+### 修改后端代码后的重启步骤
+
+```bash
+cd /root/work/workspace/gitee/github-trending-spider
+git pull
+bash scripts/start_backend.sh
+ss -lntp | grep 8000
+tail -f /root/logs/github-python/backend.out
+```
+
+脚本会把应用日志写到 `/root/logs/github-python/trending.log`，把后端启动输出写到 `/root/logs/github-python/backend.out`。
+
+### 修改前端代码后的更新步骤
+
+前端由 Nginx 托管 `frontend/dist/`，修改前端代码后需要重新构建产物：
+
+```bash
+cd /root/work/workspace/gitee/github-trending-spider
+git pull
+cd frontend
+npm install
+npm run build
+```
+
+确认构建后的资源路径包含 `/ai/`：
+
+```bash
+cat dist/index.html
+```
+
+如果只改了前端业务代码并重新生成了 `frontend/dist/`，通常不需要重启 Nginx；刷新浏览器访问 `https://www.gdufe888.top/ai/` 即可。
+
+### 修改 Nginx 配置后的生效步骤
+
+只有修改 `/usr/local/nginx/conf/nginx.conf` 时，才需要测试并重新加载 Nginx：
+
+```bash
+/usr/local/nginx/sbin/nginx -t
+/usr/local/nginx/sbin/nginx -s reload
+```
+
+当前线上访问链路：
+
+```text
+https://www.gdufe888.top/ai/     -> Nginx 静态托管 frontend/dist/
+https://www.gdufe888.top/api/... -> Nginx 反代到 127.0.0.1:8000 FastAPI
+```
+
