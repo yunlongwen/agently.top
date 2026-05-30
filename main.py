@@ -7,11 +7,12 @@ GitHub + HN + TLDR AI 热点报告 Spider 主入口
 """
 
 import logging
+import json
 import sys
 import time
 from datetime import datetime
 
-from config import LOG_FILE, OUTPUT_JSON_PATH, SEND_EMAIL_ENABLED
+from config import EMAIL_SEND_TIMES, LOG_FILE, MAIL_TO_BY_TIME, OUTPUT_JSON_PATH, SEND_EMAIL_ENABLED
 
 # ---------------------------------------------------------------------------
 # 日志配置（全局初始化，其他模块通过 logging.getLogger 获取）
@@ -27,10 +28,101 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def run_spider():
+def _parse_email_send_times(value):
+    """解析 HH:MM,HH:MM 格式的邮件发送时间白名单。"""
+    result = set()
+    for item in (value or "").split(","):
+        text = item.strip()
+        if not text:
+            continue
+        hour_text, minute_text = text.split(":", 1)
+        hour = int(hour_text)
+        minute = int(minute_text)
+        if hour < 0 or hour > 23 or minute < 0 or minute > 59:
+            raise ValueError("邮件发送时间超出范围: {}".format(text))
+        result.add("{:02d}:{:02d}".format(hour, minute))
+    return result
+
+
+def _normalize_scheduled_time(scheduled_time):
+    """把调度器传入的计划时间规整为 HH:MM。"""
+    if scheduled_time is None:
+        return ""
+    if hasattr(scheduled_time, "strftime"):
+        return scheduled_time.strftime("%H:%M")
+    return str(scheduled_time).strip()[:5]
+
+
+def _parse_recipient_list(value):
+    """解析字符串或列表形式的收件人。"""
+    if isinstance(value, str):
+        return [item.strip() for item in value.split(",") if item.strip()]
+    if isinstance(value, list):
+        return [str(item).strip() for item in value if str(item).strip()]
+    return []
+
+
+def _parse_mail_to_by_time(value):
+    """解析按时间配置的收件人映射。"""
+    if not value:
+        return {}
+    data = json.loads(value)
+    if not isinstance(data, dict):
+        raise ValueError("MAIL_TO_BY_TIME 必须是 JSON 对象")
+
+    result = {}
+    for time_text, recipients in data.items():
+        allowed_times = _parse_email_send_times(str(time_text))
+        if len(allowed_times) != 1:
+            raise ValueError("MAIL_TO_BY_TIME 时间格式无效: {}".format(time_text))
+        normalized_time = next(iter(allowed_times))
+        result[normalized_time] = _parse_recipient_list(recipients)
+    return result
+
+
+def _email_send_decision(scheduled_time):
+    """返回本次运行是否允许发邮件、日志原因和可选收件人列表。"""
+    if not SEND_EMAIL_ENABLED:
+        return False, "--- 邮件发送已关闭（SEND_EMAIL_ENABLED=false）---", None
+
+    scheduled_text = _normalize_scheduled_time(scheduled_time)
+    if not scheduled_text:
+        return False, "--- 本次非定时调度触发，跳过邮件发送 ---", None
+
+    if MAIL_TO_BY_TIME:
+        try:
+            recipients_by_time = _parse_mail_to_by_time(MAIL_TO_BY_TIME)
+        except (TypeError, ValueError, json.JSONDecodeError) as e:
+            return False, "--- MAIL_TO_BY_TIME 配置无效，跳过邮件发送: {} ---".format(e), None
+
+        recipients = recipients_by_time.get(scheduled_text, [])
+        if not recipients:
+            return False, "--- 本次调度时间 {} 未配置收件人，跳过邮件发送 ---".format(
+                scheduled_text,
+            ), None
+
+        return True, "--- 本次调度时间 {} 命中邮件收件人配置 ---".format(scheduled_text), recipients
+
+    try:
+        allowed_times = _parse_email_send_times(EMAIL_SEND_TIMES)
+    except ValueError as e:
+        return False, "--- 邮件发送时间配置无效，跳过邮件发送: {} ---".format(e), None
+
+    if scheduled_text not in allowed_times:
+        return False, "--- 本次调度时间 {} 不在 EMAIL_SEND_TIMES={} 中，跳过邮件发送 ---".format(
+            scheduled_text,
+            EMAIL_SEND_TIMES,
+        ), None
+
+    return True, "--- 本次调度时间 {} 命中邮件发送时间 ---".format(scheduled_text), None
+
+
+def run_spider(scheduled_time=None):
     """执行一次完整采集流程。"""
     logger.info("=" * 60)
     logger.info("AI 后端专项信息源 Spider 启动 - %s", datetime.now().isoformat())
+    if scheduled_time is not None:
+        logger.info("本次计划调度时间: %s", _normalize_scheduled_time(scheduled_time))
     logger.info("=" * 60)
 
     # 延迟导入，确保日志配置已初始化
@@ -192,10 +284,14 @@ def run_spider():
     # ==========================
     if not daily_repos and not weekly_repos and not hn_stories and not v2ex_topics and not tldr_items and not ai_source_items:
         logger.error("所有数据源均获取失败")
-        if SEND_EMAIL_ENABLED:
+        should_send_email, email_skip_reason, recipients = _email_send_decision(scheduled_time)
+        if should_send_email:
             send_failure_notify(
-                "所有数据源均获取失败：{}".format("; ".join(errors))
+                "所有数据源均获取失败：{}".format("; ".join(errors)),
+                recipients=recipients,
             )
+        else:
+            logger.info(email_skip_reason)
         return False
 
     content_items = build_all_content_items(
@@ -225,11 +321,14 @@ def run_spider():
     # ==========================
     # 生成邮件并发送
     # ==========================
-    if not SEND_EMAIL_ENABLED:
-        logger.info("--- 邮件发送已关闭（SEND_EMAIL_ENABLED=false）---")
+    should_send_email, email_skip_reason, recipients = _email_send_decision(scheduled_time)
+    if not should_send_email:
+        logger.info(email_skip_reason)
         if errors:
             logger.warning("部分数据源获取失败（已降级处理）: %s", errors)
         return True
+
+    logger.info(email_skip_reason)
 
     logger.info("--- 生成邮件内容 ---")
     html = build_email_html(daily_repos, weekly_repos, hn_stories, v2ex_topics, tldr_items, content_items)
@@ -238,12 +337,12 @@ def run_spider():
     subject = "AI 后端专项信息源报告 - {}".format(today)
 
     logger.info("--- 发送邮件 ---")
-    success = send_email(html, subject)
+    success = send_email(html, subject, recipients=recipients)
     if success:
         logger.info("全部完成！")
     else:
         logger.error("邮件发送失败")
-        send_failure_notify("邮件发送失败")
+        send_failure_notify("邮件发送失败", recipients=recipients)
         return False
 
     if errors:

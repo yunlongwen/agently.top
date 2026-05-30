@@ -90,7 +90,11 @@
         </article>
       </section>
     </main>
-    <footer class="site-footer">{{ t('footer') }}</footer>
+    <footer class="site-footer">
+      <button class="footer-easter-egg" type="button" @click="showEmailHint">
+        {{ t('footerEmailEgg') }}
+      </button>
+    </footer>
   </div>
 </template>
 
@@ -124,7 +128,8 @@ const I18N = {
     readOriginal: '阅读原文 →',
     viewDiscussion: '查看讨论 →',
     defaultLabel: '最新内容',
-    footer: '✨ 微信公众号：程序员博博 ✨',
+    footerEmailEgg: '隐藏小彩蛋: 支持邮件接收AI讯息',
+    emailHint: '请将您的邮箱发送至727987105@qq.com',
     comments: ' 评论',
   },
   en: {
@@ -143,7 +148,8 @@ const I18N = {
     readOriginal: 'Read More →',
     viewDiscussion: 'View Discussion →',
     defaultLabel: 'Latest',
-    footer: '✨ WeChat: 程序员博博 ✨',
+    footerEmailEgg: 'Hidden easter egg: Support receiving AI updates by email',
+    emailHint: 'Please send your email address to 727987105@qq.com',
     comments: ' comments',
   }
 };
@@ -291,6 +297,9 @@ export default {
       history.replaceState(null, '', url);
       document.title = this.t('siteTitle');
       this.updateCountdown();
+    },
+    showEmailHint() {
+      window.alert(this.t('emailHint'));
     },
     getDisplaySummary(item) {
       if (this.lang === 'zh') {
@@ -963,6 +972,24 @@ a {
   font-size: 13px;
   border-top: 1px solid var(--border);
   margin-top: 32px;
+}
+
+.footer-easter-egg {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 150ms ease, background 150ms ease;
+}
+
+.footer-easter-egg:hover,
+.footer-easter-egg:focus-visible {
+  color: var(--text-1);
+  background: rgba(15, 23, 42, 0.05);
+  outline: none;
 }
 
 /* ── Language Switch ─────────────────────── */

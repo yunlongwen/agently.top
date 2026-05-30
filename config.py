@@ -64,6 +64,10 @@ MAIL_FROM = os.environ.get("MAIL_FROM", SMTP_USER)
 # 收件人邮箱地址
 MAIL_TO = os.environ.get("MAIL_TO", "727987105@qq.com, wenbo.chang@huolala.cn")
 
+# 按调度时间指定收件人，JSON 对象格式：
+# {"07:50":"a@example.com,b@example.com","15:50":["c@example.com"]}
+MAIL_TO_BY_TIME = os.environ.get("MAIL_TO_BY_TIME", "")
+
 # =========================================================================
 # 日志配置
 # =========================================================================
@@ -228,5 +232,9 @@ SPIDER_RUN_ON_STARTUP = _get_bool_env("SPIDER_RUN_ON_STARTUP", False)
 # 邮件发送开关
 # =========================================================================
 
-# 默认不发送邮件；开启后每次采集成功后发送。
+# 默认不发送邮件；开启后仅在 EMAIL_SEND_TIMES 指定的调度时间发送。
 SEND_EMAIL_ENABLED = _get_bool_env("SEND_EMAIL_ENABLED", False)
+
+# 允许发送邮件的每日调度时间，24 小时制，逗号分隔。
+# 采集仍按 SPIDER_SCHEDULE_TIMES 执行；未配置 MAIL_TO_BY_TIME 时用这里控制哪些调度批次发邮件。
+EMAIL_SEND_TIMES = os.environ.get("EMAIL_SEND_TIMES", "07:50")

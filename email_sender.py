@@ -24,15 +24,15 @@ from config import (
 logger = logging.getLogger(__name__)
 
 
-def _parse_recipients():
+def _parse_recipients(recipients=None):
     """解析 MAIL_TO 配置，支持多收件人（逗号分隔）。"""
-    if isinstance(MAIL_TO, str):
-        return [r.strip() for r in MAIL_TO.split(",") if r.strip()]
-    else:
-        return MAIL_TO if isinstance(MAIL_TO, list) else [MAIL_TO]
+    value = MAIL_TO if recipients is None else recipients
+    if isinstance(value, str):
+        return [r.strip() for r in value.split(",") if r.strip()]
+    return value if isinstance(value, list) else [value]
 
 
-def send_email(html_content, subject):
+def send_email(html_content, subject, recipients=None):
     """
     通过 SMTP 发送 HTML 邮件。
 
@@ -43,7 +43,7 @@ def send_email(html_content, subject):
     Returns:
         bool: 发送是否成功
     """
-    recipients = _parse_recipients()
+    recipients = _parse_recipients(recipients)
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = Header(subject, "utf-8")
@@ -71,9 +71,9 @@ def send_email(html_content, subject):
     return False
 
 
-def send_failure_notify(error_msg):
+def send_failure_notify(error_msg, recipients=None):
     """当主流程失败时，发送一封简单的失败通知邮件。"""
-    recipients = _parse_recipients()
+    recipients = _parse_recipients(recipients)
 
     try:
         today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

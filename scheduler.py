@@ -100,10 +100,10 @@ def _scheduler_loop(schedule_times):
         logger.info("下一次采集时间: %s", next_run_at.isoformat(timespec="seconds"))
         if _stop_event.wait(wait_seconds):
             break
-        _run_spider_with_lock("schedule")
+        _run_spider_with_lock("schedule", next_run_at)
 
 
-def _run_spider_with_lock(reason):
+def _run_spider_with_lock(reason, scheduled_time=None):
     if not _run_lock.acquire(blocking=False):
         logger.warning("已有采集任务运行中，跳过本次触发: %s", reason)
         return False
@@ -112,7 +112,7 @@ def _run_spider_with_lock(reason):
         logger.info("开始执行采集任务: %s", reason)
         from main import run_spider
 
-        return run_spider()
+        return run_spider(scheduled_time=scheduled_time)
     except Exception as e:
         logger.exception("采集任务异常: %s", e)
         return False

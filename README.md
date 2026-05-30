@@ -93,6 +93,8 @@ curl http://localhost:8000/api/sources/github-daily/latest  # 单来源数据
 | `REDIS_URL` | redis://localhost:6379/0 | Redis 连接地址 |
 | `SPIDER_SCHEDULE_TIMES` | 07:50,15:50,23:50 | 每天采集时间 |
 | `SEND_EMAIL_ENABLED` | false | 是否发送邮件 |
+| `EMAIL_SEND_TIMES` | 07:50 | 未配置 `MAIL_TO_BY_TIME` 时，开启邮件后允许发送邮件的调度时间 |
+| `MAIL_TO_BY_TIME` | - | 按调度时间指定不同收件人，JSON 对象格式 |
 
 > 完整配置项见源码 `config.py`
 
