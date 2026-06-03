@@ -114,7 +114,7 @@ cd frontend && npm run build
 
 ## 友情链接
 
-- [fish2018/webhtv](https://github.com/fish2018/webhtv)
+- [Linux.do](https://linux.do)
 
 ## License
 

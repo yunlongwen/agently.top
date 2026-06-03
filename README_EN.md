@@ -112,7 +112,7 @@ cd frontend && npm run build
 
 ## Friendly Links
 
-- [fish2018/webhtv](https://github.com/fish2018/webhtv)
+- [Linux.do](https://linux.do)
 
 ## License
 
