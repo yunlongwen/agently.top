@@ -7,37 +7,15 @@ GitHub + HN + TLDR AI 热点报告 Spider 主入口
 """
 
 import logging
-from logging.handlers import TimedRotatingFileHandler
 import json
 import sys
 import time
 from datetime import datetime
 
-from config import EMAIL_SEND_TIMES, LOG_FILE, MAIL_TO_BY_TIME, OUTPUT_JSON_PATH, SEND_EMAIL_ENABLED
+from config import EMAIL_SEND_TIMES, MAIL_TO_BY_TIME, OUTPUT_JSON_PATH, SEND_EMAIL_ENABLED
+from logging_config import setup_logging
 
-# ---------------------------------------------------------------------------
-# 日志配置（全局初始化，其他模块通过 logging.getLogger 获取）
-# 按天轮转：trending.log 为当天日志，历史文件命名为 trending.log.YYYY-MM-DD
-# 保留最近 30 天，超过自动删除。
-# ---------------------------------------------------------------------------
-_log_fmt = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
-
-_file_handler = TimedRotatingFileHandler(
-    LOG_FILE,
-    when="midnight",
-    interval=1,
-    backupCount=30,
-    encoding="utf-8",
-)
-_file_handler.setFormatter(_log_fmt)
-
-_stream_handler = logging.StreamHandler()
-_stream_handler.setFormatter(_log_fmt)
-
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[_file_handler, _stream_handler],
-)
+setup_logging()
 logger = logging.getLogger(__name__)
 
 
