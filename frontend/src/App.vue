@@ -12,7 +12,7 @@
         </div>
       </div>
       <nav class="quick-nav" :aria-label="t('quickNavAria')">
-        <a class="quick-link" href="https://agently.top/" target="_blank" rel="noreferrer">{{ t('quickNavNewsTitle') }}</a>
+        <a class="quick-link" href="https://agently.top/">{{ t('quickNavNewsTitle') }}</a>
         <a class="quick-link" href="https://nav.agently.top/" target="_blank" rel="noreferrer">{{ t('quickNavNavTitle') }}</a>
         <a class="quick-link" href="https://api.agently.top/" target="_blank" rel="noreferrer">{{ t('quickNavApiTitle') }}</a>
         <span class="quick-link quick-link-disabled" aria-disabled="true">
