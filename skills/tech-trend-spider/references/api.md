@@ -1,16 +1,16 @@
 # Tech Trend Spider API
 
-默认 API base：`https://www.gdufe888.top/api`
+默认 API base：`https://agently.top/api`
 
-`https://www.gdufe888.top/ai/` 是前端页面入口，不是 API base。
+`https://agently.top/` 是前端页面入口，不是 API base。
 
 ## 已核验可用接口
 
 | 用途 | 方法和路径 | 示例完整 URL |
 | --- | --- | --- |
-| 健康检查 | `GET /health` | `https://www.gdufe888.top/api/health` |
-| 来源列表 | `GET /sources` | `https://www.gdufe888.top/api/sources` |
-| 单来源最新快照 | `GET /sources/{source_id}/latest` | `https://www.gdufe888.top/api/sources/github-daily/latest` |
+| 健康检查 | `GET /health` | `https://agently.top/api/health` |
+| 来源列表 | `GET /sources` | `https://agently.top/api/sources` |
+| 单来源最新快照 | `GET /sources/{source_id}/latest` | `https://agently.top/api/sources/github-daily/latest` |
 
 ## 暂不依赖的接口
 

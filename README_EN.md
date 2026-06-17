@@ -19,7 +19,7 @@
 
 **AI Daily Frontier** automatically crawls GitHub Trending, Hacker News, TLDR AI, OpenAI, Anthropic, and InfoQ AI Development daily. It generates Chinese summaries via GitHub Models API (GPT-4o) and serves content through a FastAPI read-only API and Vue frontend news feed.
 
-Live demo: **https://www.gdufe888.top/ai/?lang=en**
+Live demo: **https://agently.top/?lang=en**
 
 ## Screenshots
 
