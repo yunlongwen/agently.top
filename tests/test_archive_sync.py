@@ -16,6 +16,7 @@ sys.path.insert(0, ".")
 
 from archive_sync import _run_git, _repo_root  # noqa: E402
 from archive_sync import _ensure_worktree  # noqa: E402
+from archive_sync import _sync_output  # noqa: E402
 
 
 def _git(args, cwd):
@@ -75,6 +76,35 @@ class TestEnsureWorktree(unittest.TestCase):
             # 第二次调用不抛异常(worktree 已存在直接复用)
             _ensure_worktree(repo, worktree, "archive", "origin")
             self.assertTrue((worktree / ".git").exists())
+
+
+class TestSyncOutput(unittest.TestCase):
+    def _make_output(self, tmp):
+        output = Path(tmp) / "output"
+        (output / "github-daily" / "2026-06-17").mkdir(parents=True)
+        (output / "github-daily" / "2026-06-17" / "01.json").write_text("{}", encoding="utf-8")
+        (output / "latest.json").write_text("{}", encoding="utf-8")
+        return output
+
+    def test_mirrors_output_to_archive_via_shutil(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = self._make_output(tmp)
+            archive = Path(tmp) / "archive"
+            with patch("archive_sync._has_rsync", return_value=False):
+                _sync_output(output, archive)
+            self.assertTrue((archive / "latest.json").exists())
+            self.assertTrue((archive / "github-daily" / "2026-06-17" / "01.json").exists())
+
+    def test_uses_rsync_when_available(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = self._make_output(tmp)
+            archive = Path(tmp) / "archive"
+            with patch("archive_sync._has_rsync", return_value=True), \
+                 patch("archive_sync._run") as mock_run:
+                mock_run.return_value = (0, "", "")
+                _sync_output(output, archive)
+            invoked = [call.args[0] for call in mock_run.call_args_list]
+            self.assertTrue(any(cmd[0] == "rsync" for cmd in invoked))
 
 
 if __name__ == "__main__":

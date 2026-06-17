@@ -124,3 +124,40 @@ def _ensure_worktree(repo_root, worktree_path, branch, remote):
 
     _ensure_readme(worktree_path)
     return worktree_path
+
+
+def _has_rsync():
+    return shutil.which("rsync") is not None
+
+
+def _rsync_mirror(src, dst):
+    """用 rsync 镜像 src -> dst(--delete 保持一致)。"""
+    Path(dst).mkdir(parents=True, exist_ok=True)
+    code, _, stderr = _run([
+        "rsync", "-a", "--delete",
+        "{}/".format(str(src).rstrip("/")),
+        "{}/".format(str(dst).rstrip("/")),
+    ])
+    if code != 0:
+        raise RuntimeError("rsync 镜像失败: {}".format(stderr))
+
+
+def _shutil_mirror(src, dst):
+    """无 rsync 时的纯 Python 镜像:删目标后整体拷贝。"""
+    src = Path(src)
+    dst = Path(dst)
+    if dst.exists():
+        shutil.rmtree(dst)
+    shutil.copytree(src, dst)
+
+
+def _sync_output(output_dir, archive_dir):
+    """镜像 output/ 到 archive/。rsync 优先,缺失时降级 shutil。"""
+    output_dir = Path(output_dir)
+    archive_dir = Path(archive_dir)
+    if not output_dir.exists():
+        raise RuntimeError("output 目录不存在: {}".format(output_dir))
+    if _has_rsync():
+        _rsync_mirror(output_dir, archive_dir)
+    else:
+        _shutil_mirror(output_dir, archive_dir)
