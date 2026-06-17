@@ -153,7 +153,14 @@
       </section>
     </main>
     <footer class="site-footer">
-      <div class="footer-info">© 2026 Agently　　陕ICP备2023006299号-3　　公安备案　　陕公网安备61019002003752号</div>
+      <div class="footer-info">
+        <span class="footer-copy">© 2026 智能与自律</span>
+        <a class="footer-link" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">陕ICP备2023006299号-3</a>
+        <span class="footer-police">
+          <img alt="公安备案" src="https://beian.mps.gov.cn/img/logo01.dd7ff50e.png" class="footer-police-logo">
+          <a class="footer-link" href="https://beian.mps.gov.cn/#/query/webSearch?code=陕公网安备61019002003752号" target="_blank" rel="noopener noreferrer">陕公网安备61019002003752号</a>
+        </span>
+      </div>
     </footer>
   </div>
 </template>
@@ -1451,8 +1458,35 @@ a {
 }
 
 .footer-info {
-  white-space: nowrap;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 14px;
   line-height: normal;
+}
+.footer-copy {
+  color: var(--text-2);
+  font-size: 12px;
+}
+.footer-link {
+  color: var(--text-2);
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.footer-link:hover {
+  color: var(--primary);
+}
+.footer-police {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.footer-police-logo {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
 }
 
 /* ── Language Switch ─────────────────────── */
