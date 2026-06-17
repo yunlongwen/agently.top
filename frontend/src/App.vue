@@ -1017,7 +1017,19 @@ a {
 
 @media (max-width: 1024px) {
   .quick-nav {
-    display: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    flex-shrink: 0;
+    justify-content: flex-start;
+  }
+  .quick-nav::-webkit-scrollbar {
+    height: 3px;
+  }
+  .quick-nav::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
   }
 }
 
