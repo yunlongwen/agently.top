@@ -688,14 +688,17 @@ a {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: 64px;
 }
 
 /* ── Topbar ───────────────────────────────── */
 
 .topbar {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 10;
+  left: 0;
+  right: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -820,9 +823,7 @@ a {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
   gap: 20px;
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 24px 24px 56px;
+  padding: 24px 32px 56px;
   flex: 1;
 }
 
