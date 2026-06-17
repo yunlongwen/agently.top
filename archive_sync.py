@@ -44,3 +44,83 @@ def _repo_root():
     if code != 0:
         raise RuntimeError("无法定位 git 仓库根目录: {}".format(stderr))
     return Path(stdout)
+
+
+ARCHIVE_README = """# Archive 分支
+
+本分支由采集流程自动写入,存放 `output/` 的镜像归档数据。
+
+- 目录结构:`archive/<source_id>/<YYYY-MM-DD>/<batch>.json` + `archive/latest.json`
+- 生成频率:跟随采集调度(默认每天 3 次)
+- 请勿手动编辑;数据由 `archive_sync.py` 维护
+"""
+
+
+def _is_worktree(path):
+    """判断路径是否是一个已检出的 git worktree。"""
+    path = Path(path)
+    return path.exists() and (path / ".git").exists()
+
+
+def _local_branch_exists(repo_root, branch):
+    code, _, _ = _run_git(["rev-parse", "--verify", branch], cwd=repo_root)
+    return code == 0
+
+
+def _remote_branch_exists(repo_root, remote, branch):
+    code, stdout, _ = _run_git(["ls-remote", "--heads", remote, branch], cwd=repo_root)
+    return code == 0 and bool(stdout)
+
+
+def _pick_base(repo_root, remote):
+    """挑选创建 archive 分支的起点,优先 remote/master。"""
+    for candidate in ["{}/master".format(remote), "master", "HEAD"]:
+        code, _, _ = _run_git(["rev-parse", "--verify", candidate], cwd=repo_root)
+        if code == 0:
+            return candidate
+    return "HEAD"
+
+
+def _ensure_readme(worktree_path):
+    """首次创建 worktree 后,在根目录写入说明文件 ARCHIVE.md。
+
+    用 ARCHIVE.md 而非 README.md,避免覆盖 master 继承下来的源码 README。
+    """
+    readme = Path(worktree_path) / "ARCHIVE.md"
+    if readme.exists():
+        return
+    readme.write_text(ARCHIVE_README, encoding="utf-8")
+
+
+def _ensure_worktree(repo_root, worktree_path, branch, remote):
+    """确保 worktree 与 archive 分支存在,返回 worktree 绝对路径。
+
+    - worktree 已存在:直接复用。
+    - 分支已存在于本地或远端:检出该分支。
+    - 否则:基于 remote/master(回退 master/HEAD)新建分支。
+    """
+    worktree_path = Path(worktree_path).resolve()
+
+    if _is_worktree(worktree_path):
+        return worktree_path
+
+    if _local_branch_exists(repo_root, branch):
+        code, _, err = _run_git(
+            ["worktree", "add", str(worktree_path), branch], cwd=repo_root,
+        )
+    elif _remote_branch_exists(repo_root, remote, branch):
+        code, _, err = _run_git(
+            ["worktree", "add", str(worktree_path), "{}/{}".format(remote, branch)],
+            cwd=repo_root,
+        )
+    else:
+        base = _pick_base(repo_root, remote)
+        code, _, err = _run_git(
+            ["worktree", "add", "-b", branch, str(worktree_path), base], cwd=repo_root,
+        )
+
+    if code != 0:
+        raise RuntimeError("创建 worktree 失败: {}".format(err))
+
+    _ensure_readme(worktree_path)
+    return worktree_path
