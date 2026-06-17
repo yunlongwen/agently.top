@@ -12,7 +12,7 @@
         </div>
       </div>
       <nav class="quick-nav" :aria-label="t('quickNavAria')">
-        <a class="quick-link" href="https://agently.top/" target="_blank" rel="noreferrer">{{ t('quickNavNewsTitle') }}</a>
+        <a class="quick-link" href="https://agently.top/">{{ t('quickNavNewsTitle') }}</a>
         <a class="quick-link" href="https://nav.agently.top/" target="_blank" rel="noreferrer">{{ t('quickNavNavTitle') }}</a>
         <a class="quick-link" href="https://api.agently.top/" target="_blank" rel="noreferrer">{{ t('quickNavApiTitle') }}</a>
         <span class="quick-link quick-link-disabled" aria-disabled="true">
@@ -981,6 +981,7 @@ a {
   color: var(--text-2);
   text-decoration: none;
   white-space: nowrap;
+  flex-shrink: 0;
   transition: color 150ms ease, background 150ms ease;
 }
 
@@ -1016,9 +1017,21 @@ a {
   border: 1px solid #FDE68A;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 1024px) {
   .quick-nav {
-    display: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    flex-shrink: 0;
+    justify-content: flex-start;
+  }
+  .quick-nav::-webkit-scrollbar {
+    height: 3px;
+  }
+  .quick-nav::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
   }
 }
 
