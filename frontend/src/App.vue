@@ -820,7 +820,9 @@ a {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
   gap: 20px;
-  padding: 24px 24px 56px;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 96px 24px 56px;
   flex: 1;
 }
 
