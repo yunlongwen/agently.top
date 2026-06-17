@@ -161,3 +161,36 @@ def _sync_output(output_dir, archive_dir):
         _rsync_mirror(output_dir, archive_dir)
     else:
         _shutil_mirror(output_dir, archive_dir)
+
+
+def _commit_message(item_count):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+    if item_count is not None:
+        return "archive: {} ({} items)".format(timestamp, item_count)
+    return "archive: {}".format(timestamp)
+
+
+def _commit_and_push(worktree_path, branch, remote, item_count):
+    """在 worktree 内 add -> commit(仅当有变更)-> push。
+
+    push 失败时 pull --rebase 后重试一次,仍失败则抛异常。
+    返回 True 表示产生了新提交;False 表示无变更跳过。
+    """
+    _run_git(["add", "-A"], cwd=worktree_path)
+
+    code, _, _ = _run_git(["diff", "--cached", "--quiet"], cwd=worktree_path)
+    if code == 0:
+        return False  # 无暂存变更
+
+    message = _commit_message(item_count)
+    code, _, err = _run_git(["commit", "-m", message], cwd=worktree_path)
+    if code != 0:
+        raise RuntimeError("归档 commit 失败: {}".format(err))
+
+    code, _, err = _run_git(["push", remote, branch], cwd=worktree_path)
+    if code != 0:
+        _run_git(["pull", "--rebase", remote, branch], cwd=worktree_path)
+        code, _, err = _run_git(["push", remote, branch], cwd=worktree_path)
+        if code != 0:
+            raise RuntimeError("归档 push 失败: {}".format(err))
+    return True

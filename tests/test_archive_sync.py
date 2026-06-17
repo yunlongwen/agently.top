@@ -17,6 +17,7 @@ sys.path.insert(0, ".")
 from archive_sync import _run_git, _repo_root  # noqa: E402
 from archive_sync import _ensure_worktree  # noqa: E402
 from archive_sync import _sync_output  # noqa: E402
+from archive_sync import _commit_and_push  # noqa: E402
 
 
 def _git(args, cwd):
@@ -105,6 +106,35 @@ class TestSyncOutput(unittest.TestCase):
                 _sync_output(output, archive)
             invoked = [call.args[0] for call in mock_run.call_args_list]
             self.assertTrue(any(cmd[0] == "rsync" for cmd in invoked))
+
+
+class TestCommitAndPush(unittest.TestCase):
+    def _setup(self, tmp):
+        repo, remote = _make_repo(Path(tmp))
+        worktree = repo / ".archive-worktree"
+        _ensure_worktree(repo, worktree, "archive", "origin")
+        return repo, remote, worktree
+
+    def test_commits_and_pushes_new_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo, remote, worktree = self._setup(tmp)
+            archive = worktree / "archive"
+            archive.mkdir()
+            (archive / "01.json").write_text("{}", encoding="utf-8")
+            pushed = _commit_and_push(worktree, "archive", "origin", item_count=5)
+            self.assertTrue(pushed)
+            # bare remote 已收到 archive 分支
+            code, stdout, _ = _run_git(["ls-remote", "--heads", "origin", "archive"], cwd=repo)
+            self.assertTrue(stdout.strip())
+
+    def test_skips_commit_when_no_changes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo, remote, worktree = self._setup(tmp)
+            # 首次:提交 ARCHIVE.md(_ensure_worktree 写入)
+            _commit_and_push(worktree, "archive", "origin", item_count=1)
+            # 再次:无新变更,应跳过
+            pushed = _commit_and_push(worktree, "archive", "origin", item_count=1)
+            self.assertFalse(pushed)
 
 
 if __name__ == "__main__":
