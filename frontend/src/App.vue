@@ -21,7 +21,7 @@
         <button class="history-button" type="button" @click="openHistoryDrawer">
           {{ t('historyArchive') }}
         </button>
-        <a class="gh-link" href="https://github.com/wenbochang888/github-trending-spider" target="_blank" rel="noreferrer" aria-label="GitHub 仓库">
+        <a class="gh-link" href="https://github.com/yunlongwen/agently.top" target="_blank" rel="noreferrer" aria-label="GitHub 仓库">
           <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         </a>
       </div>
@@ -98,6 +98,26 @@
           </button>
         </div>
 
+        <nav class="quick-nav" :aria-label="t('quickNavAria')">
+          <a class="quick-card" href="https://nav.agently.top/" target="_blank" rel="noreferrer">
+            <div class="quick-card-title">{{ t('quickNavNavTitle') }}</div>
+            <div class="quick-card-desc">{{ t('quickNavNavDesc') }}</div>
+            <span class="quick-card-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="quick-card" href="https://api.agently.top/" target="_blank" rel="noreferrer">
+            <div class="quick-card-title">{{ t('quickNavApiTitle') }}</div>
+            <div class="quick-card-desc">{{ t('quickNavApiDesc') }}</div>
+            <span class="quick-card-arrow" aria-hidden="true">→</span>
+          </a>
+          <div class="quick-card quick-card-disabled" aria-disabled="true">
+            <div class="quick-card-title">
+              {{ t('quickNavBlogTitle') }}
+              <span class="quick-card-badge">{{ t('quickNavBlogBadge') }}</span>
+            </div>
+            <div class="quick-card-desc">{{ t('quickNavBlogDesc') }}</div>
+          </div>
+        </nav>
+
         <div v-if="loading" class="skeleton-list">
           <div v-for="n in 3" :key="n" class="skeleton-card">
             <div class="skeleton-line title"></div>
@@ -145,7 +165,7 @@
       </section>
     </main>
     <footer class="site-footer">
-      <div class="footer-info">© 2026 智能与自律　　陕ICP备2023006299号-3　　公安备案　　陕公网安备61019002003752号</div>
+      <div class="footer-info">© 2026 Agently　　陕ICP备2023006299号-3　　公安备案　　陕公网安备61019002003752号</div>
     </footer>
   </div>
 </template>
@@ -194,6 +214,14 @@ const I18N = {
     emailHint: '请将您的邮箱发送至727987105@qq.com',
     comments: ' 评论',
     replies: ' 回复',
+    quickNavAria: '快捷导航',
+    quickNavNavTitle: 'AI 导航',
+    quickNavNavDesc: '精选 AI 工具导航',
+    quickNavApiTitle: 'AI 中转站',
+    quickNavApiDesc: 'AI API 中转服务',
+    quickNavBlogTitle: 'AI 博客',
+    quickNavBlogDesc: 'AI 技术博客(建设中)',
+    quickNavBlogBadge: '即将推出',
   },
   en: {
     siteTitle: 'Agently.top',
@@ -225,6 +253,14 @@ const I18N = {
     emailHint: 'Please send your email address to 727987105@qq.com',
     comments: ' comments',
     replies: ' replies',
+    quickNavAria: 'Quick Links',
+    quickNavNavTitle: 'AI Nav',
+    quickNavNavDesc: 'Curated AI tools directory',
+    quickNavApiTitle: 'AI API Hub',
+    quickNavApiDesc: 'AI API relay service',
+    quickNavBlogTitle: 'AI Blog',
+    quickNavBlogDesc: 'AI tech blog (coming soon)',
+    quickNavBlogBadge: 'Soon',
   }
 };
 
@@ -631,6 +667,7 @@ export default {
   --primary-soft:  #EEF3FF;
   --bg:            #F2F5FA;
   --surface:       #FFFFFF;
+  --surface-2:     #F8FAFC;
   --border:        #E4E8F0;
   --text-1:        #0D1117;
   --text-2:        #4B5563;
@@ -928,6 +965,117 @@ a {
   background: var(--primary-soft);
   color: var(--primary);
   outline: none;
+}
+
+/* ── Quick nav cards ─────────────────────── */
+
+.quick-nav {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding: 18px 24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.quick-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface-2);
+  color: var(--text-1);
+  text-decoration: none;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+  min-height: 88px;
+}
+
+.quick-card:hover {
+  transform: translateY(-2px);
+  border-color: transparent;
+  box-shadow: 0 6px 18px -10px rgba(0, 87, 255, 0.35), 0 0 0 1px var(--primary);
+  background: var(--surface);
+}
+
+.quick-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  background: var(--brand-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-family: 'Bricolage Grotesque', 'DM Sans', sans-serif;
+}
+
+.quick-card-desc {
+  color: var(--text-3);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.quick-card-arrow {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  color: var(--text-3);
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 180ms ease, color 180ms ease;
+}
+
+.quick-card:hover .quick-card-arrow {
+  transform: translateX(3px);
+  color: var(--primary);
+}
+
+.quick-card-disabled {
+  cursor: not-allowed;
+  background: #F9FAFB;
+  border-style: dashed;
+}
+
+.quick-card-disabled:hover {
+  transform: none;
+  box-shadow: none;
+  background: #F9FAFB;
+}
+
+.quick-card-disabled .quick-card-title {
+  background: none;
+  -webkit-text-fill-color: var(--text-2);
+  color: var(--text-2);
+}
+
+.quick-card-disabled .quick-card-desc {
+  color: var(--text-3);
+}
+
+.quick-card-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+  -webkit-text-fill-color: #92400E;
+}
+
+@media (max-width: 720px) {
+  .quick-nav {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
 }
 
 /* ── History drawer ───────────────────────── */
