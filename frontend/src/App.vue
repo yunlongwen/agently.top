@@ -696,6 +696,8 @@ a {
 
 .app-shell {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ── Topbar ───────────────────────────────── */
@@ -831,6 +833,7 @@ a {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px 24px 56px;
+  flex: 1;
 }
 
 /* ── Source panel ─────────────────────────── */
