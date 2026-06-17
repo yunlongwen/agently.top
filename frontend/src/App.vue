@@ -822,7 +822,7 @@ a {
   gap: 20px;
   max-width: 1080px;
   margin: 0 auto;
-  padding: 96px 24px 56px;
+  padding: 24px 24px 56px;
   flex: 1;
 }
 
