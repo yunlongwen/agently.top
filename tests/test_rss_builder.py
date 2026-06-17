@@ -41,7 +41,7 @@ class TestRssBuilder(unittest.TestCase):
 
         self.assertEqual(root.tag, "rss")
         self.assertEqual(root.attrib["version"], "2.0")
-        self.assertEqual(channel.findtext("title"), "每日AI前沿信息")
+        self.assertEqual(channel.findtext("title"), "Agently.top")
         self.assertEqual(channel.findtext("link"), "https://www.gdufe888.top/ai/")
         self.assertEqual(item.findtext("title"), "A & B < C")
         self.assertEqual(item.findtext("description"), "中文摘要 & 重点")

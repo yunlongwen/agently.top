@@ -145,9 +145,7 @@
       </section>
     </main>
     <footer class="site-footer">
-      <button class="footer-easter-egg" type="button" @click="showEmailHint">
-        {{ t('footerEmailEgg') }}
-      </button>
+      <div class="footer-info">© 2026 智能与自律　　陕ICP备2023006299号-3　　公安备案　　陕公网安备61019002003752号</div>
     </footer>
   </div>
 </template>
@@ -167,7 +165,7 @@ function getInitialLang() {
 
 const I18N = {
   zh: {
-    siteTitle: '每日AI前沿信息',
+    siteTitle: 'Agently.top',
     subtitle: '开源趋势 · 社区热议 · AI 动态',
     updateEvery8h: '每 8 小时更新',
     countdownHour: '时',
@@ -193,13 +191,12 @@ const I18N = {
     noArchive: '暂无归档',
     archiveSources: ' 个来源',
     historySourcePrefix: '当前来源：',
-    footerEmailEgg: '隐藏小彩蛋: 支持邮件接收AI讯息',
     emailHint: '请将您的邮箱发送至727987105@qq.com',
     comments: ' 评论',
     replies: ' 回复',
   },
   en: {
-    siteTitle: 'Daily AI Frontier',
+    siteTitle: 'Agently.top',
     subtitle: 'Open Source · Community · AI Updates',
     updateEvery8h: 'Updates every 8h',
     countdownHour: 'h ',
@@ -225,7 +222,6 @@ const I18N = {
     noArchive: 'No archive',
     archiveSources: ' sources',
     historySourcePrefix: 'Source: ',
-    footerEmailEgg: 'Hidden easter egg: Support receiving AI updates by email',
     emailHint: 'Please send your email address to 727987105@qq.com',
     comments: ' comments',
     replies: ' replies',
@@ -395,9 +391,6 @@ export default {
       history.replaceState(null, '', url);
       document.title = this.t('siteTitle');
       this.updateCountdown();
-    },
-    showEmailHint() {
-      window.alert(this.t('emailHint'));
     },
     async openHistoryDrawer() {
       this.historyDrawerOpen = true;
@@ -1365,22 +1358,9 @@ a {
   margin-top: 32px;
 }
 
-.footer-easter-egg {
-  border: none;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: color 150ms ease, background 150ms ease;
-}
-
-.footer-easter-egg:hover,
-.footer-easter-egg:focus-visible {
-  color: var(--text-1);
-  background: rgba(15, 23, 42, 0.05);
-  outline: none;
+.footer-info {
+  white-space: nowrap;
+  line-height: normal;
 }
 
 /* ── Language Switch ─────────────────────── */
