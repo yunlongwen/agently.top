@@ -11,6 +11,14 @@
           <p>{{ t('subtitle') }}</p>
         </div>
       </div>
+      <nav class="quick-nav" :aria-label="t('quickNavAria')">
+        <a class="quick-link" href="https://agently.top/" target="_blank" rel="noreferrer">{{ t('quickNavNewsTitle') }}</a>
+        <a class="quick-link" href="https://nav.agently.top/" target="_blank" rel="noreferrer">{{ t('quickNavNavTitle') }}</a>
+        <a class="quick-link" href="https://api.agently.top/" target="_blank" rel="noreferrer">{{ t('quickNavApiTitle') }}</a>
+        <span class="quick-link quick-link-disabled" aria-disabled="true">
+          {{ t('quickNavBlogTitle') }}<span class="quick-link-badge">{{ t('quickNavBlogBadge') }}</span>
+        </span>
+      </nav>
       <div class="topbar-actions">
         <div class="lang-switch">
           <button :class="{ active: lang === 'zh' }" @click="switchLang('zh')">中文</button>
@@ -97,26 +105,6 @@
             {{ t('backToToday') }}
           </button>
         </div>
-
-        <nav class="quick-nav" :aria-label="t('quickNavAria')">
-          <a class="quick-card" href="https://nav.agently.top/" target="_blank" rel="noreferrer">
-            <div class="quick-card-title">{{ t('quickNavNavTitle') }}</div>
-            <div class="quick-card-desc">{{ t('quickNavNavDesc') }}</div>
-            <span class="quick-card-arrow" aria-hidden="true">→</span>
-          </a>
-          <a class="quick-card" href="https://api.agently.top/" target="_blank" rel="noreferrer">
-            <div class="quick-card-title">{{ t('quickNavApiTitle') }}</div>
-            <div class="quick-card-desc">{{ t('quickNavApiDesc') }}</div>
-            <span class="quick-card-arrow" aria-hidden="true">→</span>
-          </a>
-          <div class="quick-card quick-card-disabled" aria-disabled="true">
-            <div class="quick-card-title">
-              {{ t('quickNavBlogTitle') }}
-              <span class="quick-card-badge">{{ t('quickNavBlogBadge') }}</span>
-            </div>
-            <div class="quick-card-desc">{{ t('quickNavBlogDesc') }}</div>
-          </div>
-        </nav>
 
         <div v-if="loading" class="skeleton-list">
           <div v-for="n in 3" :key="n" class="skeleton-card">
@@ -215,6 +203,8 @@ const I18N = {
     comments: ' 评论',
     replies: ' 回复',
     quickNavAria: '快捷导航',
+    quickNavNewsTitle: 'AI 资讯',
+    quickNavNewsDesc: '每日 AI 前沿信息',
     quickNavNavTitle: 'AI 导航',
     quickNavNavDesc: '精选 AI 工具导航',
     quickNavApiTitle: 'AI 中转站',
@@ -254,6 +244,8 @@ const I18N = {
     comments: ' comments',
     replies: ' replies',
     quickNavAria: 'Quick Links',
+    quickNavNewsTitle: 'AI News',
+    quickNavNewsDesc: 'Daily AI frontier',
     quickNavNavTitle: 'AI Nav',
     quickNavNavDesc: 'Curated AI tools directory',
     quickNavApiTitle: 'AI API Hub',
@@ -967,114 +959,66 @@ a {
   outline: none;
 }
 
-/* ── Quick nav cards ─────────────────────── */
+/* ── Topbar quick nav (compact pill row) ─── */
 
 .quick-nav {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  padding: 18px 24px 20px;
-  border-bottom: 1px solid var(--border);
-}
-
-.quick-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 16px 18px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-card);
-  background: var(--surface-2);
-  color: var(--text-1);
-  text-decoration: none;
-  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
-  min-height: 88px;
-}
-
-.quick-card:hover {
-  transform: translateY(-2px);
-  border-color: transparent;
-  box-shadow: 0 6px 18px -10px rgba(0, 87, 255, 0.35), 0 0 0 1px var(--primary);
-  background: var(--surface);
-}
-
-.quick-card-title {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.1px;
-  background: var(--brand-grad);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  font-family: 'Bricolage Grotesque', 'DM Sans', sans-serif;
+  justify-content: center;
+  gap: 4px;
+  margin: 0 auto;
 }
 
-.quick-card-desc {
-  color: var(--text-3);
-  font-size: 12.5px;
-  line-height: 1.55;
-}
-
-.quick-card-arrow {
-  position: absolute;
-  right: 14px;
-  bottom: 12px;
-  color: var(--text-3);
-  font-size: 16px;
-  line-height: 1;
-  transition: transform 180ms ease, color 180ms ease;
-}
-
-.quick-card:hover .quick-card-arrow {
-  transform: translateX(3px);
-  color: var(--primary);
-}
-
-.quick-card-disabled {
-  cursor: not-allowed;
-  background: #F9FAFB;
-  border-style: dashed;
-}
-
-.quick-card-disabled:hover {
-  transform: none;
-  box-shadow: none;
-  background: #F9FAFB;
-}
-
-.quick-card-disabled .quick-card-title {
-  background: none;
-  -webkit-text-fill-color: var(--text-2);
-  color: var(--text-2);
-}
-
-.quick-card-disabled .quick-card-desc {
-  color: var(--text-3);
-}
-
-.quick-card-badge {
+.quick-link {
   display: inline-flex;
   align-items: center;
-  padding: 1px 8px;
+  gap: 4px;
+  padding: 6px 12px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  color: var(--text-2);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 150ms ease, background 150ms ease;
+}
+
+.quick-link:hover,
+.quick-link:focus-visible {
+  color: var(--primary);
+  background: var(--primary-soft);
+  outline: none;
+}
+
+.quick-link-disabled {
+  color: var(--text-3);
+  cursor: not-allowed;
+  user-select: none;
+}
+
+.quick-link-disabled:hover {
+  color: var(--text-3);
+  background: transparent;
+}
+
+.quick-link-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.2px;
   background: #FEF3C7;
   color: #92400E;
   border: 1px solid #FDE68A;
-  -webkit-text-fill-color: #92400E;
 }
 
 @media (max-width: 720px) {
   .quick-nav {
-    grid-template-columns: 1fr;
-    padding: 16px;
+    display: none;
   }
 }
 
