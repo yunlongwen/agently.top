@@ -9,9 +9,9 @@ description: 当用户想获取、查看、汇总、分析或本地过滤 AI 最
 
 这是一个线上 API 消费型 Skill。安装方不需要本仓库源码，也不需要 Python 爬虫依赖。默认通过 HTTP GET 请求线上 API 读取已采集结果。
 
-默认 API base：`https://www.gdufe888.top/api`
+默认 API base：`https://agently.top/api`
 
-注意：`https://www.gdufe888.top/ai/` 是人类访问的前端页面入口，不是 API base。
+注意：`https://agently.top/` 是人类访问的前端页面入口，不是 API base。
 
 ## 范围
 
@@ -63,8 +63,8 @@ description: 当用户想获取、查看、汇总、分析或本地过滤 AI 最
 
 规则：
 
-- 单个来源使用 `GET https://www.gdufe888.top/api/sources/{source_id}/latest`。
-- 全部来源先请求 `GET https://www.gdufe888.top/api/sources`，再逐个请求 latest API。
+- 单个来源使用 `GET https://agently.top/api/sources/{source_id}/latest`。
+- 全部来源先请求 `GET https://agently.top/api/sources`，再逐个请求 latest API。
 - `topic` 是对 API 返回 `items` 的本地过滤。不要声称进行了源站搜索。
 - `count` 是对 API 返回 `items` 的本地截断。不要声称改变了后端采集数量。
 - Skill 不控制是否带评论、不控制是否重新生成 AI 摘要；API 返回什么就展示什么。

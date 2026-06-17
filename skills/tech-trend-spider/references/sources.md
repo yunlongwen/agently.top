@@ -1,6 +1,6 @@
 # Tech Trend Spider 来源
 
-source id 必须与线上 `GET https://www.gdufe888.top/api/sources` 返回值保持一致。
+source id 必须与线上 `GET https://agently.top/api/sources` 返回值保持一致。
 
 | Source id | 用户可见来源 | Latest API | 能力边界 |
 | --- | --- | --- | --- |
