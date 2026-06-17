@@ -981,6 +981,7 @@ a {
   color: var(--text-2);
   text-decoration: none;
   white-space: nowrap;
+  flex-shrink: 0;
   transition: color 150ms ease, background 150ms ease;
 }
 
@@ -1018,7 +1019,19 @@ a {
 
 @media (max-width: 720px) {
   .quick-nav {
-    display: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    flex-shrink: 0;
+    justify-content: flex-start;
+  }
+  .quick-nav::-webkit-scrollbar {
+    height: 3px;
+  }
+  .quick-nav::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
   }
 }
 
