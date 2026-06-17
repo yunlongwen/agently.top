@@ -576,6 +576,7 @@ def sync_archive_to_git(item_count=None, repo_root=None):
     try:
         root = Path(repo_root) if repo_root is not None else _repo_root()
         worktree_path = _ensure_worktree(
+            root,
             root / ARCHIVE_GIT_WORKTREE,
             ARCHIVE_GIT_BRANCH,
             ARCHIVE_GIT_REMOTE,

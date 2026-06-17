@@ -23,6 +23,7 @@
 - `api.py`: FastAPI 公开只读接口，提供 `/api/sources` 和 `/api/sources/{id}/latest`。
 - `access_log.py`: API 访问日志中间件，记录每次请求 IP/路径/耗时/状态码，每小时输出统计汇总。
 - `scheduler.py`: FastAPI 进程内采集调度器，按配置时间定时触发 `main.py` 主流程。
+- `archive_sync.py`: 采集后把 `output/` 镜像推送到 `archive` 分支（git worktree，主工作区零干扰；默认关闭，由 `ARCHIVE_GIT_ENABLED` 控制）。
 - `email_builder.py`: HTML 邮件内容生成。
 - `email_sender.py`: SMTP 邮件发送。
 - `test_email.py`: SMTP 发送测试脚本。
@@ -71,6 +72,14 @@ source ~/.bash_profile && cd /root/work/workspace/gitee/github-trending-spider &
 - `OPENAI_NEWS_COUNT`: OpenAI 获取前 N 条内容，默认 10。
 - `ANTHROPIC_NEWS_COUNT`: Anthropic 获取前 N 条内容，默认 10。
 - `INFOQ_AI_NEWS_COUNT`: InfoQ 获取前 N 条内容，默认 10。
+
+归档推送变量：
+
+- `ARCHIVE_GIT_ENABLED`: 是否在采集后把 `output/` 镜像推送到 `archive` 分支，默认 false。
+- `ARCHIVE_GIT_BRANCH`: 归档分支名，默认 archive。
+- `ARCHIVE_GIT_WORKTREE`: worktree 检出目录，默认 .archive-worktree。
+- `ARCHIVE_GIT_DIR`: worktree 内归档子目录，默认 archive。
+- `ARCHIVE_GIT_REMOTE`: 推送 remote，默认 origin。
 
 数量配置遵循“最多取 N 条”：如果配置为 100，但源头实际只解析到 14 条，则只展示 14 条。
 
