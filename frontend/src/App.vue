@@ -268,18 +268,11 @@ const SOURCE_DISPLAY_MAP = {
   'github-weekly': { label: '本周开源精选', category: 'GitHub · 周榜' },
   'hacker-news':   { label: '硅谷社区热议', category: 'Hacker News'   },
   'linux-do':      { label: 'Linux.do 技术日报', category: '社区讨论'     },
-  'v2ex':          { label: 'V2EX 技术日报', category: 'V2EX'          },
-  'tldr-ai':       { label: 'AI 速报精选',   category: 'TLDR AI'       },
+  'sspai':         { label: '少数派',          category: 'AI 快讯'         },
+  'tmtpost':       { label: '钛媒体速报',     category: 'AI 快讯'         },
   'openai':        { label: 'OpenAI 最新动态', category: '官方更新'    },
   'anthropic':     { label: 'Anthropic 最新动态', category: '官方更新' },
   'infoq':         { label: 'AI 工程实践',    category: 'InfoQ AI'     },
-};
-
-const TLDR_CATEGORY_MAP = {
-  'BIG TECH & STARTUPS': '大厂动态',
-  'SCIENCE & FUTURISTIC TECHNOLOGY': '前沿科技',
-  'PROGRAMMING, DESIGN & DATA SCIENCE': '编程与数据',
-  'AI': 'AI 快讯',
 };
 
 const CONTENT_TYPE_MAP = {
@@ -307,8 +300,8 @@ const SOURCE_DISPLAY_MAP_EN = {
   'github-weekly': { label: 'GitHub Weekly Picks',   category: 'GitHub · Weekly' },
   'hacker-news':   { label: 'Hacker News Hot',       category: 'Hacker News' },
   'linux-do':      { label: 'Linux.do Daily',        category: 'Community' },
-  'v2ex':          { label: 'V2EX Hot Topics',       category: 'V2EX' },
-  'tldr-ai':       { label: 'TLDR AI Digest',        category: 'TLDR AI' },
+  'sspai':         { label: 'Sspai',                 category: 'AI News' },
+  'tmtpost':       { label: 'Tmtpost Digest',        category: 'AI News' },
   'openai':        { label: 'OpenAI Updates',        category: 'Official' },
   'anthropic':     { label: 'Anthropic Updates',     category: 'Official' },
   'infoq':         { label: 'AI Engineering',        category: 'InfoQ AI' },
@@ -599,9 +592,6 @@ export default {
         if (meta.section_title) tags.push({ label: meta.section_title, type: 'category' });
         if (meta.reply_count != null) tags.push({ label: '💬 ' + meta.reply_count + this.t('replies'), type: 'fork' });
         if (item.published_at) tags.push({ label: this.formatDate(item.published_at), type: 'date' });
-      } else if (src === 'TLDR AI') {
-        const cat = this.lang === 'en' ? item.category : TLDR_CATEGORY_MAP[item.category];
-        if (cat) tags.push({ label: cat, type: 'category' });
       } else if (src === 'OpenAI' || src === 'Anthropic') {
         const ct = this.lang === 'en' ? meta.content_type : CONTENT_TYPE_MAP[meta.content_type];
         if (ct) tags.push({ label: ct, type: 'category' });

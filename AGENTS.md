@@ -4,7 +4,7 @@
 
 ## 项目概览
 
-这是一个 Python + Vue 全栈 AI 信息源聚合项目。主流程每天抓取 GitHub Trending、Hacker News、TLDR AI、OpenAI、Anthropic、InfoQ AI Development 等信息源，通过 GitHub Models API 生成中文摘要，按来源永久归档到磁盘，并写入 Redis 作为 3 天热数据缓存。
+这是一个 Python + Vue 全栈 AI 信息源聚合项目。主流程每天抓取 GitHub Trending、Hacker News、少数派、钛媒体、OpenAI、Anthropic、InfoQ AI Development 等信息源，通过 GitHub Models API 生成中文摘要，按来源永久归档到磁盘，并写入 Redis 作为 3 天热数据缓存。
 
 项目同时提供 FastAPI 只读接口和 Vue 3 前端资讯流页面（页面标题"Agently.top"），由 Nginx 静态托管前端、反代 `/api/` 到 FastAPI。`output/latest.json` 作为统一 JSON 兼容旧版接入点继续保留。
 
@@ -14,7 +14,8 @@
 - `config.py`: 环境变量配置中心，所有可调参数都应从这里读取。
 - `github_trending.py`: GitHub Trending daily / weekly 抓取和项目摘要。
 - `hacker_news.py`: Hacker News Top Stories、评论抓取和社区讨论摘要。
-- `tldr_ai.py`: TLDR AI 最新一期抓取和中文整理。
+- `sspai.py`: 少数派 (sspai.com) RSS 抓取和中文总结。
+- `tmtpost.py`: 钛媒体 (tmtpost.com) RSS 抓取和中文总结。
 - `official_ai_sources.py`: OpenAI、Anthropic、InfoQ AI Development 信息源抓取。
 - `content_items.py`: 统一信息项模型、跨来源 JSON 适配、统一 AI 摘要、JSON 输出。
 - `content_store.py`: 按来源归档写磁盘、Redis 最新快照读写、Redis 不可用时降级读磁盘。
@@ -68,7 +69,8 @@ source ~/.bash_profile && cd /root/work/workspace/gitee/github-trending-spider &
 - `GITHUB_TRENDING_TOP_COUNT`: GitHub daily / weekly 各获取前 N 个仓库，默认 10。
 - `HN_TOP_COUNT`: Hacker News 获取前 N 个帖子，默认 10。
 - `HN_COMMENTS_PER_STORY`: 每帖获取前 N 条顶级评论，默认 10。
-- `TLDR_AI_TOP_COUNT`: TLDR AI 获取前 N 条内容，默认 10。
+- `SSPAI_TOP_COUNT`: 少数派 获取前 N 条内容，默认 10。
+- `TMTPOST_TOP_COUNT`: 钛媒体 获取前 N 条内容，默认 10。
 - `OPENAI_NEWS_COUNT`: OpenAI 获取前 N 条内容，默认 10。
 - `ANTHROPIC_NEWS_COUNT`: Anthropic 获取前 N 条内容，默认 10。
 - `INFOQ_AI_NEWS_COUNT`: InfoQ 获取前 N 条内容，默认 10。
@@ -168,6 +170,12 @@ source ~/.bash_profile && cd /root/work/workspace/gitee/github-trending-spider &
   - openai → OpenAI 最新动态 / 官方更新
   - anthropic → Anthropic 最新动态 / 官方更新
   - infoq → AI 工程实践 / InfoQ AI
+- 2026-06-17：因 V2EX API 在当前网络环境不可达、TLDR AI 被 Cloudflare 拦截，
+  把这两个源替换为 少数派 (sspai.com/feed) + 钛媒体 (tmtpost.com/rss)，
+  新增 `sspai.py` / `tmtpost.py` 两个 RSS 模块，沿用 `official_ai_sources.py` 的
+  RSS 抓取 + AI 总结模式；`source_registry`、`main.py` 流程、`App.vue` 侧边栏
+  映射、邮件板块同步更新；新增 `SSPAI_FEED_URL / SSPAI_TOP_COUNT / SSPAI_MAX_RETRIES`
+  与 `TMTPOST_FEED_URL / TMTPOST_TOP_COUNT / TMTPOST_MAX_RETRIES` 六个环境变量。
 - loading 状态改为 3 个 shimmer 骨架卡片动画，替代纯文字"正在加载数据"。
 - 侧边栏 active 状态增加左竖线 indicator；卡片 hover 增加左竖线 + 背景过渡。
 - `public/index.html` title 同步改为"Agently.top"。
@@ -194,7 +202,7 @@ source ~/.bash_profile && cd /root/work/workspace/gitee/github-trending-spider &
 基础检查：
 
 ```bash
-python3 -m py_compile main.py config.py github_trending.py hacker_news.py tldr_ai.py official_ai_sources.py content_items.py content_store.py redis_client.py scheduler.py source_registry.py api.py access_log.py email_builder.py email_sender.py
+python3 -m py_compile main.py config.py github_trending.py hacker_news.py sspai.py tmtpost.py official_ai_sources.py content_items.py content_store.py redis_client.py scheduler.py source_registry.py api.py access_log.py email_builder.py email_sender.py
 ```
 
 本地完整运行：

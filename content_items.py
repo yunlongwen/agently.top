@@ -20,8 +20,8 @@ SOURCE_GITHUB_DAILY = "GitHub Trending Daily"
 SOURCE_GITHUB_WEEKLY = "GitHub Trending Weekly"
 SOURCE_HACKER_NEWS = "Hacker News"
 SOURCE_LINUX_DO = "Linux.do"
-SOURCE_V2EX = "V2EX"
-SOURCE_TLDR_AI = "TLDR AI"
+SOURCE_SSPAI = "少数派"
+SOURCE_TMTPOST = "钛媒体"
 SOURCE_OPENAI = "OpenAI"
 SOURCE_ANTHROPIC = "Anthropic"
 SOURCE_INFOQ_AI = "InfoQ AI Development"
@@ -123,15 +123,15 @@ def summarize_content_items(items, section_label):
     return items
 
 
-def build_all_content_items(daily_repos, weekly_repos, hn_stories, v2ex_topics, tldr_items, ai_source_items, linux_do_items=None):
+def build_all_content_items(daily_repos, weekly_repos, hn_stories, sspai_items, tmtpost_items, ai_source_items, linux_do_items=None):
     """将多个来源数据适配为统一 JSON 信息项。"""
     items = []
     items.extend(_github_to_items(daily_repos, SOURCE_GITHUB_DAILY, "每日热点"))
     items.extend(_github_to_items(weekly_repos, SOURCE_GITHUB_WEEKLY, "每周热点"))
     items.extend(_hn_to_items(hn_stories))
     items.extend(_linux_do_to_items(linux_do_items))
-    items.extend(_v2ex_to_items(v2ex_topics))
-    items.extend(_tldr_to_items(tldr_items))
+    items.extend(_sspai_to_items(sspai_items))
+    items.extend(_tmtpost_to_items(tmtpost_items))
     items.extend(ai_source_items or [])
     return items
 
@@ -245,48 +245,50 @@ def _linux_do_to_items(linux_do_items):
     return items
 
 
-def _v2ex_to_items(topics):
-    items = []
-    for topic in topics or []:
-        url = topic.get("url") or "https://www.v2ex.com/t/{}".format(topic.get("id", ""))
-        node_title = topic.get("node", {}).get("title", "")
-        member = topic.get("member", {}).get("username", "")
-        original_summary = "节点: {} | 作者: {}".format(node_title, member)
-        summary = topic.get("ai_summary", "")
+def _sspai_to_items(items):
+    items_out = []
+    for item in items or []:
+        chinese_summary = item.get("chinese_summary", "")
+        backend_focus = item.get("backend_focus", "")
         meta = {
-            "node": topic.get("node", {}).get("name", ""),
-            "node_title": node_title,
-            "replies_count": len(topic.get("replies", [])),
-            "v2ex_url": url,
+            "feed_url": item.get("url", ""),
         }
-        items.append(make_content_item(
-            source=SOURCE_V2EX,
-            category=CATEGORY_COMMUNITY,
-            title=topic.get("title", ""),
-            url=url,
-            published_at=str(topic.get("created", "")),
-            original_summary=original_summary,
-            chinese_summary=summary,
-            backend_focus=summary,
-            meta=meta,
-        ))
-    return items
-
-
-def _tldr_to_items(tldr_items):
-    items = []
-    for item in tldr_items or []:
-        summary = item.get("ai_summary") or item.get("summary", "")
-        items.append(make_content_item(
-            source=SOURCE_TLDR_AI,
-            category=item.get("category") or CATEGORY_AI_NEWS,
+        items_out.append(make_content_item(
+            source=SOURCE_SSPAI,
+            category=CATEGORY_AI_NEWS,
             title=item.get("title", ""),
             url=item.get("url", ""),
+            published_at=item.get("published_at", ""),
             original_summary=item.get("summary", ""),
-            chinese_summary=summary,
-            backend_focus=summary,
+            chinese_summary=chinese_summary,
+            backend_focus=backend_focus,
+            meta=meta,
         ))
-    return items
+    return items_out
+
+
+def _tmtpost_to_items(items):
+    items_out = []
+    for item in items or []:
+        chinese_summary = item.get("chinese_summary", "")
+        backend_focus = item.get("backend_focus", "")
+        meta = {}
+        if item.get("author"):
+            meta["author"] = item["author"]
+        if item.get("category"):
+            meta["category_raw"] = item["category"]
+        items_out.append(make_content_item(
+            source=SOURCE_TMTPOST,
+            category=CATEGORY_AI_NEWS,
+            title=item.get("title", ""),
+            url=item.get("url", ""),
+            published_at=item.get("published_at", ""),
+            original_summary=item.get("summary", ""),
+            chinese_summary=chinese_summary,
+            backend_focus=backend_focus,
+            meta=meta,
+        ))
+    return items_out
 
 
 def _call_content_ai_api(prompt, max_retries=10):
