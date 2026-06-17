@@ -2,13 +2,13 @@
 """
 HTML 邮件生成模块
 
-负责将 GitHub Trending、Hacker News 和 TLDR AI 数据构建成 HTML 邮件内容。
+负责将 GitHub Trending、Hacker News、少数派、钛媒体 数据构建成 HTML 邮件内容。
 """
 
 from datetime import datetime
 
 from config import AI_MODEL
-from content_items import SOURCE_ANTHROPIC, SOURCE_INFOQ_AI, SOURCE_LINUX_DO, SOURCE_OPENAI
+from content_items import SOURCE_ANTHROPIC, SOURCE_INFOQ_AI, SOURCE_LINUX_DO, SOURCE_OPENAI, SOURCE_SSPAI, SOURCE_TMTPOST
 
 
 def _escape_html(text):
@@ -101,67 +101,79 @@ def _build_hn_table(stories):
     return "\n".join(rows)
 
 
-def _build_v2ex_table(topics):
-    """构建 V2EX 热帖表格的 HTML。"""
+def _build_sspai_table(items):
+    """构建 少数派 表格的 HTML。"""
     rows = [
         "<table>",
         "<tr>"
         "<th>#</th>"
-        "<th>话题</th>"
-        "<th>节点</th>"
-        "<th>AI 总结</th>"
+        "<th>标题</th>"
+        "<th>发布时间</th>"
+        "<th>中文摘要</th>"
+        "<th>后端关注点</th>"
         "</tr>",
     ]
 
-    for i, t in enumerate(topics, 1):
-        url = t.get("url") or "https://www.v2ex.com/t/{}".format(t.get("id", ""))
-        title = _escape_html(t.get("title", ""))
-        node_title = _escape_html(t.get("node", {}).get("title", ""))
-        summary = _escape_html(t.get("ai_summary", ""))
+    for i, item in enumerate(items, 1):
+        title = _escape_html(item.get("title", ""))
+        url = item.get("url", "")
+        published_at = _escape_html(item.get("published_at", ""))
+        chinese_summary = _escape_html(item.get("chinese_summary", ""))
+        backend_focus = _escape_html(item.get("backend_focus", ""))
         rows.append(
             "<tr>"
             "<td>{}</td>"
             '<td><a href="{}">{}</a></td>'
             "<td>{}</td>"
             '<td class="summary">{}</td>'
-            "</tr>".format(i, url, title, node_title, summary)
+            '<td class="summary">{}</td>'
+            "</tr>".format(
+                i,
+                url,
+                title,
+                published_at,
+                chinese_summary,
+                backend_focus,
+            )
         )
 
     rows.append("</table>")
     return "\n".join(rows)
 
 
-def _build_tldr_ai_table(items):
-    """构建 TLDR AI 表格的 HTML。"""
+def _build_tmtpost_table(items):
+    """构建 钛媒体 表格的 HTML。"""
     rows = [
         "<table>",
         "<tr>"
         "<th>#</th>"
         "<th>标题</th>"
+        "<th>发布时间</th>"
         "<th>中文摘要</th>"
-        "<th>原文链接</th>"
+        "<th>后端关注点</th>"
         "</tr>",
     ]
 
     for i, item in enumerate(items, 1):
         title = _escape_html(item.get("title", ""))
-        url = _escape_html(item.get("url", ""))
-        ai_summary = _escape_html(item.get("ai_summary") or item.get("summary", ""))
-        category = _escape_html(item.get("category", ""))
-        title_text = "{} ({})".format(title, category) if category else title
-
+        url = item.get("url", "")
+        published_at = _escape_html(item.get("published_at", ""))
+        chinese_summary = _escape_html(item.get("chinese_summary", ""))
+        backend_focus = _escape_html(item.get("backend_focus", ""))
         rows.append(
             "<tr>"
             "<td>{}</td>"
             '<td><a href="{}">{}</a></td>'
+            "<td>{}</td>"
             '<td class="summary">{}</td>'
-            '<td><a href="{}">原文</a></td>'
+            '<td class="summary">{}</td>'
             "</tr>".format(
                 i,
                 url,
-                title_text,
-                ai_summary,
-                url,
+                title,
+                published_at,
+                chinese_summary,
+                backend_focus,
             )
         )
 
@@ -256,25 +268,25 @@ def _build_content_items_table(items):
     return "\n".join(rows)
 
 
-def build_email_html(daily_repos, weekly_repos, hn_stories, v2ex_topics=None, tldr_items=None, content_items=None):
+def build_email_html(daily_repos, weekly_repos, hn_stories, sspai_items=None, tmtpost_items=None, content_items=None):
     """
-    将 GitHub Trending、Hacker News、V2EX 和 TLDR AI 数据构建成完整的 HTML 邮件内容。
+    将 GitHub Trending、Hacker News、少数派 和 钛媒体 数据构建成完整的 HTML 邮件内容。
 
     Args:
         daily_repos: GitHub 每日热点仓库列表
         weekly_repos: GitHub 每周热点仓库列表
         hn_stories: Hacker News 热门帖子列表
-        v2ex_topics: V2EX 技术热帖列表
-        tldr_items: TLDR AI 精选内容列表
+        sspai_items: 少数派 条目列表
+        tmtpost_items: 钛媒体 条目列表
         content_items: 统一信息项列表
 
     Returns:
         str: 完整的 HTML 邮件内容
     """
-    if v2ex_topics is None:
-        v2ex_topics = []
-    if tldr_items is None:
-        tldr_items = []
+    if sspai_items is None:
+        sspai_items = []
+    if tmtpost_items is None:
+        tmtpost_items = []
     if content_items is None:
         content_items = []
 
@@ -356,20 +368,20 @@ def build_email_html(daily_repos, weekly_repos, hn_stories, v2ex_topics=None, tl
         html_parts.append(_build_linux_do_table(linux_do_items))
         html_parts.append("</div>")
 
-    # V2EX 板块
-    if v2ex_topics:
+    # 少数派 板块
+    if sspai_items:
         html_parts.append('<div class="section-divider"></div>')
-        html_parts.append('<div class="v2ex-section">')
-        html_parts.append("<h2>V2EX 中文技术社区热议 Top {}</h2>".format(len(v2ex_topics)))
-        html_parts.append(_build_v2ex_table(v2ex_topics))
+        html_parts.append('<div class="sspai-section">')
+        html_parts.append("<h2>少数派 精选 Top {}</h2>".format(len(sspai_items)))
+        html_parts.append(_build_sspai_table(sspai_items))
         html_parts.append("</div>")
 
-    # TLDR AI 板块
-    if tldr_items:
+    # 钛媒体 板块
+    if tmtpost_items:
         html_parts.append('<div class="section-divider"></div>')
-        html_parts.append('<div class="tldr-ai-section">')
-        html_parts.append("<h2>TLDR AI 今日精选 Top {}</h2>".format(len(tldr_items)))
-        html_parts.append(_build_tldr_ai_table(tldr_items))
+        html_parts.append('<div class="tmtpost-section">')
+        html_parts.append("<h2>钛媒体 AI/科技速报 Top {}</h2>".format(len(tmtpost_items)))
+        html_parts.append(_build_tmtpost_table(tmtpost_items))
         html_parts.append("</div>")
 
     # OpenAI 官方更新板块
@@ -402,7 +414,7 @@ def build_email_html(daily_repos, weekly_repos, hn_stories, v2ex_topics=None, tl
         html_parts.append("</div>")
 
     # 无数据提示
-    if not has_github and not hn_stories and not tldr_items and not content_items:
+    if not has_github and not hn_stories and not sspai_items and not tmtpost_items and not content_items:
         html_parts.append("<p>今日未能获取到任何热点数据，请检查网络或日志。</p>")
 
     # 页脚
@@ -412,8 +424,8 @@ def build_email_html(daily_repos, weekly_repos, hn_stories, v2ex_topics=None, tl
         "<p>数据来源：<a href='https://github.com/trending'>GitHub Trending</a> "
         "| <a href='https://news.ycombinator.com/'>Hacker News</a> "
         "| <a href='https://news.linuxe.top/'>Linux.do 技术日报</a> "
-        "| <a href='https://www.v2ex.com/'>V2EX</a> "
-        "| <a href='https://ai.tldr.tech/'>TLDR AI</a> "
+        "| <a href='https://sspai.com/'>少数派</a> "
+        "| <a href='https://www.tmtpost.com/'>钛媒体</a> "
         "| <a href='https://openai.com/news/'>OpenAI</a> "
         "| <a href='https://www.anthropic.com/news'>Anthropic</a> "
         "| <a href='https://www.infoq.com/ai-development/'>InfoQ AI Development</a> "

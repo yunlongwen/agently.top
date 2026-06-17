@@ -9,8 +9,8 @@ SOURCE_GITHUB_DAILY_ID = "github-daily"
 SOURCE_GITHUB_WEEKLY_ID = "github-weekly"
 SOURCE_HACKER_NEWS_ID = "hacker-news"
 SOURCE_LINUX_DO_ID = "linux-do"
-SOURCE_V2EX_ID = "v2ex"
-SOURCE_TLDR_AI_ID = "tldr-ai"
+SOURCE_SSPAI_ID = "sspai"
+SOURCE_TMTPOST_ID = "tmtpost"
 SOURCE_OPENAI_ID = "openai"
 SOURCE_ANTHROPIC_ID = "anthropic"
 SOURCE_INFOQ_ID = "infoq"
@@ -38,18 +38,25 @@ SOURCE_DEFINITIONS = [
         "category": "社区讨论",
     },
     {
-        "id": SOURCE_V2EX_ID,
-        "name": "V2EX",
-        "label": "V2EX",
-        "content_source": "V2EX",
-        "category": "社区讨论",
-    },
-    {
         "id": SOURCE_HACKER_NEWS_ID,
         "name": "Hacker News",
         "label": "Hacker News",
         "content_source": "Hacker News",
         "category": "社区讨论",
+    },
+    {
+        "id": SOURCE_SSPAI_ID,
+        "name": "Sspai",
+        "label": "少数派",
+        "content_source": "少数派",
+        "category": "AI 快讯",
+    },
+    {
+        "id": SOURCE_TMTPOST_ID,
+        "name": "Tmtpost",
+        "label": "钛媒体",
+        "content_source": "钛媒体",
+        "category": "AI 快讯",
     },
     {
         "id": SOURCE_OPENAI_ID,
@@ -71,13 +78,6 @@ SOURCE_DEFINITIONS = [
         "label": "InfoQ AI",
         "content_source": "InfoQ AI Development",
         "category": "AI 工程实践",
-    },
-    {
-        "id": SOURCE_TLDR_AI_ID,
-        "name": "TLDR AI",
-        "label": "TLDR AI",
-        "content_source": "TLDR AI",
-        "category": "AI 快讯",
     },
 ]
 

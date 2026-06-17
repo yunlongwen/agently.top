@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-GitHub + HN + TLDR AI 热点报告 Spider 主入口
+GitHub + HN + 少数派 + 钛媒体 热点报告 Spider 主入口
 
-协调 GitHub Trending 爬虫、Hacker News 数据获取、TLDR AI 抓取、AI 总结和邮件发送。
+协调 GitHub Trending 爬虫、Hacker News 数据获取、少数派 / 钛媒体 RSS 抓取、AI 总结和邮件发送。
 """
 
 import logging
@@ -120,8 +120,8 @@ def run_spider(scheduled_time=None):
     from github_trending import fetch_trending, ai_summarize
     from hacker_news import fetch_hn_top_stories, fetch_all_comments, ai_summarize_hn
     from linux_do_news import fetch_linux_do_daily_items, ai_summarize_linux_do_items
-    from v2ex import fetch_v2ex_hot_topics, fetch_topic_replies, ai_summarize_v2ex
-    from tldr_ai import fetch_latest_tldr_ai_issue, ai_translate_tldr_ai
+    from sspai import fetch_sspai_items, ai_summarize_sspai_items
+    from tmtpost import fetch_tmtpost_items, ai_summarize_tmtpost_items
     from official_ai_sources import fetch_anthropic_news, fetch_infoq_ai_development, fetch_openai_news
     from content_items import build_all_content_items, summarize_content_items, write_content_json
     from content_store import persist_source_snapshots
@@ -201,47 +201,44 @@ def run_spider(scheduled_time=None):
         linux_do_items = []
 
     # ==========================
-    # V2EX 阶段
+    # 少数派 (sspai) 阶段
     # ==========================
-    v2ex_topics = []
-    logger.info("--- [V2EX] 开始获取全站热帖 ---")
+    sspai_items = []
+    logger.info("--- [少数派] 开始获取 RSS ---")
     try:
-        v2ex_topics = fetch_v2ex_hot_topics()
-        if v2ex_topics:
-            logger.info("V2EX 热帖: 获取到 %d 个技术帖", len(v2ex_topics))
+        sspai_items = fetch_sspai_items()
+        if sspai_items:
+            logger.info("少数派: 获取到 %d 条内容", len(sspai_items))
 
-            logger.info("--- [V2EX] 开始获取回复 ---")
-            v2ex_topics = fetch_topic_replies(v2ex_topics)
-
-            logger.info("--- [V2EX] AI 总结 ---")
+            logger.info("--- [少数派] AI 总结 ---")
             time.sleep(5)
-            v2ex_topics = ai_summarize_v2ex(v2ex_topics)
+            sspai_items = ai_summarize_sspai_items(sspai_items)
         else:
-            errors.append("获取 V2EX 热帖失败")
+            errors.append("获取少数派 RSS 失败")
     except Exception as e:
-        logger.error("V2EX 阶段异常: %s", e)
-        errors.append("V2EX 阶段异常: {}".format(e))
-        v2ex_topics = []
+        logger.error("少数派 阶段异常: %s", e)
+        errors.append("少数派 阶段异常: {}".format(e))
+        sspai_items = []
 
     # ==========================
-    # TLDR AI 阶段
+    # 钛媒体 (tmtpost) 阶段
     # ==========================
-    tldr_items = []
-    logger.info("--- [TLDR AI] 开始获取最新一期 ---")
+    tmtpost_items = []
+    logger.info("--- [钛媒体] 开始获取 RSS ---")
     try:
-        tldr_items = fetch_latest_tldr_ai_issue()
-        if tldr_items:
-            logger.info("TLDR AI: 获取到 %d 条精选内容", len(tldr_items))
+        tmtpost_items = fetch_tmtpost_items()
+        if tmtpost_items:
+            logger.info("钛媒体: 获取到 %d 条内容", len(tmtpost_items))
 
-            logger.info("--- [TLDR AI] 中文整理 ---")
+            logger.info("--- [钛媒体] AI 总结 ---")
             time.sleep(5)
-            tldr_items = ai_translate_tldr_ai(tldr_items)
+            tmtpost_items = ai_summarize_tmtpost_items(tmtpost_items)
         else:
-            errors.append("获取 TLDR AI 最新内容失败")
+            errors.append("获取钛媒体 RSS 失败")
     except Exception as e:
-        logger.error("TLDR AI 阶段异常: %s", e)
-        errors.append("TLDR AI 阶段异常: {}".format(e))
-        tldr_items = []
+        logger.error("钛媒体 阶段异常: %s", e)
+        errors.append("钛媒体 阶段异常: {}".format(e))
+        tmtpost_items = []
 
     # ==========================
     # 官方 AI / AI 工程实践阶段
@@ -294,7 +291,7 @@ def run_spider(scheduled_time=None):
     # ==========================
     # 判断是否有数据
     # ==========================
-    if not daily_repos and not weekly_repos and not hn_stories and not linux_do_items and not v2ex_topics and not tldr_items and not ai_source_items:
+    if not daily_repos and not weekly_repos and not hn_stories and not linux_do_items and not sspai_items and not tmtpost_items and not ai_source_items:
         logger.error("所有数据源均获取失败")
         should_send_email, email_skip_reason, recipients = _email_send_decision(scheduled_time)
         if should_send_email:
@@ -310,8 +307,8 @@ def run_spider(scheduled_time=None):
         daily_repos,
         weekly_repos,
         hn_stories,
-        v2ex_topics,
-        tldr_items,
+        sspai_items,
+        tmtpost_items,
         ai_source_items,
         linux_do_items=linux_do_items,
     )
@@ -344,7 +341,7 @@ def run_spider(scheduled_time=None):
     logger.info(email_skip_reason)
 
     logger.info("--- 生成邮件内容 ---")
-    html = build_email_html(daily_repos, weekly_repos, hn_stories, v2ex_topics, tldr_items, content_items)
+    html = build_email_html(daily_repos, weekly_repos, hn_stories, sspai_items, tmtpost_items, content_items)
 
     today = datetime.now().strftime("%Y-%m-%d")
     subject = "AI 后端专项信息源报告 - {}".format(today)
