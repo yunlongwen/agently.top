@@ -981,6 +981,7 @@ a {
   color: var(--text-2);
   text-decoration: none;
   white-space: nowrap;
+  flex-shrink: 0;
   transition: color 150ms ease, background 150ms ease;
 }
 
@@ -1016,7 +1017,7 @@ a {
   border: 1px solid #FDE68A;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 1024px) {
   .quick-nav {
     display: none;
   }
