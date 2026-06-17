@@ -332,6 +332,15 @@ def run_spider(scheduled_time=None):
         errors.append("来源快照处理失败: {}".format(e))
 
     # ==========================
+    # 归档推送到 archive 分支(失败不影响主流程)
+    # ==========================
+    try:
+        from archive_sync import sync_archive_to_git
+        sync_archive_to_git(item_count=len(content_items))
+    except Exception as e:
+        logger.warning("归档推送异常(不影响采集): %s", e)
+
+    # ==========================
     # 生成邮件并发送
     # ==========================
     should_send_email, email_skip_reason, recipients = _email_send_decision(scheduled_time)

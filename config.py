@@ -253,3 +253,23 @@ SEND_EMAIL_ENABLED = _get_bool_env("SEND_EMAIL_ENABLED", False)
 # 允许发送邮件的每日调度时间，24 小时制，逗号分隔。
 # 采集仍按 SPIDER_SCHEDULE_TIMES 执行；未配置 MAIL_TO_BY_TIME 时用这里控制哪些调度批次发邮件。
 EMAIL_SEND_TIMES = os.environ.get("EMAIL_SEND_TIMES", "07:50")
+
+
+# =========================================================================
+# 采集后归档推送配置(把 output/ 镜像推送到 archive 分支)
+# =========================================================================
+
+# 是否启用采集后归档推送。默认关闭,显式开启以避免开发环境误推。
+ARCHIVE_GIT_ENABLED = _get_bool_env("ARCHIVE_GIT_ENABLED", False)
+
+# 归档分支名
+ARCHIVE_GIT_BRANCH = os.environ.get("ARCHIVE_GIT_BRANCH", "archive")
+
+# worktree 检出目录(相对仓库根)
+ARCHIVE_GIT_WORKTREE = os.environ.get("ARCHIVE_GIT_WORKTREE", ".archive-worktree")
+
+# worktree 内承载归档数据的子目录名
+ARCHIVE_GIT_DIR = os.environ.get("ARCHIVE_GIT_DIR", "archive")
+
+# 推送目标 remote
+ARCHIVE_GIT_REMOTE = os.environ.get("ARCHIVE_GIT_REMOTE", "origin")
