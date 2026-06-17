@@ -10,7 +10,7 @@ from xml.etree import ElementTree
 
 CHANNEL_DESCRIPTION = "AI 与技术资讯聚合摘要"
 CHANNEL_LINK = "https://www.gdufe888.top/ai/"
-CHANNEL_TITLE = "每日AI前沿信息"
+CHANNEL_TITLE = "Agently.top"
 
 
 def build_rss_feed(snapshots):

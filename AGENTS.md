@@ -6,7 +6,7 @@
 
 这是一个 Python + Vue 全栈 AI 信息源聚合项目。主流程每天抓取 GitHub Trending、Hacker News、TLDR AI、OpenAI、Anthropic、InfoQ AI Development 等信息源，通过 GitHub Models API 生成中文摘要，按来源永久归档到磁盘，并写入 Redis 作为 3 天热数据缓存。
 
-项目同时提供 FastAPI 只读接口和 Vue 3 前端资讯流页面（页面标题"每日AI前沿信息"），由 Nginx 静态托管前端、反代 `/api/` 到 FastAPI。`output/latest.json` 作为统一 JSON 兼容旧版接入点继续保留。
+项目同时提供 FastAPI 只读接口和 Vue 3 前端资讯流页面（页面标题"Agently.top"），由 Nginx 静态托管前端、反代 `/api/` 到 FastAPI。`output/latest.json` 作为统一 JSON 兼容旧版接入点继续保留。
 
 ## 主要入口与模块
 
@@ -27,7 +27,7 @@
 - `email_builder.py`: HTML 邮件内容生成。
 - `email_sender.py`: SMTP 邮件发送。
 - `test_email.py`: SMTP 发送测试脚本。
-- `frontend/`: Vue 3 + Vue CLI 前端资讯流，页面标题"每日AI前沿信息"，侧边栏来源标签由前端映射覆盖显示。
+- `frontend/`: Vue 3 + Vue CLI 前端资讯流，页面标题"Agently.top"，侧边栏来源标签由前端映射覆盖显示。
 
 ## 运行方式
 
@@ -156,7 +156,7 @@ source ~/.bash_profile && cd /root/work/workspace/gitee/github-trending-spider &
 
 - 全量重写 `frontend/src/App.vue` 视觉层，风格定位「科技资讯媒体 · Editorial」。
 - 引入 Google Fonts：DM Sans + Noto Sans SC，替换系统默认字体。
-- 品牌区：渐变图标（蓝→紫）+ 标题"每日AI前沿信息" + 副标题 + "⏱ 每 8 小时更新" chip。
+- 品牌区：渐变图标（蓝→紫）+ 标题"Agently.top" + 副标题 + "⏱ 每 8 小时更新" chip。
 - 删除搜索框及相关 `keyword` / `filteredItems` / `servedFromText` 逻辑。
 - 删除 feed toolbar 中的更新时间、数据来源、条数计数展示。
 - 内容卡片精简为：标题 + 中文摘要 + "阅读原文 →"，去掉 `backend_focus`、meta tags、`published_at`。
@@ -170,7 +170,7 @@ source ~/.bash_profile && cd /root/work/workspace/gitee/github-trending-spider &
   - infoq → AI 工程实践 / InfoQ AI
 - loading 状态改为 3 个 shimmer 骨架卡片动画，替代纯文字"正在加载数据"。
 - 侧边栏 active 状态增加左竖线 indicator；卡片 hover 增加左竖线 + 背景过渡。
-- `public/index.html` title 同步改为"每日AI前沿信息"。
+- `public/index.html` title 同步改为"Agently.top"。
 
 ## 开发约定
 
