@@ -18,6 +18,7 @@ from archive_sync import _run_git, _repo_root  # noqa: E402
 from archive_sync import _ensure_worktree  # noqa: E402
 from archive_sync import _sync_output  # noqa: E402
 from archive_sync import _commit_and_push  # noqa: E402
+from archive_sync import sync_archive_to_git  # noqa: E402
 
 
 def _git(args, cwd):
@@ -135,6 +136,34 @@ class TestCommitAndPush(unittest.TestCase):
             # 再次:无新变更,应跳过
             pushed = _commit_and_push(worktree, "archive", "origin", item_count=1)
             self.assertFalse(pushed)
+
+
+class TestSyncArchiveToGit(unittest.TestCase):
+    def test_pushes_archive_when_enabled(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo, remote = _make_repo(Path(tmp))
+            output = repo / "output"
+            (output / "tldr-ai" / "2026-06-17").mkdir(parents=True)
+            (output / "tldr-ai" / "2026-06-17" / "01.json").write_text("{}", encoding="utf-8")
+            (output / "latest.json").write_text("{}", encoding="utf-8")
+            with patch("archive_sync.ARCHIVE_GIT_ENABLED", True), \
+                 patch("archive_sync._repo_root", return_value=repo), \
+                 patch("archive_sync._has_rsync", return_value=False):
+                result = sync_archive_to_git(item_count=1)
+            self.assertTrue(result)
+            code, stdout, _ = _run_git(["ls-remote", "--heads", "origin", "archive"], cwd=repo)
+            self.assertTrue(stdout.strip())
+
+    def test_skips_when_disabled(self):
+        with patch("archive_sync.ARCHIVE_GIT_ENABLED", False):
+            result = sync_archive_to_git()
+        self.assertFalse(result)
+
+    def test_swallows_exceptions(self):
+        with patch("archive_sync.ARCHIVE_GIT_ENABLED", True), \
+             patch("archive_sync._repo_root", side_effect=RuntimeError("boom")):
+            result = sync_archive_to_git()  # 不得抛出
+        self.assertFalse(result)
 
 
 if __name__ == "__main__":

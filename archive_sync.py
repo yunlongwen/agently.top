@@ -194,3 +194,31 @@ def _commit_and_push(worktree_path, branch, remote, item_count):
         if code != 0:
             raise RuntimeError("归档 push 失败: {}".format(err))
     return True
+
+
+def sync_archive_to_git(item_count=None, repo_root=None):
+    """采集后把 output/ 归档并推送到 archive 分支。
+
+    任何异常只记录 warning 并返回 False,绝不影响采集主流程。
+    repo_root 默认探测当前仓库,测试可显式注入。
+    """
+    if not ARCHIVE_GIT_ENABLED:
+        logger.info("归档推送已关闭(ARCHIVE_GIT_ENABLED=false)")
+        return False
+
+    try:
+        root = Path(repo_root) if repo_root is not None else _repo_root()
+        worktree_path = _ensure_worktree(
+            root,
+            root / ARCHIVE_GIT_WORKTREE,
+            ARCHIVE_GIT_BRANCH,
+            ARCHIVE_GIT_REMOTE,
+        )
+        archive_dir = worktree_path / ARCHIVE_GIT_DIR
+        _sync_output(root / OUTPUT_ARCHIVE_DIR, archive_dir)
+        _commit_and_push(worktree_path, ARCHIVE_GIT_BRANCH, ARCHIVE_GIT_REMOTE, item_count)
+        logger.info("归档已推送到 %s 分支", ARCHIVE_GIT_BRANCH)
+        return True
+    except Exception as e:  # noqa: BLE001 归档是尽力而为,吞掉所有异常
+        logger.warning("归档推送失败(不影响采集): %s", e)
+        return False
