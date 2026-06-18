@@ -1,0 +1,173 @@
+{
+  "generated_at": "2026-06-18T19:37:15.322164",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势"
+  },
+  "item_count": 10,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 6,419 | Forks: 526 | 371 stars today",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，毫秒级建索引。158 种语言子毫秒级查询，单二进制零依赖。相对传统 LSP（gopls/jdtls）走的是预索引 + 图查询路线，更适合把整个 monoreo 喂给 AI agent；和 ctags/ripgrep 那种纯文本方案比，跨文件调用链追踪是真的省 token。生产场景：Cursor/Cline 后端接 MCP，给 agent 喂仓库上下文。缺点是 6k star 的 C 项目，生态和文档都薄，先跑 demo 别急着接主线。",
+      "backend_focus": "在 staging 拉一个 monorepo 试跑：下载 binary 后启动 server，配置 Cursor 的 mcp.json 指向本机端口，验证 agent 能否跨服务调用 Java/Python 项目里的函数，确认延迟和索引体积后再决定是否集成进团队 IDE 插件。",
+      "meta": {
+        "language": "C",
+        "stars": 6419,
+        "forks": 526,
+        "stars_period": "371 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 9,818 | Forks: 456 | 421 stars today",
+      "chinese_summary": "Rust 写的点对点网络栈，用内容寻址（key）替代 IP 拨号。主打 NAT 穿透和移动网络下的稳定连接，libp2p 的 Go/JS 生态更成熟但包体大、调试难，iroh 单 binary + Rust 类型系统对后端友好。适合做边缘节点互联、IoT、跨 NAT 的服务发现；不适合需要中心化审计或严格 ACL 的金融场景。上手成本：cargo add iroh 一行接入，但要从 libp2p 的 mindshare 切换需要重写连接层。",
+      "backend_focus": "跑 cargo run --example echo 验证本地两节点穿透，把现有 libp2p 服务的 discovery 模块换成 iroh 的 Provider/NodeId，对比在 4G NAT 下的重连耗时和 CPU 占用，确认收益后再迁移。",
+      "meta": {
+        "language": "Rust",
+        "stars": 9818,
+        "forks": 456,
+        "stars_period": "421 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 33,958 | Forks: 2,717 | 1,161 stars today",
+      "chinese_summary": "Python CLI 给 AI agent 接 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书，零 API key。走的是反爬抓取+解析路线，比官方 API（基本都要付费+审批）省事；和 firecrawl/tavily 这类通用爬虫比，预置了社媒 extractor 开箱即用。适合做舆情监控、用户反馈聚合、自媒体分析 agent；不能用于高频（>10 QPS）或需要官方 SLA 的场景，反爬随时可能挂。上手 pip install 直接跑，命令记忆成本低。",
+      "backend_focus": "pip install agent-reach 后挑一个内部监控的社媒关键词跑一遍，把结果存进 PostgreSQL 验证字段完整性，对比自己 scrapy 脚本的维护成本，决定是否替换团队现有的社媒抓取模块。",
+      "meta": {
+        "language": "Python",
+        "stars": 33958,
+        "forks": 2717,
+        "stars_period": "1,161 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "meshery/meshery",
+      "url": "https://github.com/meshery/meshery",
+      "published_at": "",
+      "original_summary": "Meshery, the cloud native manager | 语言: TypeScript | Stars: 11,101 | Forks: 3,462 | 196 stars today",
+      "chinese_summary": "TypeScript 写的云原生服务网格管理平面，定位是 service mesh 控制面（类似 Istio/Linkerd 但更上层）。主打多 mesh 适配（Istio/Linkerd/Consul/Nginx/App Mesh）+ GitOps 风格的配置分发。相对直接 kubectl apply 写 Istio CRD，多了可视化、性能测试（smp）和多集群编排；和 Hashicorp Consul 的 UI 比，开源 + 不绑 Vault 生态。适合多 mesh 混部的中型平台团队；小集群装它属于杀鸡用牛刀。上手需要先有 K8s 和一个 mesh 在跑。",
+      "backend_focus": "在 staging 集群用 mesheryctl start 装上，挂一个测试用的 Istio namespace，导入一份 BookInfo 配置跑一遍 load test（wrk2），对比直接用 istioctl 的命令链路长度，评估是否值得给 SRE 团队铺开。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 11101,
+        "forks": 3462,
+        "stars_period": "196 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "obra/superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "published_at": "",
+      "original_summary": "An agentic skills framework & software development methodology that works. | 语言: Shell | Stars: 231,812 | Forks: 20,591 | 1,129 stars today",
+      "chinese_summary": "Shell 写的 agentic skills 框架，给 AI coding agent 装\"工作流\"。核心是把 best practice 编码成可复用的 skill（类似 prompt 模板 + 工具调用约定），让 Claude Code / Cursor / Aider 等 agent 按规范干活。和 Anthropic 官方的 skills repo 比，社区版更工程化（带 TDD/规划/审查子流程）；纯框架不解决模型能力问题，差的模型接了也救不回来。适合 5 人以上团队统一 agent 行为规范；单人项目用反而是负担。",
+      "backend_focus": "git clone 下来后选 3-5 个最相关的 skill（比如写 PR、写测试）配到 Claude Code 的 settings.json，跑一个真实 ticket 走完全流程，对比裸 prompt 的产出稳定性，1 周内决定是否纳入团队 onboarding 文档。",
+      "meta": {
+        "language": "Shell",
+        "stars": 231812,
+        "forks": 20591,
+        "stars_period": "1,129 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 22,291 | Forks: 2,161 | 606 stars today",
+      "chinese_summary": "Google 出品的时间序列预训练模型（Python），基于 transformer 的 zero-shot 预测器。对比 statsforecast/sktime 这类传统统计+ML 库，zero-shot 能力是核心差异——新指标没历史数据也能直接出预测；和 Chronos（Amazon 同思路）比，Google 的 paper 和权重更完整。适合容量预估、指标异常前的趋势预警、IoT 传感数据冷启动；不适合对单点精度要求极高的金融高频场景（建议还是用传统 ARIMA 或专用模型）。上手 pip install 即可，GPU/CPU 都跑。",
+      "backend_focus": "pip install timesfm 后用团队过去 6 个月的 Prometheus 流量数据跑 zero-shot forecast，对比现有 Prophet/AutoML 的 MAPE 和推理延迟，优先在 QPS 类指标上验证，决定是否接入容量平台。",
+      "meta": {
+        "language": "Python",
+        "stars": 22291,
+        "forks": 2161,
+        "stars_period": "606 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "RocketChat/Rocket.Chat",
+      "url": "https://github.com/RocketChat/Rocket.Chat",
+      "published_at": "",
+      "original_summary": "The Secure CommsOS™ for mission-critical operations | 语言: TypeScript | Stars: 45,666 | Forks: 13,661 | 22 stars today",
+      "chinese_summary": "TypeScript 写的自托管通讯平台（Slack 替代）。支持 E2E 加密、联邦协议、信创私有部署，定位是 Secure CommsOS。和 Mattermost 比，企业级审计和合规功能更全（HIPAA/SOC2）；和 Element（Matrix）比 UI 更现代，但联邦生态弱。适合对数据出境敏感、需要审计日志的金融/政府内网；不适合 IMDAU 这种强实时场景（延迟不如商业 SaaS）。上手 docker compose 拉起，LDAP/OIDC 集成需要配一下午。",
+      "backend_focus": "用 docker compose up -d 在 staging 起一个最小集群，配公司 LDAP/AD 认证，跑压测（1k 并发长连接）确认内存和连接数天花板，对比现有 Mattermost 决定是否替换内部 IM。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 45666,
+        "forks": 13661,
+        "stars_period": "22 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "continuedev/continue",
+      "url": "https://github.com/continuedev/continue",
+      "published_at": "",
+      "original_summary": "open-source coding agent | 语言: TypeScript | Stars: 34,049 | Forks: 4,716 | 49 stars today",
+      "chinese_summary": "TypeScript 写的开源 AI coding agent（VS Code/JetBrains 插件）。和 Cursor 比，它是 IDE 插件而非 fork，不需要迁移编辑器，模型可选（Claude/GPT/本地 Ollama）；和 Aider/Cline 比，UI 体验更像 Copilot 风格，agent 模式更克制。适合不想换 IDE 又想用 agent 的团队；agent 能力上限取决于底层模型，配 Sonnet/Opus 和配本地 7B 效果天差地别。上手 VSCode 插件市场一键装。",
+      "backend_focus": "在 VS Code 装插件后用公司 API key 接 Claude Sonnet，挑 3 个真实 bug 修复任务跑一遍，统计\"一次性解决率\"和 token 消耗，对比团队当前用的 Copilot Business 决定是否给研发组铺开。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 34049,
+        "forks": 4716,
+        "stars_period": "49 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 50,298 | Forks: 3,245 | 70 stars today",
+      "chinese_summary": "Clojure 写的开源设计协作平台，Figma 替代。走 SVG 原生路线（vs Figma 闭源格式），自带 design tokens、组件库和开发者导出代码。适合 UI/UX 团队对设计资产有版本控制和自托管需求的场景；不适合需要 Figma Auto Layout 那种高度成熟交互的纯视觉设计。上手 docker compose 起服务，无外部依赖。",
+      "backend_focus": "与后端服务无关。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 50298,
+        "forks": 3245,
+        "stars_period": "70 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "krahets/hello-algo",
+      "url": "https://github.com/krahets/hello-algo",
+      "published_at": "",
+      "original_summary": "《Hello 算法》：动画图解、一键运行的数据结构与算法教程。支持简中、繁中、English、日本語，提供 Python, Java, C++, C, C#, JS, Go, Swift, Rust, Ruby, Kotlin, TS, Dart 等代码实现 | 语言: Java | Stars: 127,656 | Forks: 15,186 | 96 stars today",
+      "chinese_summary": "Java 为主的多语言算法教材仓库，127k star。覆盖数据结构与算法，13 种语言实现，带动画图解。纯学习资源不是工具，和 labuladong/fucking-algorithm 比内容更系统、图更多；后端工程师拿来准备面试/刷题合适。生产环境用不上，但可以挂到内网知识库做新人 onboarding 补充材料。",
+      "backend_focus": "把仓库的 animations 目录同步到内网 GitBook，给新人 onboarding 第一周挑链表/树/动态规划三章配 5 道 LeetCode 实战，建立团队统一的算法面试题库基线。",
+      "meta": {
+        "language": "Java",
+        "stars": 127656,
+        "forks": 15186,
+        "stars_period": "96 stars today"
+      }
+    }
+  ]
+}
