@@ -87,20 +87,35 @@ def summarize_content_items(items, section_label):
         )
 
     prompt = (
-        "以下是{}的最新内容。请为每条生成：\n"
-        "- chinese_summary（60-100 字）：说清楚发生了什么 + 为什么后端工程师应该在意\n"
-        "- backend_focus（30-50 字）：对现有后端系统的具体影响或可以立即行动的事\n\n"
+        "以下是【{}】官方渠道的最新内容。这些是 AI 厂商一手发布，"
+        "读者是后端 / 平台 / AI 工程师，正在评估要不要跟进。\n\n"
+        "请为每条生成：\n"
+        "- chinese_summary（100-160 字）：\n"
+        "  · 第一句先讲这次更新/公告的核心事实（产品名 + 动作 + 关键能力变化）\n"
+        "  · 第二句说清楚它相对此前的差异点（新参数、新模型、新能力、新限制）\n"
+        "  · 第三句说清楚对已有系统的兼容性影响（旧功能是否被替代、是否需要迁移）\n"
+        "- backend_focus（50-80 字）：\n"
+        "  · 给后端团队一条具体可执行的事：升级到哪个 API/SDK 版本、修改哪个配置、"
+        "    删除哪段兼容代码、关注哪个 deprecation 时间线\n"
+        "  · 如果只是营销/概念发布，直接写「营销大于实质，无需行动」并说明理由\n\n"
         "写作要求：\n"
-        "- 区分\"真正重要的更新\"和\"营销包装的旧功能\"，后者直说\"包装大于实质\"\n"
-        "- chinese_summary 要让人 5 秒内判断\"要不要点进去看原文\"\n"
-        "- backend_focus 越具体越好，最好到 API/SDK/配置级别\n\n"
+        "- 区分「真正改变能力/接口的更新」和「产品包装/概念营销」"
+        "，后者直说「营销大于实质」\n"
+        "- 涉及具体 API/SDK/参数时直接给字段名（如 response_format、Tool Use、"
+        "MCP、context window、max_tokens）\n"
+        "- 涉及模型版本号直接照抄（如 Claude Opus 4.5、GPT-5.4、GLM-5.2）\n"
+        "- 涉及定价/限流/区域可用性变化必须写出来\n"
+        "- 如果内容跟工程无关（纯品牌故事、招聘、公益），"
+        "chinese_summary 写「与后端工程无关」，backend_focus 写「无」\n\n"
         "范例：\n"
-        '{{\"index\": 1, \"chinese_summary\": \"OpenAI 正式发布 Structured Outputs，API 现在能保证返回严格符合 JSON Schema 的响应。'
-        '之前用 function calling 还是会偶尔格式跑偏，这次彻底解决了。\", '
-        '\"backend_focus\": \"如果你的服务在调 OpenAI 后还有一层 JSON 解析容错逻辑，现在可以移除。'
-        '升级方式：请求体加 response_format 字段即可。\"}}\n\n'
-        "请严格按照以下 JSON 格式返回，不要包含任何多余内容：\n"
-        '{{"summaries": [{{"index": 1, "chinese_summary": "中文摘要", "backend_focus": "后端行动点"}}, ...]}}\n\n'
+        '{{"index": 1, "chinese_summary": "OpenAI 正式发布 Structured Outputs，'
+        'Chat Completions 接口新增 strict 模式，能保证返回内容严格符合调用方传入的 JSON Schema，'
+        '解决了之前 function calling 偶尔格式跑偏的问题。这是 JSON 模式从「软约束」升级为「硬约束」，'
+        '调用方可以移除客户端的格式容错逻辑。"'
+        ', "backend_focus": "升级方式：请求体加 response_format 字段并设 strict=true。'
+        '依赖重试兜底的服务可以下线那段 retry 逻辑。预计 6 个月内旧模式被标记 deprecated。"}}\n\n'
+        "请严格按以下 JSON 格式返回，不要包含 markdown 代码块或任何多余文字：\n"
+        '{{"summaries": [{{"index": 1, "chinese_summary": "...", "backend_focus": "..."}}, ...]}}\n\n'
         "内容列表：\n{}"
     ).format(section_label, "\n\n".join(item_lines))
 
