@@ -21,9 +21,9 @@ except ImportError:
     sys.exit(1)
 
 from config import (
-    GITHUB_TOKEN,
-    AI_MODEL,
-    AI_API_URL,
+    OPENAI_API_KEY,
+    OPENAI_MODEL,
+    OPENAI_BASE_URL,
     GITHUB_TRENDING_TOP_COUNT,
 )
 
@@ -170,8 +170,8 @@ def ai_summarize(repos, since_label):
     if not repos:
         return repos
 
-    if not GITHUB_TOKEN:
-        logger.warning("未配置 GITHUB_TOKEN，跳过 AI 总结")
+    if not OPENAI_API_KEY:
+        logger.warning("未配置 OPENAI_API_KEY，跳过 AI 总结")
         for r in repos:
             r["ai_summary"] = "（未配置 AI Token，无法生成总结）"
         return repos
@@ -231,17 +231,17 @@ def ai_summarize(repos, since_label):
 
 def _call_ai_api(prompt, max_retries=10):
     """
-    调用 GitHub Models API (OpenAI 兼容格式)。
+    调用 OpenAI 兼容接口。
 
     Returns:
         list[dict] | None: 解析后的 summaries 列表
     """
     headers = {
-        "Authorization": "Bearer {}".format(GITHUB_TOKEN),
+        "Authorization": "Bearer {}".format(OPENAI_API_KEY),
         "Content-Type": "application/json",
     }
     payload = {
-        "model": AI_MODEL,
+        "model": OPENAI_MODEL,
         "messages": [
             {
                 "role": "system",
@@ -258,7 +258,7 @@ def _call_ai_api(prompt, max_retries=10):
         try:
             logger.info("调用 AI API (第 %d 次尝试)...", attempt + 1)
             resp = requests.post(
-                "{}/chat/completions".format(AI_API_URL),
+                "{}/chat/completions".format(OPENAI_BASE_URL),
                 headers=headers,
                 json=payload,
                 timeout=120,

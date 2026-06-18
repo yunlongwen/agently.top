@@ -21,22 +21,36 @@ def _get_bool_env(name, default=False):
 
 
 # =========================================================================
-# GitHub Models API 配置
+# AI 接口配置（OpenAI 兼容协议）
 # =========================================================================
 
-# GitHub Personal Access Token (需要 models:read 权限)
-# 获取方式：https://github.com/settings/tokens → Generate new token → 勾选 models:read
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+# API Key。对接自定义 OpenAI 兼容网关时使用。
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 
-# GitHub Models API 地址（OpenAI 兼容接口）
-AI_API_URL = os.environ.get(
-    "AI_API_URL", "https://models.inference.ai.azure.com"
+# API 基础地址，结尾不要带 /chat/completions，调用方会拼接。
+OPENAI_BASE_URL = os.environ.get(
+    "OPENAI_BASE_URL", "https://api.openai.com/v1"
 )
 
-# 使用的 AI 模型
-# 可用模型：gpt-4o-mini (快), gpt-4o (质量最优), deepseek-r1 (中文优化)
-# gpt-4o: 中文总结质量最佳，比 gpt-4o-mini 提升 15-20%
-AI_MODEL = os.environ.get("AI_MODEL", "gpt-4o")
+# 使用的模型名，由网关支持的模型决定。
+OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
+
+# 兼容旧名：未设置 OPENAI_* 时可从 GITHUB_TOKEN / AI_API_URL / AI_MODEL 读取。
+if not OPENAI_API_KEY:
+    OPENAI_API_KEY = os.environ.get("GITHUB_TOKEN", "")
+if OPENAI_BASE_URL == "https://api.openai.com/v1":
+    _legacy_base = os.environ.get("AI_API_URL")
+    if _legacy_base:
+        OPENAI_BASE_URL = _legacy_base
+if OPENAI_MODEL == "gpt-4o-mini":
+    _legacy_model = os.environ.get("AI_MODEL")
+    if _legacy_model:
+        OPENAI_MODEL = _legacy_model
+
+# 旧名别名，保留以防其它模块或脚本仍按旧名 import。
+GITHUB_TOKEN = OPENAI_API_KEY
+AI_API_URL = OPENAI_BASE_URL
+AI_MODEL = OPENAI_MODEL
 
 # =========================================================================
 # GitHub Trending 配置

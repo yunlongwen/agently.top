@@ -16,12 +16,9 @@ import requests
 from bs4 import BeautifulSoup
 
 from config import (
-    AI_API_URL,
-    AI_MODEL,
-    GITHUB_TOKEN,
-    SSPAI_FEED_URL,
-    SSPAI_MAX_RETRIES,
-    SSPAI_TOP_COUNT,
+    OPENAI_API_KEY,
+    OPENAI_BASE_URL,
+    OPENAI_MODEL,
 )
 
 logger = logging.getLogger(__name__)
@@ -144,8 +141,8 @@ def ai_summarize_sspai_items(items):
     if not items:
         return items
 
-    if not GITHUB_TOKEN:
-        logger.warning("未配置 GITHUB_TOKEN，跳过少数派 AI 总结")
+    if not OPENAI_API_KEY:
+        logger.warning("未配置 OPENAI_API_KEY，跳过少数派 AI 总结")
         for item in items:
             item["chinese_summary"] = "（未配置 AI Token，无法生成中文摘要）{}".format(
                 item.get("summary", "")
@@ -203,17 +200,17 @@ def ai_summarize_sspai_items(items):
 
 def _call_sspai_ai_api(prompt, max_retries=10):
     """
-    调用 GitHub Models API 进行 少数派 内容总结。
+    调用 OpenAI 兼容接口进行 少数派 内容总结。
 
     Returns:
         list[dict] | None: 解析后的 summaries 列表
     """
     headers = {
-        "Authorization": "Bearer {}".format(GITHUB_TOKEN),
+        "Authorization": "Bearer {}".format(OPENAI_API_KEY),
         "Content-Type": "application/json",
     }
     payload = {
-        "model": AI_MODEL,
+        "model": OPENAI_MODEL,
         "messages": [
             {
                 "role": "system",
@@ -232,7 +229,7 @@ def _call_sspai_ai_api(prompt, max_retries=10):
         try:
             logger.info("调用 AI API 进行少数派总结 (第 %d 次尝试)...", attempt + 1)
             resp = requests.post(
-                "{}/chat/completions".format(AI_API_URL),
+                "{}/chat/completions".format(OPENAI_BASE_URL),
                 headers=headers,
                 json=payload,
                 timeout=120,

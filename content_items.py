@@ -12,7 +12,7 @@ from datetime import datetime
 
 import requests
 
-from config import AI_API_URL, AI_MODEL, GITHUB_TOKEN
+from config import OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL
 
 logger = logging.getLogger(__name__)
 
@@ -63,8 +63,8 @@ def summarize_content_items(items, section_label):
     if not items:
         return items
 
-    if not GITHUB_TOKEN:
-        logger.warning("未配置 GITHUB_TOKEN，跳过 %s AI 摘要", section_label)
+    if not OPENAI_API_KEY:
+        logger.warning("未配置 OPENAI_API_KEY，跳过 %s AI 摘要", section_label)
         for item in items:
             item["chinese_summary"] = "（未配置 AI Token，无法生成中文摘要）{}".format(
                 item.get("original_summary", "")
@@ -292,13 +292,13 @@ def _tmtpost_to_items(items):
 
 
 def _call_content_ai_api(prompt, max_retries=10):
-    """调用 GitHub Models API 进行统一内容摘要。"""
+    """调用 OpenAI 兼容接口进行统一内容摘要。"""
     headers = {
-        "Authorization": "Bearer {}".format(GITHUB_TOKEN),
+        "Authorization": "Bearer {}".format(OPENAI_API_KEY),
         "Content-Type": "application/json",
     }
     payload = {
-        "model": AI_MODEL,
+        "model": OPENAI_MODEL,
         "messages": [
             {
                 "role": "system",
@@ -316,7 +316,7 @@ def _call_content_ai_api(prompt, max_retries=10):
         try:
             logger.info("调用 AI API 进行统一内容摘要 (第 %d 次尝试)...", attempt + 1)
             resp = requests.post(
-                "{}/chat/completions".format(AI_API_URL),
+                "{}/chat/completions".format(OPENAI_BASE_URL),
                 headers=headers,
                 json=payload,
                 timeout=120,
