@@ -196,26 +196,35 @@ def ai_summarize(repos, since_label):
     prompt = (
         "以下是 GitHub {} 的热门开源项目。读者是后端/平台工程师，"
         "正在找能立刻在生产里用上、或者值得 star 跟进的开源工具。\n\n"
-        "请为每个项目写一段中文推荐（100-160 字），结构如下：\n"
-        "1. 一句话定位（20 字内）：这东西是什么、给谁用\n"
-        "2. 核心能力：用具体的技术特征说明它解决了什么痛点（支持的语言/协议/部署形态）\n"
-        "3. 横向对比：跟主流同类方案（如 Milvus/Redis/Prometheus/Faiss 等）比它牛在哪，"
-        "或它的差异化场景（什么场景下应该选它、什么场景下不该选它）\n"
-        "4. 上手成本：部署难度、依赖、是否需要改现有架构\n\n"
+        "请为每个项目写两段输出，字段必须不同，不要把 summary 复制到 backend_focus：\n"
+        "- summary（100-160 字）：\n"
+        "  · 一句话定位（20 字内）：这东西是什么、给谁用\n"
+        "  · 核心能力：用具体的技术特征说明它解决了什么痛点（支持的语言/协议/部署形态）\n"
+        "  · 横向对比：跟主流同类方案（如 Milvus/Redis/Prometheus/Faiss/libp2p 等）"
+        "比它牛在哪或它的差异化场景（什么场景下应该选它、什么场景下不该选它）\n"
+        "  · 上手成本：部署难度、依赖、是否需要改现有架构\n"
+        "- backend_focus（50-80 字）：\n"
+        "  · 不要重复 summary 内容，直接给一个具体的「团队下一步该做什么」动作清单\n"
+        "  · 例：跑哪个命令、装哪个包、配哪条环境变量、改哪个 Dockerfile、"
+        "查哪条文档、跑哪个 benchmark 评估替换\n"
+        "  · 如果是纯前端/纯客户端工具，backend_focus 写「与后端服务无关」\n\n"
         "禁止事项：\n"
         "- 禁止用「该项目旨在」「本工具致力于」「适合广大开发者」这类官腔\n"
         "- 禁止泛泛说「高性能」「易用」，必须有对比或具体数据（延迟/吞吐/包大小/Memory）\n"
         "- 禁止重复项目描述里已有的信息\n"
         "- 禁止编造 star 数、benchmark 数据，没在描述里看到就不要写\n"
-        "- 如果是纯前端/纯客户端工具没有后端集成点，"
-        "chinese_summary 里直接说「与后端服务无关」\n\n"
+        "- 禁止 summary 和 backend_focus 写相同或高度重叠的内容\n\n"
         "范例：\n"
-        '{{"index": 1, "summary": "Rust 写的嵌入式向量数据库，单二进制 6MB，百万级 embedding 检索 P99 <5ms。'
+        '{{"index": 1, '
+        '"summary": "Rust 写的嵌入式向量数据库，单二进制 6MB，百万级 embedding 检索 P99 <5ms。'
         '比 Milvus 轻量 10 倍不需要独立部署服务，适合不想搞分布式但又需要语义搜索的后端场景；'
         '缺点是单节点写入吞吐有上限，超 500 万向量建议还是上 Qdrant 或 Milvus。'
-        '上手成本：cargo install 后写 30 行代码就能用，无外部依赖。"}}\n\n'
+        '上手成本：cargo install 后写 30 行代码就能用，无外部依赖。", '
+        '"backend_focus": "在 staging 跑一次：cargo install lance-db && git clone demo，'
+        '用本团队 100 万条真实 embedding 压一遍 P99 延迟和内存，'
+        '对比现有 Milvus 集群的 QPS 决定是否替换单点 embedding 检索场景。"}}\n\n'
         "请严格按以下 JSON 格式返回，不要包含 markdown 代码块或任何多余文字：\n"
-        '{{"summaries": [{{"index": 1, "summary": "中文推荐"}}, ...]}}\n\n'
+        '{{"summaries": [{{"index": 1, "summary": "...", "backend_focus": "..."}}, ...]}}\n\n'
         "项目列表：\n{}"
     ).format(since_label, repos_text)
 
@@ -226,6 +235,8 @@ def ai_summarize(repos, since_label):
                 idx = item.get("index", 0) - 1
                 if 0 <= idx < len(repos):
                     repos[idx]["ai_summary"] = item.get("summary", "")
+                    if item.get("backend_focus"):
+                        repos[idx]["backend_focus"] = item.get("backend_focus", "")
     except Exception as e:
         logger.error("AI 总结失败: %s", e)
 

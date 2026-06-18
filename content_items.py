@@ -191,7 +191,7 @@ def _github_to_items(repos, source, category_suffix):
             url=repo.get("url", ""),
             original_summary=original_summary,
             chinese_summary=summary,
-            backend_focus=summary,
+            backend_focus=repo.get("backend_focus") or summary,
             meta=meta,
         ))
     return items
@@ -254,7 +254,7 @@ def _linux_do_to_items(linux_do_items):
             published_at=item.get("published_at", ""),
             original_summary=original_summary,
             chinese_summary=summary,
-            backend_focus=summary,
+            backend_focus=item.get("backend_focus") or summary,
             meta=meta,
         ))
     return items

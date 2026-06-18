@@ -102,21 +102,26 @@ def ai_summarize_linux_do_items(items):
     prompt = (
         "以下是 news.linuxe.top 已整理出的 Linux.do 技术聚合日报条目。"
         "请只基于这些摘要信息（不要声称看过原帖正文或回复全文）"
-        "为每条原帖写中文摘要（100-160 字）。\n\n"
-        "结构：\n"
-        "1. 第一句说清这个原帖在讨论什么主题（话题、工具、事件、问题）\n"
-        "2. 第二句点出原帖里值得技术读者关注的细节（具体技术、做法、坑、对比）\n"
-        "3. 第三句说清对后端/平台/AI 工程师的启发（学什么、避什么、试什么）\n\n"
+        "为每条原帖生成两个字段：\n\n"
+        "- summary（100-160 字）：\n"
+        "  · 第一句说清这个原帖在讨论什么主题（话题、工具、事件、问题）\n"
+        "  · 第二句点出原帖里值得技术读者关注的细节（具体技术、做法、坑、对比）\n"
+        "  · 第三句说清这个讨论为什么值得技术读者点进去看\n"
+        "- backend_focus（50-80 字）：\n"
+        "  · 不要重复 summary 内容\n"
+        "  · 给后端/平台/AI 工程师一个具体可执行的事：试什么工具、跑哪个命令、"
+        "读哪份文档、查哪个参数、加哪条监控、避哪个坑\n"
+        "  · 如果原帖跟工程无关（纯水帖、晒单、闲聊），backend_focus 写「无」\n\n"
         "要求：\n"
-        "- 说清这个讨论为什么值得技术读者点进去看\n"
         "- 不要声称看过原帖正文或回复全文，所有判断必须基于提供的摘要\n"
         "- 对账号风控、模型能力、工程工具、成本策略等话题要直接点出实际影响\n"
         "- 对吐槽/求助类帖子（提问、抱怨、晒单），如果是常见问题就简要点出是否有可借鉴的解法\n"
         "- 语气像技术日报编辑，不要用营销腔\n"
         "- 涉及具体工具/平台/API 时直接给名称（Play Integrity、SafetyNet、"
-        "OpenAI、Cursor 等）\n\n"
+        "OpenAI、Cursor、Claude Code、Codex 等）\n"
+        "- summary 和 backend_focus 内容必须有差异，不要把同一段话写两遍\n\n"
         "请严格按以下 JSON 格式返回，不要包含 markdown 代码块或任何多余文字：\n"
-        '{{"summaries": [{{"index": 1, "summary": "中文摘要"}}, ...]}}\n\n'
+        '{{"summaries": [{{"index": 1, "summary": "...", "backend_focus": "..."}}, ...]}}\n\n'
         "条目列表：\n{}"
     ).format("\n\n".join(lines))
 
@@ -127,6 +132,8 @@ def ai_summarize_linux_do_items(items):
                 idx = summary.get("index", 0) - 1
                 if 0 <= idx < len(items):
                     items[idx]["ai_summary"] = summary.get("summary", "")
+                    if summary.get("backend_focus"):
+                        items[idx]["backend_focus"] = summary.get("backend_focus", "")
     except Exception as e:
         logger.error("Linux.do AI 总结失败: %s", e)
 
