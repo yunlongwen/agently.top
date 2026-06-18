@@ -4,7 +4,7 @@
       <div class="brand">
         <div class="brand-mark-wrapper">
           <div class="brand-mark-ring"></div>
-          <div class="brand-mark">AI</div>
+          <div class="brand-mark">Agently</div>
         </div>
         <div class="brand-text">
           <h1>{{ t('siteTitle') }}</h1>
@@ -769,11 +769,18 @@ a {
   border-radius: 10px;
   background: var(--brand-grad);
   color: #fff;
-  font-size: 14px;
+  font-size: 9px;
   font-weight: 700;
-  display: grid;
-  place-items: center;
-  letter-spacing: 0.5px;
+  letter-spacing: -0.4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 87, 255, 0.25);
+  z-index: 1;
+  text-align: center;
+  line-height: 1;
+  padding: 0 2px;
+  box-sizing: border-box;
 }
 
 .brand-text h1 {
