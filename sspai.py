@@ -19,6 +19,9 @@ from config import (
     OPENAI_API_KEY,
     OPENAI_BASE_URL,
     OPENAI_MODEL,
+    SSPAI_FEED_URL,
+    SSPAI_MAX_RETRIES,
+    SSPAI_TOP_COUNT,
 )
 
 logger = logging.getLogger(__name__)

@@ -16,6 +16,11 @@ import requests
 from bs4 import BeautifulSoup
 
 from config import (
+    HN_API_BASE,
+    HN_COMMENTS_PER_STORY,
+    HN_CONCURRENT_WORKERS,
+    HN_MAX_RETRIES,
+    HN_TOP_COUNT,
     OPENAI_API_KEY,
     OPENAI_BASE_URL,
     OPENAI_MODEL,

@@ -19,6 +19,9 @@ from config import (
     OPENAI_API_KEY,
     OPENAI_BASE_URL,
     OPENAI_MODEL,
+    TMTPOST_FEED_URL,
+    TMTPOST_MAX_RETRIES,
+    TMTPOST_TOP_COUNT,
 )
 
 logger = logging.getLogger(__name__)

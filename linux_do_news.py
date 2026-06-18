@@ -15,6 +15,9 @@ from urllib.parse import urljoin
 import requests
 
 from config import (
+    LINUX_DO_MAX_ITEMS,
+    LINUX_DO_MAX_RETRIES,
+    LINUX_DO_NEWS_URL,
     OPENAI_API_KEY,
     OPENAI_BASE_URL,
     OPENAI_MODEL,
