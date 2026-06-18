@@ -235,6 +235,28 @@ API_MAX_ITEMS_PER_SOURCE = int(os.environ.get("API_MAX_ITEMS_PER_SOURCE", "100")
 API_CORS_ORIGINS = os.environ.get("API_CORS_ORIGINS", "")
 
 # =========================================================================
+# 访问统计配置（轻量自建：1x1 GIF 上报 + Redis 计数）
+# =========================================================================
+
+# 是否启用访问统计上报接口 /api/track。
+STATS_ENABLED = _get_bool_env("STATS_ENABLED", True)
+
+# 统计数据保留天数。HyperLogLog / SortedSet 会在每天凌晨 3:00 由清理任务自动回收。
+STATS_RETENTION_DAYS = int(os.environ.get("STATS_RETENTION_DAYS", "30"))
+
+# /api/stats/summary 管理接口的访问令牌。空字符串表示仅允许内网访问。
+STATS_API_TOKEN = os.environ.get("STATS_API_TOKEN", "")
+
+# 是否允许生产环境的 /api/track 被 Nginx / CDN 缓存（默认 false：每次都打后端）。
+STATS_TRACK_CACHEABLE = _get_bool_env("STATS_TRACK_CACHEABLE", False)
+
+# 内网 CIDR 列表，用于 STATS_API_TOKEN 为空时的隐式放行。
+STATS_PRIVATE_CIDRS = os.environ.get(
+    "STATS_PRIVATE_CIDRS",
+    "127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16",
+)
+
+# =========================================================================
 # 内置采集调度配置
 # =========================================================================
 

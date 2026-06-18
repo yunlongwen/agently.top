@@ -7,11 +7,17 @@ Nginx 可将 /api/ 反代到本服务，Vue 前端只读取最新来源快照。
 
 import logging
 
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException, Query, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 
-from access_log import AccessLogMiddleware, start_stats_reporter
-from config import API_CORS_ORIGINS, API_MAX_ITEMS_PER_SOURCE
+from access_log import AccessLogMiddleware, _get_client_ip, start_stats_reporter
+from config import (
+    API_CORS_ORIGINS,
+    API_MAX_ITEMS_PER_SOURCE,
+    STATS_API_TOKEN,
+    STATS_ENABLED,
+    STATS_TRACK_CACHEABLE,
+)
 from content_store import (
     is_valid_history_date,
     list_recent_history_dates,
@@ -21,6 +27,12 @@ from content_store import (
 from rss_builder import build_rss_feed
 from scheduler import start_scheduler, stop_scheduler
 from source_registry import SOURCE_DEFINITIONS, get_source_by_id
+from stats import (
+    TRANSPARENT_GIF,
+    get_summary,
+    is_authorized,
+    record_track,
+)
 from logging_config import setup_logging
 
 setup_logging()
@@ -211,3 +223,60 @@ def get_latest_source(source_id):
         "total_item_count": snapshot.get("item_count", len(items)),
         "items": items,
     }
+
+
+# =========================================================================
+# 访问统计：1x1 GIF 上报 + 汇总查询
+# =========================================================================
+
+@app.get("/api/track")
+def track(
+    request: Request,
+    p: str = Query("/", description="页面路径"),
+    r: str = Query("", description="来源 referer"),
+):
+    """
+    轻量访问统计上报接口。
+
+    前端通过 <img src="/api/track?p=...&r=..."> 触发,
+    返回 1x1 透明 GIF,数据写入 Redis。
+    搜索引擎/常见 HTTP 客户端/无头浏览器等已知 bot 自动跳过。
+    """
+    if not STATS_ENABLED:
+        return Response(content=TRANSPARENT_GIF, media_type="image/gif")
+
+    ip = _get_client_ip(request)
+    ua = request.headers.get("user-agent", "")
+    record_track(ip=ip, ua=ua, path=p, referer=r)
+
+    headers = {}
+    if not STATS_TRACK_CACHEABLE:
+        # 默认不缓存,确保每次访问都打到后端
+        headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+        headers["Pragma"] = "no-cache"
+    return Response(
+        content=TRANSPARENT_GIF,
+        media_type="image/gif",
+        headers=headers,
+    )
+
+
+@app.get("/api/stats/summary")
+def stats_summary(
+    request: Request,
+    days: int = Query(7, ge=1, le=30),
+    token: str = Query("", description="管理令牌;在 STATS_API_TOKEN 为空时仅内网可访问"),
+):
+    """
+    访问统计汇总接口,需授权访问。
+
+    - 当 STATS_API_TOKEN 非空时,必须传 token 参数匹配
+    - 当 STATS_API_TOKEN 为空时,仅放行内网 IP (10.0.0.0/8 等)
+    """
+    ip = _get_client_ip(request)
+    if not is_authorized(ip, token):
+        raise HTTPException(status_code=403, detail="forbidden")
+    data = get_summary(days=days)
+    if data is None:
+        raise HTTPException(status_code=503, detail="stats backend unavailable")
+    return data

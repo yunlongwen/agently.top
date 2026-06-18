@@ -158,11 +158,16 @@ class AccessLogMiddleware(BaseHTTPMiddleware):
         status_code = response.status_code
         user_agent = request.headers.get("user-agent", "未知客户端")
 
+        # 访问统计上报接口单独走自己的记录逻辑,不在这里输出
+        # 否则每个 PV 都会写一行日志,PV 高时日志爆炸
+        is_track = path == "/api/track"
+
         # 输出访问日志（中文格式）
-        logger.info(
-            "[访问] 来源IP=%s | 请求=%s %s | 状态码=%d | 耗时=%dms | 客户端=%s",
-            client_ip, method, path, status_code, latency_ms, user_agent,
-        )
+        if not is_track:
+            logger.info(
+                "[访问] 来源IP=%s | 请求=%s %s | 状态码=%d | 耗时=%dms | 客户端=%s",
+                client_ip, method, path, status_code, latency_ms, user_agent,
+            )
 
         # 更新统计计数器
         with _stats_lock:

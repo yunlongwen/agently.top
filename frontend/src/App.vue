@@ -400,6 +400,7 @@ export default {
     this.countdownTimer = setInterval(() => {
       this.updateCountdown();
     }, 1000);
+    this.reportVisit();
   },
   beforeUnmount() {
     if (this.countdownTimer) {
@@ -407,9 +408,36 @@ export default {
       this.countdownTimer = null;
     }
   },
+  watch: {
+    lang() {
+      this.reportVisit();
+    },
+  },
   methods: {
     t(key) {
       return (I18N[this.lang] && I18N[this.lang][key]) || I18N['zh'][key] || key;
+    },
+    reportVisit() {
+      if (typeof window === 'undefined' || !document) return;
+      try {
+        const langPath = this.lang === 'en' ? '/en' : '/';
+        const path = langPath;
+        const referer = document.referrer || '';
+        const params = new URLSearchParams({
+          p: path,
+          r: referer,
+        }).toString();
+        const img = new Image(1, 1);
+        img.alt = '';
+        img.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;';
+        img.src = '/api/track?' + params + '&_=' + Date.now();
+        img.onload = img.onerror = () => {
+          if (img.parentNode) img.parentNode.removeChild(img);
+        };
+        document.body.appendChild(img);
+      } catch (e) {
+        // 上报失败不影响主流程
+      }
     },
     switchLang(newLang) {
       this.lang = newLang;
