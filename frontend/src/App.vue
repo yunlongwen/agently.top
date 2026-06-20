@@ -1133,10 +1133,11 @@ button.quick-link {
 
 .history-drawer {
   position: absolute;
-  top: 0;
+  /* 64px topbar + 24px layout padding，与左侧内容区对齐 */
+  top: 88px;
   right: 0;
   width: min(440px, 100vw);
-  height: 100%;
+  height: calc(100% - 88px);
   overflow-y: auto;
   background: var(--surface);
   box-shadow: -18px 0 40px rgba(15, 23, 42, 0.16);
@@ -1147,7 +1148,8 @@ button.quick-link {
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  padding: 22px;
+  /* 顶部 padding 与 feed-toolbar 一致，使标题与左侧 toolbar 标题对齐 */
+  padding: 20px 22px 22px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -1625,7 +1627,13 @@ button.quick-link {
   }
 
   .history-drawer {
+    top: 0;
+    height: 100%;
     width: 100vw;
+  }
+
+  .history-drawer-head {
+    padding: 22px;
   }
 
   .open-link {
