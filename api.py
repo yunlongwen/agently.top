@@ -12,6 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from access_log import AccessLogMiddleware, _get_client_ip, start_stats_reporter
 from config import (
+    ADMIN_API_TOKEN,
     API_CORS_ORIGINS,
     API_MAX_ITEMS_PER_SOURCE,
     STATS_API_TOKEN,
@@ -24,6 +25,7 @@ from content_store import (
     load_history_archive_snapshot,
     load_latest_snapshot,
 )
+from publish_service import get_publish_status, is_admin_authorized, publish_to
 from rss_builder import build_rss_feed
 from scheduler import start_scheduler, stop_scheduler
 from source_registry import SOURCE_DEFINITIONS, get_source_by_id
@@ -51,8 +53,8 @@ if API_CORS_ORIGINS:
             for item in API_CORS_ORIGINS.split(",")
             if item.strip()
         ],
-        allow_credentials=False,
-        allow_methods=["GET"],
+        allow_credentials=True,
+        allow_methods=["GET", "POST"],
         allow_headers=["*"],
     )
 
@@ -280,3 +282,71 @@ def stats_summary(
     if data is None:
         raise HTTPException(status_code=503, detail="stats backend unavailable")
     return data
+
+
+# =========================================================================
+# 发布管理接口
+# =========================================================================
+
+@app.get("/api/admin/publish/status")
+def admin_publish_status(request: Request, token: str = Query("")):
+    """查看发布器配置状态。"""
+    ip = _get_client_ip(request)
+    if not is_admin_authorized(ip, token):
+        raise HTTPException(status_code=403, detail="forbidden")
+    return get_publish_status()
+
+
+@app.post("/api/admin/publish/{publisher_id}")
+def admin_publish(
+    request: Request,
+    publisher_id: str,
+    token: str = Query(""),
+    source_id: str = Query("", description="可选：只发布某个来源的最新快照"),
+):
+    """
+    手动触发指定发布器。
+
+    - publisher_id: wechat 等
+    - source_id: 为空时使用 output/latest.json 中的当日聚合内容
+    """
+    ip = _get_client_ip(request)
+    if not is_admin_authorized(ip, token):
+        raise HTTPException(status_code=403, detail="forbidden")
+
+    items = []
+    if source_id:
+        snapshot, _ = load_latest_snapshot(source_id)
+        if not snapshot:
+            raise HTTPException(status_code=404, detail=f"Source {source_id} not found")
+        items = snapshot.get("items", [])
+    else:
+        # 读取 output/latest.json
+        import json
+        import os
+        from config import OUTPUT_JSON_PATH
+        if os.path.exists(OUTPUT_JSON_PATH):
+            try:
+                with open(OUTPUT_JSON_PATH, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                items = data.get("items", [])
+            except Exception as e:
+                logger.error("读取 latest.json 失败: %s", e)
+                raise HTTPException(status_code=500, detail="Failed to read latest content")
+        else:
+            raise HTTPException(status_code=404, detail="No latest content available")
+
+    if not items:
+        raise HTTPException(status_code=400, detail="No items to publish")
+
+    try:
+        result = publish_to(publisher_id, items=items)
+        if not result.get("success"):
+            logger.error("发布失败: %s", result)
+            raise HTTPException(status_code=502, detail=result.get("error", "publish failed"))
+        return result
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception("发布接口异常: %s", e)
+        raise HTTPException(status_code=500, detail=str(e))

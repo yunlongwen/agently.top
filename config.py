@@ -282,6 +282,86 @@ SEND_EMAIL_ENABLED = _get_bool_env("SEND_EMAIL_ENABLED", False)
 # 采集仍按 SPIDER_SCHEDULE_TIMES 执行；未配置 MAIL_TO_BY_TIME 时用这里控制哪些调度批次发邮件。
 EMAIL_SEND_TIMES = os.environ.get("EMAIL_SEND_TIMES", "07:50")
 
+# =========================================================================
+# 多平台发布配置
+# =========================================================================
+
+# 是否启用自动发布编排。关闭后 main.py 采集完成不会触发任何发布器。
+PUBLISH_ENABLED = _get_bool_env("PUBLISH_ENABLED", False)
+
+# 允许执行发布的每日调度时间，24 小时制，逗号分隔。
+# 为空时表示跟随 SPIDER_SCHEDULE_TIMES（每次采集后都尝试发布）。
+PUBLISH_SCHEDULE_TIMES = os.environ.get("PUBLISH_SCHEDULE_TIMES", "")
+
+# 管理员 API Token，用于 /api/admin/publish/* 等管理接口鉴权。
+# 为空时仅允许内网访问（同 STATS_API_TOKEN 逻辑）。
+ADMIN_API_TOKEN = os.environ.get("ADMIN_API_TOKEN", "")
+
+# =========================================================================
+# 微信公众号发布配置
+# =========================================================================
+
+# 是否启用微信公众号发布。
+WECHAT_PUBLISH_ENABLED = _get_bool_env("WECHAT_PUBLISH_ENABLED", False)
+
+# 微信公众号 AppID 与 AppSecret。
+WECHAT_APP_ID = os.environ.get("WECHAT_APP_ID", "")
+WECHAT_APP_SECRET = os.environ.get("WECHAT_APP_SECRET", "")
+
+# 默认文章标题、作者、摘要。标题中 {date} 会被替换为当前日期。
+WECHAT_DEFAULT_TITLE = os.environ.get("WECHAT_DEFAULT_TITLE", "Agently.top 每日 AI 资讯 - {date}")
+WECHAT_DEFAULT_AUTHOR = os.environ.get("WECHAT_DEFAULT_AUTHOR", "Agently")
+WECHAT_DEFAULT_DIGEST = os.environ.get("WECHAT_DEFAULT_DIGEST", "")
+
+# 微信公众号 API 基础地址（一般无需修改）。
+WECHAT_API_BASE_URL = os.environ.get("WECHAT_API_BASE_URL", "https://api.weixin.qq.com")
+
+# 封面图兜底 URL，当正文无图片时使用。
+WECHAT_FALLBACK_LOGO_URL = os.environ.get(
+    "WECHAT_FALLBACK_LOGO_URL",
+    "https://agently.top/android-chrome-192x192.png",
+)
+
+# 正文最大字符数限制（微信图文素材内容上限约 20000 字，这里留有余量）。
+WECHAT_CONTENT_MAX_LENGTH = int(os.environ.get("WECHAT_CONTENT_MAX_LENGTH", "15000"))
+
+# 每日发布的条目来源白名单，逗号分隔 source id；为空表示所有来源。
+# 示例：github-daily,hacker-news,openai,anthropic
+WECHAT_SOURCE_WHITELIST = os.environ.get("WECHAT_SOURCE_WHITELIST", "")
+
+# 每个来源最多取 N 条用于发布。
+WECHAT_MAX_ITEMS_PER_SOURCE = int(os.environ.get("WECHAT_MAX_ITEMS_PER_SOURCE", "5"))
+
+# =========================================================================
+# 封面图生成配置
+# =========================================================================
+
+# 当正文无图时，是否调用 LLM 生成封面。
+WECHAT_GENERATE_COVER_BY_LLM = _get_bool_env("WECHAT_GENERATE_COVER_BY_LLM", False)
+
+# LLM 生成封面时使用的提示词模板。
+WECHAT_COVER_PROMPT_TEMPLATE = os.environ.get(
+    "WECHAT_COVER_PROMPT_TEMPLATE",
+    "根据以下文章标题和摘要，设计一张科技资讯日报的封面。请返回：\n"
+    "1. 一句简短的视觉描述（用于图片生成提示词）\n"
+    "2. 主色调 HEX（如 #07C160）\n"
+    "3. 背景色 HEX（如 #0A0A0A 或 #FFFFFF）\n"
+    "4. 一个 2-4 个字的封面主题词\n"
+    "严格按 JSON 返回，不要多余文字：\n"
+    '{"prompt": "...", "primary_color": "#07C160", "background_color": "#0A0A0A", "keyword": "AI日报"}',
+)
+
+# 图片生成 API 配置（可选）。如果配置，会优先尝试调用 /images/generations 生成真实图片。
+# 留空则直接使用 Pillow 绘制文字封面。
+IMAGE_GEN_API_URL = os.environ.get("IMAGE_GEN_API_URL", "")
+IMAGE_GEN_API_KEY = os.environ.get("IMAGE_GEN_API_KEY", OPENAI_API_KEY)
+IMAGE_GEN_MODEL = os.environ.get("IMAGE_GEN_MODEL", "dall-e-3")
+IMAGE_GEN_SIZE = os.environ.get("IMAGE_GEN_SIZE", "1024x1024")
+
+# Pillow 文字封面默认配置
+COVER_IMAGE_WIDTH = int(os.environ.get("COVER_IMAGE_WIDTH", "900"))
+COVER_IMAGE_HEIGHT = int(os.environ.get("COVER_IMAGE_HEIGHT", "500"))
+
 
 # =========================================================================
 # 采集后归档推送配置(把 output/ 镜像推送到 archive 分支)

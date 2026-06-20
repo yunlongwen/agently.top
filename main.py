@@ -338,6 +338,16 @@ def run_spider(scheduled_time=None):
         logger.warning("归档推送异常(不影响采集): %s", e)
 
     # ==========================
+    # 多平台发布编排(失败不影响主流程)
+    # ==========================
+    try:
+        from publish_service import publish_daily
+        publish_result = publish_daily(content_items, scheduled_time=scheduled_time)
+        logger.info("发布编排完成: %s", publish_result)
+    except Exception as e:
+        logger.warning("发布编排异常(不影响采集): %s", e)
+
+    # ==========================
     # 生成邮件并发送
     # ==========================
     should_send_email, email_skip_reason, recipients = _email_send_decision(scheduled_time)
