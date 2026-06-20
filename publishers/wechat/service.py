@@ -49,8 +49,18 @@ class WechatService:
         return cls(config)
 
     def _request(self, method: str, url: str, **kwargs) -> dict[str, Any]:
-        """发送请求并解析 JSON。"""
+        """发送请求并解析 JSON。
+
+        重要: 微信公众号 draft/add 接口对 content 字段不做 JSON 二次解码,
+        requests.post(json=...) 走 ensure_ascii=True 会把中文编码为 \\uXXXX
+        字面字符串,被微信存进草稿后渲染成乱码。统一用 utf-8 字节发送。
+        """
         try:
+            if method == "POST" and "json" in kwargs:
+                import json as _json
+                body_bytes = _json.dumps(kwargs.pop("json"), ensure_ascii=False).encode("utf-8")
+                kwargs.setdefault("data", body_bytes)
+                kwargs.setdefault("headers", {})["Content-Type"] = "application/json; charset=utf-8"
             resp = self._session.request(method, url, timeout=60, **kwargs)
             resp.raise_for_status()
             data = resp.json()
