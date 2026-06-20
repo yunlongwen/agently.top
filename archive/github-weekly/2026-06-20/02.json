@@ -1,0 +1,173 @@
+{
+  "generated_at": "2026-06-20T08:00:08.546619",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势"
+  },
+  "item_count": 10,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 8,286 | Forks: 630 | 5,505 stars this week",
+      "chinese_summary": "NVIDIA 出品的 AI Agent 技能安全扫描器。Python 写，专注检测 skill 里的漏洞、恶意模式和安全风险。对比传统 SAST（Semgrep/Snyk）它不扫源码，而是针对 LLM 工具调用的 skill 包做语义+规则扫描，填补了 Agent 生态的安全空白；如果你的平台已经接了 Claude/Cursor 这类 agent，CI 里加一道可以避免装到带后门的 skill。上手成本：pip install 后接入 GitHub Action 即可，无需改动现有服务。",
+      "backend_focus": "本周动作：在 CI 加一道 gate，pip install skillspector 后对内部 skill 仓库跑一次扫描，输出 SARIF 接到现有代码安全平台；同时抽 5 个第三方 skill 跑 baseline 评估误报率。",
+      "meta": {
+        "language": "Python",
+        "stars": 8286,
+        "forks": 630,
+        "stars_period": "5,505 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "iptv-org/iptv",
+      "url": "https://github.com/iptv-org/iptv",
+      "published_at": "",
+      "original_summary": "Collection of publicly available IPTV channels from all over the world | 语言: TypeScript | Stars: 125,791 | Forks: 6,874 | 7,899 stars this week",
+      "chinese_summary": "全球公开 IPTV 频道合集，TypeScript 维护，本质是个 m3u 列表仓库。跟 Plex/Jellyfin 这类自建流媒体比它不存内容只存 URL，适合做直播源聚合或爬虫数据源；后端想拿真实频道元数据可以扒它的 JSON 作为种子，但要注意版权和地域封锁。上手成本：clone 下来直接读 playlist，零依赖，但上游是社区维护频道会失效。",
+      "backend_focus": "如果你做直播/OTT 后端：git clone 后解析 playlist 拉一遍频道可用率当压测种子；做合规审计时拉最新 commit 对比你们 CDN 里的灰色频道做下线决策。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 125791,
+        "forks": 6874,
+        "stars_period": "7,899 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 8,194 | Forks: 624 | 3,244 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单二进制零依赖。158 种语言毫秒级建索引，子毫秒查询，号称比同类省 99% token。对比传统 LSP/ctags 它面向 LLM 优化的图谱结构，对比 Sourcegraph 这种重量级平台它单文件就能跑；适合塞进本地 agent 工具链替代全仓 grep+多次 read 的高 token 消耗场景，缺点是索引策略黑盒，大仓首次建索引可能吃满 IO。上手成本：下载二进制配进 MCP client 即可。",
+      "backend_focus": "跑通：下载二进制后把它接进 Claude/Cursor 的 MCP 配置，对一个 50 万行 Go 仓库跑 build index，对比现在每次提问烧的 input token 算账单，看 ROI 再决定是否铺到团队。",
+      "meta": {
+        "language": "C",
+        "stars": 8194,
+        "forks": 624,
+        "stars_period": "3,244 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 35,081 | Forks: 2,795 | 7,856 stars this week",
+      "chinese_summary": "给 AI Agent 加联网能力的 CLI，Python 实现，覆盖 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书，零 API 费用。跟传统 scraper（Scrapy/Playwright）比它把各家反爬做了封装且专门压成 agent tool 的 JSON schema；做后端情报/舆情/竞品监控的可以直接挂上去当 tool，缺点是依赖第三方页面结构，平台一改版就可能挂，无 SLA 保证。上手成本：pip install + 配 token 即可，但部分站点要登录态。",
+      "backend_focus": "找一台 sandbox 机器 pip install agent-reach，配进内部 agent 的 tool registry，挑 3 个真实情报场景（竞品 GitHub release、Reddit 舆情、小红书种草）跑一周看稳定性再决定接入正式链路。",
+      "meta": {
+        "language": "Python",
+        "stars": 35081,
+        "forks": 2795,
+        "stars_period": "7,856 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "chopratejas/headroom",
+      "url": "https://github.com/chopratejas/headroom",
+      "published_at": "",
+      "original_summary": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 60-95% fewer tokens, same answers. Library, proxy, MCP server. | 语言: Python | Stars: 38,608 | Forks: 2,632 | 10,159 stars this week",
+      "chinese_summary": "LLM 上下文压缩层，Python 写，可作为库、HTTP proxy 或 MCP server 接入。号称工具输出/日志/RAG chunk 压 60-95% token 答案不变。对比直接喂原始日志它走的是有损+语义保真压缩，对比 Anthropic prompt caching 它解决的是单次请求内的 token 浪费；如果你们 agent 每月账单在烧、长工具输出频繁触发 context window 上限，这玩意儿是 ROI 最快的优化点之一。上手成本：proxy 模式 5 行 docker compose 就能起。",
+      "backend_focus": "先算账：拉最近 30 天 LLM 用量按 input token 计费，挑出 top 5 高 token 的 agent trace；用 docker compose 拉起 headroom proxy 接到其中一个 agent 跑 A/B，一周后看账单和答案质量差异。",
+      "meta": {
+        "language": "Python",
+        "stars": 38608,
+        "forks": 2632,
+        "stars_period": "10,159 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "addyosmani/agent-skills",
+      "url": "https://github.com/addyosmani/agent-skills",
+      "published_at": "",
+      "original_summary": "Production-grade engineering skills for AI coding agents. | 语言: Shell | Stars: 63,396 | Forks: 6,873 | 9,285 stars this week",
+      "chinese_summary": "Google 工程师维护的 AI 编码 Agent 技能包，Shell 脚本为主，覆盖工程最佳实践。它不是工具而是 prompt+workflow 集合，类似 .github/copilot-instructions 的升级版；跟 LangChain/AutoGen 这类框架比它不绑定运行时，纯 SKILL.md 喂给 Claude Code/Cursor 就能用，后端想统一团队 agent 编码规范可以直接 fork 当基线。上手成本：clone 后按文档复制对应 skill 到 agent 配置目录。",
+      "backend_focus": "本周：让团队 2-3 个人 clone 后把 skills 接到自己的 Claude Code/Cursor，挑一个真实 PR 任务跑一周对比没装时的 review 轮次和返工率，再决定是否内部 fork 定制版。",
+      "meta": {
+        "language": "Shell",
+        "stars": 63396,
+        "forks": 6873,
+        "stars_period": "9,285 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "apple/container",
+      "url": "https://github.com/apple/container",
+      "published_at": "",
+      "original_summary": "A tool for creating and running Linux containers using lightweight virtual machines on a Mac. It is written in Swift, and optimized for Apple silicon. | 语言: Swift | Stars: 38,839 | Forks: 1,114 | 7,671 stars this week",
+      "chinese_summary": "Apple 官方出的 macOS 容器工具，Swift 写，基于苹果芯片的轻量 VM 跑 Linux 容器。对比 Docker Desktop for Mac 它不再走 gRPC-FUSE 那套慢路径，对比 Lima/Colima 它是原生方案性能更稳；做 macOS 平台后端的同事可以替换掉老 Docker Desktop，省内存省 CPU，缺点是仅限 Apple Silicon 且目前生态刚起步，镜像兼容性问题可能踩坑。上手成本：brew 装好就能用，CLI 跟 docker 兼容。",
+      "backend_focus": "在 M 系列开发机 brew install container，把现有 docker-compose 项目迁过去跑一遍 build 时间和内存占用对比 Docker Desktop；如果团队有镜像兼容性 blocker 提 issue 或回退。",
+      "meta": {
+        "language": "Swift",
+        "stars": 38839,
+        "forks": 1114,
+        "stars_period": "7,671 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "phuryn/pm-skills",
+      "url": "https://github.com/phuryn/pm-skills",
+      "published_at": "",
+      "original_summary": "PM Skills Marketplace: 100+ agentic skills, commands, and plugins — from discovery to strategy, execution, launch, and growth. | 语言: N/A | Stars: 19,805 | Forks: 2,019 | 3,663 stars this week",
+      "chinese_summary": "PM 技能市场，收集 100+ agentic skill 覆盖产品全流程。无明确技术栈，偏资源聚合站。跟 addyosmani/agent-skills 比它聚焦 PM 而非纯工程；后端工程师如果做内部工具平台，需要 PM 视角的 skill 可以从这里挑，但基本是 prompt 模板没有可执行后端逻辑。上手成本：clone 后挑对应 skill 文件复制使用。",
+      "backend_focus": "与后端服务无关。如果你做内部产品/工具，clone 后挑 discovery 和 launch 两类 skill 喂给 agent 试跑一次需求评审和上线 checklist，评估是否能加速跨职能协作。",
+      "meta": {
+        "language": "",
+        "stars": 19805,
+        "forks": 2019,
+        "stars_period": "3,663 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 43,567 | Forks: 7,217 | 1,705 stars this week",
+      "chinese_summary": "各路 LLM 产品的 system prompt 泄露集合，JavaScript 维护定期更新。覆盖 Claude/GPT/Gemini/Grok/Cursor/Copilot/VS Code/Perplexity 等。跟直接抓请求反推比它省了逆向成本，做 LLM 应用后端的可以用来研究各家 prompt 编排风格和工具调用约定，但要注意这些 prompt 可能过期且直接抄有合规风险。上手成本：clone 后读对应目录的 md 即可。",
+      "backend_focus": "拉一份做参考：clone 后挑你们在用的 2-3 个模型对应的 prompt 目录读一遍，对比自己写的 system prompt 看有没有工具描述、安全护栏、格式化指令上的盲区，仅作借鉴不要直接复制。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 43567,
+        "forks": 7217,
+        "stars_period": "1,705 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kenn-io/agentsview",
+      "url": "https://github.com/kenn-io/agentsview",
+      "published_at": "",
+      "original_summary": "Local-first session search, analytics, insights, and token use statistics for coding agents, supporting Claude Code, Codex, and more than 20 other agents. | 语言: Go | Stars: 2,941 | Forks: 251 | 1,382 stars this week",
+      "chinese_summary": "本地优先的 coding agent 会话搜索引擎，Go 写，支持 Claude Code/Codex 等 20+ agent。提供 token 用量统计、session 搜索和分析。跟 LangSmith/Helicone 这类 SaaS 可观测性比它是纯本地不外发数据，适合有合规要求不能让 prompt/代码出内网的团队；后端做 agent 平台如果需要 usage 看板和成本归因可以自己 fork 改改。上手成本：Go 编译一个二进制，跑起来自动索引本地 session。",
+      "backend_focus": "本地合规场景：go build 后在工程师机器跑起来，挑一个 agent 跑一周后用它的 token 统计核对你们 LLM 账单看是否有偏差；做内部平台的可考虑 fork 加 SSO 和团队聚合视图。",
+      "meta": {
+        "language": "Go",
+        "stars": 2941,
+        "forks": 251,
+        "stars_period": "1,382 stars this week"
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-20T00:03:38.785312",
+  "generated_at": "2026-06-20T08:00:08.542566",
   "item_count": 96,
   "items": [
     {
@@ -8,13 +8,13 @@
       "title": "DeusData/codebase-memory-mcp",
       "url": "https://github.com/DeusData/codebase-memory-mcp",
       "published_at": "",
-      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 7,791 | Forks: 600 | 1,055 stars today",
-      "chinese_summary": "C 写的代码知识图谱 MCP server。给 IDE/Agent 用，毫秒级索引仓库、亚毫秒查询、声称比传统方式省 99% token。单静态二进制零依赖。对比 Sourcegraph/Cody 这种 SaaS 代码检索，本地部署不外发代码；对比纯 LSP 方案，它把代码结构建成可遍历图谱而不是单文件解析。158 种语言覆盖远超 Tree-sitter 玩具级使用。适合私有代码库接 Claude/Cursor 做 codebase QA；不适合需要分布式协作的大型 monorepo（单二进制天花板在那）。上手成本：下载二进制 + 配 MCP endpoint，5 分钟。",
-      "backend_focus": "拉二进制到 staging，docker run 挂载 /opt/code，配置 ~/.config/claude/mcp.json 指向它，然后用 Cursor 对本团队某个微服务仓库问一句「auth 中间件调用链是什么」，对比之前 grep+read 的 token 消耗。",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 8,194 | Forks: 624 | 1,055 stars today",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单静态二进制零依赖。给 Cursor/Claude Code 这类 IDE 用的本地代码索引后端，支持 158 种语言平均一个仓库毫秒级建索引，亚毫秒查询。对比传统 tree-sitter/LSCP 方案（如 Sourcegraph 内部索引）token 消耗减少 99%，比直接把整库塞进上下文窗口的方案省得多。适合不想自建 embedding 流水线又要给 AI 喂代码的团队；不擅长跨仓库全局依赖分析。上手成本：下载二进制配 MCP JSON 即可。",
+      "backend_focus": "下个二进制在本地跑，git clone 你们的 monorepo 测一次索引耗时和磁盘占用，对比当前 IDE AI 插件的响应延迟；如果 P95 查询 <10ms 就考虑接入团队统一的 MCP 网关分发给所有工程师。",
       "meta": {
         "language": "C",
-        "stars": 7791,
-        "forks": 600,
+        "stars": 8194,
+        "forks": 624,
         "stars_period": "1,055 stars today"
       }
     },
@@ -24,13 +24,13 @@
       "title": "google-research/timesfm",
       "url": "https://github.com/google-research/timesfm",
       "published_at": "",
-      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 23,935 | Forks: 2,259 | 1,516 stars today",
-      "chinese_summary": "Google Research 开源的时序预训练模型，做 zero-shot 时间序列预测。对比 statsforecast/Prophet 这种单变量统计模型，TimesFM 是 foundation model 路线跨域泛化；对比自家 Vertex AI Forecast 这种托管服务，它是可本地跑的 checkpoint。适合没有标注数据又要快速出 baseline 的指标监控、A/B 实验效果预测场景；不适合需要置信区间+可解释性的金融/容量规划。上手成本：pip install 后载入 200M/500M checkpoint，GPU 推理，CPU 也能跑但慢。",
-      "backend_focus": "pip install timesfm，在本团队 Prometheus 导出最近 30 天 QPS 数据，按官方 notebook 跑一遍 forecast，对比现有 Prophet 服务的 MAPE 误差，决定是否替换 capacity planning 那条链路。",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 24,074 | Forks: 2,270 | 1,516 stars today",
+      "chinese_summary": "Google Research 开源的时间序列基础模型，给后端做容量/指标预测用。零样本或少样本就能预测，跟传统 ARIMA/Prophet 相比不用每个指标单独调参，跟 NeuralForecast 这种深度学习库相比不需要 GPU 训练。适合 K8s 资源预测、QPS 季节性建模、SLO 异常预警这种'指标很多但每个样本量不大'的场景；不适合超高频 tick 数据或需要可解释 feature 的金融风控。上手成本：pip install 后写 5 行调用，本地 CPU 推理即可。",
+      "backend_focus": "用你们 Prometheus 里 3 个月的 QPS 数据跑一次 zero-shot 预测，eval 一周 MAPE；如果比现有 Prophet 模型低 20% 以上就集成进容量规划脚本，cron 每天拉新数据重跑。",
       "meta": {
         "language": "Python",
-        "stars": 23935,
-        "forks": 2259,
+        "stars": 24074,
+        "forks": 2270,
         "stars_period": "1,516 stars today"
       }
     },
@@ -40,13 +40,13 @@
       "title": "palmier-io/palmier-pro",
       "url": "https://github.com/palmier-io/palmier-pro",
       "published_at": "",
-      "original_summary": "macOS video editor built for AI | 语言: Swift | Stars: 1,558 | Forks: 172 | 749 stars today",
-      "chinese_summary": "macOS 原生 AI 视频编辑器，Swift 写。跟后端基础设施无关。",
+      "original_summary": "macOS video editor built for AI | 语言: Swift | Stars: 1,870 | Forks: 187 | 749 stars today",
+      "chinese_summary": "macOS 原生 AI 视频编辑器，Swift 写，给内容团队用。本地调 CoreML 模型剪辑，跟 Descript/Runway 这类 SaaS 比数据不出本机、无月费。功能集中在 AI 自动剪辑/转录/粗剪，对短视频工作流够用；不适合需要多人协作/云端素材库的团队。",
       "backend_focus": "与后端服务无关。",
       "meta": {
         "language": "Swift",
-        "stars": 1558,
-        "forks": 172,
+        "stars": 1870,
+        "forks": 187,
         "stars_period": "749 stars today"
       }
     },
@@ -56,14 +56,14 @@
       "title": "koala73/worldmonitor",
       "url": "https://github.com/koala73/worldmonitor",
       "published_at": "",
-      "original_summary": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface | 语言: TypeScript | Stars: 56,979 | Forks: 9,124 | 133 stars today",
-      "chinese_summary": "TypeScript 写的全球态势感知仪表盘，聚合新闻/地缘/基础设施事件。跟运维监控无关，不属于后端基建范畴。",
-      "backend_focus": "与后端服务无关。",
+      "original_summary": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface | 语言: TypeScript | Stars: 57,219 | Forks: 9,135 | 300 stars today",
+      "chinese_summary": "TypeScript 写的全球情报仪表盘，前端为主，聚合新闻/地缘/基础设施数据。后端工程师一般不直接用这类东西；可借鉴的是它的多源实时数据 ETL 管线（WebSocket 聚合、地理空间索引、事件去重），能抽出来做内部 ops 仪表盘。",
+      "backend_focus": "翻它的 data-pipeline 目录看实时新闻聚合的调度架构，对比你们内部 status page 的数据采集链路；如果用到了多源 RSS+地理空间 join 的设计可以借鉴重构现有监控聚合服务。",
       "meta": {
         "language": "TypeScript",
-        "stars": 56979,
-        "forks": 9124,
-        "stars_period": "133 stars today"
+        "stars": 57219,
+        "forks": 9135,
+        "stars_period": "300 stars today"
       }
     },
     {
@@ -72,14 +72,14 @@
       "title": "aishwaryanr/awesome-generative-ai-guide",
       "url": "https://github.com/aishwaryanr/awesome-generative-ai-guide",
       "published_at": "",
-      "original_summary": "A one stop repository for generative AI research updates, interview resources, notebooks and much more! | 语言: HTML | Stars: 27,491 | Forks: 5,735 | 203 stars today",
-      "chinese_summary": "GenAI 学习资源汇总仓库，纯 Markdown/HTML 文档集。跟后端生产工具无关。",
+      "original_summary": "A one stop repository for generative AI research updates, interview resources, notebooks and much more! | 语言: HTML | Stars: 27,607 | Forks: 5,738 | 155 stars today",
+      "chinese_summary": "GenAI 资料合集（论文/面试/notebook），HTML 静态页。后端用不上生产，纯学习导航站。",
       "backend_focus": "与后端服务无关。",
       "meta": {
         "language": "HTML",
-        "stars": 27491,
-        "forks": 5735,
-        "stars_period": "203 stars today"
+        "stars": 27607,
+        "forks": 5738,
+        "stars_period": "155 stars today"
       }
     },
     {
@@ -88,14 +88,14 @@
       "title": "BuilderIO/agent-native",
       "url": "https://github.com/BuilderIO/agent-native",
       "published_at": "",
-      "original_summary": "A framework for building agent-native applications. | 语言: TypeScript | Stars: 898 | Forks: 107 | 172 stars today",
-      "chinese_summary": "TypeScript 写的 agent-native 应用框架，给 LLM agent 当运行底座。对比 LangChain 它更强调应用宿主而非编排，对比 Vercel AI SDK 它面向后台 agent 而非前端流式 UI。适合要把多个 tool/MCP 串成长期任务的内部平台；不适合写一次性 chatbot。上手成本：npm install + 起一个 runtime，跑通 demo 半天。",
-      "backend_focus": "把现有 LangChain 写的某个内部 agent 挑出来，按仓库 quickstart 重写一遍跑同一批 case，比对 tool 调用成功率与延迟，再决定要不要在生产替换。",
+      "original_summary": "A framework for building agent-native applications. | 语言: TypeScript | Stars: 1,029 | Forks: 117 | 210 stars today",
+      "chinese_summary": "TypeScript 写的 agent-native 应用框架，给后端做 AI 编排的。封装了 tool calling/状态机/人机协作这些，比裸调 LangChain 强在工程化结构，适合要落地 agent 到生产服务（如客服/工单/运维助手）的团队。跟 Temporal 这种通用 workflow 引擎比它专为 LLM 步骤设计，比 LangGraph 比更轻量不锁生态。上手成本：npm install 改业务 tool 即可，不用改现有 API。",
+      "backend_focus": "npm i agent-native 后挑你们内部最简单的一个 SOP（比如工单分类）用 30 行重写，比一下响应延迟和 token 消耗；跑通后接入企业微信/Slack 做个内部 bot 试水。",
       "meta": {
         "language": "TypeScript",
-        "stars": 898,
-        "forks": 107,
-        "stars_period": "172 stars today"
+        "stars": 1029,
+        "forks": 117,
+        "stars_period": "210 stars today"
       }
     },
     {
@@ -104,13 +104,13 @@
       "title": "chopratejas/headroom",
       "url": "https://github.com/chopratejas/headroom",
       "published_at": "",
-      "original_summary": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 60-95% fewer tokens, same answers. Library, proxy, MCP server. | 语言: Python | Stars: 37,373 | Forks: 2,546 | 3,938 stars today",
-      "chinese_summary": "Python 写的 LLM context 压缩层，可作库/代理/MCP server 接入。声称对工具输出、日志、文件、RAG chunk 做 60-95% token 压缩且不丢语义。对比手写 truncation，它按上下文类型自适应；对比 Context7 这种文档检索前置方案，它在已召回到的 content 上再做减法。下游 LLM 走 Anthropic/OpenAI/自建都通用。适合 agent 调用日志/大文件动不动撑爆 context window 的场景；不适合 token 本来就不紧张的短 prompt。上手成本：pip install，sidecar 模式透明替换，零代码改动。",
-      "backend_focus": "用 sidecar 模式启在现有 agent 入口前，env HEADROOM_TARGET=anthropic 配一下，对比启用前后 Anthropic API 计费账单与任务完成率，跑一周看 ROI。",
+      "original_summary": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 60-95% fewer tokens, same answers. Library, proxy, MCP server. | 语言: Python | Stars: 38,608 | Forks: 2,632 | 3,938 stars today",
+      "chinese_summary": "Python 写的 LLM 上下文压缩中间件，60-95% 省 token。给走 LLM 的后端管道用，三种形态：库、HTTP 代理、MCP server。痛点解决：log/tracer/RAG chunk 灌进 LLM 前的去重和截断，比裸传字符串省成本 5-10 倍。比 LangChain 的 text splitter 强在保留语义相关性，不是机械切窗口。适合所有调 LLM API 的服务（成本敏感型）；不适合必须传完整文档的合规审计场景。上手成本：pip install 后改一行 import 或起个 sidecar proxy。",
+      "backend_focus": "先跑 sidecar 模式：docker run -p 8080:8080 headroom-proxy，把现有调用 OpenAI 的服务流量切 1% 过去跑一周，比对账单上的 token 消耗和输出质量 eval；确认无损后全量切换。",
       "meta": {
         "language": "Python",
-        "stars": 37373,
-        "forks": 2546,
+        "stars": 38608,
+        "forks": 2632,
         "stars_period": "3,938 stars today"
       }
     },
@@ -120,14 +120,14 @@
       "title": "calesthio/OpenMontage",
       "url": "https://github.com/calesthio/OpenMontage",
       "published_at": "",
-      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 6,028 | Forks: 1,064 | 738 stars today",
-      "chinese_summary": "Python 写的 agentic 视频生产编排系统，12 条管线 52 个工具 500+ skill。跟后端基建无关。",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 6,264 | Forks: 1,080 | 236 stars today",
+      "chinese_summary": "Python 写的开源 agentic 视频生产系统，12 条 pipeline/52 个工具。本质是给 AI 编程助手当插件用，把 cursor/claude code 变成视频剪辑 agent。比传统 FFmpeg 脚本强在 agent 能拆解任务自调度；后端用不上这套剪辑管线，可关注它的 agent skill 抽象层（tool schema 设计）。",
       "backend_focus": "与后端服务无关。",
       "meta": {
         "language": "Python",
-        "stars": 6028,
-        "forks": 1064,
-        "stars_period": "738 stars today"
+        "stars": 6264,
+        "forks": 1080,
+        "stars_period": "236 stars today"
       }
     },
     {
@@ -136,13 +136,13 @@
       "title": "zai-org/GLM-5",
       "url": "https://github.com/zai-org/GLM-5",
       "published_at": "",
-      "original_summary": "GLM-5: From Vibe Coding to Agentic Engineering | 语言: N/A | Stars: 4,410 | Forks: 448 | 478 stars today",
-      "chinese_summary": "智谱开源的 GLM-5 大模型，定位 agentic engineering。对比 DeepSeek/Qwen 同档模型主打 vibe coding 到工程化 agent 跃迁；权重与推理细节要查仓库具体说明。适合要在私有环境跑国产大模型做代码/工具调用的团队；不适合需要严格 SLA 的海外合规场景。上手成本：拉权重 + vLLM/SGLang 起服务，硬件门槛按模型规模走。",
-      "backend_focus": "vllm serve 拉 GLM-5 checkpoint 到内部 GPU 集群，用本团队真实 coding eval 集（如 SWE-bench 切片）跑一遍，对比当前在用的 Qwen2.5-Coder pass@1，再决定是否替换主力 coding 模型。",
+      "original_summary": "GLM-5: From Vibe Coding to Agentic Engineering | 语言: N/A | Stars: 4,569 | Forks: 461 | 478 stars today",
+      "chinese_summary": "智谱的 GLM-5 仓库，定位 Agentic Engineering。从描述看是 coding agent 基座/工具链，Star 才 4k 多还非常新，没看到具体 benchmark 数据，不建议生产立刻接入。",
+      "backend_focus": "先观望。clone 仓库跑一遍 eval 集，对比你们现在用的 Claude/Cursor 在内部 100 条真实工单上的通过率；如果真的领先 15% 再考虑接入，否则等社区稳定 3 个月。",
       "meta": {
         "language": "",
-        "stars": 4410,
-        "forks": 448,
+        "stars": 4569,
+        "forks": 461,
         "stars_period": "478 stars today"
       }
     },
@@ -152,13 +152,13 @@
       "title": "withastro/flue",
       "url": "https://github.com/withastro/flue",
       "published_at": "",
-      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 5,721 | Forks: 315 | 305 stars today",
-      "chinese_summary": "Astro 团队出的沙箱 agent 框架，TypeScript 写。对比 Docker SDK/E2B 它更偏 agent 执行沙箱而非通用容器编排；对比 Anthropic sandbox runtime 这种闭源方案，它是开源可自部署。适合 CI/CD 里跑不可信代码、给 agent 隔离 tool 执行环境的场景；不适合要跑长驻服务的场景。上手成本：pnpm install + 配 sandbox runtime，按文档接 Claude/Cursor SDK。",
-      "backend_focus": "把 CI 里执行 PR 作者代码那一步从 gVisor 沙箱替换成 flue sandbox，对比启动延迟与隔离逃逸测试结果，跑两周灰度确认再全量切换。",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 5,827 | Forks: 323 | 305 stars today",
+      "chinese_summary": "Astro 团队出的 sandbox agent 框架，TypeScript 写。给后端做安全沙箱用，让 agent 代码在隔离环境跑。比 Docker 容器方案轻（应该是基于进程级隔离/seccomp），比 Firecracker 这种 microVM 快启动（毫秒级）。适合 CI/CD 里跑不可信 PR agent、自动化测试 agent。上手成本：npm install 起一个 sandbox API。",
+      "backend_focus": "查 README 的 quickstart，跑 npm create flue 起一个 demo，把你们 CI 里跑不可信 PR 检查那段 shell 切过去测启动延迟和隔离强度；如果隔离等级和 gVisor/Firecracker 相当但启动 <100ms 就集成进 PR-bot。",
       "meta": {
         "language": "TypeScript",
-        "stars": 5721,
-        "forks": 315,
+        "stars": 5827,
+        "forks": 323,
         "stars_period": "305 stars today"
       }
     },
@@ -168,13 +168,13 @@
       "title": "NVIDIA/SkillSpector",
       "url": "https://github.com/NVIDIA/SkillSpector",
       "published_at": "",
-      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 8,145 | Forks: 620 | 5,505 stars this week",
-      "chinese_summary": "AI Agent Skill 安全扫描器。给团队用 MCP/CLI 集成 skill 的人用的：扫描 skill 包里的恶意模式、提权路径、prompt injection，输出结构化风险报告。跟传统 SAST（如 Semgrep、Trivy）相比，它专门针对 skill 这种新型资产（Markdown + YAML + 代码片段混在一起），懂 prompt 层和工具调用层风险，不是通用代码漏洞库。上手成本：pip 装即可，对接现有 CI 门槛低，但目前规则覆盖取决于社区维护，规则数量有限。",
-      "backend_focus": "把 SkillSpector 接进你们 AI agent 的 PR pipeline：pip install skillspector 后给所有新提交的 skill 目录跑一次扫描，出问题直接卡 PR。同时把扫描结果和现有 Trivy/Semgrep 报告合并到同一个安全看板。",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 8,286 | Forks: 630 | 5,505 stars this week",
+      "chinese_summary": "NVIDIA 出品的 AI Agent 技能安全扫描器。Python 写，专注检测 skill 里的漏洞、恶意模式和安全风险。对比传统 SAST（Semgrep/Snyk）它不扫源码，而是针对 LLM 工具调用的 skill 包做语义+规则扫描，填补了 Agent 生态的安全空白；如果你的平台已经接了 Claude/Cursor 这类 agent，CI 里加一道可以避免装到带后门的 skill。上手成本：pip install 后接入 GitHub Action 即可，无需改动现有服务。",
+      "backend_focus": "本周动作：在 CI 加一道 gate，pip install skillspector 后对内部 skill 仓库跑一次扫描，输出 SARIF 接到现有代码安全平台；同时抽 5 个第三方 skill 跑 baseline 评估误报率。",
       "meta": {
         "language": "Python",
-        "stars": 8145,
-        "forks": 620,
+        "stars": 8286,
+        "forks": 630,
         "stars_period": "5,505 stars this week"
       }
     },
@@ -184,13 +184,13 @@
       "title": "iptv-org/iptv",
       "url": "https://github.com/iptv-org/iptv",
       "published_at": "",
-      "original_summary": "Collection of publicly available IPTV channels from all over the world | 语言: TypeScript | Stars: 125,688 | Forks: 6,866 | 7,899 stars this week",
-      "chinese_summary": "全球公开 IPTV 频道源合集。给做流媒体后端、多区域内容聚合、网络流量分析的人用的：收录上万条公开 m3u/m3u8 频道源，按国家/语言/类别索引。跟自建 IPTV 中台比，它解决的是「冷启动内容源」问题，直接拉一份当测试数据集；但版权和法律风险全部转移给你，商用必须二次清洗。上手成本零成本，但跟生产后端集成需要自己写一层去重+健康检查+地域路由。",
-      "backend_focus": "与后端服务无关，除非你们在做 IPTV/OTT 中台，否则不要碰。如果非要用：先 git clone 拉一份，按你目标区域筛 100 条做连通率压测，确认上游稳定性再考虑接进测试环境。",
+      "original_summary": "Collection of publicly available IPTV channels from all over the world | 语言: TypeScript | Stars: 125,791 | Forks: 6,874 | 7,899 stars this week",
+      "chinese_summary": "全球公开 IPTV 频道合集，TypeScript 维护，本质是个 m3u 列表仓库。跟 Plex/Jellyfin 这类自建流媒体比它不存内容只存 URL，适合做直播源聚合或爬虫数据源；后端想拿真实频道元数据可以扒它的 JSON 作为种子，但要注意版权和地域封锁。上手成本：clone 下来直接读 playlist，零依赖，但上游是社区维护频道会失效。",
+      "backend_focus": "如果你做直播/OTT 后端：git clone 后解析 playlist 拉一遍频道可用率当压测种子；做合规审计时拉最新 commit 对比你们 CDN 里的灰色频道做下线决策。",
       "meta": {
         "language": "TypeScript",
-        "stars": 125688,
-        "forks": 6866,
+        "stars": 125791,
+        "forks": 6874,
         "stars_period": "7,899 stars this week"
       }
     },
@@ -200,13 +200,13 @@
       "title": "DeusData/codebase-memory-mcp",
       "url": "https://github.com/DeusData/codebase-memory-mcp",
       "published_at": "",
-      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 7,792 | Forks: 600 | 3,244 stars this week",
-      "chinese_summary": "C 写的代码知识图谱 MCP server。给用 Claude/Cursor 的后端团队用的：把整个代码仓库建索引成持久图，毫秒级查询，号称 158 种语言、99% token 节省，单二进制零依赖。对比传统 LSP（gopls/jdtls）+ ripgrep，它跨语言统一索引、输出的是结构化子图而非文本片段，agent 拿到的上下文更精准；缺点是只看描述无法确认对巨型 monorepo（>5GB）的索引时间和内存峰值，建议先压测。",
-      "backend_focus": "在你们最大的 monorepo 上跑一次：下载二进制后 codebase-memory-mcp index . 测索引耗时和 RSS 内存，对比现在用的 Sourcegraph/Cody 索引链，确认能不能塞进 CI runner 再决定接入。",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 8,194 | Forks: 624 | 3,244 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单二进制零依赖。158 种语言毫秒级建索引，子毫秒查询，号称比同类省 99% token。对比传统 LSP/ctags 它面向 LLM 优化的图谱结构，对比 Sourcegraph 这种重量级平台它单文件就能跑；适合塞进本地 agent 工具链替代全仓 grep+多次 read 的高 token 消耗场景，缺点是索引策略黑盒，大仓首次建索引可能吃满 IO。上手成本：下载二进制配进 MCP client 即可。",
+      "backend_focus": "跑通：下载二进制后把它接进 Claude/Cursor 的 MCP 配置，对一个 50 万行 Go 仓库跑 build index，对比现在每次提问烧的 input token 算账单，看 ROI 再决定是否铺到团队。",
       "meta": {
         "language": "C",
-        "stars": 7792,
-        "forks": 600,
+        "stars": 8194,
+        "forks": 624,
         "stars_period": "3,244 stars this week"
       }
     },
@@ -216,13 +216,13 @@
       "title": "Panniantong/Agent-Reach",
       "url": "https://github.com/Panniantong/Agent-Reach",
       "published_at": "",
-      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 34,899 | Forks: 2,779 | 7,856 stars this week",
-      "chinese_summary": "CLI 工具给 AI agent 装「互联网眼睛」。给做 agent 研发/爬虫后端的工程师用的：一个二进制命令让 agent 直接读推特、Reddit、油管、B 站、小红书搜索结果，零 API key 费用。跟官方 API 方案比，它走的是逆向接口+反爬策略，省钱但合规风险全在调用方；对比传统 scrapy/puppeteer 链路，它省掉了「agent 调爬虫服务」那一跳，但被平台封号风险更高。上手成本低，但生产用必须套一层代理池和限速。",
-      "backend_focus": "clone 下来跑 agent-reach test 验证你目标平台连通性，然后在 staging 跑一次 1000 次连续调用的稳定性测试，重点观察目标平台返回的成功率和封号阈值，决定是否进生产。",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 35,081 | Forks: 2,795 | 7,856 stars this week",
+      "chinese_summary": "给 AI Agent 加联网能力的 CLI，Python 实现，覆盖 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书，零 API 费用。跟传统 scraper（Scrapy/Playwright）比它把各家反爬做了封装且专门压成 agent tool 的 JSON schema；做后端情报/舆情/竞品监控的可以直接挂上去当 tool，缺点是依赖第三方页面结构，平台一改版就可能挂，无 SLA 保证。上手成本：pip install + 配 token 即可，但部分站点要登录态。",
+      "backend_focus": "找一台 sandbox 机器 pip install agent-reach，配进内部 agent 的 tool registry，挑 3 个真实情报场景（竞品 GitHub release、Reddit 舆情、小红书种草）跑一周看稳定性再决定接入正式链路。",
       "meta": {
         "language": "Python",
-        "stars": 34899,
-        "forks": 2779,
+        "stars": 35081,
+        "forks": 2795,
         "stars_period": "7,856 stars this week"
       }
     },
@@ -232,13 +232,13 @@
       "title": "chopratejas/headroom",
       "url": "https://github.com/chopratejas/headroom",
       "published_at": "",
-      "original_summary": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 60-95% fewer tokens, same answers. Library, proxy, MCP server. | 语言: Python | Stars: 37,374 | Forks: 2,546 | 10,159 stars this week",
-      "chinese_summary": "LLM 上下文压缩层。给跑 agent/RAG 的后端用的：在 tool output、日志、RAG chunk 进 LLM 之前先压缩 60-95% token。提供三种形态：库、HTTP 代理、MCP server。对比 LangChain 的 text splitter 或者 tiktoken 截断，它是「保留语义」的压缩而非简单截断，号称同等答案质量下省 token；但实际效果高度依赖下游模型，强 reasoning 模型压缩后可能掉点。上手成本：pip install 即用，proxy 模式零代码改动。",
-      "backend_focus": "用 proxy 模式在你们 RAG 服务的 staging 环境前挂一层 headroom proxy，配环境变量 HEADROOM_ROUTES 指向现有 LLM endpoint，跑一周 A/B 对比 token 成本和答案质量评分，再决定全量切。",
+      "original_summary": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 60-95% fewer tokens, same answers. Library, proxy, MCP server. | 语言: Python | Stars: 38,608 | Forks: 2,632 | 10,159 stars this week",
+      "chinese_summary": "LLM 上下文压缩层，Python 写，可作为库、HTTP proxy 或 MCP server 接入。号称工具输出/日志/RAG chunk 压 60-95% token 答案不变。对比直接喂原始日志它走的是有损+语义保真压缩，对比 Anthropic prompt caching 它解决的是单次请求内的 token 浪费；如果你们 agent 每月账单在烧、长工具输出频繁触发 context window 上限，这玩意儿是 ROI 最快的优化点之一。上手成本：proxy 模式 5 行 docker compose 就能起。",
+      "backend_focus": "先算账：拉最近 30 天 LLM 用量按 input token 计费，挑出 top 5 高 token 的 agent trace；用 docker compose 拉起 headroom proxy 接到其中一个 agent 跑 A/B，一周后看账单和答案质量差异。",
       "meta": {
         "language": "Python",
-        "stars": 37374,
-        "forks": 2546,
+        "stars": 38608,
+        "forks": 2632,
         "stars_period": "10,159 stars this week"
       }
     },
@@ -248,13 +248,13 @@
       "title": "addyosmani/agent-skills",
       "url": "https://github.com/addyosmani/agent-skills",
       "published_at": "",
-      "original_summary": "Production-grade engineering skills for AI coding agents. | 语言: Shell | Stars: 63,252 | Forks: 6,855 | 9,285 stars this week",
-      "chinese_summary": "Google 工程师维护的 AI 编码 agent skill 包。给团队统一编码规范的人用的：production-grade 的 skill 集合，覆盖代码评审、重构、测试、文档等场景。跟各公司内部 AGENTS.md 比，它解决「skill 不是 prompt、要有可执行动作定义」的问题，结构化更好；但通用 skill 永远不如团队定制 skill 准，适合当起点模板。上手成本：把目录拷进 .claude/skills/ 即可，但要在 CI 里验证 skill 是否真生效。",
-      "backend_focus": "fork 一份到你们组织，挑 5 个最常用的 skill（code-review / refactor / test-gen）在本周先用起来，记录哪些动作是团队真正需要的，一个月后基于这 5 个写内部定制版。",
+      "original_summary": "Production-grade engineering skills for AI coding agents. | 语言: Shell | Stars: 63,396 | Forks: 6,873 | 9,285 stars this week",
+      "chinese_summary": "Google 工程师维护的 AI 编码 Agent 技能包，Shell 脚本为主，覆盖工程最佳实践。它不是工具而是 prompt+workflow 集合，类似 .github/copilot-instructions 的升级版；跟 LangChain/AutoGen 这类框架比它不绑定运行时，纯 SKILL.md 喂给 Claude Code/Cursor 就能用，后端想统一团队 agent 编码规范可以直接 fork 当基线。上手成本：clone 后按文档复制对应 skill 到 agent 配置目录。",
+      "backend_focus": "本周：让团队 2-3 个人 clone 后把 skills 接到自己的 Claude Code/Cursor，挑一个真实 PR 任务跑一周对比没装时的 review 轮次和返工率，再决定是否内部 fork 定制版。",
       "meta": {
         "language": "Shell",
-        "stars": 63252,
-        "forks": 6855,
+        "stars": 63396,
+        "forks": 6873,
         "stars_period": "9,285 stars this week"
       }
     },
@@ -264,13 +264,13 @@
       "title": "apple/container",
       "url": "https://github.com/apple/container",
       "published_at": "",
-      "original_summary": "A tool for creating and running Linux containers using lightweight virtual machines on a Mac. It is written in Swift, and optimized for Apple silicon. | 语言: Swift | Stars: 38,773 | Forks: 1,112 | 7,671 stars this week",
-      "chinese_summary": "Apple 出的 Mac 上跑 Linux 容器的工具。给 Mac 开发机+Linux 部署流程的团队用的：用轻量 VM（不是传统 Docker Desktop 的 LinuxKit）在 Apple Silicon 上跑 Linux 容器，号称比 OrbStack/Docker Desktop 启动更快、内存更省。跟 OrbStack 比它是官方原生、跟 Rancher Desktop 比它深度集成 macOS 内核；缺点是只支持 Apple Silicon，Intel Mac 不行，且目前 GA 度未达生产稳定。上手成本：brew 装即可，但 Linux 镜像兼容性需要自己压。",
-      "backend_focus": "在你们 M2/M3 开发机上 brew install --cask container 跑一遍你们现有 Dockerfile，重点对比冷启动时间和 idle 内存占用，跟 OrbStack/Docker Desktop 出个数据再决定团队换不换。",
+      "original_summary": "A tool for creating and running Linux containers using lightweight virtual machines on a Mac. It is written in Swift, and optimized for Apple silicon. | 语言: Swift | Stars: 38,839 | Forks: 1,114 | 7,671 stars this week",
+      "chinese_summary": "Apple 官方出的 macOS 容器工具，Swift 写，基于苹果芯片的轻量 VM 跑 Linux 容器。对比 Docker Desktop for Mac 它不再走 gRPC-FUSE 那套慢路径，对比 Lima/Colima 它是原生方案性能更稳；做 macOS 平台后端的同事可以替换掉老 Docker Desktop，省内存省 CPU，缺点是仅限 Apple Silicon 且目前生态刚起步，镜像兼容性问题可能踩坑。上手成本：brew 装好就能用，CLI 跟 docker 兼容。",
+      "backend_focus": "在 M 系列开发机 brew install container，把现有 docker-compose 项目迁过去跑一遍 build 时间和内存占用对比 Docker Desktop；如果团队有镜像兼容性 blocker 提 issue 或回退。",
       "meta": {
         "language": "Swift",
-        "stars": 38773,
-        "forks": 1112,
+        "stars": 38839,
+        "forks": 1114,
         "stars_period": "7,671 stars this week"
       }
     },
@@ -280,13 +280,13 @@
       "title": "phuryn/pm-skills",
       "url": "https://github.com/phuryn/pm-skills",
       "published_at": "",
-      "original_summary": "PM Skills Marketplace: 100+ agentic skills, commands, and plugins — from discovery to strategy, execution, launch, and growth. | 语言: N/A | Stars: 19,728 | Forks: 2,012 | 3,663 stars this week",
-      "chinese_summary": "PM 类 AI agent skill 市场。给 PM 工具链团队用的：100+ 现成的 agent skill，覆盖产品发现、战略、执行、上线、增长全流程。跟 addyosmani/agent-skills（偏工程）形成互补，这套偏 PM/产品决策场景。问题是 PM skill 的输出很难自动验证，不像代码能跑测试，接进生产决策链路要谨慎。上手成本：纯文档+模板，但要把 skill 翻译成团队 workflow 才能落地。",
-      "backend_focus": "PM 同学挑 3 个最痛的 skill（discovery / launch / growth）跑两周试点，记录「skill 输出 vs 实际决策」的一致率，再决定要不要把模板纳入团队 Confluence。",
+      "original_summary": "PM Skills Marketplace: 100+ agentic skills, commands, and plugins — from discovery to strategy, execution, launch, and growth. | 语言: N/A | Stars: 19,805 | Forks: 2,019 | 3,663 stars this week",
+      "chinese_summary": "PM 技能市场，收集 100+ agentic skill 覆盖产品全流程。无明确技术栈，偏资源聚合站。跟 addyosmani/agent-skills 比它聚焦 PM 而非纯工程；后端工程师如果做内部工具平台，需要 PM 视角的 skill 可以从这里挑，但基本是 prompt 模板没有可执行后端逻辑。上手成本：clone 后挑对应 skill 文件复制使用。",
+      "backend_focus": "与后端服务无关。如果你做内部产品/工具，clone 后挑 discovery 和 launch 两类 skill 喂给 agent 试跑一次需求评审和上线 checklist，评估是否能加速跨职能协作。",
       "meta": {
         "language": "",
-        "stars": 19728,
-        "forks": 2012,
+        "stars": 19805,
+        "forks": 2019,
         "stars_period": "3,663 stars this week"
       }
     },
@@ -296,13 +296,13 @@
       "title": "asgeirtj/system_prompts_leaks",
       "url": "https://github.com/asgeirtj/system_prompts_leaks",
       "published_at": "",
-      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 43,456 | Forks: 7,200 | 1,705 stars this week",
-      "chinese_summary": "各大模型厂商 system prompt 泄露合集。给做 LLM 应用/安全研究的人用的：持续同步抓取 Claude/GPT/Gemini/Grok/Cursor 等的系统提示。对比独立研究（比如 prompt 还原），它解决「别自己逆向」问题，直接看厂商原本怎么写；但 system prompt 不是模型行为完整决定因素，用它复现行为经常踩坑，参考价值大于直接复用价值。上手成本零，但内容定期变，要订阅更新。",
-      "backend_focus": "clone 到本地，grep 你们在用的模型关键词，把出现的 system prompt 片段贴进你们的 prompt eval suite 当 negative case，看是否触发过意外行为，再决定是否调你们线上 system prompt。",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 43,567 | Forks: 7,217 | 1,705 stars this week",
+      "chinese_summary": "各路 LLM 产品的 system prompt 泄露集合，JavaScript 维护定期更新。覆盖 Claude/GPT/Gemini/Grok/Cursor/Copilot/VS Code/Perplexity 等。跟直接抓请求反推比它省了逆向成本，做 LLM 应用后端的可以用来研究各家 prompt 编排风格和工具调用约定，但要注意这些 prompt 可能过期且直接抄有合规风险。上手成本：clone 后读对应目录的 md 即可。",
+      "backend_focus": "拉一份做参考：clone 后挑你们在用的 2-3 个模型对应的 prompt 目录读一遍，对比自己写的 system prompt 看有没有工具描述、安全护栏、格式化指令上的盲区，仅作借鉴不要直接复制。",
       "meta": {
         "language": "JavaScript",
-        "stars": 43456,
-        "forks": 7200,
+        "stars": 43567,
+        "forks": 7217,
         "stars_period": "1,705 stars this week"
       }
     },
@@ -312,14 +312,134 @@
       "title": "kenn-io/agentsview",
       "url": "https://github.com/kenn-io/agentsview",
       "published_at": "",
-      "original_summary": "Local-first session search, analytics, insights, and token use statistics for coding agents, supporting Claude Code, Codex, and more than 20 other agents. | 语言: Go | Stars: 2,922 | Forks: 251 | 1,382 stars this week",
-      "chinese_summary": "Go 写的 coding agent 会话本地检索分析工具。给重度用 Claude Code/Codex 的后端团队用的：本地索引所有 agent 会话，支持全文搜索、用量统计、行为洞察，零外部依赖。跟 Langfuse/Helicone（云端 LLM observability）比，它完全本地、不上传会话数据，隐私敏感场景更合适；缺点是只覆盖 coding agent 会话，不覆盖生产 LLM 调用。上手成本：Go 单二进制，装完就能用。",
-      "backend_focus": "在你们主力开发机上 go install 一下，索引完本周 Claude Code 会话，用 agentsview stats 导出每人 token 用量，对比你们 Langfuse 账单验证是否一致，再决定要不要每周跑一次做成本回顾。",
+      "original_summary": "Local-first session search, analytics, insights, and token use statistics for coding agents, supporting Claude Code, Codex, and more than 20 other agents. | 语言: Go | Stars: 2,941 | Forks: 251 | 1,382 stars this week",
+      "chinese_summary": "本地优先的 coding agent 会话搜索引擎，Go 写，支持 Claude Code/Codex 等 20+ agent。提供 token 用量统计、session 搜索和分析。跟 LangSmith/Helicone 这类 SaaS 可观测性比它是纯本地不外发数据，适合有合规要求不能让 prompt/代码出内网的团队；后端做 agent 平台如果需要 usage 看板和成本归因可以自己 fork 改改。上手成本：Go 编译一个二进制，跑起来自动索引本地 session。",
+      "backend_focus": "本地合规场景：go build 后在工程师机器跑起来，挑一个 agent 跑一周后用它的 token 统计核对你们 LLM 账单看是否有偏差；做内部平台的可考虑 fork 加 SSO 和团队聚合视图。",
       "meta": {
         "language": "Go",
-        "stars": 2922,
+        "stars": 2941,
         "forks": 251,
         "stars_period": "1,382 stars this week"
+      }
+    },
+    {
+      "source": "Hacker News",
+      "category": "社区讨论",
+      "title": "Norway imposes near ban on AI in elementary school",
+      "url": "https://www.reuters.com/technology/norway-imposes-near-ban-ai-elementary-school-2026-06-19/",
+      "published_at": "1781884995",
+      "original_summary": "分数: 310 | 评论数: 194 | 作者: ilreb",
+      "chinese_summary": "【挪威小学近乎禁止学生使用 AI】社区普遍支持。\n用户 simonw：13 岁以下孩子应先学会读写，AI 干预为时尚早\n用户 nunez：教师 Reddit 论坛显示 AI 已严重损害学生成绩和教育者表现，但禁令难以执行\n用户 suyavuz：类比计算器，LLM 跳过了思考过程却产出看似完整的成果，更隐蔽\n【亮点】baq 反对一刀切，认为有硬件约束（活体扫描）和 guardrails 的 1:1 AI 辅导模式对小学生效果可能极佳。",
+      "backend_focus": "【挪威小学近乎禁止学生使用 AI】社区普遍支持。\n用户 simonw：13 岁以下孩子应先学会读写，AI 干预为时尚早\n用户 nunez：教师 Reddit 论坛显示 AI 已严重损害学生成绩和教育者表现，但禁令难以执行\n用户 suyavuz：类比计算器，LLM 跳过了思考过程却产出看似完整的成果，更隐蔽\n【亮点】baq 反对一刀切，认为有硬件约束（活体扫描）和 guardrails 的 1:1 AI 辅导模式对小学生效果可能极佳。",
+      "meta": {
+        "score": 310,
+        "comments": 194,
+        "hn_url": "https://news.ycombinator.com/item?id=48600093"
+      }
+    },
+    {
+      "source": "Hacker News",
+      "category": "社区讨论",
+      "title": "Bobby Prince, composer for Doom, Wolfenstein 3D, and Duke Nukem 3D, has died",
+      "url": "https://www.legacy.com/legacy/robert-bobby-prince-lll",
+      "published_at": "1781897715",
+      "original_summary": "分数: 120 | 评论数: 9 | 作者: pgrote",
+      "chinese_summary": "【Doom 系列作曲家 Bobby Prince 去世】社区集体悼念。\n用户 bombcar：Prince 的音乐是 Doom 沉浸感的重要部分，配合早期 positional audio 营造了独特氛围\n用户 ChrisArchitect：上月美国国会图书馆刚将 Doom 原声带列入国家录音档案馆\n【亮点】评论集中回忆 WAD 音乐和经典 MIDI 曲目，bitwize 幽默说地狱也要借他去配乐。",
+      "backend_focus": "【Doom 系列作曲家 Bobby Prince 去世】社区集体悼念。\n用户 bombcar：Prince 的音乐是 Doom 沉浸感的重要部分，配合早期 positional audio 营造了独特氛围\n用户 ChrisArchitect：上月美国国会图书馆刚将 Doom 原声带列入国家录音档案馆\n【亮点】评论集中回忆 WAD 音乐和经典 MIDI 曲目，bitwize 幽默说地狱也要借他去配乐。",
+      "meta": {
+        "score": 120,
+        "comments": 9,
+        "hn_url": "https://news.ycombinator.com/item?id=48602352"
+      }
+    },
+    {
+      "source": "Hacker News",
+      "category": "社区讨论",
+      "title": "There are no instances in ATProto",
+      "url": "https://overreacted.io/there-are-no-instances-in-atproto/",
+      "published_at": "1781881802",
+      "original_summary": "分数: 317 | 评论数: 181 | 作者: danabramov",
+      "chinese_summary": "【Dan Abramov 解释 ATProto 中没有实例】社区指出理论去中心化与实际集中的落差。\n用户 fizwidget：协议层确实去中心化，但 Bluesky 公司运营主 App 并托管几乎所有用户数据，实践中仍高度集中\n用户 muglug：Relay 是 ATProto 高性能运行的关键，内容无关地转发数据，比 Mastodon 的联邦模式更可扩展\n用户 4lx87：账户只有一个 PDS（Personal Data Server）作为规范数据源，这更接近 client/server 架构\n【争议】JoshTriplett 指出文章回避了核心问题：ATProto 如何解决实例机制本应解决的去联邦化、封禁等问题。",
+      "backend_focus": "【Dan Abramov 解释 ATProto 中没有实例】社区指出理论去中心化与实际集中的落差。\n用户 fizwidget：协议层确实去中心化，但 Bluesky 公司运营主 App 并托管几乎所有用户数据，实践中仍高度集中\n用户 muglug：Relay 是 ATProto 高性能运行的关键，内容无关地转发数据，比 Mastodon 的联邦模式更可扩展\n用户 4lx87：账户只有一个 PDS（Personal Data Server）作为规范数据源，这更接近 client/server 架构\n【争议】JoshTriplett 指出文章回避了核心问题：ATProto 如何解决实例机制本应解决的去联邦化、封禁等问题。",
+      "meta": {
+        "score": 317,
+        "comments": 181,
+        "hn_url": "https://news.ycombinator.com/item?id=48599515"
+      }
+    },
+    {
+      "source": "Hacker News",
+      "category": "社区讨论",
+      "title": "I used sound waves to make espresso. It could cut coffee‑brewing energy use by ¾",
+      "url": "https://theconversation.com/i-used-sound-waves-to-make-espresso-it-could-cut-coffee-brewing-energy-use-by-75-284929",
+      "published_at": "1781338905",
+      "original_summary": "分数: 163 | 评论数: 102 | 作者: zeristor",
+      "chinese_summary": "【超声波技术制作意式浓缩咖啡，可降耗 75%】社区既感兴趣又存疑。\n用户 kowalej：咖啡角度看很有意思，但论文中能耗节省说法受意式机众多变量影响，存疑\n用户 hallway_monitor：实测用珠宝超声波清洗机做冷萃效果不佳，考虑拆 transducer 装到 Portafilter\n用户 craftkiller：真想省能耗直接吃咖啡因片，无热量无咖啡口气随时服用\n【亮点】真实用户体验显示家用超声波设备难以复制论文结果，工业场景或许更可行。",
+      "backend_focus": "【超声波技术制作意式浓缩咖啡，可降耗 75%】社区既感兴趣又存疑。\n用户 kowalej：咖啡角度看很有意思，但论文中能耗节省说法受意式机众多变量影响，存疑\n用户 hallway_monitor：实测用珠宝超声波清洗机做冷萃效果不佳，考虑拆 transducer 装到 Portafilter\n用户 craftkiller：真想省能耗直接吃咖啡因片，无热量无咖啡口气随时服用\n【亮点】真实用户体验显示家用超声波设备难以复制论文结果，工业场景或许更可行。",
+      "meta": {
+        "score": 163,
+        "comments": 102,
+        "hn_url": "https://news.ycombinator.com/item?id=48514843"
+      }
+    },
+    {
+      "source": "Hacker News",
+      "category": "社区讨论",
+      "title": "Think of the Children: How to Force Real ID for All Internet Traffic (2023)",
+      "url": "https://nochan.net/b/Internet-Crap/20230829-Think-Of-The-Children/",
+      "published_at": "1781900397",
+      "original_summary": "分数: 41 | 评论数: 8 | 作者: Bender",
+      "chinese_summary": "与工程无关",
+      "backend_focus": "与工程无关",
+      "meta": {
+        "score": 41,
+        "comments": 8,
+        "hn_url": "https://news.ycombinator.com/item?id=48602817"
+      }
+    },
+    {
+      "source": "Hacker News",
+      "category": "社区讨论",
+      "title": "Hyundai buys Boston Dynamics",
+      "url": "https://startupfortune.com/hyundai-takes-full-control-of-boston-dynamics-as-softbank-exits-for-325-million/",
+      "published_at": "1781886500",
+      "original_summary": "分数: 595 | 评论数: 277 | 作者: ck2",
+      "chinese_summary": "【现代汽车全资收购波士顿动力】社区关注人形机器人的实用性。\n用户 giwook：澄清这是 2020 年 8.8 亿美元收购 80% 股权交易的延续，软银行使 put option 以 3.25 亿美元出售剩余 20%\n用户 Hugsbox：质疑为何不采用专用机器人，人形并非大多数任务的最优解，研发投入巨大却未必实用\n用户 spqw：数据支撑——韩国制造业机器人密度达 1220 台/万人（2024），全球最高且年增 7%\n【争议】Atlas 要在工厂真正有用需 1-2 天学会新任务并达到 99.9% 可靠性，目前缺乏接近该阈值的证据。",
+      "backend_focus": "【现代汽车全资收购波士顿动力】社区关注人形机器人的实用性。\n用户 giwook：澄清这是 2020 年 8.8 亿美元收购 80% 股权交易的延续，软银行使 put option 以 3.25 亿美元出售剩余 20%\n用户 Hugsbox：质疑为何不采用专用机器人，人形并非大多数任务的最优解，研发投入巨大却未必实用\n用户 spqw：数据支撑——韩国制造业机器人密度达 1220 台/万人（2024），全球最高且年增 7%\n【争议】Atlas 要在工厂真正有用需 1-2 天学会新任务并达到 99.9% 可靠性，目前缺乏接近该阈值的证据。",
+      "meta": {
+        "score": 595,
+        "comments": 277,
+        "hn_url": "https://news.ycombinator.com/item?id=48600312"
+      }
+    },
+    {
+      "source": "Hacker News",
+      "category": "社区讨论",
+      "title": "Surprising Economics of Load-Balanced Systems",
+      "url": "https://brooker.co.za/blog/2020/08/06/erlang.html",
+      "published_at": "1781901059",
+      "original_summary": "分数: 22 | 评论数: 11 | 作者: KraftyOne",
+      "chinese_summary": "【负载均衡系统的反直觉经济学】社区指出模型过于理想化。\n用户 mjb：模型基于 Poisson 到达和指数服务时间（M/M 队列），是真实流量（突发相关）的较差近似，世界杯等事件打破独立假设\n用户 bijowo1676：真实系统中重试、超时、thundering herd 导致突发相关，简化模型经济性偏离实际\n用户 megamalloc：即便 10 个后端服务器，文章数据显示无队列时延迟仍比有队列差 25% 以上，队列调优价值被低估\n【争议】nilsherzig 反问为何会有人预期性能线性恶化，质疑文章论证的起点。",
+      "backend_focus": "【负载均衡系统的反直觉经济学】社区指出模型过于理想化。\n用户 mjb：模型基于 Poisson 到达和指数服务时间（M/M 队列），是真实流量（突发相关）的较差近似，世界杯等事件打破独立假设\n用户 bijowo1676：真实系统中重试、超时、thundering herd 导致突发相关，简化模型经济性偏离实际\n用户 megamalloc：即便 10 个后端服务器，文章数据显示无队列时延迟仍比有队列差 25% 以上，队列调优价值被低估\n【争议】nilsherzig 反问为何会有人预期性能线性恶化，质疑文章论证的起点。",
+      "meta": {
+        "score": 22,
+        "comments": 11,
+        "hn_url": "https://news.ycombinator.com/item?id=48602918"
+      }
+    },
+    {
+      "source": "Hacker News",
+      "category": "社区讨论",
+      "title": "Americans express unease over SpaceX's influence on retirement savings",
+      "url": "https://www.theguardian.com/science/2026/jun/19/spacex-retirement-savings-elon-musk",
+      "published_at": "1781909120",
+      "original_summary": "分数: 56 | 评论数: 26 | 作者: ValentineC",
+      "chinese_summary": "【美国民众担忧 SpaceX 对退休金的影响】社区质疑文章前提。\n用户 4fterd4rk：SpaceX 尚未被纳入 S&P 500，规则变更被 S&P 拒绝，看不懂这篇文章在说什么\n用户 mattmaroon：Musk 长期把 Tesla 市值维持在合理估值的 5-10 倍，SpaceX 加入只是时间问题\n用户 anotherhue：个人投资者选项有限，不想付高 ER 只能买指数基金，而 Russell 指数也已让步，做空 SpaceX 是唯一出路\n【争议】ggm 讽刺这是私人资本领域的「 privatise profits, socialise losses」变体。",
+      "backend_focus": "【美国民众担忧 SpaceX 对退休金的影响】社区质疑文章前提。\n用户 4fterd4rk：SpaceX 尚未被纳入 S&P 500，规则变更被 S&P 拒绝，看不懂这篇文章在说什么\n用户 mattmaroon：Musk 长期把 Tesla 市值维持在合理估值的 5-10 倍，SpaceX 加入只是时间问题\n用户 anotherhue：个人投资者选项有限，不想付高 ER 只能买指数基金，而 Russell 指数也已让步，做空 SpaceX 是唯一出路\n【争议】ggm 讽刺这是私人资本领域的「 privatise profits, socialise losses」变体。",
+      "meta": {
+        "score": 56,
+        "comments": 26,
+        "hn_url": "https://news.ycombinator.com/item?id=48604186"
       }
     },
     {
@@ -328,420 +448,300 @@
       "title": "Project Valhalla, Explained: How a Decade of Work Arrives in JDK 28",
       "url": "https://www.jvm-weekly.com/p/project-valhalla-explained-how-a",
       "published_at": "1781850957",
-      "original_summary": "分数: 378 | 评论数: 214 | 作者: philonoist",
-      "chinese_summary": "【Project Valhalla 历经十年登陆 JDK 28】Java 值类型终于落地。\n用户 mattstir：JVM 现在能把 Point 数据密集存储在数组里，8 字节连续布局，无对象头无指针\n用户 cogman10：扁平数据必须原子读写会引发并发 tearing，希望提供 escape hatch\n用户 torginus：Value types、泛型特化、boxing 看起来跟 .NET struct 选型一样\n【争议】null flag 标记被讽为「JVM 的 GIL」，== 变 memcmp 被指破坏封装。",
-      "backend_focus": "【Project Valhalla 历经十年登陆 JDK 28】Java 值类型终于落地。\n用户 mattstir：JVM 现在能把 Point 数据密集存储在数组里，8 字节连续布局，无对象头无指针\n用户 cogman10：扁平数据必须原子读写会引发并发 tearing，希望提供 escape hatch\n用户 torginus：Value types、泛型特化、boxing 看起来跟 .NET struct 选型一样\n【争议】null flag 标记被讽为「JVM 的 GIL」，== 变 memcmp 被指破坏封装。",
+      "original_summary": "分数: 531 | 评论数: 324 | 作者: philonoist",
+      "chinese_summary": "【Project Valhalla 详解：JDK 28 引入值类型】社区讨论热烈且有分歧。\n用户 mattstir：JVM 现可将值密集存储于数组，每 Point 8 字节无对象头无指针，内存布局根本性改变\n用户 petilon：质疑实现缺陷——Point a = new Point(10,10); Point b = a; a.x = 100; 打印 b.x 的答案现在不再显而易见，取决于 Point 是不是 value class\n用户 torginus：直接问这与 C# struct 究竟有何实质差异，泛型特化、boxing 看起来选了同样的路\n【争议】mwkaufma 指出文章脚注关于 C# struct 的对比不准确，且充斥 AI 生成图片，怀疑研究本身有 hallucination。",
+      "backend_focus": "【Project Valhalla 详解：JDK 28 引入值类型】社区讨论热烈且有分歧。\n用户 mattstir：JVM 现可将值密集存储于数组，每 Point 8 字节无对象头无指针，内存布局根本性改变\n用户 petilon：质疑实现缺陷——Point a = new Point(10,10); Point b = a; a.x = 100; 打印 b.x 的答案现在不再显而易见，取决于 Point 是不是 value class\n用户 torginus：直接问这与 C# struct 究竟有何实质差异，泛型特化、boxing 看起来选了同样的路\n【争议】mwkaufma 指出文章脚注关于 C# struct 的对比不准确，且充斥 AI 生成图片，怀疑研究本身有 hallucination。",
       "meta": {
-        "score": 378,
-        "comments": 214,
+        "score": 531,
+        "comments": 324,
         "hn_url": "https://news.ycombinator.com/item?id=48595511"
       }
     },
     {
       "source": "Hacker News",
       "category": "社区讨论",
-      "title": "DuckDB Internals: Why Is DuckDB Fast? (Part 1)",
-      "url": "https://www.greybeam.ai/blog/duckdb-internals-part-1",
-      "published_at": "1781608028",
-      "original_summary": "分数: 319 | 评论数: 90 | 作者: marklit",
-      "chinese_summary": "【DuckDB 内部架构解析：为何如此之快】列存+向量化执行是核心。\n用户 smithclay：鼓励写 community extension，DuckDB 正在成为各数据生态的「超级胶水」\n用户 pedromlsreis：去除不必要层次、列存布局加向量化执行是 OLAP 的制胜组合\n用户 romaniv：评论区每几周就刷一次「快」，其实特定场景外 DuckDB 慢一个数量级\n【亮点】静态链接扩展困难，AppStore 场景 Arrow CPP 更便携。",
-      "backend_focus": "【DuckDB 内部架构解析：为何如此之快】列存+向量化执行是核心。\n用户 smithclay：鼓励写 community extension，DuckDB 正在成为各数据生态的「超级胶水」\n用户 pedromlsreis：去除不必要层次、列存布局加向量化执行是 OLAP 的制胜组合\n用户 romaniv：评论区每几周就刷一次「快」，其实特定场景外 DuckDB 慢一个数量级\n【亮点】静态链接扩展困难，AppStore 场景 Arrow CPP 更便携。",
+      "title": "How many of the 170k English words do you know?",
+      "url": "https://vocabowl-870366514258.us-west1.run.app/",
+      "published_at": "1781877096",
+      "original_summary": "分数: 206 | 评论数: 324 | 作者: abnry",
+      "chinese_summary": "【Show HN：测试你认识多少英语单词的词汇小游戏】社区反馈集中在 UX 和算法缺陷。\n用户 brianleb：分类粗糙，100 题太多，中段难度混乱\n用户 stbullard：数学偏差严重，native speaker 答对率与词频关系不符合模型假设\n用户 salamo：建议改用 Elo 或 Glicko 2 评级算法，结合词频推断用户能力，比 100 道题收敛更快\n用户 EtaoinWu：可轻松作弊——正确答案常是最长选项，选项结构常为「正确+反义+两个无关」\n【亮点】多人独立发现「选最长答案」是稳定 cheat 策略，强烈暗示干扰项由 LLM 生成而非真实词义混编。",
+      "backend_focus": "【Show HN：测试你认识多少英语单词的词汇小游戏】社区反馈集中在 UX 和算法缺陷。\n用户 brianleb：分类粗糙，100 题太多，中段难度混乱\n用户 stbullard：数学偏差严重，native speaker 答对率与词频关系不符合模型假设\n用户 salamo：建议改用 Elo 或 Glicko 2 评级算法，结合词频推断用户能力，比 100 道题收敛更快\n用户 EtaoinWu：可轻松作弊——正确答案常是最长选项，选项结构常为「正确+反义+两个无关」\n【亮点】多人独立发现「选最长答案」是稳定 cheat 策略，强烈暗示干扰项由 LLM 生成而非真实词义混编。",
       "meta": {
-        "score": 319,
-        "comments": 90,
-        "hn_url": "https://news.ycombinator.com/item?id=48553388"
-      }
-    },
-    {
-      "source": "Hacker News",
-      "category": "社区讨论",
-      "title": "The Productivity J-Curve [pdf] (2018)",
-      "url": "https://ide.mit.edu/sites/default/files/publications/jcurve.pdf",
-      "published_at": "1781567275",
-      "original_summary": "分数: 15 | 评论数: 5 | 作者: kioku",
-      "chinese_summary": "【生产率 J 型曲线论文（2018）】讨论资本积累与投资增长的滞后关系。\n用户 curio_Pol_curio：J 型曲线可以叠加在 hype curve 上，J-dip 滞后原因待解\n用户 ok123456：当前 AI 投资时代下边际成本不再恒定，GPU、TPU、内存、电力供给有限，Hamiltonian 方程需要重构",
-      "backend_focus": "【生产率 J 型曲线论文（2018）】讨论资本积累与投资增长的滞后关系。\n用户 curio_Pol_curio：J 型曲线可以叠加在 hype curve 上，J-dip 滞后原因待解\n用户 ok123456：当前 AI 投资时代下边际成本不再恒定，GPU、TPU、内存、电力供给有限，Hamiltonian 方程需要重构",
-      "meta": {
-        "score": 15,
-        "comments": 5,
-        "hn_url": "https://news.ycombinator.com/item?id=48548695"
-      }
-    },
-    {
-      "source": "Hacker News",
-      "category": "社区讨论",
-      "title": "\"No Feigning Surprise\"",
-      "url": "https://wizardzines.com/comics/surprise/",
-      "published_at": "1781552707",
-      "original_summary": "分数: 54 | 评论数: 34 | 作者: evakhoury",
-      "chinese_summary": "【Recurse Center 的「No Feigning Surprise」社区规则】鼓励不懂就问。\n用户 TaylorPhebillo：RC 通过社交规则营造学习环境，成功部分靠成员主动成长意愿\n用户 thror849ibjr：装惊讶常被用来撒谎或推卸责任，比如宠物攻击后装作意外\n【亮点】标题与 URL 不符引发吐槽，实际漫画讨论的是 500MB/s 硬盘写入速度等冷知识。",
-      "backend_focus": "【Recurse Center 的「No Feigning Surprise」社区规则】鼓励不懂就问。\n用户 TaylorPhebillo：RC 通过社交规则营造学习环境，成功部分靠成员主动成长意愿\n用户 thror849ibjr：装惊讶常被用来撒谎或推卸责任，比如宠物攻击后装作意外\n【亮点】标题与 URL 不符引发吐槽，实际漫画讨论的是 500MB/s 硬盘写入速度等冷知识。",
-      "meta": {
-        "score": 54,
-        "comments": 34,
-        "hn_url": "https://news.ycombinator.com/item?id=48546093"
-      }
-    },
-    {
-      "source": "Hacker News",
-      "category": "社区讨论",
-      "title": "Ten years of ClickHouse in open source",
-      "url": "https://clickhouse.com/blog/open-source-10",
-      "published_at": "1781556714",
-      "original_summary": "分数: 171 | 评论数: 51 | 作者: saisrirampur",
-      "chinese_summary": "【ClickHouse 开源十周年回顾】OLAP 列库标杆的演进史。\n用户 drchaim：2017 年用 ClickHouse 替换 Elasticsearch 拿到 5x 存储和 QPS 提升，但因「俄罗斯制造」被否决\n用户 jaysh：ClickHouse 替换 Loki 后可观测性栈终于「感觉对了」\n用户 adsharma：文章对比 SQLite 和 Ladybird 却漏掉主要对手 DuckDB\n【亮点】允许实验性 PR 测试新内存分配器、压缩库、哈希表，生产级别严格审查。",
-      "backend_focus": "【ClickHouse 开源十周年回顾】OLAP 列库标杆的演进史。\n用户 drchaim：2017 年用 ClickHouse 替换 Elasticsearch 拿到 5x 存储和 QPS 提升，但因「俄罗斯制造」被否决\n用户 jaysh：ClickHouse 替换 Loki 后可观测性栈终于「感觉对了」\n用户 adsharma：文章对比 SQLite 和 Ladybird 却漏掉主要对手 DuckDB\n【亮点】允许实验性 PR 测试新内存分配器、压缩库、哈希表，生产级别严格审查。",
-      "meta": {
-        "score": 171,
-        "comments": 51,
-        "hn_url": "https://news.ycombinator.com/item?id=48546890"
-      }
-    },
-    {
-      "source": "Hacker News",
-      "category": "社区讨论",
-      "title": "Zen and the Art of Machine Learning Research",
-      "url": "https://blog.jxmo.io/p/zen-and-the-art-of-machine-learning",
-      "published_at": "1781570750",
-      "original_summary": "分数: 156 | 评论数: 48 | 作者: jxmorris12",
-      "chinese_summary": "【机器学习研究的禅意：耐心与初心】探讨 ML 研究的心境修养。\n用户 rented_mule：后端转 ML 的工程师几周就想转回，ML 工程师却不愿碰后端\n用户 HarHarVeryFunny：Ed Witten 被问日常工作时回答「I sit at my desk」，与作者「未得悟也坐」契合\n用户 WithinReason：先自己尝试到瓶颈再查文献，是创造力与卡壳之间的最佳平衡\n【争议】ML 更像生物学或炼金术而非数学编程，非确定性大、抽象不稳固。",
-      "backend_focus": "【机器学习研究的禅意：耐心与初心】探讨 ML 研究的心境修养。\n用户 rented_mule：后端转 ML 的工程师几周就想转回，ML 工程师却不愿碰后端\n用户 HarHarVeryFunny：Ed Witten 被问日常工作时回答「I sit at my desk」，与作者「未得悟也坐」契合\n用户 WithinReason：先自己尝试到瓶颈再查文献，是创造力与卡壳之间的最佳平衡\n【争议】ML 更像生物学或炼金术而非数学编程，非确定性大、抽象不稳固。",
-      "meta": {
-        "score": 156,
-        "comments": 48,
-        "hn_url": "https://news.ycombinator.com/item?id=48549118"
-      }
-    },
-    {
-      "source": "Hacker News",
-      "category": "社区讨论",
-      "title": "To study how chips work, MIT researchers built their own operating system",
-      "url": "https://news.mit.edu/2026/to-study-how-chips-really-work-mit-researchers-built-their-own-operating-system-0610",
-      "published_at": "1781539582",
-      "original_summary": "分数: 284 | 评论数: 43 | 作者: speckx",
-      "chinese_summary": "【MIT 自研 OS Fractal 研究芯片微架构】解决 Spectre/Meltdown 类研究受 OS 噪声干扰。\n用户 jprx：作者亲临，代码在 github.com/jprx/fractal，论文和实验数据全公开\n用户 landr0id：Spectre/Meltdown 禁运期就有微软工程师用类似方法\n用户 JdeBP：XNU 构建困难不在于删改而在于 toolchain 适配\n【争议】有人质疑这不算「研究」而是逆向工程的「游戏」。",
-      "backend_focus": "【MIT 自研 OS Fractal 研究芯片微架构】解决 Spectre/Meltdown 类研究受 OS 噪声干扰。\n用户 jprx：作者亲临，代码在 github.com/jprx/fractal，论文和实验数据全公开\n用户 landr0id：Spectre/Meltdown 禁运期就有微软工程师用类似方法\n用户 JdeBP：XNU 构建困难不在于删改而在于 toolchain 适配\n【争议】有人质疑这不算「研究」而是逆向工程的「游戏」。",
-      "meta": {
-        "score": 284,
-        "comments": 43,
-        "hn_url": "https://news.ycombinator.com/item?id=48543311"
-      }
-    },
-    {
-      "source": "Hacker News",
-      "category": "社区讨论",
-      "title": "I found 10k GitHub repositories distributing Trojan malware",
-      "url": "https://orchidfiles.com/github-repositories-distributing-malware/",
-      "published_at": "1781783143",
-      "original_summary": "分数: 880 | 评论数: 233 | 作者: theorchid",
-      "chinese_summary": "【GitHub 惊现 1 万个仓库分发木马】攻击目标不是人而是为 agent 服务。\n用户 guhcampos：攻击针对 AI agent 搜索依赖的行为，克隆新仓库+反复删推 commit 保持「最近更新」排名\n用户 bananamogul：2024 年 2 月举报明显盗版 WHMCS 仓库，两年仍未处理\n用户 davidcrowe：自己的 repo 2 月被仿冒用于分发木马，已写细节\n【争议】GitHub 对明显举报零响应，社区怀疑其治理诚意。",
-      "backend_focus": "【GitHub 惊现 1 万个仓库分发木马】攻击目标不是人而是为 agent 服务。\n用户 guhcampos：攻击针对 AI agent 搜索依赖的行为，克隆新仓库+反复删推 commit 保持「最近更新」排名\n用户 bananamogul：2024 年 2 月举报明显盗版 WHMCS 仓库，两年仍未处理\n用户 davidcrowe：自己的 repo 2 月被仿冒用于分发木马，已写细节\n【争议】GitHub 对明显举报零响应，社区怀疑其治理诚意。",
-      "meta": {
-        "score": 880,
-        "comments": 233,
-        "hn_url": "https://news.ycombinator.com/item?id=48583928"
-      }
-    },
-    {
-      "source": "Hacker News",
-      "category": "社区讨论",
-      "title": "Gribouille 0.3.0: A Grammar of Graphics for Typst",
-      "url": "https://mickael.canouil.fr/posts/2026-06-15-gribouille-0-3/",
-      "published_at": "1781530523",
-      "original_summary": "分数: 153 | 评论数: 55 | 作者: mcanouil",
-      "chinese_summary": "【Gribouille 0.3.0：为 Typst 打造的图形语法库】纯 Typst 实现，无 WASM 后端。\n用户 matijsvzuijlen：参数全用全拼唯独 labs 缩写令人困惑，lab 像 laboratory\n用户 stared：API 类似 Observable Plot 而非 ggplot2，aes 和 labs 函数或可去掉\n用户 elsoja：纯原生 Typst 无 WASM，复杂图表和大文档性能存疑",
-      "backend_focus": "【Gribouille 0.3.0：为 Typst 打造的图形语法库】纯 Typst 实现，无 WASM 后端。\n用户 matijsvzuijlen：参数全用全拼唯独 labs 缩写令人困惑，lab 像 laboratory\n用户 stared：API 类似 Observable Plot 而非 ggplot2，aes 和 labs 函数或可去掉\n用户 elsoja：纯原生 Typst 无 WASM，复杂图表和大文档性能存疑",
-      "meta": {
-        "score": 153,
-        "comments": 55,
-        "hn_url": "https://news.ycombinator.com/item?id=48541062"
-      }
-    },
-    {
-      "source": "Hacker News",
-      "category": "社区讨论",
-      "title": "The AirPods Effect",
-      "url": "https://www.theescapenewsletter.com/p/the-airpods-effect",
-      "published_at": "1781824115",
-      "original_summary": "分数: 245 | 评论数: 446 | 作者: herbertl",
-      "chinese_summary": "【AirPods 让人与人更疏远？】德国作者对比欧美佩戴习惯引发讨论。\n用户 cassepipe：大城市通勤用 AirPods 物理隔绝噪音合理，没 AirPods 的人用普通耳塞\n用户 bejd：走路不听播客后默认模式网络恢复，「白日梦」时间多了反而灵感更多\n用户 malshe：作者是德国人，凭什么抱怨美国人公共场合不搭话？德国火车上几乎没人跟陌生人说话\n【争议】自闭症用户称不戴耳机避免危险情境，戴耳机反而是安全策略。",
-      "backend_focus": "【AirPods 让人与人更疏远？】德国作者对比欧美佩戴习惯引发讨论。\n用户 cassepipe：大城市通勤用 AirPods 物理隔绝噪音合理，没 AirPods 的人用普通耳塞\n用户 bejd：走路不听播客后默认模式网络恢复，「白日梦」时间多了反而灵感更多\n用户 malshe：作者是德国人，凭什么抱怨美国人公共场合不搭话？德国火车上几乎没人跟陌生人说话\n【争议】自闭症用户称不戴耳机避免危险情境，戴耳机反而是安全策略。",
-      "meta": {
-        "score": 245,
-        "comments": 446,
-        "hn_url": "https://news.ycombinator.com/item?id=48592832"
+        "score": 206,
+        "comments": 324,
+        "hn_url": "https://news.ycombinator.com/item?id=48598586"
       }
     },
     {
       "source": "Linux.do",
       "category": "社区讨论",
-      "title": "🔥Torch中转站正式运营！开业专属福利来袭，盖楼送额度，开业期间每天大额福利key",
-      "url": "https://linux.do/t/topic/2428574",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 模型发布与能力变化 | 回复数: 528 | 大家最关注的仍然是新模型、新版本和实际体验差异，讨论重点不只是谁发布了什么，而是能力有没有真实变化、值不值得切换。 这条线索下聚合了 25 个高互动话题，代表性讨论包括 🔥Torch中转站正式运营！...、新站开业活动/Claude M...、Dario Amodei呼吁建...。",
-      "chinese_summary": "这是一个 API 中转站（Torch 中转站）的开业营销帖，主打评论盖楼送额度和每日福利 key。从摘要看属于典型的渠道推广，不是技术讨论，但 528 回复显示关注度高。技术读者可借此了解当前中转服务的价格档位和稳定性口碑，但不建议在生产环境盲选。",
-      "backend_focus": "如果考虑接入中转站，先用免费 key 跑 7 天压测：记录 latency P95、错误率、是否限流，再决定是否把主链路流量切过去。",
+      "title": "关于最好用的2个公益站",
+      "url": "https://linux.do/t/topic/2432525",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 开发接入与工程实操 | 回复数: 136 | 开发调优相关内容更偏向可执行经验，包括接入方式、部署路径、工具链兼容和具体排障，讨论通常带着很强的场景感。 这条线索下聚合了 51 个高互动话题，代表性讨论包括 关于最好用的2个公益站、Any Router域名挂了后...、Hermes Agent老是记...。",
+      "chinese_summary": "原帖在讨论两个免费公益 AI 站点的使用体验和资源对比。136 条回复的热度说明社区对公益站的口碑、稳定性、模型覆盖有持续关注。值得点进去看公益站与付费中转站的真实差异，以及哪些站适合长期接入。",
+      "backend_focus": "如果要做 API 接入，可先去 Hugging Face、OpenRouter 等官方渠道核验免费额度余量，再把公益站当作备用 fallback，避免主链路依赖第三方免费服务。",
       "meta": {
-        "reply_count": 528,
-        "section_title": "模型发布与能力变化",
-        "daily_url": "https://news.linuxe.top/",
-        "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
-      }
-    },
-    {
-      "source": "Linux.do",
-      "category": "社区讨论",
-      "title": "新站开业活动/Claude Max 满血 / GPT5.5 纯净无掺量，评论即可得10刀测试金.",
-      "url": "https://linux.do/t/topic/2429319",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 模型发布与能力变化 | 回复数: 438 | 大家最关注的仍然是新模型、新版本和实际体验差异，讨论重点不只是谁发布了什么，而是能力有没有真实变化、值不值得切换。 这条线索下聚合了 25 个高互动话题，代表性讨论包括 🔥Torch中转站正式运营！...、新站开业活动/Claude M...、Dario Amodei呼吁建...。",
-      "chinese_summary": "又一个 Claude Max / GPT-5.5 中转站的开业活动帖，评论即送 10 刀测试金，定位是\"纯净无掺量\"。内容纯营销，但 438 回复说明读者对低价中转仍有强需求。对工程团队的意义是：第三方中转正在变成隐性供应链，需要纳入采购评估。",
-      "backend_focus": "把当前在用的中转站做成评估表，至少覆盖：单价、5xx 比例、是否做 token 计数劫持、是否支持 OpenAI 兼容协议、是否做请求日志留存。",
-      "meta": {
-        "reply_count": 438,
-        "section_title": "模型发布与能力变化",
-        "daily_url": "https://news.linuxe.top/",
-        "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
-      }
-    },
-    {
-      "source": "Linux.do",
-      "category": "社区讨论",
-      "title": "Dario Amodei呼吁建立美国领导的AI联盟以排除中国",
-      "url": "https://linux.do/t/topic/2425464",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 模型发布与能力变化 | 回复数: 110 | 大家最关注的仍然是新模型、新版本和实际体验差异，讨论重点不只是谁发布了什么，而是能力有没有真实变化、值不值得切换。 这条线索下聚合了 25 个高互动话题，代表性讨论包括 🔥Torch中转站正式运营！...、新站开业活动/Claude M...、Dario Amodei呼吁建...。",
-      "chinese_summary": "原帖讨论 Anthropic CEO Dario Amodei 公开呼吁建立美国主导的 AI 联盟并将中国排除在外，属于地缘政治层面的行业信号。110 回复说明社区对供应链分裂的风险高度敏感。对国内开发者直接影响是高端模型访问通道可能进一步收紧。",
-      "backend_focus": "短期内梳理手上依赖 Anthropic / OpenAI 旗舰模型的业务链路，预留国产模型（DeepSeek、豆包、GLM）作为降级备份，避免单点断供。",
-      "meta": {
-        "reply_count": 110,
-        "section_title": "模型发布与能力变化",
-        "daily_url": "https://news.linuxe.top/",
-        "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
-      }
-    },
-    {
-      "source": "Linux.do",
-      "category": "社区讨论",
-      "title": "多模态小测：DeepSeek 视图模式翻车，豆包竟成黑马？",
-      "url": "https://linux.do/t/topic/2430673",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 模型发布与能力变化 | 回复数: 57 | 大家最关注的仍然是新模型、新版本和实际体验差异，讨论重点不只是谁发布了什么，而是能力有没有真实变化、值不值得切换。 这条线索下聚合了 25 个高互动话题，代表性讨论包括 🔥Torch中转站正式运营！...、新站开业活动/Claude M...、Dario Amodei呼吁建...。",
-      "chinese_summary": "原帖在做多模态识图能力的横向实测，结论是 DeepSeek 的\"视图模式\"表现翻车，豆包反而跑出来成为黑马。这类对比对选型有直接参考价值。技术读者关心的是不同模型在图像理解任务上的真实差距，而不是 benchmark 分数。",
-      "backend_focus": "拿自己业务里的真实图片样本（OCR、图表理解、商品图）各跑 50 条，对比 DeepSeek 和豆包的输出，做成内部选型矩阵再决定接入。",
-      "meta": {
-        "reply_count": 57,
-        "section_title": "模型发布与能力变化",
-        "daily_url": "https://news.linuxe.top/",
-        "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
-      }
-    },
-    {
-      "source": "Linux.do",
-      "category": "社区讨论",
-      "title": "CLI没了，酒馆玩家该何去何从…😭",
-      "url": "https://linux.do/t/topic/2431209",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 开发接入与工程实操 | 回复数: 114 | 开发调优相关内容更偏向可执行经验，包括接入方式、部署路径、工具链兼容和具体排障，讨论通常带着很强的场景感。 这条线索下聚合了 36 个高互动话题，代表性讨论包括 CLI没了，酒馆玩家该何去何从…😭、codex又重置额度了，但是重...、做APP开发的，你们怎么搞定各...。",
-      "chinese_summary": "原帖吐槽某酒馆类应用的 CLI 入口被下架，玩家失去命令行使用方式。这是一个面向终端用户的产品变更抱怨，不是工程实现帖。值得技术读者注意的是：当 CLI 被砍，自动化脚本、批量操作、第三方集成通常会一起失效。",
-      "backend_focus": "检查你日常依赖的命令行工具是否也在悄悄改版，趁机把关键工作流封装成可替换的脚本层，避免下次 API/CLI 变动时一夜归零。",
-      "meta": {
-        "reply_count": 114,
+        "reply_count": 136,
         "section_title": "开发接入与工程实操",
         "daily_url": "https://news.linuxe.top/",
         "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
       }
     },
     {
       "source": "Linux.do",
       "category": "社区讨论",
-      "title": "codex又重置额度了，但是重置完好像5小时限制和周限制额度又降低了",
-      "url": "https://linux.do/t/topic/2425932",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 开发接入与工程实操 | 回复数: 59 | 开发调优相关内容更偏向可执行经验，包括接入方式、部署路径、工具链兼容和具体排障，讨论通常带着很强的场景感。 这条线索下聚合了 36 个高互动话题，代表性讨论包括 CLI没了，酒馆玩家该何去何从…😭、codex又重置额度了，但是重...、做APP开发的，你们怎么搞定各...。",
-      "chinese_summary": "原帖反馈 Codex 在每次重置额度后，5 小时窗口和周窗口的配额上限都在被悄悄下调。这属于平台策略收紧的真实信号，对依赖 Codex 做长任务开发的用户影响很大。59 回复说明这不是个例，而是普遍可复现的降级。",
-      "backend_focus": "如果用 Codex 跑长任务，加一层代理层统计每日 token 消耗曲线，一旦发现窗口配额缩水立刻把后台任务切到 GLM/DeepSeek 备用通道。",
+      "title": "Any Router域名挂了后，Any的GPT-5.5 Juice值升回768了",
+      "url": "https://linux.do/t/topic/2435369",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 开发接入与工程实操 | 回复数: 54 | 开发调优相关内容更偏向可执行经验，包括接入方式、部署路径、工具链兼容和具体排障，讨论通常带着很强的场景感。 这条线索下聚合了 51 个高互动话题，代表性讨论包括 关于最好用的2个公益站、Any Router域名挂了后...、Hermes Agent老是记...。",
+      "chinese_summary": "原帖反映 Any Router 域名失效后，Any 平台上的 GPT-5.5 Juice 值回升到 768 的现象。背后涉及中转站域名可用性与额度机制的耦合问题。对依赖中转站调度的工程同学来说，这种抖动直接影响生产可用性。",
+      "backend_focus": "建议在接入中转路由时加一层健康检查 + 域名/IP 备用切换，并对每次请求的额度返回值做埋点，域名失效时能快速回退到下一档模型或直连通道。",
       "meta": {
-        "reply_count": 59,
+        "reply_count": 54,
         "section_title": "开发接入与工程实操",
         "daily_url": "https://news.linuxe.top/",
         "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
       }
     },
     {
       "source": "Linux.do",
       "category": "社区讨论",
-      "title": "做APP开发的，你们怎么搞定各种恶心的备案的",
-      "url": "https://linux.do/t/topic/2426011",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 开发接入与工程实操 | 回复数: 60 | 开发调优相关内容更偏向可执行经验，包括接入方式、部署路径、工具链兼容和具体排障，讨论通常带着很强的场景感。 这条线索下聚合了 36 个高互动话题，代表性讨论包括 CLI没了，酒馆玩家该何去何从…😭、codex又重置额度了，但是重...、做APP开发的，你们怎么搞定各...。",
-      "chinese_summary": "原帖是 APP 开发者吐槽国内各类备案流程繁琐，包括 ICP、公安备案、应用商店资质等。属于合规经验求助，不是技术实现帖。对个人/小团队开发者来说，国内 APP 上线的隐性成本是必须提前评估的。",
-      "backend_focus": "立项前先查\"APP 备案 + 应用商店资质\"清单，预留 2-4 周合规窗口；如果面向海外，直接走 Google Play / App Store 海外主体，省掉大部分备案。",
+      "title": "Hermes Agent老是记不住我要它做事的方式，输出总是我行我素，怎么办？",
+      "url": "https://linux.do/t/topic/2433130",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 开发接入与工程实操 | 回复数: 36 | 开发调优相关内容更偏向可执行经验，包括接入方式、部署路径、工具链兼容和具体排障，讨论通常带着很强的场景感。 这条线索下聚合了 51 个高互动话题，代表性讨论包括 关于最好用的2个公益站、Any Router域名挂了后...、Hermes Agent老是记...。",
+      "chinese_summary": "原帖吐槽 Hermes Agent 总是记不住用户指定的工作方式，输出偏自由发挥。这是个典型的 Agent 记忆与指令遵从问题，与 system prompt 设计、上下文窗口和记忆模块相关。值得点进去看其他用户给出的提示词或工程化解决方案。",
+      "backend_focus": "试试在 Hermes Agent 的 system prompt 里加结构化规则 + 显式输出格式约束，并把\"做事方式\"拆成可校验的步骤清单，降低模型自由发挥空间。",
       "meta": {
-        "reply_count": 60,
+        "reply_count": 36,
         "section_title": "开发接入与工程实操",
         "daily_url": "https://news.linuxe.top/",
         "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
       }
     },
     {
       "source": "Linux.do",
       "category": "社区讨论",
-      "title": "很多人还在研究怎么买 GLM-5.2 套餐",
-      "url": "https://linux.do/t/topic/2431425",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 开发接入与工程实操 | 回复数: 40 | 开发调优相关内容更偏向可执行经验，包括接入方式、部署路径、工具链兼容和具体排障，讨论通常带着很强的场景感。 这条线索下聚合了 36 个高互动话题，代表性讨论包括 CLI没了，酒馆玩家该何去何从…😭、codex又重置额度了，但是重...、做APP开发的，你们怎么搞定各...。",
-      "chinese_summary": "原帖讨论 GLM-5.2 的付费套餐购买方式，吐槽国内用户获取智谱旗舰模型比海外困难。属于渠道/支付层面的讨论，反映国产模型商业化的现实摩擦。对工程团队意味着：模型选型时付费链路是否畅通本身就是评估项。",
-      "backend_focus": "选型时把\"能否稳定付费 + 开票\"写进评估表，给运营/采购留好对接窗口；个人开发者可先用 API 兼容层（OpenAI 协议）跑通再谈企业合同。",
+      "title": "佬们有没有替代向日葵远控的应用",
+      "url": "https://linux.do/t/topic/2433843",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 开发接入与工程实操 | 回复数: 26 | 开发调优相关内容更偏向可执行经验，包括接入方式、部署路径、工具链兼容和具体排障，讨论通常带着很强的场景感。 这条线索下聚合了 51 个高互动话题，代表性讨论包括 关于最好用的2个公益站、Any Router域名挂了后...、Hermes Agent老是记...。",
+      "chinese_summary": "原帖在找向日葵远控的替代方案，说明社区对国产远控的合规与稳定性有顾虑。可关注的细节是跨平台、自托管、开源协议等工程指标。点进去看可以一次收集多种替代方案的对比。",
+      "backend_focus": "可优先评估 RustDesk、NoMachine、Apache Guacamole 这类自托管方案，部署时注意开启 TLS 和访问白名单，避免远控通道直接暴露公网。",
       "meta": {
-        "reply_count": 40,
+        "reply_count": 26,
         "section_title": "开发接入与工程实操",
         "daily_url": "https://news.linuxe.top/",
         "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
       }
     },
     {
       "source": "Linux.do",
       "category": "社区讨论",
-      "title": "「合租巴士」codex中转站——无门槛直降来袭，余额多充多送！月卡额度提升！回复就送体验额度！！",
-      "url": "https://linux.do/t/topic/2427099",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 产品策略与使用成本 | 回复数: 193 | 不少帖子都在比较订阅方案、额度、稳定性和平台策略，反映出大家对成本、可用性和长期可替代性的敏感。 这条线索下聚合了 10 个高互动话题，代表性讨论包括 「合租巴士」codex中转站—...、【富可敌国】Unity2.ai...、【悲报】幽默了CODEX PL...。",
-      "chinese_summary": "原帖是 Codex 中转站\"合租巴士\"的促销帖，主打无门槛低价和多充多送。193 回复说明价格仍是当前 API 消费的最大决策因子。对工程团队的意义是：中转市场正在内卷，单价不再是壁垒，稳定性和数据合规才是。",
-      "backend_focus": "在做中转站采购决策时，把\"数据是否经第三方\"和\"是否签 DPA\"作为硬性过滤项，避免为了省 30% 单价把客户数据暴露给不合规渠道。",
+      "title": "GLM-5.2 真是又快又蠢啊",
+      "url": "https://linux.do/t/topic/2433945",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 模型发布与能力变化 | 回复数: 99 | 大家最关注的仍然是新模型、新版本和实际体验差异，讨论重点不只是谁发布了什么，而是能力有没有真实变化、值不值得切换。 这条线索下聚合了 26 个高互动话题，代表性讨论包括 GLM-5.2 真是又快又蠢啊、为什么 X 上大家都在发 GP...、亲戚家的小孩发了道小学奥数题，...。",
+      "chinese_summary": "原帖评价 GLM-5.2 速度快但智能下降，是典型的\"快而蠢\"体验吐槽。99 条回复说明大家很关注推理速度和质量的权衡。这对要在生产里选型的工程师是直接参考。",
+      "backend_focus": "建议拿 GLM-5.2 跑一遍自己的业务 eval 集，重点看复杂推理和长上下文任务，再决定是否把它放在低复杂度高并发场景而不是主推理链路。",
       "meta": {
-        "reply_count": 193,
-        "section_title": "产品策略与使用成本",
+        "reply_count": 99,
+        "section_title": "模型发布与能力变化",
         "daily_url": "https://news.linuxe.top/",
         "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
       }
     },
     {
       "source": "Linux.do",
       "category": "社区讨论",
-      "title": "【富可敌国】Unity2.ai 年中 618 正式开始，首充规则升级 赠金不止拿一次。（评论即送$12余额！）",
-      "url": "https://linux.do/t/topic/2426722",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 产品策略与使用成本 | 回复数: 165 | 不少帖子都在比较订阅方案、额度、稳定性和平台策略，反映出大家对成本、可用性和长期可替代性的敏感。 这条线索下聚合了 10 个高互动话题，代表性讨论包括 「合租巴士」codex中转站—...、【富可敌国】Unity2.ai...、【悲报】幽默了CODEX PL...。",
-      "chinese_summary": "原帖是 Unity2.ai 平台的 618 营销活动帖，主打首充返余额和评论送礼。本质是行业渠道竞争白热化的又一个信号。对工程读者的价值不在帖本身，而在于观察\"AI API 正在被当作电商标品卖\"这个趋势。",
-      "backend_focus": "如果同时使用多个 API 中转，给自己写一个简易的用量+成本看板（按日/按模型聚合），在大促窗口前提前锁定主力渠道，避免被促销话术牵着走。",
+      "title": "为什么 X 上大家都在发 GPT 5.6 Pro？又是 Pro Extended 灰度？",
+      "url": "https://linux.do/t/topic/2431963",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 模型发布与能力变化 | 回复数: 70 | 大家最关注的仍然是新模型、新版本和实际体验差异，讨论重点不只是谁发布了什么，而是能力有没有真实变化、值不值得切换。 这条线索下聚合了 26 个高互动话题，代表性讨论包括 GLM-5.2 真是又快又蠢啊、为什么 X 上大家都在发 GP...、亲戚家的小孩发了道小学奥数题，...。",
+      "chinese_summary": "原帖讨论 X 上突然大量出现 GPT 5.6 Pro 的截图，怀疑是 Pro Extended 灰度放量。70 条回复说明社区对 OpenAI 版本节奏非常敏感。点进去可以跟踪灰度进展和地区差异。",
+      "backend_focus": "如果在做多模型路由，可定期用同一组 prompt 探测自己账号的模型版本，把可用模型列表写进配置中心，OpenAI 一旦放量就能立刻切流对比。",
       "meta": {
-        "reply_count": 165,
-        "section_title": "产品策略与使用成本",
+        "reply_count": 70,
+        "section_title": "模型发布与能力变化",
         "daily_url": "https://news.linuxe.top/",
         "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
       }
     },
     {
       "source": "Linux.do",
       "category": "社区讨论",
-      "title": "【悲报】幽默了CODEX PLUS 5H额度直降至5刀",
-      "url": "https://linux.do/t/topic/2426327",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 产品策略与使用成本 | 回复数: 71 | 不少帖子都在比较订阅方案、额度、稳定性和平台策略，反映出大家对成本、可用性和长期可替代性的敏感。 这条线索下聚合了 10 个高互动话题，代表性讨论包括 「合租巴士」codex中转站—...、【富可敌国】Unity2.ai...、【悲报】幽默了CODEX PL...。",
-      "chinese_summary": "原帖反馈 Codex Plus 的 5 小时窗口额度被下调到 5 美元，属于明确的平台策略收紧信号。71 回复说明重度用户已经普遍感知到配额缩水。这是当前 Codex 计费体系调整最直接的吐槽，技术读者需要据此重新评估日常开发成本。",
-      "backend_focus": "按当前 5h/5 美元上限反推自己的并发任务数，超出部分提前分流到 Claude / DeepSeek；并把 Codex 定位降级为\"补位\"而非主力。",
+      "title": "亲戚家的小孩发了道小学奥数题，想了半天没想出来，求佬救救",
+      "url": "https://linux.do/t/topic/2434741",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 模型发布与能力变化 | 回复数: 34 | 大家最关注的仍然是新模型、新版本和实际体验差异，讨论重点不只是谁发布了什么，而是能力有没有真实变化、值不值得切换。 这条线索下聚合了 26 个高互动话题，代表性讨论包括 GLM-5.2 真是又快又蠢啊、为什么 X 上大家都在发 GP...、亲戚家的小孩发了道小学奥数题，...。",
+      "chinese_summary": "原帖拿一道小学奥数题求助，意外变成对大模型数学推理能力的测试。34 条回复里大概率有不同模型的解题对比。对工程读者来说，这是观察模型推理能力差异的轻量样本。",
+      "backend_focus": "建议把这类奥数/逻辑题整理成小型回归测试集，每次新模型上线跑一遍，记录通过率和错误模式，作为选型时的基线参考。",
       "meta": {
-        "reply_count": 71,
-        "section_title": "产品策略与使用成本",
+        "reply_count": 34,
+        "section_title": "模型发布与能力变化",
         "daily_url": "https://news.linuxe.top/",
         "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
       }
     },
     {
       "source": "Linux.do",
       "category": "社区讨论",
-      "title": "deepseek 识图模式全量上线？ 是不是 4.1要来了？",
-      "url": "https://linux.do/t/topic/2427313",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 产品策略与使用成本 | 回复数: 62 | 不少帖子都在比较订阅方案、额度、稳定性和平台策略，反映出大家对成本、可用性和长期可替代性的敏感。 这条线索下聚合了 10 个高互动话题，代表性讨论包括 「合租巴士」codex中转站—...、【富可敌国】Unity2.ai...、【悲报】幽默了CODEX PL...。",
-      "chinese_summary": "原帖猜测 DeepSeek 识图模式全量上线是为 4.1 版本做铺垫。属于版本节奏的社区预判帖，技术含量集中在\"什么时候会有官方多模态 API\"。对工程读者的价值在于提前预判 API 形态变化以便规划接入。",
-      "backend_focus": "关注 DeepSeek 官方 changelog，把\"识图/语音/视频\"能力列入下季度接入候选；目前先用其他多模态模型（豆包、GPT-4o）跑通业务逻辑保持可替换。",
+      "title": "未确认小道消息 微软据报通过Azure在华销售OpenAl的模型",
+      "url": "https://linux.do/t/topic/2434523",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 模型发布与能力变化 | 回复数: 25 | 大家最关注的仍然是新模型、新版本和实际体验差异，讨论重点不只是谁发布了什么，而是能力有没有真实变化、值不值得切换。 这条线索下聚合了 26 个高互动话题，代表性讨论包括 GLM-5.2 真是又快又蠢啊、为什么 X 上大家都在发 GP...、亲戚家的小孩发了道小学奥数题，...。",
+      "chinese_summary": "原帖传微软通过 Azure 在华销售 OpenAI 的模型，属于未经确认的行业小道消息。如果属实，将影响国内 API 合规接入路径。值得点进去看社区对消息真伪的交叉验证和合规风险讨论。",
+      "backend_focus": "对在国内做 AI 落地的团队，建议持续关注 Azure 中国区模型上架进展，提前评估 ICP 备案、数据出境和合同条款，别在未确认渠道上跑生产流量。",
       "meta": {
-        "reply_count": 62,
-        "section_title": "产品策略与使用成本",
+        "reply_count": 25,
+        "section_title": "模型发布与能力变化",
         "daily_url": "https://news.linuxe.top/",
         "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
       }
     },
     {
       "source": "Linux.do",
       "category": "社区讨论",
-      "title": "老牌FoxCode 618 钜惠回馈，特价cc0.05一刀，额度送送送~",
-      "url": "https://linux.do/t/topic/2429339",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 前沿快讯与行业动向 | 回复数: 146 | 前沿快讯更多承接行业层面的事件更新，社区会在第一时间补充背景、风险判断和可能的后续影响。 这条线索下聚合了 9 个高互动话题，代表性讨论包括 老牌FoxCode 618 钜...、草台字节疑似未给豆包agent...、DeepSeek v4.1 要...。",
-      "chinese_summary": "原帖是 FoxCode 中转站的 618 促销帖，主打低价 cc token 和送额度。属于渠道营销帖，但 146 回复说明价格仍是 API 消费的主要驱动力。技术读者应警惕\"过于低价\"背后可能的限速、token 计数和稳定性问题。",
-      "backend_focus": "对任何\"远低于市场均价\"的中转站，上线前先压测 24 小时，确认实际可用 RPM、TPM 和 5xx 比例，再决定是否承担关键链路流量。",
+      "title": "医生用豆包给病人看病",
+      "url": "https://linux.do/t/topic/2434034",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 前沿快讯与行业动向 | 回复数: 50 | 前沿快讯更多承接行业层面的事件更新，社区会在第一时间补充背景、风险判断和可能的后续影响。 这条线索下聚合了 14 个高互动话题，代表性讨论包括 医生用豆包给病人看病、阿里云300块的券别急着买服务...、huggingface API...。",
+      "chinese_summary": "原帖讨论医生使用豆包 App 给病人看病的现象，触及 AI 在医疗场景的合规与责任边界。这不是技术问题，而是产品落地风险问题。点进去看社区对责任归属和误诊风险的讨论。",
+      "backend_focus": "如果你在做医疗/法律等高风险领域的 AI 产品，建议在产品流程里强制加入免责声明、人工复核环节和审计日志，不能让模型输出作为唯一决策依据。",
       "meta": {
-        "reply_count": 146,
+        "reply_count": 50,
         "section_title": "前沿快讯与行业动向",
         "daily_url": "https://news.linuxe.top/",
         "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
       }
     },
     {
       "source": "Linux.do",
       "category": "社区讨论",
-      "title": "草台字节疑似未给豆包agent沙盒设置访问隔离，可以直接读写s3文件系统根目录",
-      "url": "https://linux.do/t/topic/2427590",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 前沿快讯与行业动向 | 回复数: 95 | 前沿快讯更多承接行业层面的事件更新，社区会在第一时间补充背景、风险判断和可能的后续影响。 这条线索下聚合了 9 个高互动话题，代表性讨论包括 老牌FoxCode 618 钜...、草台字节疑似未给豆包agent...、DeepSeek v4.1 要...。",
-      "chinese_summary": "原帖指出字节豆包 Agent 沙盒疑似未做访问隔离，Agent 可直接读写挂载的 S3 文件系统根目录。这是一个明确的安全设计缺陷，95 回复说明社区对 AI Agent 沙盒安全的关注度很高。任何自建/使用 Agent 平台的团队都应引以为戒。",
-      "backend_focus": "自建 Agent 沙盒时强制最小权限原则：挂载的 S3/OSS 用独立子账号 + 路径前缀 bucket，禁止挂载根目录；并加 egress 网络白名单兜底。",
+      "title": "阿里云300块的券别急着买服务器，还有GLM5.2！",
+      "url": "https://linux.do/t/topic/2435555",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 前沿快讯与行业动向 | 回复数: 28 | 前沿快讯更多承接行业层面的事件更新，社区会在第一时间补充背景、风险判断和可能的后续影响。 这条线索下聚合了 14 个高互动话题，代表性讨论包括 医生用豆包给病人看病、阿里云300块的券别急着买服务...、huggingface API...。",
+      "chinese_summary": "原帖提醒阿里云 300 元券不必急着买服务器，可等 GLM-5.2 接入。这是把云资源优惠和新模型发布绑在一起的成本策略讨论。点进去看能拿到具体的省券和试用组合方案。",
+      "backend_focus": "如果手上有阿里云券，可以等 GLM-5.2 在阿里云百炼或 PAI 平台上线后直接用券抵扣推理费用，比买 ECS 自部署更划算，注意盯官方公告确认上线时间。",
       "meta": {
-        "reply_count": 95,
+        "reply_count": 28,
         "section_title": "前沿快讯与行业动向",
         "daily_url": "https://news.linuxe.top/",
         "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
       }
     },
     {
       "source": "Linux.do",
       "category": "社区讨论",
-      "title": "DeepSeek v4.1 要来了吗？",
-      "url": "https://linux.do/t/topic/2427310",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 前沿快讯与行业动向 | 回复数: 72 | 前沿快讯更多承接行业层面的事件更新，社区会在第一时间补充背景、风险判断和可能的后续影响。 这条线索下聚合了 9 个高互动话题，代表性讨论包括 老牌FoxCode 618 钜...、草台字节疑似未给豆包agent...、DeepSeek v4.1 要...。",
-      "chinese_summary": "原帖讨论 DeepSeek v4.1 是否即将发布。属于版本预判帖，没有实质技术内容，但 72 回复说明社区对国产旗舰迭代节奏高度关注。对工程读者意义在于：版本更迭窗口是评估\"是否要切链路\"的最佳时机。",
-      "backend_focus": "在 v4.1 正式发布当天准备一份 A/B 测试用例集（覆盖代码、长文、推理），直接对比当前主力模型，避免被\"看起来更强\"的营销文案带节奏。",
+      "title": "huggingface API 限时免费使用GLM-5.2",
+      "url": "https://linux.do/t/topic/2432080",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 前沿快讯与行业动向 | 回复数: 23 | 前沿快讯更多承接行业层面的事件更新，社区会在第一时间补充背景、风险判断和可能的后续影响。 这条线索下聚合了 14 个高互动话题，代表性讨论包括 医生用豆包给病人看病、阿里云300块的券别急着买服务...、huggingface API...。",
+      "chinese_summary": "原帖告知 Hugging Face API 限时免费开放 GLM-5.2，是少见的官方免费窗口。23 条回复说明社区对零成本试模型很感兴趣。点进去看能拿到 API 调用方式和限速细节。",
+      "backend_focus": "可以趁免费窗口在 Hugging Face Inference API 上跑一轮 GLM-5.2 的压测和效果评估，记录 QPS、延迟和输出质量，为后续付费迁移留基线。",
       "meta": {
-        "reply_count": 72,
+        "reply_count": 23,
         "section_title": "前沿快讯与行业动向",
         "daily_url": "https://news.linuxe.top/",
         "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
       }
     },
     {
       "source": "Linux.do",
       "category": "社区讨论",
-      "title": "商务部等八部门出台意见，推动AI在消费领域的普及应用，鼓励「以旧换新」买 AI 手机、智能家电和智能车，提供低息或免息贷款支持",
-      "url": "https://linux.do/t/topic/2430791",
-      "published_at": "2026-06-18",
-      "original_summary": "分组: 前沿快讯与行业动向 | 回复数: 35 | 前沿快讯更多承接行业层面的事件更新，社区会在第一时间补充背景、风险判断和可能的后续影响。 这条线索下聚合了 9 个高互动话题，代表性讨论包括 老牌FoxCode 618 钜...、草台字节疑似未给豆包agent...、DeepSeek v4.1 要...。",
-      "chinese_summary": "原帖报道商务部等八部门出台意见，推动 AI 在消费领域普及，包括 AI 手机、智能家电、智能车的以旧换新和低息贷款支持。属于政策层面的行业信号，对 B 端开发者影响是 C 端 AI 设备出货量预期会上行。技术读者应关注端侧推理、IoT+AI 等下游机会。",
-      "backend_focus": "关注端侧 LLM 推理框架（llama.cpp、MLX、Core ML）的兼容性测试，评估自家模型在小内存设备上的可行性，为端侧落地做 1-2 个 PoC。",
+      "title": "OpenAI推出新功能，开启时GPT观察你的工作流程，并自动生成skill",
+      "url": "https://linux.do/t/topic/2435282",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 前沿快讯与行业动向 | 回复数: 16 | 前沿快讯更多承接行业层面的事件更新，社区会在第一时间补充背景、风险判断和可能的后续影响。 这条线索下聚合了 14 个高互动话题，代表性讨论包括 医生用豆包给病人看病、阿里云300块的券别急着买服务...、huggingface API...。",
+      "chinese_summary": "原帖介绍 OpenAI 新功能：开启后 GPT 会观察用户工作流程并自动生成 skill。这相当于把 prompt 工程半自动化了。点进去看可以了解自动 skill 的触发条件和隐私边界。",
+      "backend_focus": "如果你的产品依赖 OpenAI 的 skill/function calling，建议等新功能放量后用同一份工作流脚本测试自动生成的 skill 质量，避免被覆盖掉手写的关键 prompt。",
       "meta": {
-        "reply_count": 35,
+        "reply_count": 16,
         "section_title": "前沿快讯与行业动向",
         "daily_url": "https://news.linuxe.top/",
         "daily_title": "linux.do 技术聚合日报",
-        "daily_headline": "模型发布与能力变化，开发接入与工程实操成为当天主线"
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "【0619最新码】法国码因万人集中抢购被拉闸，但是，又出现新优惠啦。",
+      "url": "https://linux.do/t/topic/2432487",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 资源互助与经验流动 | 回复数: 26 | 除了追产品和快讯，社区也会把碎片经验整理成可复用的路径，互相提供工具、资源和替代方案。 这条线索下聚合了 8 个高互动话题，代表性讨论包括 【0619最新码】法国码因万人...、昨天开的两个法区48个月Tea...、付费中转站会白嫖公益站的额度吗？。",
+      "chinese_summary": "原帖分享法国区优惠码因万人抢购被风控限流，又出现新码。这是典型的灰产/优惠资源互助帖，26 条回复说明需求量很大。点进去能拿到最新的可用码和风控规避经验。",
+      "backend_focus": "无（属于薅羊毛/优惠码分享帖，与后端工程实践无关）。",
+      "meta": {
+        "reply_count": 26,
+        "section_title": "资源互助与经验流动",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "昨天开的两个法区48个月Team，今天凌晨全被封。佬友们有没有没被封的，可以交流一下经验啊？",
+      "url": "https://linux.do/t/topic/2432235",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 资源互助与经验流动 | 回复数: 24 | 除了追产品和快讯，社区也会把碎片经验整理成可复用的路径，互相提供工具、资源和替代方案。 这条线索下聚合了 8 个高互动话题，代表性讨论包括 【0619最新码】法国码因万人...、昨天开的两个法区48个月Tea...、付费中转站会白嫖公益站的额度吗？。",
+      "chinese_summary": "原帖反映法区 48 个月 Team 账号凌晨全被封，求交流抗封经验。背后是微软对批量注册 + 长周期订阅的风控策略。点进去可以学到账号风控的常见触发点。",
+      "backend_focus": "如果要给团队开企业订阅，建议走正规渠道、绑定企业域名和付款方式，避免使用 VPS 批量注册的低成本账号，否则随时可能被批量封禁影响业务连续性。",
+      "meta": {
+        "reply_count": 24,
+        "section_title": "资源互助与经验流动",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "付费中转站会白嫖公益站的额度吗？",
+      "url": "https://linux.do/t/topic/2434333",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 资源互助与经验流动 | 回复数: 16 | 除了追产品和快讯，社区也会把碎片经验整理成可复用的路径，互相提供工具、资源和替代方案。 这条线索下聚合了 8 个高互动话题，代表性讨论包括 【0619最新码】法国码因万人...、昨天开的两个法区48个月Tea...、付费中转站会白嫖公益站的额度吗？。",
+      "chinese_summary": "原帖提问付费中转站是否会白嫖公益站的额度，触及第三方中转链路的信任问题。点进去看可以了解中转站背后的路由和计费机制。对依赖中转站的工程同学有直接参考价值。",
+      "backend_focus": "选 API 中转站时优先看它是否公开上游路由和计费明细，必要时自己用同一 prompt 多次请求对比 token 计量，避免被中转层偷扣额度。",
+      "meta": {
+        "reply_count": 16,
+        "section_title": "资源互助与经验流动",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "为什么这个站全是AI的话题，我想找一些关于逆向的资料都找不到。",
+      "url": "https://linux.do/t/topic/2433161",
+      "published_at": "2026-06-19",
+      "original_summary": "分组: 资源互助与经验流动 | 回复数: 15 | 除了追产品和快讯，社区也会把碎片经验整理成可复用的路径，互相提供工具、资源和替代方案。 这条线索下聚合了 8 个高互动话题，代表性讨论包括 【0619最新码】法国码因万人...、昨天开的两个法区48个月Tea...、付费中转站会白嫖公益站的额度吗？。",
+      "chinese_summary": "原帖吐槽 linux.do 站里全是 AI 话题，找逆向资料很难。这是一个社区内容生态的观察帖，与具体技术无关。点进去主要是看社区氛围讨论。",
+      "backend_focus": "无（属于社区生态闲聊帖，无可执行的后端/工程建议）。",
+      "meta": {
+        "reply_count": 15,
+        "section_title": "资源互助与经验流动",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
       }
     },
     {
@@ -751,7 +751,7 @@
       "url": "https://sspai.com/post/111216",
       "published_at": "Fri, 19 Jun 2026 17:30:00 +0800",
       "original_summary": "📅本周新预告《攻壳机动队THEGHOSTINTHESHELL》正式预告6月16日，TV动画《攻壳机动队THEGHOSTINTHESHELL》发布了正式预告，宣布坂本真绫、山路和弘、安元洋贵、中村悠一配 ... 查看全文",
-      "chinese_summary": "本周影视作品推荐合集。\n与后端工程无关。",
+      "chinese_summary": "与后端工程无关",
       "backend_focus": "无",
       "meta": {
         "feed_url": "https://sspai.com/post/111216"
@@ -764,7 +764,7 @@
       "url": "https://sspai.com/post/111211",
       "published_at": "Thu, 18 Jun 2026 17:23:20 +0800",
       "original_summary": "编注：我们希望通过「编辑部的新玩意」介绍编辑部成员们最近在用的新奇产品，让他们自己来谈谈这些新玩意的使用体验究竟如何。内容声明：《新玩意》栏目如含有商务内容，将会在对应条目标注「广告」；若有标注「厂商 ... 查看全文",
-      "chinese_summary": "产品体验/种草类内容，与后端工程无关。",
+      "chinese_summary": "产品体验/种草类内容，与后端工程无关",
       "backend_focus": "无",
       "meta": {
         "feed_url": "https://sspai.com/post/111211"
@@ -777,7 +777,7 @@
       "url": "https://sspai.com/post/110442",
       "published_at": "Thu, 18 Jun 2026 15:00:00 +0800",
       "original_summary": "我依然相信他们能给已成红海的手机市场带来变数与惊喜，正如标志性的透明后盖与微弱闪烁的灯光，每一次触碰都仿佛钟表倒转，回到光芒与图案代表个性的千禧年代。 查看全文",
-      "chinese_summary": "产品体验/种草类内容，与后端工程无关。",
+      "chinese_summary": "产品体验/种草类内容，与后端工程无关",
       "backend_focus": "无",
       "meta": {
         "feed_url": "https://sspai.com/post/110442"
@@ -790,8 +790,8 @@
       "url": "https://sspai.com/post/111198",
       "published_at": "Thu, 18 Jun 2026 11:30:00 +0800",
       "original_summary": "新环境、弧形窗口，visionOS 27 中值得关系的新内容。 查看全文",
-      "chinese_summary": "本文梳理 visionOS 27 首个开发者测试版中的新内容，包括新环境与弧形窗口等变化。\n对 visionOS 平台开发者与跨端 AR/VR 工程师有参考价值，可提前关注新空间 API 与 UI 范式以规划后续 XR 应用适配。",
-      "backend_focus": "可关注 visionOS 27 新增的弧形窗口 API 与新环境类型，便于在 visionOS 平台上扩展空间 UI 与多窗口布局逻辑。",
+      "chinese_summary": "本文具透 visionOS 27 首个开发者测试版的新内容，包括新环境与弧形窗口等空间计算特性。对需要为 visionOS 构建应用的后端/跨端开发者来说，可提前了解窗口管理与场景布局的变化，为后续 SDK 适配做准备。",
+      "backend_focus": "关注 visionOS 27 新 API 与窗口/场景模型更新，后端服务需评估 WebXR/SwiftUI 在新 SDK 下的兼容性，规划 Vision Pro 客户端适配节奏。",
       "meta": {
         "feed_url": "https://sspai.com/post/111198"
       }
@@ -803,8 +803,8 @@
       "url": "https://sspai.com/post/111191",
       "published_at": "Thu, 18 Jun 2026 08:38:25 +0800",
       "original_summary": "高通发布骁龙 Reality Elite 旗舰 XR 芯片、Grok Imagine Video 1.5 模型正式上线等。 查看全文",
-      "chinese_summary": "派早报汇总 Android 17 正式推送、微软 Surface 新品、高通骁龙 Reality Elite XR 芯片、Grok Imagine Video 1.5 模型上线等动态。\n对后端与 AI 工程人群的价值在于：Android 17 带来平台 API 演进，Grok Imagine Video 1.5 是新的多模态视频生成模型可关注。",
-      "backend_focus": "可关注 Android 17 新增/废弃 API 做适配升级；Grok Imagine Video 1.5 视频生成模型可评估接入其 API 用于内容生成流水线。",
+      "chinese_summary": "派早报汇总 Android 17 正式推送、微软 Surface 新品、高通骁龙 Reality Elite XR 芯片及 Grok Imagine Video 1.5 模型上线等资讯。对工程人群而言，可关注 Android 17 行为变更对 App 兼容性的影响，以及 Grok 视频生成模型在多模态管线中的接入可能。",
+      "backend_focus": "Android 17 推送后需检查 target SDK 与权限模型变化；Grok Imagine Video 1.5 可作为多模态生成 API 评估接入竞品方案。",
       "meta": {
         "feed_url": "https://sspai.com/post/111191"
       }
@@ -816,8 +816,8 @@
       "url": "https://sspai.com/post/111181",
       "published_at": "Wed, 17 Jun 2026 18:04:01 +0800",
       "original_summary": "在WWDC26全球开发者大会正式开幕前，本年度的Apple设计大奖再次先行一步揭晓。今年的Apple设计大奖也一如以往，继续分设乐趣横生、多元包容、创新思维、出色互动、社会影响、视觉图像六大类别，每个 ... 查看全文",
-      "chinese_summary": "WWDC26 现场报道 Apple 设计大奖提名作品及开发者访谈。\n对移动端开发者有借鉴价值，可学习这些获奖 app 在交互、视觉与无障碍方面的设计取舍，为自家应用打磨提供参考。",
-      "backend_focus": "可参考 Apple 设计大奖作品的 UI/UX 模式与无障碍实现思路，对 iOS/SwiftUI 应用的体验优化与上架评审有借鉴意义。",
+      "chinese_summary": "WWDC26 现场访谈 Apple 设计大奖提名开发者，展示获奖 App 的设计理念与交互亮点。对后端工程师的间接价值是理解 Apple 平台设计趋势，从而在 API 设计、错误提示与跨端体验上对齐 HIG 规范。",
+      "backend_focus": "通过优秀 App 案例反向学习 Apple HIG 在状态反馈、空状态、可访问性上的实践，为后端日志/错误码的用户呈现提供设计参考。",
       "meta": {
         "feed_url": "https://sspai.com/post/111181"
       }
@@ -829,8 +829,8 @@
       "url": "https://sspai.com/post/110720",
       "published_at": "Wed, 17 Jun 2026 16:30:00 +0800",
       "original_summary": "前言随意启动一款3D游戏，打开图形设置界面，你大概率能发现一个选项——「抗锯齿」。你可能参考了网上的设置教程，切换到了TAA，抑或是MSAA、DLSS等的设置选项，画面看起来似乎更好了。那么这些字母的 ... 查看全文",
-      "chinese_summary": "本文科普游戏中抗锯齿算法（MSAA、TAA、DLSS 等）的工作原理与权衡。\n对图形渲染、后端图像处理与服务端 AI 推理可视化的工程师价值：理解 TAA/超分背后的时序采样与上采样管线，对做实时渲染或图像增强服务有参考。",
-      "backend_focus": "可借鉴 TAA 时序复用与 DLSS 超采样思路，用于后端图像/视频增强服务的降噪与上采样流水线设计。",
+      "chinese_summary": "本文用通俗方式讲解游戏图形中的抗锯齿算法，包括 MSAA、TAA、DLSS 等技术的原理与权衡。对做图像处理、实时渲染或 AI 推理服务的后端/算法工程师，可借鉴 TAA 的时序复用思路和 DLSS 的超分+AI 推理模式。",
+      "backend_focus": "TAA 的历史帧复用思想可借鉴到视频流/监控场景的去噪与带宽优化；DLSS 思路对构建 AI 超分推理服务、平衡延迟与质量有参考价值。",
       "meta": {
         "feed_url": "https://sspai.com/post/110720"
       }
@@ -842,8 +842,8 @@
       "url": "https://sspai.com/post/110958",
       "published_at": "Wed, 17 Jun 2026 15:00:00 +0800",
       "original_summary": "AI 之外，watchOS 27 中还有这些新功能。 查看全文",
-      "chinese_summary": "本文梳理 watchOS 27 首个开发者测试版的新功能，包括动态应用网格与 Liquid Glass 微调。\n对 watchOS 平台开发者有参考价值，可提前把握新网格布局与系统视觉风格变化，便于及时调整表盘与 watchOS app 适配策略。",
-      "backend_focus": "可关注 watchOS 27 动态应用网格 API 与 Liquid Glass 视觉规范，用于 watchOS 应用布局适配与设计系统同步。",
+      "chinese_summary": "本文具透 watchOS 27 首个开发者测试版，介绍动态应用网格与 Liquid Glass 微调等新特性。对做穿戴端 SDK、快捷指令联动或健康数据服务的后端开发者，可了解 watchOS 27 在界面与交互上的新约束。",
+      "backend_focus": "关注 watchOS 27 动态网格 API 与 Liquid Glass 视觉规范，后端服务在做穿戴端数据展示、Shortcuts 集成时需同步适配 UI 风格与权限变更。",
       "meta": {
         "feed_url": "https://sspai.com/post/110958"
       }
@@ -855,7 +855,7 @@
       "url": "https://sspai.com/post/110750",
       "published_at": "Wed, 17 Jun 2026 11:08:23 +0800",
       "original_summary": "骑共享单车游香港，听起来似乎不是什么主流选择。的确，香港总体来说对单车不算很友好。特别是港岛、九龙一带，地形起伏大，开发密度高，基本没有条件开辟单车径，政府也明确不鼓励以单车代步。不过，在临近深圳的新 ... 查看全文",
-      "chinese_summary": "与后端工程无关。",
+      "chinese_summary": "与后端工程无关",
       "backend_focus": "无",
       "meta": {
         "feed_url": "https://sspai.com/post/110750"
@@ -868,8 +868,8 @@
       "url": "https://sspai.com/post/111124",
       "published_at": "Wed, 17 Jun 2026 08:20:55 +0800",
       "original_summary": "夏普推出 AQUOS R11 手机、理光宣布 GR 系列调整建议零售价等。 查看全文",
-      "chinese_summary": "派早报汇总 SpaceX 收购 Cursor、字节跳动推出 Seedance 2.0 Mini 等科技动态。\n对后端与 AI 工程师价值：Cursor 被 SpaceX 收购或影响开发工具格局，Seedance 2.0 Mini 是新的视频生成模型可接入评估。",
-      "backend_focus": "可关注 Cursor 收购后 AI 编程 IDE 的定价/API 变化；Seedance 2.0 Mini 视频生成模型可作为生成式视频管线候选接入评估。",
+      "chinese_summary": "派早报聚焦 SpaceX 收购 Cursor、字节跳动推出 Seedance 2.0 Mini 视频生成模型等重磅资讯。对后端与 AI 工程师而言，Cursor 被收购可能影响 AI 编码工具链生态，Seedance 2.0 Mini 则提供了新的视频生成 API 选型。",
+      "backend_focus": "SpaceX 收购 Cursor 需评估 IDE 插件与 AI 编码工作流的长期可用性；Seedance 2.0 Mini 可作为低成本视频生成 API 接入自研内容生产线。",
       "meta": {
         "feed_url": "https://sspai.com/post/111124"
       }
@@ -881,8 +881,8 @@
       "url": "https://www.tmtpost.com/8033803.html",
       "published_at": "Fri, 19 Jun 2026 18:14:13 +0800",
       "original_summary": "被叫停近两个月后，Manus的去向有了新进展。",
-      "chinese_summary": "Manus 母公司被监管叫停近两个月后，中国投资方拟出资 20 亿美元回购股权，并推进赴港 IPO。对工程团队影响：Manus 这类通用 Agent 产品的商业化路径存在政策不确定性，企业接入第三方 Agent 服务时需评估供应商连续性风险。",
-      "backend_focus": "Agent 平台供应商选型需考虑合规与股权稳定性，回购/IPO 过渡期可能影响 API 可用性与续约条款。",
+      "chinese_summary": "Manus中国投资方拟掏20亿美元回购股权，赴港IPO路径渐明。涉及大额跨境资本运作，对国内AI Agent工程团队意味着融资环境变化与潜在上市路径参考；后端架构层面暂无直接技术影响，但会影响同业Agent产品的商业化预期与人才流向。",
+      "backend_focus": "无直接影响；可关注国内AI Agent赛道资本回流与港股上市节奏对团队招聘、商业化策略的间接信号。",
       "meta": {
         "author": "强调Next",
         "category_raw": "投稿"
@@ -895,8 +895,8 @@
       "url": "https://www.tmtpost.com/8033498.html",
       "published_at": "Fri, 19 Jun 2026 18:14:08 +0800",
       "original_summary": "你的生意结构能在潮水退去的时候还站着吗？",
-      "chinese_summary": "电子布行业十家公司生存状态分化，探讨周期下行下业务结构抗风险能力。与后端工程无关。",
-      "backend_focus": "无",
+      "chinese_summary": "电子布行业十家公司经营分化，反映半导体材料周期波动。对后端工程无直接影响，但提示PCB/封装材料供应链存在结构性风险，可能间接影响算力硬件采购成本与交付周期。",
+      "backend_focus": "电子布是PCB与封装基板原料，行业洗牌或传导至服务器/加速卡硬件的交付节奏与价格，需关注上游材料波动。",
       "meta": {
         "author": "半呆君",
         "category_raw": "投稿"
@@ -909,8 +909,8 @@
       "url": "https://www.tmtpost.com/8034290.html",
       "published_at": "Fri, 19 Jun 2026 17:31:00 +0800",
       "original_summary": "世界杯AI预测团集体翻车，大模型这次靠不住了？",
-      "chinese_summary": "营销大于实质。世界杯预测场景中 AI 大模型集体翻车，更多是话题性讨论而非技术突破或选型参考，对实际工程无指导价值。",
-      "backend_focus": "无",
+      "chinese_summary": "世界杯AI预测集体翻车，大模型在长尾罕见事件预测上表现不佳。对后端/AI工程师的启示：模型推理不可作为高风险决策的唯一依据，工程上需保留规则系统兜底与人审环节，避免将LLM用于不可解释的关键预测。",
+      "backend_focus": "提示LLM在罕见/冷启动场景能力边界，业务系统设计应避免过度依赖模型输出，关键路径保留规则与人审兜底。",
       "meta": {
         "author": "霞光AI实验室",
         "category_raw": "投稿"
@@ -923,7 +923,7 @@
       "url": "https://www.tmtpost.com/8034353.html",
       "published_at": "Fri, 19 Jun 2026 17:30:20 +0800",
       "original_summary": "在白酒行业步入存量博弈、价值重塑的周期里，这场酒博会不只是产品与客商的对接平台，更是“华夏酒美学”叙事窗口，清晰展现传统名酒与时俱进的品牌营销新表达。",
-      "chinese_summary": "营销大于实质。剑南春在酒博会借“华夏美学”做品牌叙事，属白酒行业公关稿，与技术、工程、算力完全无关。",
+      "chinese_summary": "剑南春在酒博会以\"华夏美学\"做品牌营销，白酒行业存量博弈期的公关活动。营销大于实质，与后端工程完全无关。",
       "backend_focus": "无",
       "meta": {
         "author": "张小夏",
@@ -937,8 +937,8 @@
       "url": "https://www.tmtpost.com/8033754.html",
       "published_at": "Fri, 19 Jun 2026 17:25:00 +0800",
       "original_summary": "为什么偏偏是 39%，不是 40% 也不是 50%？",
-      "chinese_summary": "长江存储调整子公司持股比例为 39%，绕过直接 IPO 障碍，为母公司独立上市铺路。对工程团队影响：长江存储 3D NAND 国产供应链预期增强，服务器存储采购可关注国产颗粒替代节奏。",
-      "backend_focus": "存储供应链国产化进程或提速，关注长江存储后续在企业级 SSD、eMMC、UFS 等品类的产能与价格信号。",
+      "chinese_summary": "长江存储子公司IPO撤回后通过母公司持股39%结构另寻上市路径。纯资本运作，与后端工程无直接关系，但反映存储芯片国产化进程中的资本路径调整，对采购选型有间接参考意义。",
+      "backend_focus": "无直接影响；提示国产NAND/存储供应链的资本动作，采购侧可关注长江存储后续产能与上市进展。",
       "meta": {
         "author": "车芯AIBot",
         "category_raw": "投稿"
@@ -951,8 +951,8 @@
       "url": "https://www.tmtpost.com/8034299.html",
       "published_at": "Fri, 19 Jun 2026 17:12:01 +0800",
       "original_summary": "AI，你需要向虎证明自己很聪明。",
-      "chinese_summary": "营销大于实质。探讨 AI 评测体系中某位华人出题人的影响，属行业评论类软文，无具体技术发布或选型变化。",
-      "backend_focus": "无",
+      "chinese_summary": "报道AI评测体系背后的华人出题人/评测设计者。偏人物与评测方法论探讨，对工程团队的启发在于：主流benchmark与模型选型参考榜单的局限性，需结合自有业务场景做离线评测而非迷信公开榜单。",
+      "backend_focus": "提示公开评测榜单存在设计偏差，模型选型应建立内部业务相关评测集，避免直接套用通用榜单排序。",
       "meta": {
         "author": "字母AI",
         "category_raw": "投稿"
@@ -965,8 +965,8 @@
       "url": "https://www.tmtpost.com/8034217.html",
       "published_at": "Fri, 19 Jun 2026 17:11:56 +0800",
       "original_summary": "亚洲，正在成为全球算力基础设施制造中心。",
-      "chinese_summary": "亚洲正承接美国 AI 算力扩张外溢，成为全球算力基础设施制造中心，台积电、SK 海力士等链上公司受益。对后端/AI 工程师影响：算力采购与供应链重心向亚洲倾斜，HBM、先进封装产能或成为国内 AI infra 部署的隐性瓶颈。",
-      "backend_focus": "海外 GPU 与高带宽内存供应受地缘与产能约束，需提前评估国产替代及多元化采购策略，关注台积电 CoWoS 排产周期。",
+      "chinese_summary": "美国AI需求狂飙，亚洲（台韩日等）成为算力制造中心承接硬件订单。对后端/AI工程师意味着：HBM、先进封装、服务器ODM订单向亚洲倾斜，供应链可见度提升，国内算力采购与部署周期可能受地缘与产能分配影响。",
+      "backend_focus": "亚洲承接AI算力硬件制造，HBM/CoWoS/服务器ODM产能分布与地缘风险需纳入采购与备货策略考量。",
       "meta": {
         "author": "华商韬略",
         "category_raw": "投稿"
@@ -979,8 +979,8 @@
       "url": "https://www.tmtpost.com/8034209.html",
       "published_at": "Fri, 19 Jun 2026 17:11:51 +0800",
       "original_summary": "AI 降低了独立游戏的生产门槛，也放大了 Steam 供给过剩和玩家信任危机。独立游戏的竞争，正在从“能不能做出来”，转向“能不能被看见、被相信、被持续选择”。当工具让内容越来越容易生成，真正稀缺的反而是人的表达、真实反馈、发行筛选与社区信任。",
-      "chinese_summary": "营销大于实质。讨论 AI 工具降低独立游戏开发门槛但加剧 Steam 供给过剩，属行业评论，无具体技术方案或工程选型变化。",
-      "backend_focus": "无",
+      "chinese_summary": "AI工具降低独立游戏开发门槛却加剧Steam供给过剩。对后端/AI工程师无关，偏内容生产端的产业讨论，与推荐系统、内容审核工程有间接关联。",
+      "backend_focus": "无直接影响；内容平台侧的供给过载问题与AI生成内容审核、推荐去重机制可借鉴关注。",
       "meta": {
         "author": "wiwi",
         "category_raw": "投稿"
@@ -993,7 +993,7 @@
       "url": "https://www.tmtpost.com/8034192.html",
       "published_at": "Fri, 19 Jun 2026 17:11:45 +0800",
       "original_summary": "又到了打水仗的时候。",
-      "chinese_summary": "与后端工程无关。属消费品赛道分析。",
+      "chinese_summary": "中式养生水品类扩张试图复制无糖茶增长。纯消费品行业分析，与后端工程完全无关。",
       "backend_focus": "无",
       "meta": {
         "author": "一点财经编辑部",
@@ -1007,8 +1007,8 @@
       "url": "https://www.tmtpost.com/8034156.html",
       "published_at": "Fri, 19 Jun 2026 17:11:23 +0800",
       "original_summary": "车企引入多电池商，打破宁德独供，产业链利润矛盾爆发。",
-      "chinese_summary": "国轩高科、欣旺达、中创新航成为鸿蒙智行新电池供应商，打破宁德时代独供格局。对工程团队影响：电池供应链多元化将传导至车规级 MCU、电源管理芯片需求变化，车规供应链备货策略需调整。",
-      "backend_focus": "车规级元器件采购需关注多供应商验证与备货周期，BMS、AFE 等芯片选型应同步评估国产 Tier1 配套节奏。",
+      "chinese_summary": "国轩高科、欣旺达、中创新航进入鸿蒙智行供应链，打破宁德时代独供格局。涉及电池供应链分散化，对车载软件/嵌入式后端工程师而言，意味着多供应商带来的BMS协议兼容、OTA适配与数据采集后端的对接工作量上升。",
+      "backend_focus": "多电池供应商带来BMS协议差异、数据上报格式分裂，车端后端与云端数据采集架构需设计适配层与统一接入层。",
       "meta": {
         "author": "预见能源",
         "category_raw": "投稿"
@@ -1021,8 +1021,8 @@
       "url": "https://openai.com/index/chatgpt-enterprise-spend-controls",
       "published_at": "Thu, 18 Jun 2026 17:00:00 GMT",
       "original_summary": "OpenAI introduces new spend controls and usage analytics for ChatGPT Enterprise, helping organizations manage costs and scale AI with confidence.",
-      "chinese_summary": "OpenAI 在 ChatGPT Enterprise 控制台新增用量分析与支出控制能力，让管理员能按部门/项目维度设置预算上限并实时查看 token 消耗分布。相较此前只能在 Admin API 拉原始账单，Dashboard 现在直接提供可视化阈值告警与硬性 spend cap 阻断。已在用 ChatGPT Enterprise 计费 API 做对账的系统可继续保留，但建议把硬限额配置也迁到新控制台。",
-      "backend_focus": "登录 Enterprise 控制台为各 cost center 配置 monthly spend cap 与 alert threshold；如果目前用 Usage API 做告警，评估是否可下线改用控制台 webhook。关注后续是否开放按 API key 维度的 programmatic 配置。",
+      "chinese_summary": "OpenAI 为 ChatGPT Enterprise 推出新版用量分析与支出控制功能，管理员可在控制台查看按用户/项目维度的 token 消耗、调用频次与费用明细，并设置硬性预算上限。相对此前的账单级粗粒度报表，新版支持细粒度配额和实时告警。需要通过 Enterprise admin console 启用，API 调用方式不变。",
+      "backend_focus": "无需改代码，但需通知财务/运维到 admin console 配置 spend cap 与部门维度标签，避免月末账单超额。关注是否影响已设置的 rate_limit 优先级。",
       "meta": {
         "content_type": "Product"
       }
@@ -1034,8 +1034,8 @@
       "url": "https://openai.com/index/improving-health-intelligence-in-chatgpt",
       "published_at": "Thu, 18 Jun 2026 11:00:00 GMT",
       "original_summary": "Learn how GPT-5.5 Instant improves ChatGPT’s health and wellness responses with stronger reasoning, better context, clearer communication, and physician-informed evaluations.",
-      "chinese_summary": "OpenAI 在 ChatGPT 中用 GPT-5.5 Instant 替换原有健康问答模型，增强了推理与上下文能力，并引入医生评估对齐的回复风格。这是模型层面的能力升级（GPT-5.5 Instant 取代旧版 Instant），面向 C 端 ChatGPT，API 用户需要确认 gpt-5.5-instant 是否在 Chat Completions 端点已开放。原 API 调用方不受影响，但 Health 类 prompt 效果可能边际改善。",
-      "backend_focus": "在 Chat Completions 接口把 model 字段从 gpt-4o/gpt-5-instant 切到 gpt-5.5-instant 做 A/B，验证 latency 与 cost 变化后逐步灰度。健康类业务可在 prompt 层加 system instruction 锁定新行为。",
+      "chinese_summary": "ChatGPT 在健康类问答场景默认升级到 GPT-5.5 Instant，推理能力、上下文理解和表达清晰度均强于上一代，强调有医师参与评估。这是面向消费端 ChatGPT 的模型切换，不是 API 端新模型。API 用户需要主动指定 model= gpt-5.5-instant 才能使用，旧的 gpt-5 系模型仍可用。",
+      "backend_focus": "如有医疗类调用，可将 model 字段从 gpt-5-instant 切到 gpt-5.5-instant 做 A/B，对比质量与价格。无强制迁移时间表。",
       "meta": {
         "content_type": "Product"
       }
@@ -1047,8 +1047,8 @@
       "url": "https://openai.com/index/diagnose-rare-childhood-diseases",
       "published_at": "Thu, 18 Jun 2026 08:00:00 GMT",
       "original_summary": "Researchers used an OpenAI reasoning model to help diagnose rare diseases, identifying 18 new diagnoses in previously unsolved cases.",
-      "chinese_summary": "OpenAI 发布研究案例：研究人员用其推理模型在既往未确诊的儿童罕见病案例中识别出 18 个新诊断。这是应用研究宣传，没有新模型、新接口或 API 变更。本质是把已有 reasoning 模型套到医学场景，对后端系统无任何兼容性影响。",
-      "backend_focus": "营销大于实质，无需行动。属于 case study 营销稿，未发布新模型或 API，不会影响现有推理模型调用链路。",
+      "chinese_summary": "OpenAI 公布研究人员用其推理模型辅助诊断儿童罕见遗传病的案例，在既往未确诊病例中识别出 18 个新诊断。本质是研究成果展示，没有发布新产品、API 或数据集。",
+      "backend_focus": "营销大于实质，无需行动。无 SDK/API 变更，纯案例宣传。",
       "meta": {}
     },
     {
@@ -1058,8 +1058,8 @@
       "url": "https://openai.com/index/ai-chemist-improves-reaction",
       "published_at": "Wed, 17 Jun 2026 10:00:00 GMT",
       "original_summary": "OpenAI and Molecule.one show how a near-autonomous AI chemist using GPT-5.4 improved a key drug-making reaction, advancing medicinal chemistry research.",
-      "chinese_summary": "OpenAI 与 Molecule.one 联合展示用 GPT-5.4 驱动的近自主 AI chemist 优化药物化学反应路径的研究成果。没有新 API、新模型参数或 SDK 变更发布，仅是科研合作案例。涉及后端的能力（如 function calling、code interpreter）都是已有产品，研究侧用法不直接转化为接口变化。",
-      "backend_focus": "营销大于实质，无需行动。GPT-5.4 已是已发布模型，本次只是研究 demo，没有新接口或参数面世。",
+      "chinese_summary": "OpenAI 与 Molecule.one 联合展示基于 GPT-5.4 的近自主 AI 化学家，在药物化学中改进了某类难做反应。这是科研合作案例分享，没有开放新 API、工具或权重。",
+      "backend_focus": "营销大于实质，无需行动。无新接口/参数落地，仅展示 GPT-5.4 的科研应用。",
       "meta": {
         "content_type": "Research"
       }
@@ -1071,8 +1071,8 @@
       "url": "https://openai.com/index/introducing-life-sci-bench",
       "published_at": "Wed, 17 Jun 2026 00:00:00 GMT",
       "original_summary": "Introducing LifeSciBench, an expert-authored, expert-reviewed benchmark for evaluating how AI systems handle real-world life science research tasks and decisions.",
-      "chinese_summary": "OpenAI 发布 LifeSciBench 基准测试集，用于评估模型在生命科学研究任务上的表现。这是评测基准发布，不是模型或 API 更新，与生产调用无关。属于研究侧资产，下游集成方（如 LLM 评测平台）可选用。",
-      "backend_focus": "营销大于实质，无需行动。若团队自建模型评估流水线可引入该 benchmark 做内部打分；纯生产系统无迁移需求。",
+      "chinese_summary": "OpenAI 发布 LifeSciBench，一个由生命科学专家撰写并审核的基准测试，用于评估 AI 在真实科研任务上的表现。这是个评测集，不是新模型或 API。集成方式上不直接服务于生产系统，仅供模型选型参考。",
+      "backend_focus": "营销大于实质，无需行动。可在选型时用它横向对比模型，但不需集成到后端。",
       "meta": {
         "content_type": "Research"
       }
@@ -1084,8 +1084,8 @@
       "url": "https://openai.com/index/deployment-simulation",
       "published_at": "Tue, 16 Jun 2026 00:00:00 GMT",
       "original_summary": "OpenAI introduces Deployment Simulation, a method to predict AI model behavior before deployment using real conversation data to improve safety and evaluation accuracy.",
-      "chinese_summary": "OpenAI 发布 Deployment Simulation 方法论，通过模拟真实部署环境在模型发布前预测其行为以提升安全性。这是 OpenAI 内部安全流程的公开，不是面向开发者的产品功能，不暴露 API、不改变 SDK。开发者无法在自己的 pipeline 中调用此能力。",
-      "backend_focus": "营销大于实质，无需行动。属于 OpenAI 内部 safety evaluation 方法论，对外无 API 入口，不影响现有集成。",
+      "chinese_summary": "OpenAI 提出 Deployment Simulation 方法，通过模拟真实部署流量来预判模型上线后的行为与安全风险，提升发布前评估准确度。这是 OpenAI 内部安全流程，未对外提供 API 或 SDK。",
+      "backend_focus": "营销大于实质，无需行动。属于发布流程方法论，不影响调用方集成。",
       "meta": {
         "content_type": "Research"
       }
@@ -1097,8 +1097,8 @@
       "url": "https://openai.com/index/introducing-openai-partner-network",
       "published_at": "Sun, 14 Jun 2026 17:00:00 GMT",
       "original_summary": "OpenAI launches the Partner Network, investing $150M to help global partners accelerate enterprise AI adoption, deployment, and transformation.",
-      "chinese_summary": "OpenAI 推出 Partner Network 项目，投资 1.5 亿美元帮全球合作伙伴加速企业 AI 落地。这是渠道/生态战略公告，不涉及模型、API、SDK 或计费变更。对后端系统零影响，只是供应商合作计划。",
-      "backend_focus": "营销大于实质，无需行动。属于渠道营销与投资公告，无任何技术接口或服务变更。",
+      "chinese_summary": "OpenAI 启动 Partner Network，注资 1.5 亿美元帮助全球合作伙伴落地企业 AI。这是渠道与生态投资计划，不涉及模型/接口变化，开发者无法直接对接。",
+      "backend_focus": "营销大于实质，无需行动。属于商业合作计划，与后端技术栈无关。",
       "meta": {
         "content_type": "Product"
       }
@@ -1110,8 +1110,8 @@
       "url": "https://openai.com/index/academy-courses-applying-ai-at-work",
       "published_at": "Fri, 12 Jun 2026 10:00:00 GMT",
       "original_summary": "OpenAI introduces three Academy courses that help people build practical AI skills, create repeatable workflows, and apply agents in everyday work.",
-      "chinese_summary": "OpenAI Academy 新增三门课程教用户构建 AI 工作流与 agent。这是教育培训内容发布，不涉及产品接口或模型变更。属于市场动作，与工程师日常 API 集成无关。",
-      "backend_focus": "营销大于实质，无需行动。可选地推给团队新人作为入门材料，但无任何 SDK/API 需升级。",
+      "chinese_summary": "OpenAI Academy 新增三门课程，主题是用 AI 搭建工作流与 agent。这只是培训内容发布，不是产品/平台更新。",
+      "backend_focus": "营销大于实质，无需行动。可推荐团队学习，但与生产系统无关。",
       "meta": {}
     },
     {
@@ -1121,8 +1121,8 @@
       "url": "https://openai.com/index/preply",
       "published_at": "Fri, 12 Jun 2026 00:00:00 GMT",
       "original_summary": "Preply uses OpenAI to launch AI-generated lesson summaries, providing personalised feedback and language learning exercises.",
-      "chinese_summary": "OpenAI 分享客户案例：Preply 用 OpenAI 模型生成课程总结与个性化练习。这是单一客户应用案例，没有新接口、新模型参数或计费结构变化。后端系统不受影响，案例里的能力（文本生成）都是已有 Chat Completions 即可实现。",
-      "backend_focus": "营销大于实质，无需行动。属于客户故事营销，未引入新 API 能力或端点。",
+      "chinese_summary": "OpenAI 客户案例：Preply 用 OpenAI 生成课程摘要并提供个性化反馈。这是客户故事，没有新 API/模型发布。",
+      "backend_focus": "营销大于实质，无需行动。纯客户案例，无技术变更。",
       "meta": {}
     },
     {
@@ -1132,8 +1132,8 @@
       "url": "https://openai.com/index/supporting-eu-trustworthy-ai-ecosystem",
       "published_at": "Thu, 11 Jun 2026 00:00:00 GMT",
       "original_summary": "OpenAI supports the EU Code of Practice on AI content transparency, advancing provenance standards and tools to help people understand AI-generated content.",
-      "chinese_summary": "OpenAI 表态支持欧盟 AI 内容透明度实践守则，推进 provenance 标准与 AI 生成内容标识工具。这是政策与合规声明，不改变 API、模型或 SDK。若欧盟监管后续强制 C2PA 元数据嵌入，可能影响图片/视频生成接口的响应字段。",
-      "backend_focus": "关注但不行动：跟踪欧盟 AI Act 内容溯源条款落地时间线，若涉及 image generation 接口，关注 response 中是否新增 provenance/C2PA metadata 字段。短期无 SDK 变更。",
+      "chinese_summary": "OpenAI 公开支持欧盟 AI 内容透明 Code of Practice，承诺推进内容溯源标准与工具。这是政策/合规表态，不改变 API、模型或定价。",
+      "backend_focus": "营销大于实质，无需行动。属政策公关，无后端动作。如做 C2PA 内容溯源可关注 OpenAI 后续溯源 API 动向。",
       "meta": {}
     },
     {
@@ -1143,8 +1143,8 @@
       "url": "https://www.anthropic.com/news/fable-mythos-access",
       "published_at": "Jun 12, 2026",
       "original_summary": "The US government has issued an export control directive to suspend all access to Fable 5 and Mythos 5.",
-      "chinese_summary": "Anthropic 发布声明：因美国政府出口管制指令，暂停所有对 Claude Fable 5 与 Claude Mythos 5 的访问。这是地区可用性强制变更——受影响区域/账户无法再调用这两个模型端点。已在用这两个模型的生产系统必须立即切换到 Claude Opus 4.8 或其他未受限版本，否则会出 403/区域不可用错误。",
-      "backend_focus": "立即行动：审计生产环境是否有 claude-fable-5 / claude-mythos-5 模型调用，替换为 claude-opus-4-8 或 claude-sonnet-4 系列；检查 API key 所属区域是否在出口管制名单内。关注 Anthropic 后续是否发布受影响区域列表与正式 deprecation 时间线。",
+      "chinese_summary": "Anthropic 声明：美国政府已下达出口管制指令，要求暂停 Fable 5 和 Mythos 5 的全部访问。这意味着已集成这两个模型的服务必须立即下线相关调用，否则会失败。属于强制可用性变更，非自愿 deprecation。",
+      "backend_focus": "立刻检查代码中所有 model=claude-fable-5 / claude-mythos-5 的调用，临时回退到 claude-opus-4.8 或 claude-sonnet-4.x。关注官方对已产生 token 计费与数据保留政策的进一步说明。",
       "meta": {
         "content_type": "Announcements"
       }
@@ -1156,8 +1156,8 @@
       "url": "https://www.anthropic.com/news/claude-corps",
       "published_at": "Jun 11, 2026",
       "original_summary": "nefits of AI to communities across America. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Expanding Project Glasswing We’re extending Project Glasswing to approximately 150 new organizations in more than fifteen countries. Product  Introducing Claude Opus 4.8 An upgrade to our Opus class of models, with stronger perform...",
-      "chinese_summary": "Anthropic 在一篇综合公告中提到 Project Glasswing 扩展到 15+ 国家 150 个新组织、Claude Corps 培训项目、以及 Claude Opus 4.8 模型升级。其中 Opus 4.8 重点强化 coding 与 agentic 任务能力。Opus 4.8 作为新版本会改变默认推理性能与可能的定价档位；旧版 Opus 4.x 进入 deprecation 周期。",
-      "backend_focus": "升级 model 字段到 claude-opus-4-8；运行回归测试重点关注 coding/agentic 场景（Tool Use、tool_result 处理、长 context）。关注 Anthropic 控制台中 Opus 4.x 的弃用日期与价格表变化。",
+      "chinese_summary": "Anthropic 启动 Claude Corps 早期职业 fellowships 项目，并将其与同期发布的 Project Glasswing 扩展、Claude Opus 4.8 升级、政策白皮书捆绑在同一公告页。fellowship 本身与工程无关，但需关注同一页提到的 Claude Opus 4.8。",
+      "backend_focus": "无（fellowship 与工程无关）；关注同页 Claude Opus 4.8 公告以做模型升级评估。",
       "meta": {
         "content_type": "Announcements"
       }
@@ -1169,8 +1169,8 @@
       "url": "https://www.anthropic.com/news/expanding-project-glasswing",
       "published_at": "Jun 11, 2026",
       "original_summary": "Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements   Product  Introducing Claude Opus 4.8 An upgrade to our Opus class of m...",
-      "chinese_summary": "Anthropic 把 Project Glasswing 扩展到约 150 个新组织、覆盖 15+ 国家。这是企业试点项目扩展公告，不涉及 API 配额、模型版本或 SDK 变更。后端集成无影响。",
-      "backend_focus": "营销大于实质，无需行动。属于生态项目扩展，不改变任何接口或限流策略。",
+      "chinese_summary": "Anthropic 将 Project Glasswing 安全研究项目扩展到 15+ 国家共 150 个新组织。这是研究/红队合作计划扩展，不直接发布新 API，面向安全研究者。",
+      "backend_focus": "营销大于实质，无需行动。属研究合作计划，与后端调用无关。",
       "meta": {
         "content_type": "Announcements"
       }
@@ -1182,8 +1182,8 @@
       "url": "https://www.anthropic.com/news/claude-opus-4-8",
       "published_at": "Jun 11, 2026",
       "original_summary": "Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Expanding Project Glasswing We’re extending Project Glasswing to approx...",
-      "chinese_summary": "Anthropic 正式发布 Claude Opus 4.8，重点增强 coding、agentic 任务与专业工作表现。这是 Opus 系列一次主版本升级，会改变默认推理质量、可能影响 latency 与 token 用量统计。原 Opus 4.x 调用方应规划迁移；旧模型通常保留 3-6 个月兼容期。",
-      "backend_focus": "把 Messages API 的 model 字段从 claude-opus-4-x 切到 claude-opus-4-8；针对 Tool Use、code generation、长 context 场景跑回归。注意 Anthropic 公布的 input/output token 单价与 max_tokens 上限变化。",
+      "chinese_summary": "Anthropic 发布 Claude Opus 4.8，相比 Opus 4.x 在编码、agentic 任务、专业工作流上更强，并考虑更长上下文。属于新模型版本上线，需要通过 messages API 用 model=claude-opus-4-8 调用。旧 Opus 模型未立刻弃用，但应规划迁移窗口。",
+      "backend_focus": "把生产环境 coding/agent 路径的 model 字段从 claude-opus-4-x 切到 claude-opus-4-8 做灰度，关注 max_tokens、context window 与 prompt caching 定价是否同步调整。",
       "meta": {
         "content_type": "Announcements"
       }
@@ -1195,8 +1195,8 @@
       "url": "https://www.anthropic.com/news/chris-olah-pope-leo-encyclical",
       "published_at": "Jun 11, 2026",
       "original_summary": "Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Expanding Project Glasswing We’re extending Project Glasswing to approx...",
-      "chinese_summary": "Anthropic 联合创始人 Chris Olah 就教皇通谕发表讲话稿。这是公关/伦理表态内容，无任何技术、产品或 API 变更。完全与后端工程无关。",
-      "backend_focus": "无",
+      "chinese_summary": "Anthropic 联合创始人 Chris Olah 就教皇通谕 Magnifica humanitas 发表讲话全文。这是公司公关/政策表态，无技术内容。",
+      "backend_focus": "与后端工程无关。无",
       "meta": {
         "content_type": "Announcements"
       }
@@ -1208,8 +1208,8 @@
       "url": "https://www.anthropic.com/news/seoul-office-partnerships-korean-ai-ecosystem",
       "published_at": "Jun 17, 2026",
       "original_summary": "Announcements",
-      "chinese_summary": "Anthropic 在首尔开设办公室并宣布与韩国 AI 生态系统的多项合作。这是区域市场拓展公告，不涉及 API 区域可用性变更、模型版本或计费调整。短期内韩国开发者可用的 API endpoint 不变。",
-      "backend_focus": "关注但不行动：留意图 Anthropic 后续是否在首尔新增独立 API region 或推出韩国本地化合规选项。短期无需代码改动。",
+      "chinese_summary": "Anthropic 开设首尔办公室并宣布与韩国 AI 生态的多项合作。这是区域扩张与商业合作公告，不涉及模型/API 变化。",
+      "backend_focus": "营销大于实质，无需行动。可关注后续是否带来更低延迟的亚太 region 接入。",
       "meta": {
         "content_type": "Announcements"
       }
@@ -1221,8 +1221,8 @@
       "url": "https://www.anthropic.com/news/anthropic-public-record",
       "published_at": "Jun 12, 2026",
       "original_summary": "Announcements",
-      "chinese_summary": "Anthropic 发布首期 Public Record 报告，公开其使用政策执行与对话脱敏统计数据。这是透明度报告，不是产品/接口变更。对集成 Anthropic API 的系统无任何代码侧影响。",
-      "backend_focus": "营销大于实质，无需行动。可选地纳入合规审阅材料，但无需任何 SDK/API 升级。",
+      "chinese_summary": "Anthropic 发布首个 Public Record 公开记录，披露政策、模型行为相关数据。这是透明度报告，无 SDK/API 变更。",
+      "backend_focus": "营销大于实质，无需行动。属合规披露，不影响集成。",
       "meta": {
         "content_type": "Announcements"
       }
@@ -1234,8 +1234,8 @@
       "url": "https://www.anthropic.com/news/tcs-anthropic-partnership",
       "published_at": "Jun 12, 2026",
       "original_summary": "Announcements",
-      "chinese_summary": "TCS 与 Anthropic 达成合作，把 Claude 引入受监管行业。这是渠道合作公告，不发布新模型、不改变 API、不调整定价。受影响的是企业采购流程，不是后端集成代码。",
-      "backend_focus": "营销大于实质，无需行动。若所在企业走 TCS 采购，可关注后续 Bedrock/Vertex 之外的私有部署选项；纯 API 集成方无任何改动。",
+      "chinese_summary": "Anthropic 与 TCS 达成合作，把 Claude 引入受监管行业。这是企业渠道合作，不是新产品发布。",
+      "backend_focus": "营销大于实质，无需行动。属商业合作，与自家 API 集成无关。",
       "meta": {
         "content_type": "Announcements"
       }
@@ -1247,8 +1247,8 @@
       "url": "https://www.anthropic.com/news/dxc-anthropic-alliance",
       "published_at": "Jun 11, 2026",
       "original_summary": "Announcements",
-      "chinese_summary": "DXC 宣布将 Claude 集成进银行、航空等受监管行业系统。这是 B2B 合作与销售侧公告，不涉及 API 变更、模型版本或 SDK 升级。后端工程师无需任何动作。",
-      "backend_focus": "营销大于实质，无需行动。属于企业销售公告，API 用户接触不到也无需对接。",
+      "chinese_summary": "Anthropic 与 DXC 达成合作，将 Claude 集成进银行、航空等受监管行业的核心系统。属于企业级合作公告，开发者侧 API 不变。",
+      "backend_focus": "营销大于实质，无需行动。商业合作，不影响 API 接入方式。",
       "meta": {
         "content_type": "Announcements"
       }
@@ -1260,8 +1260,8 @@
       "url": "https://www.anthropic.com/news/claude-corps",
       "published_at": "Jun 11, 2026",
       "original_summary": "Announcements",
-      "chinese_summary": "Anthropic 推出 Claude Corps 国家培训项目，面向早期职业人群推广 AI。这是人才/教育计划公告，不涉及产品接口、模型或计费。与后端工程完全无关。",
-      "backend_focus": "无",
+      "chinese_summary": "Anthropic 启动 Claude Corps 项目，招募早期职业 fellowships 推动 AI 普惠。这是人才/教育项目，与工程接口无关。",
+      "backend_focus": "与后端工程无关。无",
       "meta": {
         "content_type": "Announcements"
       }
@@ -1273,8 +1273,8 @@
       "url": "https://www.infoq.com/news/2026/05/ai-nginx-higress/?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=AI+Development-news",
       "published_at": "Fri, 29 May 2026 12:00:00 GMT",
       "original_summary": "The Cloud Native Computing Foundation has highlighted a new AI-assisted migration approach that enabled engineers to migrate 60 ingress-nginx resources to Higress in roughly 30 minutes, demonstrating how artificial intelligence is increasingly being applied to modernize Kubernetes networking and gateway infrastructure. By Craig Risi",
-      "chinese_summary": "CNCF 案例展示一个 AI 辅助迁移工具，可在约 30 分钟内把 60 个 ingress-nginx 资源迁到 Higress。这是 Kubernetes 网关迁移工具的能力展示，工具本身开源可复用。不是 AI 平台官方更新，但对正在做 ingress-nginx 退场迁移的团队有直接工程价值。",
-      "backend_focus": "评估是否引入该 AI-assisted 迁移脚本到 CI 中做 ingress-nginx → Higress 批量转换；关注 Higress 是否提供与原 nginx annotations 100% 兼容的转换映射。同步跟踪 ingress-nginx 官方 EOL 计划。",
+      "chinese_summary": "CNCF 展示一种 AI 辅助迁移方法，可在约 30 分钟内把 60 个 ingress-nginx 资源迁到 Higress。这是 K8s 网关替换工具/方法论，不是 AI 模型更新，但后端平台团队可借此做网关升级。",
+      "backend_focus": "若计划从 ingress-nginx 迁到 Higress，可评估该 AI 迁移脚本用于批量化生成 Higress 路由配置。注意 Higress 与 nginx annotation 的语义差异仍需人工复核。",
       "meta": {}
     },
     {
@@ -1284,8 +1284,8 @@
       "url": "https://www.infoq.com/news/2026/05/pullfrog-ai-github/?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=AI+Development-news",
       "published_at": "Wed, 27 May 2026 06:23:00 GMT",
       "original_summary": "Pullfrog is an open-source AI-powered GitHub bot by Colin McDonnell, designed for automation in GitHub Actions. It supports a model-agnostic approach, allowing integration with various LLM providers. Key features include orchestration for pull request reviews, issue triage, and CI remediation, all managed within GitHub's environment. The tool operates with a bring-your-own-key model for access. By Daniel Curtis",
-      "chinese_summary": "Pullfrog AI 作为开源 GitHub PR 自动化机器人发布，定位 CodeRabbit 替代品，基于 GitHub Actions 跑，支持 model-agnostic（自带 key）。这是 GitHub 工作流层的第三方工具，对 OpenAI/Anthropic 官方 API 集成无影响，可与现有 SDK 并存。",
-      "backend_focus": "评估在 GitHub Actions 中试用 Pullfrog 做 PR review/issue triage；按 BYOK 模式配置 Anthropic 或 OpenAI key。需评估与现有 lint/test workflow 的 token 成本叠加。",
+      "chinese_summary": "Colin McDonnell 开源 Pullfrog，一个跑在 GitHub Actions 上的 AI 评审/分流 bot，定位为 CodeRabbit 的开源替代，支持 model-agnostic（自带 key）。对已有 CI 的团队可以加一个工作流就接入。",
+      "backend_focus": "在 .github/workflows 部署 Pullfrog，通过 BYO key 接入 OpenAI/Anthropic API 做 PR 评审。注意保护 secret key 的最小权限，并配置 rate limit 避免被刷爆账单。",
       "meta": {}
     },
     {
@@ -1295,8 +1295,8 @@
       "url": "https://www.infoq.com/news/2026/06/circleci-chunk-sidecars/?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=Artificial+Intelligence-news",
       "published_at": "Fri, 19 Jun 2026 12:00:00 GMT",
       "original_summary": "CircleCI has launched Chunk Sidecars, a new capability designed to bring CI-style validation directly into an AI coding agent's inner development loop By Craig Risi",
-      "chinese_summary": "CircleCI 推出 Chunk Sidecars 功能，把 CI 校验直接嵌入 AI 编码 agent 的内层开发循环。这是 CI 平台侧能力，让 agent 生成的代码在落地前就能跑过测试，缩短反馈链路。对后端团队价值是可在 agent 流程里强制走 CI gate。",
-      "backend_focus": "如果团队用 Claude Code / Cursor / Copilot agent，评估接入 CircleCI Chunk Sidecars 作为 agent 自带的 pre-commit 校验层；关注 CircleCI 文档中 sidecar 与 agent SDK 的对接方式。",
+      "chinese_summary": "CircleCI 发布 Chunk Sidecars，把 CI 校验直接嵌入 AI 编码 agent 的开发内循环，让 agent 生成的代码在落盘前就经过 build/test 验证。这是 CI 平台新能力，面向使用 AI 编程助手的团队。",
+      "backend_focus": "若使用 Cursor/Copilot/Claude Code 等 agent，可接入 CircleCI Chunk Sidecars 在 agent loop 中跑增量测试。注意会增加 CI 分钟数消耗，需在 sidecar 配置里限定 allowed paths。",
       "meta": {}
     },
     {
@@ -1306,8 +1306,8 @@
       "url": "https://www.infoq.com/news/2026/06/claude-5-release/?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=Artificial+Intelligence-news",
       "published_at": "Mon, 15 Jun 2026 05:01:00 GMT",
       "original_summary": "On June 9, 2026, Anthropic launched Claude Fable 5, a model designed for long-horizon tasks, but it was taken offline shortly after due to a U.S. government export directive. It shares architecture with Claude Mythos 5, supporting extensive token usage. The model includes mandatory data retention requirements, which have affected its deployment with partners like Microsoft. By Andrew Hoblitzell",
-      "chinese_summary": "Anthropic 于 6 月 9 日发布 Claude Fable 5 后因美国政府出口管制指令被紧急下线，与 Claude Mythos 5 共用架构、支持长上下文与大量 token 使用，且带强制数据保留要求影响 Microsoft 等伙伴部署。Fable 5 已对所有用户下线，生产环境不能继续调用；Mythos 5 也被同一指令限制。",
-      "backend_focus": "立即行动：从生产环境移除所有 claude-fable-5 调用，回滚到 claude-opus-4-8 或 sonnet 系列；检查 Microsoft Azure /合作伙伴托管的 Mythos 5 端点状态。关注 Anthropic 后续对长上下文/长任务模型（如 Sonnet 4 long-context）的替代方案公告。",
+      "chinese_summary": "Anthropic 于 6/9 发布 Claude Fable 5（面向长周期任务、与 Mythos 5 同架构、支持大 token 用量），但因美国政府出口管制指令在短时间内被强制下线。强制可用性变更，不是 deprecation 窗口。",
+      "backend_focus": "立刻从代码/路由/proxy 移除 claude-fable-5 与 claude-mythos-5 的引用，回退到 claude-opus-4.8 或 sonnet。关注 Microsoft 等集成的数据保留政策是否回滚。",
       "meta": {}
     },
     {
@@ -1317,8 +1317,8 @@
       "url": "https://www.infoq.com/news/2026/06/google-colab-cli/?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=Artificial+Intelligence-news",
       "published_at": "Fri, 12 Jun 2026 17:13:00 GMT",
       "original_summary": "Google has announced the Google Colab CLI, a command-line tool that allows developers and AI agents to interact with remote Colab runtimes directly from a local terminal. By Daniel Dominguez",
-      "chinese_summary": "Google 发布 Google Colab CLI，让开发者和 AI agent 能从本地终端直接与远端 Colab runtime 交互。这是 Colab 平台的命令行扩展，引入新的本地工具但不改变 Colab 笔记本本身的执行模型。对搭建 agent 训练/评估流水线的团队价值较高。",
-      "backend_focus": "如果团队用 Colab 做模型 fine-tune 或数据探索，可在 CI/agent 中接入 Colab CLI（如 `colab run notebook.ipynb`）做远程执行；评估 gcloud auth 与 service account 配置流程。",
+      "chinese_summary": "Google 发布 Colab CLI，让开发者和 AI agent 能从本地终端直接控制远程 Colab runtime，可执行 cell、读写 notebook。这扩展了 agent 的执行环境选型。",
+      "backend_focus": "如 agent 需要 GPU 算力，可接入 colab CLI 作为弹性后端。需用 service account 鉴权，并在沙箱里限制网络出口，避免被滥用扣费。",
       "meta": {}
     },
     {
@@ -1328,8 +1328,8 @@
       "url": "https://www.infoq.com/news/2026/06/pinecone-ai-agents-onelake/?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=Artificial+Intelligence-news",
       "published_at": "Fri, 12 Jun 2026 12:00:00 GMT",
       "original_summary": "Pinecone has announced a new integration between its Nexus knowledge engine and Microsoft OneLake, aiming to fundamentally change how enterprise AI agents access and reason over corporate data. By Craig Risi",
-      "chinese_summary": "Pinecone 把 Nexus 知识引擎与 Microsoft OneLake 集成，让企业 AI agent 直接消费 OneLake 上的数据。这是向量数据库与数据湖的连接器发布，扩展了 Pinecone 的数据源选项。对后端影响是新增 OneLake connector 配置项，无需自建 ETL。",
-      "backend_focus": "如果使用 Pinecone + Microsoft Fabric 栈，评估启用 OneLake connector 把 OneLake 下的 Parquet/Delta 表直接接入 Pinecone index；注意 IAM 跨服务权限配置（Microsoft Entra + Pinecone API key）。",
+      "chinese_summary": "Pinecone 把 Nexus 知识引擎与 Microsoft OneLake 集成，让企业 agent 能直接访问 OneLake 上的数据湖。这是数据源连接器更新，不改 Pinecone 核心 SDK。",
+      "backend_focus": "若已用 Pinecone + OneLake，可在 Nexus 配置里加 OneLake 数据源。鉴权走 Microsoft Entra ID，注意配置 row-level 访问控制避免越权。",
       "meta": {}
     },
     {
@@ -1339,8 +1339,8 @@
       "url": "https://www.infoq.com/news/2026/06/platform-project-as-a-service/?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=Artificial+Intelligence-news",
       "published_at": "Thu, 11 Jun 2026 11:17:00 GMT",
       "original_summary": "When a platform started with total developer autonomy, teams felt overwhelmed and ended up solving the same problems in completely different ways. The company shifted to enablement over support, working together with teams intensively, and helping teams feel confident and capable, turning the right way into being the easiest way. By Ben Linders",
-      "chinese_summary": "InfoQ 文章讲述某平台团队从全自治模式转向 enablement 模式（Project-as-a-Service）的实践经验。这是平台工程组织方法论文章，不是产品/工具发布，与具体 API 无关。属于团队建设参考材料。",
-      "backend_focus": "营销大于实质，无需行动。属于组织管理方法论分享，没有可落地到代码层的具体改动。",
+      "chinese_summary": "InfoQ 文章分享一个平台团队从「完全自治」转向「Project-as-Service」赋能模式的实践，聚焦减少团队重复造轮子。这是组织/流程经验文章，不是技术产品发布。",
+      "backend_focus": "营销大于实质，无需行动。属工程管理实践分享，可参考但无需改代码。",
       "meta": {}
     },
     {
@@ -1350,8 +1350,8 @@
       "url": "https://www.infoq.com/articles/governing-ai-cloud-guide/?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=Artificial+Intelligence-articles",
       "published_at": "Mon, 15 Jun 2026 11:00:00 GMT",
       "original_summary": "In this article, the author outlines a practical approach to AI governance in the cloud, covering discovery of shadow AI, data classification at creation, IAM-based enforcement, policy-as-code, and operational controls. The article shows how organizations can embed governance into delivery pipelines, balancing security, compliance, and developer productivity without relying on manual processes. By Dave Ward",
-      "chinese_summary": "InfoQ 发布云上 AI 治理实操指南，覆盖影子 AI 发现、数据分类、IAM 强制、policy-as-code 与运营控制。这是架构方法论文章，不涉及具体产品 API 变更，但提供了后端可参考的治理落地清单。",
-      "backend_focus": "可选地采纳 policy-as-code 思路（如用 OPA）管控内部 LLM 调用，定义 model/region/data_classification 维度的 guardrail；评估引入云厂商 AI governance 服务（如 AWS Bedrock Guardrails、Azure AI Content Safety）的覆盖矩阵。",
+      "chinese_summary": "InfoQ 架构文章介绍云上 AI 治理的实操路径：影子 AI 发现、数据创建时分类、IAM 强制、Policy-as-Code、运维控制嵌入交付流水线。属于方法论综述，不涉及新 SDK。",
+      "backend_focus": "可参考文中 OPA/SCC/CEDAR 等 Policy-as-Code 方案，在自己的 CI/CD 里加入模型调用前的 data classification 网关。优先级：先做 DLP + 调用白名单。",
       "meta": {}
     },
     {
@@ -1361,8 +1361,8 @@
       "url": "https://www.infoq.com/articles/artificial-intelligence-driven-phishing/?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=Artificial+Intelligence-articles",
       "published_at": "Mon, 08 Jun 2026 11:00:00 GMT",
       "original_summary": "In this article, the author examines how AI is transforming phishing from a manual, targeted activity into an automated and scalable attack model. The article breaks down each stage of the phishing lifecycle, showing how AI improves reconnaissance, profiling, content generation, delivery, and interaction, while outlining layered defenses that combine controls, processes, and user awareness. By Marco Rizzi",
-      "chinese_summary": "InfoQ 文章分析 AI 驱动的钓鱼攻击演进与各阶段防御手段。这是安全侧趋势文章，提示后端团队在邮件/认证流程上需要考虑 AI 增强的攻击向量。属于风险提示而非产品更新。",
-      "backend_focus": "建议审查邮件相关接口（webhook、入站表单）的 AI 生成内容检测能力，必要时引入反钓鱼 SDK 或在 WAF 规则中加入 LLM 生成文本特征检测。",
+      "chinese_summary": "InfoQ 安全文章分析 AI 驱动的钓鱼攻击演进，覆盖侦察、画像、内容生成、投递、交互各阶段，并给出分层防御建议。这是安全研究类文章，不涉及产品变更。",
+      "backend_focus": "营销大于实质，无需立即行动。可作为安全团队培训材料，重点关注邮件网关中加入 LLM-生成内容检测规则。",
       "meta": {}
     },
     {
@@ -1372,8 +1372,8 @@
       "url": "https://www.infoq.com/articles/adoption-curve-twenty/?utm_campaign=infoq_content&utm_source=infoq&utm_medium=feed&utm_term=Artificial+Intelligence-articles",
       "published_at": "Mon, 08 Jun 2026 08:30:00 GMT",
       "original_summary": "Today, June 8th, InfoQ celebrates 20 years. This is not a comprehensive history, but a deliberately selective look at the technologies and practices InfoQ identified early, where they sit on the adoption curve in 2026, and how that curve may evolve over the next five to ten years. By Renato Losio, Dio Synodinos",
-      "chinese_summary": "InfoQ 20 周年纪念文章，回顾过去识别出的关键技术当前在采用曲线上的位置，并展望未来 5-10 年。这是媒体侧的内容策划文章，没有产品/接口变更。属于行业趋势参考。",
-      "backend_focus": "营销大于实质，无需行动。属于媒体内容纪念稿，与具体 API/SDK 升级无关。",
+      "chinese_summary": "InfoQ 20 周年纪念文章，回顾过去 20 年识别的关键技术及在 2026 年所处采用曲线位置，并预测未来 5-10 年走向。这是行业回顾性内容，没有具体产品更新。",
+      "backend_focus": "与后端工程无关。无",
       "meta": {}
     }
   ]
