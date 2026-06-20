@@ -2,6 +2,10 @@
 
 每日 AI / 开源 / 科技信息聚合 · 中文智能摘要 · 卡片式资讯流 · 微信公众号自动发布
 
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-blue?style=flat-square&logo=github)](https://github.com/yunlongwen/agently.top)
+[![GitHub forks](https://img.shields.io/github/forks/yunlongwen/agently.top?style=flat-square)](https://github.com/yunlongwen/agently.top/fork)
+[![GitHub stars](https://img.shields.io/github/stars/yunlongwen/agently.top?style=flat-square)](https://github.com/yunlongwen/agently.top/stargazers)
+
 线上地址：[https://agently.top](https://agently.top)
 
 ---
