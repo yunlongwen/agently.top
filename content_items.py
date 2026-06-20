@@ -49,13 +49,17 @@ def make_content_item(source, category, title, url, published_at="", original_su
     }
 
 
-def summarize_content_items(items, section_label):
+from memory_prompts import memory_enhanced_summary_prompt
+
+
+def summarize_content_items(items, section_label, memory_context=""):
     """
     为统一信息项生成中文摘要和后端关注点。
 
     Args:
         items: 统一信息项列表
         section_label: 摘要场景说明
+        memory_context: 可选的历史上下文文本
 
     Returns:
         list[dict]: 增强后的统一信息项
@@ -86,7 +90,7 @@ def summarize_content_items(items, section_label):
             )
         )
 
-    prompt = (
+    base_prompt = (
         "以下是【{}】官方渠道的最新内容。这些是 AI 厂商一手发布，"
         "读者是后端 / 平台 / AI 工程师，正在评估要不要跟进。\n\n"
         "请为每条生成：\n"
@@ -118,6 +122,11 @@ def summarize_content_items(items, section_label):
         '{{"summaries": [{{"index": 1, "chinese_summary": "...", "backend_focus": "..."}}, ...]}}\n\n'
         "内容列表：\n{}"
     ).format(section_label, "\n\n".join(item_lines))
+
+    if memory_context:
+        prompt = memory_enhanced_summary_prompt(base_prompt, memory_context)
+    else:
+        prompt = base_prompt
 
     summaries = _call_content_ai_api(prompt)
     if summaries:

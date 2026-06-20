@@ -257,6 +257,32 @@ STATS_PRIVATE_CIDRS = os.environ.get(
 )
 
 # =========================================================================
+# 分层记忆系统配置
+# =========================================================================
+
+# 是否启用分层记忆系统。关闭后每日生成不读取/写入记忆。
+MEMORY_ENABLED = _get_bool_env("MEMORY_ENABLED", True)
+
+# 每日趋势记忆（L1）保留天数。
+MEMORY_DAILY_TTL_DAYS = int(os.environ.get("MEMORY_DAILY_TTL_DAYS", "7"))
+
+# 主题追踪记忆（L2）保留天数。
+MEMORY_TOPIC_TTL_DAYS = int(os.environ.get("MEMORY_TOPIC_TTL_DAYS", "30"))
+
+# 编辑决策记忆（L3）保留天数。
+MEMORY_EDITORIAL_TTL_DAYS = int(os.environ.get("MEMORY_EDITORIAL_TTL_DAYS", "14"))
+
+# 注入摘要 prompt 的历史上下文最大主题数。
+MEMORY_CONTEXT_MAX_TOPICS = int(os.environ.get("MEMORY_CONTEXT_MAX_TOPICS", "5"))
+
+# 是否使用 LLM 做主题匹配（true 更准但增加调用成本）。
+# false 时使用本地关键词 Jaccard 相似度降级。
+MEMORY_LLM_ENABLED = _get_bool_env("MEMORY_LLM_ENABLED", False)
+
+# 记忆数据磁盘根目录。
+MEMORY_OUTPUT_DIR = os.environ.get("MEMORY_OUTPUT_DIR", "output/memory")
+
+# =========================================================================
 # 内置采集调度配置
 # =========================================================================
 

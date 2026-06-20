@@ -127,6 +127,7 @@ def run_spider(scheduled_time=None):
     from content_store import persist_source_snapshots
     from email_builder import build_email_html
     from email_sender import send_email, send_failure_notify
+    from memory_service import MemoryService
 
     errors = []
 
@@ -283,10 +284,24 @@ def run_spider(scheduled_time=None):
         infoq_items = []
 
     ai_source_items = openai_items + anthropic_items + infoq_items
+    memory_service = MemoryService()
+    memory_context = ""
+    if ai_source_items and memory_service.enabled:
+        try:
+            memory_context = memory_service.build_context(ai_source_items, days=3)
+            if memory_context:
+                logger.info("--- 已加载历史记忆上下文 ---")
+        except Exception as e:
+            logger.warning("加载历史记忆上下文失败(不影响主流程): %s", e)
+
     if ai_source_items:
         logger.info("--- [官方 AI / AI 工程实践] AI 摘要 ---")
         time.sleep(5)
-        ai_source_items = summarize_content_items(ai_source_items, "AI 官方更新与 AI 工程实践")
+        ai_source_items = summarize_content_items(
+            ai_source_items,
+            "AI 官方更新与 AI 工程实践",
+            memory_context=memory_context,
+        )
 
     # ==========================
     # 判断是否有数据
@@ -312,6 +327,26 @@ def run_spider(scheduled_time=None):
         ai_source_items,
         linux_do_items=linux_do_items,
     )
+
+    # ==========================
+    # 分层记忆系统（失败不影响主流程）
+    # ==========================
+    memory_insights = ""
+    if memory_service.enabled and content_items:
+        try:
+            date_text = datetime.now().strftime("%Y-%m-%d")
+            logger.info("--- 写入分层记忆 ---")
+            daily_result = memory_service.save_daily_memory(content_items, date_text=date_text)
+            logger.info("每日记忆保存结果: %s", daily_result)
+
+            topic_result = memory_service.update_topic_memory(content_items, date_text=date_text)
+            logger.info("主题记忆更新结果: %s", topic_result)
+
+            memory_insights = memory_service.build_memory_insights(days=3)
+            if memory_insights:
+                logger.info("--- 已生成近期趋势回顾 ---")
+        except Exception as e:
+            logger.warning("分层记忆处理异常(不影响主流程): %s", e)
 
     logger.info("--- 写出统一 JSON ---")
     try:
@@ -342,7 +377,11 @@ def run_spider(scheduled_time=None):
     # ==========================
     try:
         from publish_service import publish_daily
-        publish_result = publish_daily(content_items, scheduled_time=scheduled_time)
+        publish_result = publish_daily(
+            content_items,
+            scheduled_time=scheduled_time,
+            memory_insights=memory_insights,
+        )
         logger.info("发布编排完成: %s", publish_result)
     except Exception as e:
         logger.warning("发布编排异常(不影响采集): %s", e)

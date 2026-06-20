@@ -20,13 +20,15 @@ def _parse_source_whitelist() -> set[str] | None:
     return {item.strip() for item in value.split(",") if item.strip()}
 
 
-def build_daily_markdown(items: list[dict], date_text: str | None = None) -> str:
+def build_daily_markdown(items: list[dict], date_text: str | None = None,
+                         memory_insights: str | None = None) -> str:
     """
     把统一信息项列表构建成微信公众号 Markdown。
 
     Args:
         items: content_items 列表。
         date_text: 日期文本，如 2026-06-20。
+        memory_insights: 可选的近期趋势回顾文本。
 
     Returns:
         Markdown 字符串。
@@ -69,6 +71,10 @@ def build_daily_markdown(items: list[dict], date_text: str | None = None) -> str
     lines.append("> 每天自动聚合 GitHub Trending、Hacker News、少数派、钛媒体、OpenAI、Anthropic 等高质量 AI 信息源，"
                 "由 AI 生成中文摘要，帮助你快速掌握前沿动态。")
     lines.append("")
+
+    if memory_insights:
+        lines.append(memory_insights)
+        lines.append("")
 
     total_items = 0
     for source_id in ordered_sources:

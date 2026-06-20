@@ -87,13 +87,18 @@ def _should_publish_at(scheduled_time: Any) -> bool:
     return current_time in allowed_times
 
 
-def publish_daily(items: list[dict], scheduled_time: Any = None) -> dict[str, Any]:
+def publish_daily(
+    items: list[dict],
+    scheduled_time: Any = None,
+    memory_insights: str | None = None,
+) -> dict[str, Any]:
     """
     每日发布编排入口。
 
     Args:
         items: 统一信息项列表。
         scheduled_time: 触发本次发布的调度时间（用于判断是否在允许时间段）。
+        memory_insights: 可选的近期趋势回顾文本。
 
     Returns:
         dict: 各发布器的执行结果。
@@ -125,7 +130,11 @@ def publish_daily(items: list[dict], scheduled_time: Any = None) -> dict[str, An
         return results
 
     date_text = datetime.now().strftime("%Y-%m-%d")
-    markdown_content = build_daily_markdown(items, date_text=date_text)
+    markdown_content = build_daily_markdown(
+        items,
+        date_text=date_text,
+        memory_insights=memory_insights,
+    )
 
     common_options = {
         "display_date": date_text,
@@ -133,6 +142,7 @@ def publish_daily(items: list[dict], scheduled_time: Any = None) -> dict[str, An
         "author": WECHAT_DEFAULT_AUTHOR,
         "digest": WECHAT_DEFAULT_DIGEST,
         "content_source_url": _resolve_content_source_url(items),
+        "memory_insights": memory_insights,
     }
 
     for publisher in enabled_publishers:
@@ -175,7 +185,11 @@ def publish_to(publisher_id: str, items: list[dict] | None = None,
 
     if items and not content:
         date_text = datetime.now().strftime("%Y-%m-%d")
-        content = build_daily_markdown(items, date_text=date_text)
+        content = build_daily_markdown(
+            items,
+            date_text=date_text,
+            memory_insights=options.get("memory_insights") if options else None,
+        )
         if "content_source_url" not in options:
             options["content_source_url"] = _resolve_content_source_url(items)
     elif not content:
