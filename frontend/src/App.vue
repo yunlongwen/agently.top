@@ -13,7 +13,7 @@
         <a class="quick-link" href="https://nav.agently.top/" target="_blank" rel="noreferrer">{{ t('quickNavNavTitle') }}</a>
         <a class="quick-link" href="https://api.agently.top/" target="_blank" rel="noreferrer">{{ t('quickNavApiTitle') }}</a>
         <span class="quick-link quick-link-disabled" aria-disabled="true">
-          {{ t('quickNavBlogTitle') }}<span class="quick-link-badge">{{ t('quickNavBlogBadge') }}</span>
+          {{ t('quickNavBlogTitle') }}
         </span>
         <button class="quick-link" type="button" @click="openAbout">
           {{ t('quickNavAboutTitle') }}
@@ -249,7 +249,6 @@ const I18N = {
     quickNavApiDesc: 'AI API 中转服务',
     quickNavBlogTitle: 'AI 博客',
     quickNavBlogDesc: 'AI 技术博客(建设中)',
-    quickNavBlogBadge: '即将推出',
     quickNavAboutTitle: '关于',
     quickNavAboutDesc: '关于 Agently.top',
     aboutTitle: '关于 Agently.top',
@@ -296,7 +295,6 @@ const I18N = {
     quickNavApiDesc: 'AI API relay service',
     quickNavBlogTitle: 'AI Blog',
     quickNavBlogDesc: 'AI tech blog (coming soon)',
-    quickNavBlogBadge: 'Soon',
     quickNavAboutTitle: 'About',
     quickNavAboutDesc: 'About Agently.top',
     aboutTitle: 'About Agently.top',
