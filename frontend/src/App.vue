@@ -15,11 +15,11 @@
         <span class="quick-link quick-link-disabled" aria-disabled="true">
           {{ t('quickNavBlogTitle') }}
         </span>
-        <button class="quick-link" type="button" @click="openAbout">
-          {{ t('quickNavAboutTitle') }}
-        </button>
         <button class="quick-link" type="button" @click="openSubscribe">
           {{ t('quickNavSubscribeTitle') }}
+        </button>
+        <button class="quick-link" type="button" @click="openAbout">
+          {{ t('quickNavAboutTitle') }}
         </button>
       </nav>
       <div class="topbar-actions">
