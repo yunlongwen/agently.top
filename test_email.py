@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-测试 163 邮箱 SMTP 发送邮件
+测试 SMTP 发送邮件
 
 使用前确保环境变量已配置：
   export SMTP_USER="your@163.com"
@@ -15,18 +15,52 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 
+# 尝试读取 .env 文件
+def load_env_file():
+    env_file = os.path.join(os.path.dirname(__file__), '.env')
+    if os.path.exists(env_file):
+        with open(env_file, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith('export '):
+                    line = line[7:]  # 去掉 'export '
+                if '=' in line and not line.startswith('#'):
+                    key, value = line.split('=', 1)
+                    key = key.strip()
+                    value = value.strip().strip('"').strip("'")
+                    if key not in os.environ:
+                        os.environ[key] = value
+
+load_env_file()
+
 # 从环境变量读取配置
-SMTP_SERVER = "smtp.163.com"
-SMTP_PORT = 465
+SMTP_SERVER = os.environ.get("SMTP_SERVER", "smtp.163.com")
+SMTP_PORT = int(os.environ.get("SMTP_PORT", "465"))
 SMTP_USER = os.environ.get("SMTP_USER", "")
 SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD", "")
-MAIL_FROM = SMTP_USER
+MAIL_FROM = os.environ.get("MAIL_FROM", SMTP_USER)
 MAIL_TO = os.environ.get("MAIL_TO", "")
 
 if not SMTP_USER or not SMTP_PASSWORD or not MAIL_TO:
     print("请先配置环境变量: SMTP_USER, SMTP_PASSWORD, MAIL_TO")
     print("例如: export SMTP_USER='your@163.com'")
     exit(1)
+
+print(f"SMTP_SERVER: {SMTP_SERVER}")
+print(f"SMTP_PORT: {SMTP_PORT}")
+print(f"SMTP_USER: {SMTP_USER}")
+print(f"MAIL_FROM: {MAIL_FROM}")
+print(f"MAIL_TO: {MAIL_TO}")
+
+
+def _create_smtp_connection():
+    """根据端口创建 SMTP 连接（SSL 或 STARTTLS）"""
+    if SMTP_PORT == 587:
+        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=30)
+        server.starttls()
+    else:
+        server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=30)
+    return server
 
 
 def test_simple_text():
@@ -39,7 +73,7 @@ def test_simple_text():
     msg["To"] = MAIL_TO
 
     try:
-        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=30) as server:
+        with _create_smtp_connection() as server:
             server.login(SMTP_USER, SMTP_PASSWORD)
             server.sendmail(MAIL_FROM, [MAIL_TO], msg.as_string())
         print("✅ 测试 1 成功")
@@ -76,7 +110,7 @@ def test_html_email():
     msg.attach(html_part)
 
     try:
-        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=30) as server:
+        with _create_smtp_connection() as server:
             server.login(SMTP_USER, SMTP_PASSWORD)
             server.sendmail(MAIL_FROM, [MAIL_TO], msg.as_string())
         print("✅ 测试 2 成功")
@@ -96,7 +130,7 @@ def test_chinese_subject():
     msg["To"] = MAIL_TO
 
     try:
-        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=30) as server:
+        with _create_smtp_connection() as server:
             server.login(SMTP_USER, SMTP_PASSWORD)
             server.sendmail(MAIL_FROM, [MAIL_TO], msg.as_string())
         print("✅ 测试 3 成功")
@@ -141,7 +175,7 @@ def test_full_html_with_chinese():
     msg.attach(html_part)
 
     try:
-        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=30) as server:
+        with _create_smtp_connection() as server:
             server.login(SMTP_USER, SMTP_PASSWORD)
             server.sendmail(MAIL_FROM, [MAIL_TO], msg.as_string())
         print("✅ 测试 4 成功")

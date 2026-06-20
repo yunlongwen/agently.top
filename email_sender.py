@@ -56,7 +56,17 @@ def send_email(html_content, subject, recipients=None):
 
     try:
         logger.info("正在连接 SMTP 服务器 %s:%d ...", SMTP_SERVER, SMTP_PORT)
-        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=30) as server:
+        
+        # 根据端口选择连接方式
+        if SMTP_PORT == 587:
+            # STARTTLS (阿里企业邮箱等)
+            server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=30)
+            server.starttls()
+        else:
+            # SSL (163 邮箱等)
+            server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=30)
+        
+        with server:
             server.login(SMTP_USER, SMTP_PASSWORD)
             server.sendmail(MAIL_FROM, recipients, msg.as_string())
         logger.info("邮件发送成功！收件人: %s", recipients)
@@ -88,7 +98,9 @@ def send_failure_notify(error_msg, recipients=None):
         msg["From"] = MAIL_FROM
         msg["To"] = ", ".join(recipients)
 
-        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, timeout=30) as server:
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=30) as server:
+            if SMTP_PORT == 587:
+                server.starttls()
             server.login(SMTP_USER, SMTP_PASSWORD)
             server.sendmail(MAIL_FROM, recipients, msg.as_string())
         logger.info("失败通知邮件已发送")
