@@ -15,6 +15,9 @@
         <span class="quick-link quick-link-disabled" aria-disabled="true">
           {{ t('quickNavBlogTitle') }}<span class="quick-link-badge">{{ t('quickNavBlogBadge') }}</span>
         </span>
+        <button class="quick-link" type="button" @click="openAbout">
+          {{ t('quickNavAboutTitle') }}
+        </button>
       </nav>
       <div class="topbar-actions">
         <div class="lang-switch">
@@ -70,6 +73,26 @@
           </button>
         </div>
       </aside>
+    </div>
+
+    <div
+      class="about-modal-mask"
+      :class="{ open: aboutOpen }"
+      @click="closeAbout"
+    >
+      <div class="about-modal" @click.stop>
+        <button class="about-modal-close" type="button" @click="closeAbout">×</button>
+        <div class="about-modal-body">
+          <h2>{{ t('aboutTitle') }}</h2>
+          <p class="about-modal-desc">{{ t('aboutDesc') }}</p>
+          <img
+            class="about-qrcode"
+            src="/qrcode_for_agently.jpg"
+            alt="Agently.top WeChat"
+          />
+          <p class="about-qrcode-hint">{{ t('aboutWechatHint') }}</p>
+        </div>
+      </div>
     </div>
 
     <main class="layout">
@@ -216,6 +239,11 @@ const I18N = {
     quickNavBlogTitle: 'AI 博客',
     quickNavBlogDesc: 'AI 技术博客(建设中)',
     quickNavBlogBadge: '即将推出',
+    quickNavAboutTitle: '关于',
+    quickNavAboutDesc: '关于 Agently.top',
+    aboutTitle: '关于 Agently.top',
+    aboutDesc: '每日 AI / 开源 / 科技信息聚合，中文智能摘要。',
+    aboutWechatHint: '扫码关注微信公众号，获取每日 AI 开发资讯',
   },
   en: {
     siteTitle: 'Agently.top',
@@ -257,6 +285,11 @@ const I18N = {
     quickNavBlogTitle: 'AI Blog',
     quickNavBlogDesc: 'AI tech blog (coming soon)',
     quickNavBlogBadge: 'Soon',
+    quickNavAboutTitle: 'About',
+    quickNavAboutDesc: 'About Agently.top',
+    aboutTitle: 'About Agently.top',
+    aboutDesc: 'Daily AI / open source / tech news aggregation with Chinese summaries.',
+    aboutWechatHint: 'Scan to follow our WeChat official account',
   }
 };
 
@@ -363,7 +396,8 @@ export default {
       historyMode: false,
       selectedHistoryDate: '',
       countdownText: '',
-      countdownTimer: null
+      countdownTimer: null,
+      aboutOpen: false
     };
   },
   computed: {
@@ -453,6 +487,12 @@ export default {
     },
     closeHistoryDrawer() {
       this.historyDrawerOpen = false;
+    },
+    openAbout() {
+      this.aboutOpen = true;
+    },
+    closeAbout() {
+      this.aboutOpen = false;
     },
     resetFeedScroll() {
       const feedPanel = document.querySelector('.feed-panel');
@@ -1189,6 +1229,84 @@ a {
   border-color: #FECACA;
   color: #B91C1C;
   background: #FEF2F2;
+}
+
+/* ── About modal ──────────────────────────── */
+
+.about-modal-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.22);
+  padding: 20px;
+}
+
+.about-modal-mask.open {
+  display: flex;
+}
+
+.about-modal {
+  position: relative;
+  width: min(360px, 100%);
+  padding: 28px;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.2);
+  text-align: center;
+}
+
+.about-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-2);
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.about-modal-close:hover,
+.about-modal-close:focus-visible {
+  background: #F7F8FB;
+  outline: none;
+}
+
+.about-modal-body h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-1);
+  font-family: 'Bricolage Grotesque', 'DM Sans', sans-serif;
+}
+
+.about-modal-desc {
+  margin: 10px 0 0;
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.about-qrcode {
+  width: 220px;
+  height: 220px;
+  margin: 22px auto 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.about-qrcode-hint {
+  margin: 16px 0 0;
+  color: var(--text-3);
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 /* ── Feed item ────────────────────────────── */
