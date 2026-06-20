@@ -10,7 +10,7 @@ import re
 from datetime import datetime
 from typing import Any
 
-from config import WECHAT_GENERATE_COVER_BY_LLM
+from config import WECHAT_GENERATE_COVER_BY_LLM, WECHAT_DEFAULT_COVER_URL
 from publishers.base import Publisher
 from publishers.wechat.config import WechatConfig
 from publishers.wechat.renderer import WechatRenderer
@@ -103,8 +103,19 @@ class WechatPublisher(Publisher):
         }
 
     def _resolve_thumb_media_id(self, title: str, digest: str, content: str) -> str | None:
-        """获取封面图 media_id：优先 LLM 生成，其次兜底 URL。"""
-        # 4.1 尝试 LLM 生成封面
+        """获取封面图 media_id：优先使用默认封面图，其次 LLM 生成，最后兜底 URL。"""
+        # 4.1 优先使用默认品牌封面图
+        if WECHAT_DEFAULT_COVER_URL:
+            try:
+                material = self._service.upload_material(WECHAT_DEFAULT_COVER_URL)
+                media_id = material.get("media_id")
+                if media_id:
+                    logger.info("默认封面图已上传，media_id=%s", media_id)
+                    return media_id
+            except Exception as e:
+                logger.warning("上传默认封面图失败: %s", e)
+
+        # 4.2 尝试 LLM 生成封面
         if WECHAT_GENERATE_COVER_BY_LLM:
             try:
                 from cover_generator import generate_cover_image
@@ -117,7 +128,7 @@ class WechatPublisher(Publisher):
             except Exception as e:
                 logger.warning("LLM 生成封面失败: %s", e)
 
-        # 4.2 兜底 URL
+        # 4.3 兜底 URL
         try:
             fallback = self._service.upload_material(self._config.fallback_logo_url)
             return fallback.get("media_id")

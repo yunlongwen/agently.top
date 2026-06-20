@@ -60,9 +60,13 @@ def build_daily_markdown(items: list[dict], date_text: str | None = None) -> str
     ordered_sources = [s["id"] for s in SOURCE_BY_ID.values()]
 
     lines: list[str] = []
-    lines.append(f"# Agently.top 每日 AI 资讯 · {date_text}")
+    lines.append(f"# Agently 每日速览 · {date_text}")
     lines.append("")
-    lines.append("> 每天自动聚合 GitHub Trending、Hacker News、OpenAI、Anthropic 等高质量 AI 信息源，"
+    lines.append("> 📝 **原创声明**：本文内容由 Agently 平台通过 AI 技术自动聚合、摘要并生成，"
+                "非商业转载，仅供技术学习参考。所有原始信息源链接已标注，"
+                "版权归原作者及发布平台所有。")
+    lines.append("")
+    lines.append("> 每天自动聚合 GitHub Trending、Hacker News、少数派、钛媒体、OpenAI、Anthropic 等高质量 AI 信息源，"
                 "由 AI 生成中文摘要，帮助你快速掌握前沿动态。")
     lines.append("")
 
