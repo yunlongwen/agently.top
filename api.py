@@ -9,6 +9,7 @@ import logging
 
 from fastapi import FastAPI, HTTPException, Query, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 from access_log import AccessLogMiddleware, _get_client_ip, start_stats_reporter
 from config import (
@@ -35,6 +36,7 @@ from stats import (
     is_authorized,
     record_track,
 )
+from subscription_store import add_subscriber
 from logging_config import setup_logging
 
 setup_logging()
@@ -282,6 +284,28 @@ def stats_summary(
     if data is None:
         raise HTTPException(status_code=503, detail="stats backend unavailable")
     return data
+
+
+class SubscribeRequest(BaseModel):
+    email: str
+
+
+@app.post("/api/subscribe")
+def subscribe(request: Request, payload: SubscribeRequest):
+    """
+    添加邮件订阅。
+
+    订阅邮箱会被持久化，并在定时邮件发送时自动合并到收件人列表。
+    """
+    email = payload.email
+    success, status = add_subscriber(email)
+    if not success:
+        if status == "invalid_email":
+            raise HTTPException(status_code=400, detail="invalid_email")
+        if status == "empty_email":
+            raise HTTPException(status_code=400, detail="empty_email")
+        raise HTTPException(status_code=500, detail=status)
+    return {"success": True, "status": status}
 
 
 # =========================================================================

@@ -18,6 +18,9 @@
         <button class="quick-link" type="button" @click="openAbout">
           {{ t('quickNavAboutTitle') }}
         </button>
+        <button class="quick-link" type="button" @click="openSubscribe">
+          {{ t('quickNavSubscribeTitle') }}
+        </button>
       </nav>
       <div class="topbar-actions">
         <div class="lang-switch">
@@ -102,6 +105,43 @@
             alt="Agently.top WeChat"
           />
           <p class="about-qrcode-hint">{{ t('aboutWechatHint') }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="subscribe-modal-mask"
+      :class="{ open: subscribeOpen }"
+      @click="closeSubscribe"
+    >
+      <div class="subscribe-modal" @click.stop>
+        <button class="subscribe-modal-close" type="button" @click="closeSubscribe">×</button>
+        <div class="subscribe-modal-body">
+          <h2>{{ t('subscribeTitle') }}</h2>
+          <p class="subscribe-modal-desc">{{ t('subscribeDesc') }}</p>
+          <form class="subscribe-form" @submit.prevent="submitSubscribe">
+            <input
+              v-model="subscribeEmail"
+              type="email"
+              class="subscribe-input"
+              :placeholder="t('subscribePlaceholder')"
+              required
+            />
+            <button
+              type="submit"
+              class="subscribe-submit"
+              :disabled="subscribeLoading"
+            >
+              {{ subscribeLoading ? t('subscribeSubmitting') : t('subscribeSubmit') }}
+            </button>
+          </form>
+          <p
+            v-if="subscribeMessage"
+            class="subscribe-message"
+            :class="{ success: subscribeSuccess, error: !subscribeSuccess }"
+          >
+            {{ subscribeMessage }}
+          </p>
         </div>
       </div>
     </div>
@@ -251,10 +291,22 @@ const I18N = {
     quickNavBlogDesc: 'AI 技术博客(建设中)',
     quickNavAboutTitle: '关于',
     quickNavAboutDesc: '关于 Agently.top',
+    quickNavSubscribeTitle: '订阅',
+    quickNavSubscribeDesc: '邮件订阅每日 AI 资讯',
     aboutTitle: '关于 Agently.top',
     aboutDesc: '每日 AI / 开源 / 科技信息聚合，中文智能摘要。',
     aboutGithub: '作者的 GitHub',
     aboutWechatHint: '扫码关注微信公众号，获取每日 AI 开发资讯',
+    subscribeTitle: '订阅每日摘要',
+    subscribeDesc: '留下邮箱，每个工作日自动接收 AI 开发资讯邮件。',
+    subscribePlaceholder: 'your@email.com',
+    subscribeSubmit: '订阅',
+    subscribeSubmitting: '提交中...',
+    subscribeSuccess: '订阅成功！下次发送时会包含你的邮箱。',
+    subscribeErrorEmpty: '请输入邮箱地址',
+    subscribeErrorInvalid: '邮箱格式不正确',
+    subscribeErrorGeneric: '订阅失败，请稍后重试',
+    subscribeErrorNetwork: '网络异常，请稍后重试',
   },
   en: {
     siteTitle: 'Agently.top',
@@ -297,10 +349,22 @@ const I18N = {
     quickNavBlogDesc: 'AI tech blog (coming soon)',
     quickNavAboutTitle: 'About',
     quickNavAboutDesc: 'About Agently.top',
+    quickNavSubscribeTitle: 'Subscribe',
+    quickNavSubscribeDesc: 'Subscribe to daily AI news via email',
     aboutTitle: 'About Agently.top',
     aboutDesc: 'Daily AI / open source / tech news aggregation with Chinese summaries.',
     aboutGithub: "Author's GitHub",
     aboutWechatHint: 'Scan to follow our WeChat official account',
+    subscribeTitle: 'Subscribe',
+    subscribeDesc: 'Leave your email to receive daily AI development news.',
+    subscribePlaceholder: 'your@email.com',
+    subscribeSubmit: 'Subscribe',
+    subscribeSubmitting: 'Submitting...',
+    subscribeSuccess: 'Subscribed! Your email will be included in the next send.',
+    subscribeErrorEmpty: 'Please enter your email',
+    subscribeErrorInvalid: 'Invalid email address',
+    subscribeErrorGeneric: 'Subscription failed, please try again later',
+    subscribeErrorNetwork: 'Network error, please try again later',
   }
 };
 
@@ -408,7 +472,12 @@ export default {
       selectedHistoryDate: '',
       countdownText: '',
       countdownTimer: null,
-      aboutOpen: false
+      aboutOpen: false,
+      subscribeOpen: false,
+      subscribeEmail: '',
+      subscribeLoading: false,
+      subscribeMessage: '',
+      subscribeSuccess: false
     };
   },
   computed: {
@@ -504,6 +573,49 @@ export default {
     },
     closeAbout() {
       this.aboutOpen = false;
+    },
+    openSubscribe() {
+      this.subscribeOpen = true;
+      this.subscribeEmail = '';
+      this.subscribeMessage = '';
+      this.subscribeSuccess = false;
+    },
+    closeSubscribe() {
+      this.subscribeOpen = false;
+    },
+    async submitSubscribe() {
+      const email = this.subscribeEmail.trim();
+      if (!email) {
+        this.subscribeMessage = this.t('subscribeErrorEmpty');
+        this.subscribeSuccess = false;
+        return;
+      }
+      this.subscribeLoading = true;
+      this.subscribeMessage = '';
+      try {
+        const response = await fetch(`${API_PREFIX}/subscribe`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (response.ok) {
+          this.subscribeSuccess = true;
+          this.subscribeMessage = this.t('subscribeSuccess');
+          this.subscribeEmail = '';
+        } else if (data.detail === 'invalid_email') {
+          this.subscribeMessage = this.t('subscribeErrorInvalid');
+          this.subscribeSuccess = false;
+        } else {
+          this.subscribeMessage = this.t('subscribeErrorGeneric');
+          this.subscribeSuccess = false;
+        }
+      } catch (error) {
+        this.subscribeMessage = this.t('subscribeErrorNetwork');
+        this.subscribeSuccess = false;
+      } finally {
+        this.subscribeLoading = false;
+      }
     },
     resetFeedScroll() {
       const feedPanel = document.querySelector('.feed-panel');
@@ -1095,8 +1207,8 @@ a {
 button.quick-link {
   border: none;
   background: transparent;
-  font: inherit;
   cursor: pointer;
+  /* 保留 .quick-link 的 font-size/font-weight，确保与 a/span 导航项一致 */
 }
 
 @media (max-width: 1024px) {
@@ -1348,6 +1460,130 @@ button.quick-link {
   color: var(--primary);
   background: var(--primary-soft);
   outline: none;
+}
+
+/* ── Subscribe modal ──────────────────────── */
+
+.subscribe-modal-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.22);
+  padding: 20px;
+}
+
+.subscribe-modal-mask.open {
+  display: flex;
+}
+
+.subscribe-modal {
+  position: relative;
+  width: min(380px, 100%);
+  padding: 28px;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.2);
+  text-align: center;
+}
+
+.subscribe-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-2);
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.subscribe-modal-close:hover,
+.subscribe-modal-close:focus-visible {
+  background: #F7F8FB;
+  outline: none;
+}
+
+.subscribe-modal-body h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-1);
+  font-family: 'Bricolage Grotesque', 'DM Sans', sans-serif;
+}
+
+.subscribe-modal-desc {
+  margin: 10px 0 0;
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.subscribe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.subscribe-input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--text-1);
+  font-size: 14px;
+  line-height: 1.5;
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.subscribe-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.08);
+}
+
+.subscribe-submit {
+  width: 100%;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms ease, opacity 150ms ease;
+}
+
+.subscribe-submit:hover:not(:disabled) {
+  background: #0047d1;
+}
+
+.subscribe-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.subscribe-message {
+  margin: 14px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.subscribe-message.success {
+  color: #166534;
+}
+
+.subscribe-message.error {
+  color: #B91C1C;
 }
 
 /* ── Feed item ────────────────────────────── */

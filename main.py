@@ -14,6 +14,7 @@ from datetime import datetime
 
 from config import EMAIL_SEND_TIMES, MAIL_TO_BY_TIME, OUTPUT_JSON_PATH, SEND_EMAIL_ENABLED
 from logging_config import setup_logging
+from subscription_store import load_subscribers
 
 setup_logging()
 logger = logging.getLogger(__name__)
@@ -71,6 +72,17 @@ def _parse_mail_to_by_time(value):
     return result
 
 
+def _merge_subscribers(recipients):
+    """将动态订阅邮箱合并到收件人列表，去重并保持顺序。"""
+    try:
+        subscribers = load_subscribers()
+    except Exception as e:
+        logger.warning("加载订阅者列表失败(不影响邮件发送): %s", e)
+        subscribers = []
+    combined = list(dict.fromkeys(recipients + subscribers))
+    return combined
+
+
 def _email_send_decision(scheduled_time):
     """返回本次运行是否允许发邮件、日志原因和可选收件人列表。"""
     if not SEND_EMAIL_ENABLED:
@@ -87,6 +99,7 @@ def _email_send_decision(scheduled_time):
             return False, "--- MAIL_TO_BY_TIME 配置无效，跳过邮件发送: {} ---".format(e), None
 
         recipients = recipients_by_time.get(scheduled_text, [])
+        recipients = _merge_subscribers(recipients)
         if not recipients:
             return False, "--- 本次调度时间 {} 未配置收件人，跳过邮件发送 ---".format(
                 scheduled_text,
@@ -105,7 +118,9 @@ def _email_send_decision(scheduled_time):
             EMAIL_SEND_TIMES,
         ), None
 
-    return True, "--- 本次调度时间 {} 命中邮件发送时间 ---".format(scheduled_text), None
+    recipients = _parse_recipient_list(MAIL_TO)
+    recipients = _merge_subscribers(recipients)
+    return True, "--- 本次调度时间 {} 命中邮件发送时间 ---".format(scheduled_text), recipients
 
 
 def run_spider(scheduled_time=None):
