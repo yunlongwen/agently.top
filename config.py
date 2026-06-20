@@ -60,11 +60,11 @@ AI_MODEL = OPENAI_MODEL
 GITHUB_TRENDING_TOP_COUNT = int(os.environ.get("GITHUB_TRENDING_TOP_COUNT", "10"))
 
 # =========================================================================
-# 邮件配置 (163 邮箱 SMTP)
+# 邮件配置 (SMTP)
 # =========================================================================
 
-# 163 邮箱 SMTP 服务器
-SMTP_SERVER = os.environ.get("SMTP_SERVER", "smtp.163.com")
+# 邮件 SMTP 服务器（默认阿里企业邮箱）
+SMTP_SERVER = os.environ.get("SMTP_SERVER", "smtp.qiye.aliyun.com")
 SMTP_PORT = int(os.environ.get("SMTP_PORT", "465"))
 # 163 邮箱账号（发件人邮箱）
 SMTP_USER = os.environ.get("SMTP_USER", "")
@@ -76,7 +76,7 @@ SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD", "")
 MAIL_FROM = os.environ.get("MAIL_FROM", SMTP_USER)
 
 # 收件人邮箱地址
-MAIL_TO = os.environ.get("MAIL_TO", "727987105@qq.com, wenbo.chang@huolala.cn")
+MAIL_TO = os.environ.get("MAIL_TO", "")
 
 # 按调度时间指定收件人，JSON 对象格式：
 # {"07:50":"a@example.com,b@example.com","15:50":["c@example.com"]}

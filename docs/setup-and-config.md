@@ -152,24 +152,28 @@ export OPENAI_MODEL="gpt-4o-mini"
 # Redis
 export REDIS_URL="redis://localhost:6379/0"
 
+# 分层记忆系统
+export MEMORY_ENABLED=true
+
 # 微信公众号发布（可选）
 export WECHAT_PUBLISH_ENABLED=true
 export WECHAT_APP_ID="wx..."
 export WECHAT_APP_SECRET="..."
-export WECHAT_DEFAULT_TITLE="Agently 每日速览 - {date}"
-export WECHAT_DEFAULT_DIGEST="AI 开发资讯每日速览 · 9 大源要点速读"
-export WECHAT_MAX_ITEMS_PER_SOURCE=3
-export WECHAT_DEFAULT_COVER_URL="https://agently.top/agently_cover.jpg"
+# export WECHAT_DEFAULT_TITLE="Agently.top 每日 AI 资讯 - {date}"
+# export WECHAT_DEFAULT_AUTHOR="Agently"
+# export WECHAT_DEFAULT_DIGEST="AI 开发资讯每日速览 · 9 大源要点速读"
+# export WECHAT_MAX_ITEMS_PER_SOURCE=5
+# export WECHAT_DEFAULT_COVER_URL="https://agently.top/agently_cover.jpg"
 
 # 邮件推送（可选，Agently 企业邮箱）
 export SMTP_SERVER="smtp.qiye.aliyun.com"
 export SMTP_PORT="465"
 export SMTP_USER="ai@agently.top"
 export SMTP_PASSWORD="your-password"
-export MAIL_FROM="Agently AI <ai@agently.top>"
+# export MAIL_FROM="Agently AI <ai@agently.top>"
 export MAIL_TO="recipient@example.com"
 export SEND_EMAIL_ENABLED=true
-export EMAIL_SEND_TIMES="08:30"
+export EMAIL_SEND_TIMES="07:50"
 
 # 访问统计 token
 export STATS_API_TOKEN="your-secret-token"
@@ -269,25 +273,44 @@ python3 scripts/generate_cover.py
 ### 核心配置
 | 变量 | 说明 | 默认值 |
 |---|---|---|
-| `OPENAI_API_KEY` | AI 接口 API Key | 必填 |
+| `OPENAI_API_KEY` | AI 接口 API Key | 空（必填） |
 | `OPENAI_BASE_URL` | AI 接口基础地址 | `https://api.openai.com/v1` |
 | `OPENAI_MODEL` | 使用的模型 | `gpt-4o-mini` |
 | `REDIS_URL` | Redis 连接地址 | `redis://localhost:6379/0` |
+| `REDIS_KEY_PREFIX` | Redis key 前缀 | `github-trending-spider` |
+| `API_MAX_ITEMS_PER_SOURCE` | API 单来源最多返回条数 | 100 |
 | `LOG_FILE` | 日志文件路径 | `/root/logs/github-python/trending.log` |
 
 ### 采集配置
 | 变量 | 说明 | 默认值 |
 |---|---|---|
 | `GITHUB_TRENDING_TOP_COUNT` | GitHub 日榜/周榜各取前 N | 10 |
+| `HN_API_BASE` | Hacker News API 基础地址 | `https://hacker-news.firebaseio.com/v0` |
 | `HN_TOP_COUNT` | Hacker News 取前 N 帖 | 10 |
 | `HN_COMMENTS_PER_STORY` | 每帖取前 N 条评论 | 10 |
+| `HN_MAX_RETRIES` | HN 请求最大重试次数 | 5 |
+| `HN_CONCURRENT_WORKERS` | HN 并发请求线程数 | 10 |
+| `LINUX_DO_NEWS_URL` | Linux.do 聚合日报页面 | `https://news.linuxe.top/` |
+| `LINUX_DO_MAX_ITEMS` | Linux.do 展示条数上限 | 0（全部） |
+| `LINUX_DO_MAX_RETRIES` | Linux.do 请求最大重试次数 | 5 |
+| `SSPAI_FEED_URL` | 少数派 RSS 地址 | `https://sspai.com/feed` |
 | `SSPAI_TOP_COUNT` | 少数派取前 N 条 | 10 |
+| `SSPAI_MAX_RETRIES` | 少数派请求最大重试次数 | 5 |
+| `TMTPOST_FEED_URL` | 钛媒体 RSS 地址 | `https://www.tmtpost.com/rss` |
 | `TMTPOST_TOP_COUNT` | 钛媒体取前 N 条 | 10 |
+| `TMTPOST_MAX_RETRIES` | 钛媒体请求最大重试次数 | 5 |
+| `OPENAI_NEWS_URL` | OpenAI 新闻页 | `https://openai.com/news/` |
+| `OPENAI_NEWS_RSS_URL` | OpenAI 新闻 RSS | `https://openai.com/news/rss.xml` |
 | `OPENAI_NEWS_COUNT` | OpenAI 取前 N 条 | 10 |
+| `ANTHROPIC_NEWS_URL` | Anthropic 新闻页 | `https://www.anthropic.com/news` |
 | `ANTHROPIC_NEWS_COUNT` | Anthropic 取前 N 条 | 10 |
+| `INFOQ_AI_RSS_URLS` | InfoQ 相关 RSS 列表（逗号分隔） | 见 config.py |
+| `INFOQ_AI_PAGE_URL` | InfoQ AI Development 页面 | `https://www.infoq.com/ai-development/` |
 | `INFOQ_AI_NEWS_COUNT` | InfoQ 取前 N 条 | 10 |
+| `OFFICIAL_AI_MAX_RETRIES` | 官方 AI 源请求最大重试次数 | 5 |
 | `SPIDER_SCHEDULE_TIMES` | 采集调度时间 | `07:50,15:50,23:50` |
 | `SPIDER_SCHEDULER_ENABLED` | 是否启用定时采集 | `true` |
+| `SPIDER_RUN_ON_STARTUP` | API 启动时是否立即采集 | `false` |
 
 ### 微信公众号发布
 | 变量 | 说明 | 默认值 |
@@ -295,33 +318,59 @@ python3 scripts/generate_cover.py
 | `WECHAT_PUBLISH_ENABLED` | 启用微信发布 | `false` |
 | `WECHAT_APP_ID` | 微信公众号 AppID | 空 |
 | `WECHAT_APP_SECRET` | 微信公众号 AppSecret | 空 |
-| `WECHAT_DEFAULT_TITLE` | 默认标题模板 | `Agently 每日速览 - {date}` |
+| `WECHAT_DEFAULT_TITLE` | 默认标题模板 | `Agently.top 每日 AI 资讯 - {date}` |
 | `WECHAT_DEFAULT_AUTHOR` | 作者名 | `Agently` |
 | `WECHAT_DEFAULT_DIGEST` | 固定摘要（避免微信自动抽取） | 空 |
 | `WECHAT_MAX_ITEMS_PER_SOURCE` | 每来源最多条数 | 5 |
-| `WECHAT_DEFAULT_COVER_URL` | 默认封面图 URL | 空 |
+| `WECHAT_DEFAULT_COVER_URL` | 默认封面图 URL | `https://agently.top/agently_cover.jpg` |
+| `WECHAT_FALLBACK_LOGO_URL` | 正文无图时兜底 Logo URL | `https://agently.top/android-chrome-192x192.png` |
+| `WECHAT_CONTENT_SOURCE_URL` | 文末「阅读原文」跳转 URL | 空（自动取首条 url） |
+| `WECHAT_CONTENT_MAX_LENGTH` | 正文最大字符数 | 15000 |
+| `WECHAT_SOURCE_WHITELIST` | 发布来源白名单 | 空（全部来源） |
 | `WECHAT_GENERATE_COVER_BY_LLM` | 是否用 LLM 生成封面 | `false` |
 | `PUBLISH_SCHEDULE_TIMES` | 发布调度时间 | 空（跟随采集） |
 | `PUBLISH_ENABLED` | 启用发布编排 | `false` |
+
+### 封面图生成
+| 变量 | 说明 | 默认值 |
+|---|---|---|
+| `WECHAT_GENERATE_COVER_BY_LLM` | 是否用 LLM 生成封面 | `false` |
+| `WECHAT_COVER_PROMPT_TEMPLATE` | LLM 封面设计提示词模板 | 见 config.py |
+| `IMAGE_GEN_API_URL` | 图片生成 API 地址 | 空 |
+| `IMAGE_GEN_API_KEY` | 图片生成 API Key | 默认使用 `OPENAI_API_KEY` |
+| `IMAGE_GEN_MODEL` | 图片生成模型 | `dall-e-3` |
+| `IMAGE_GEN_SIZE` | 图片生成尺寸 | `1024x1024` |
+| `COVER_IMAGE_WIDTH` | Pillow 文字封面宽度 | 900 |
+| `COVER_IMAGE_HEIGHT` | Pillow 文字封面高度 | 500 |
 
 ### 邮件配置
 | 变量 | 说明 | 默认值 |
 |---|---|---|
 | `SMTP_SERVER` | SMTP 服务器地址 | `smtp.qiye.aliyun.com` |
 | `SMTP_PORT` | SMTP 端口 (465/587) | `465` |
-| `SMTP_USER` | Agently 企业邮箱账号 | 空 |
-| `SMTP_PASSWORD` | 邮箱密码 | 空 |
-| `MAIL_FROM` | 发件人显示名称 | `Agently AI <ai@agently.top>` |
+| `SMTP_USER` | 发件人邮箱账号 | 空 |
+| `SMTP_PASSWORD` | 邮箱密码/授权码 | 空 |
+| `MAIL_FROM` | 发件人显示名称 | 默认使用 `SMTP_USER` |
 | `MAIL_TO` | 收件人邮箱 | 空 |
+| `MAIL_TO_BY_TIME` | 按调度时间指定收件人 | 空 |
 | `SEND_EMAIL_ENABLED` | 启用邮件发送 | `false` |
-| `EMAIL_SEND_TIMES` | 邮件发送时间 | `08:30` |
+| `EMAIL_SEND_TIMES` | 邮件发送时间 | `07:50` |
 
 ### 归档与统计
 | 变量 | 说明 | 默认值 |
 |---|---|---|
+| `OUTPUT_JSON_PATH` | 统一 JSON 输出路径 | `output/latest.json` |
+| `OUTPUT_ARCHIVE_DIR` | 按来源归档输出目录 | `output` |
 | `ARCHIVE_GIT_ENABLED` | 启用 git 归档推送 | `false` |
+| `ARCHIVE_GIT_BRANCH` | 归档分支名 | `archive` |
+| `ARCHIVE_GIT_WORKTREE` | worktree 检出目录 | `.archive-worktree` |
+| `ARCHIVE_GIT_DIR` | worktree 内归档子目录名 | `archive` |
+| `ARCHIVE_GIT_REMOTE` | 推送目标 remote | `origin` |
 | `STATS_ENABLED` | 启用访问统计 | `true` |
+| `STATS_RETENTION_DAYS` | 统计数据保留天数 | 30 |
 | `STATS_API_TOKEN` | 统计接口 token | 空 |
+| `STATS_TRACK_CACHEABLE` | 是否允许 /api/track 被缓存 | `false` |
+| `STATS_PRIVATE_CIDRS` | 内网 CIDR 列表 | `127.0.0.0/8,10.0.0.0/8,...` |
 | `ADMIN_API_TOKEN` | 管理接口 token | 空 |
 
 ### 分层记忆系统
@@ -333,6 +382,7 @@ python3 scripts/generate_cover.py
 | `MEMORY_EDITORIAL_TTL_DAYS` | L3 编辑决策记忆 TTL | 14 |
 | `MEMORY_CONTEXT_MAX_TOPICS` | 摘要上下文最大主题数 | 5 |
 | `MEMORY_LLM_ENABLED` | 使用 LLM 做主题匹配 | `false` |
+| `MEMORY_OUTPUT_DIR` | 记忆数据磁盘根目录 | `output/memory` |
 
 ---
 
