@@ -62,7 +62,8 @@ python3 -m uvicorn api:app --host 0.0.0.0 --port 8000
 - 支持每个来源条数限制，控制单篇内容总量
 
 ### 5. 邮件推送（可选）
-- 163 SMTP 发送每日摘要邮件
+- Agently 企业邮箱（阿里企业邮箱）SMTP 发送每日摘要邮件
+- 支持 SSL(465) 和 STARTTLS(587) 两种连接方式
 - 支持按调度时间指定不同收件人
 
 ## API 接口
@@ -146,6 +147,16 @@ export WECHAT_DEFAULT_TITLE="Agently 每日速览 - {date}"
 export WECHAT_DEFAULT_DIGEST="AI 后端资讯每日速览 · 9 大源要点速读"
 export WECHAT_MAX_ITEMS_PER_SOURCE=3
 export WECHAT_DEFAULT_COVER_URL="https://agently.top/agently_cover.jpg"
+
+# 邮件推送（可选，Agently 企业邮箱）
+export SMTP_SERVER="smtp.qiye.aliyun.com"
+export SMTP_PORT="465"
+export SMTP_USER="ai@agently.top"
+export SMTP_PASSWORD="your-password"
+export MAIL_FROM="AI助手 <ai@agently.top>"
+export MAIL_TO="recipient@example.com"
+export SEND_EMAIL_ENABLED=true
+export EMAIL_SEND_TIMES="08:30"
 
 # 访问统计 token
 export STATS_API_TOKEN="your-secret-token"
@@ -279,11 +290,14 @@ python3 scripts/generate_cover.py
 ### 邮件配置
 | 变量 | 说明 | 默认值 |
 |---|---|---|
-| `SMTP_USER` | 163 邮箱账号 | 空 |
-| `SMTP_PASSWORD` | 163 邮箱授权码 | 空 |
+| `SMTP_SERVER` | SMTP 服务器地址 | `smtp.qiye.aliyun.com` |
+| `SMTP_PORT` | SMTP 端口 (465/587) | `465` |
+| `SMTP_USER` | Agently 企业邮箱账号 | 空 |
+| `SMTP_PASSWORD` | 邮箱密码 | 空 |
+| `MAIL_FROM` | 发件人显示名称 | `AI助手 <ai@agently.top>` |
 | `MAIL_TO` | 收件人邮箱 | 空 |
 | `SEND_EMAIL_ENABLED` | 启用邮件发送 | `false` |
-| `EMAIL_SEND_TIMES` | 邮件发送时间 | `07:50` |
+| `EMAIL_SEND_TIMES` | 邮件发送时间 | `08:30` |
 
 ### 归档与统计
 | 变量 | 说明 | 默认值 |
