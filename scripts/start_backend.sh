@@ -38,7 +38,11 @@ export SPIDER_RUN_ON_STARTUP="${SPIDER_RUN_ON_STARTUP:-false}"
 HOST="${BACKEND_HOST:-0.0.0.0}"
 PORT="${BACKEND_PORT:-8000}"
 
-python3 -m pip install -r requirements.txt
+# 默认使用 python3.11,因 3.6 装不上 fastapi>=0.100,3.8 不支持 PEP 604 语法
+# (dict[str, Any] | None)。可通过 PYTHON 环境变量覆盖,例如 PYTHON=python3.12。
+PYTHON="${PYTHON:-python3.11}"
+
+"${PYTHON}" -m pip install -r requirements.txt
 
 OLD_PIDS="$(ps -ef | awk '/[u]vicorn api:app/ {print $2}')"
 if [ -n "${OLD_PIDS}" ]; then
@@ -46,7 +50,7 @@ if [ -n "${OLD_PIDS}" ]; then
   sleep 2
 fi
 
-nohup python3 -m uvicorn api:app --host "${HOST}" --port "${PORT}" > "${BACKEND_LOG}" 2>&1 &
+nohup "${PYTHON}" -m uvicorn api:app --host "${HOST}" --port "${PORT}" > "${BACKEND_LOG}" 2>&1 &
 NEW_PID="$!"
 
 sleep 2
