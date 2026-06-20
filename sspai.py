@@ -2,7 +2,7 @@
 """
 少数派 (sspai.com) 数据获取 + 中文总结模块
 
-通过 少数派 官方 RSS 抓取最近内容，调用 AI 生成中文摘要和后端关注点。
+通过 少数派 官方 RSS 抓取最近内容，调用 AI 生成中文摘要和开发关注点。
 """
 
 import html
@@ -133,7 +133,7 @@ def _limit_text(text, max_len):
 
 def ai_summarize_sspai_items(items):
     """
-    调用 AI 对 少数派 条目生成中文摘要和后端关注点。
+    调用 AI 对 少数派 条目生成中文摘要和开发关注点。
 
     Args:
         items: 少数派 条目列表
@@ -150,7 +150,7 @@ def ai_summarize_sspai_items(items):
             item["chinese_summary"] = "（未配置 AI Token，无法生成中文摘要）{}".format(
                 item.get("summary", "")
             )
-            item["backend_focus"] = "（未配置 AI Token，无法生成后端关注点）"
+            item["backend_focus"] = "（未配置 AI Token，无法生成开发关注点）"
         return items
 
     item_lines = []
@@ -174,7 +174,7 @@ def ai_summarize_sspai_items(items):
         "  · 第一句说清这篇在讲什么（产品/工具/方法/经验）\n"
         "  · 第二句点出这个内容对工程/技术人群的实际价值（学什么、避什么坑、用什么工具）\n"
         "  · 如果是产品体验/种草/生活消费类（数码开箱、App 评测、生活方式），"
-        "直接写「产品体验/种草类内容，与后端工程无关」\n"
+        "直接写「产品体验/种草类内容，与工程无关」\n"
         "- backend_focus（50-80 字）：\n"
         "  · 对工程实践的具体启发：可借鉴的思路、可复用的脚本、可接入的 API/SDK、"
         "可改造的工作流环节\n"
@@ -182,8 +182,8 @@ def ai_summarize_sspai_items(items):
         "写作要求：\n"
         "- 区分「真的新工具/新方法/可复用经验」和「产品体验式种草」"
         "，后者直接说「产品体验式种草」\n"
-        "- 跟后端/AI 工程无关的纯生活消费内容（旅游、美食、时尚、消费品评测），"
-        "chinese_summary 写「与后端工程无关」，backend_focus 写「无」\n"
+        "- 跟 AI 开发 / 软件开发无关的纯生活消费内容（旅游、美食、时尚、消费品评测），"
+        "chinese_summary 写「与工程无关」，backend_focus 写「无」\n"
         "- 涉及具体工具/命令/快捷键/配置项时直接给名称（Raycast、Alfred、"
         "Obsidian、Hammerspoon、Shortcuts 等）\n"
         "- 涉及 macOS/iOS 新功能时尽量写清楚系统版本要求\n\n"
@@ -207,7 +207,7 @@ def ai_summarize_sspai_items(items):
         if not item.get("chinese_summary"):
             item["chinese_summary"] = "（AI 摘要生成失败）{}".format(item.get("summary", ""))
         if not item.get("backend_focus"):
-            item["backend_focus"] = "（AI 后端关注点生成失败）"
+            item["backend_focus"] = "（AI 开发关注点生成失败）"
 
     return items
 
@@ -228,8 +228,8 @@ def _call_sspai_ai_api(prompt, max_retries=10):
         "messages": [
             {
                 "role": "system",
-                "content": "你是一个面向后端工程师的少数派内容筛选员。"
-                           "你的任务是把少数派上跟后端工程、AI 工程、效率工具相关的内容"
+                "content": "你是一个面向 AI 开发工程师 / 软件开发工程师的少数派内容筛选员。"
+                           "你的任务是把少数派上跟 AI 工程、软件开发、效率工具相关的内容"
                            "用中文整理成 30 秒能读完的速记，剔除种草、消费向文章。"
                            "请始终返回有效 JSON。",
             },

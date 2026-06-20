@@ -194,7 +194,7 @@ def ai_summarize(repos, since_label):
     repos_text = "\n".join(repo_text_lines)
 
     prompt = (
-        "以下是 GitHub {} 的热门开源项目。读者是后端/平台工程师，"
+        "以下是 GitHub {} 的热门开源项目。读者是 AI 开发工程师 / 软件开发工程师，"
         "正在找能立刻在生产里用上、或者值得 star 跟进的开源工具。\n\n"
         "请为每个项目写两段输出，字段必须不同，不要把 summary 复制到 backend_focus：\n"
         "- summary（100-160 字）：\n"
@@ -207,7 +207,7 @@ def ai_summarize(repos, since_label):
         "  · 不要重复 summary 内容，直接给一个具体的「团队下一步该做什么」动作清单\n"
         "  · 例：跑哪个命令、装哪个包、配哪条环境变量、改哪个 Dockerfile、"
         "查哪条文档、跑哪个 benchmark 评估替换\n"
-        "  · 如果是纯前端/纯客户端工具，backend_focus 写「与后端服务无关」\n\n"
+        "  · 如果是纯前端/纯客户端工具，backend_focus 写「与开发工作无关」\n\n"
         "禁止事项：\n"
         "- 禁止用「该项目旨在」「本工具致力于」「适合广大开发者」这类官腔\n"
         "- 禁止泛泛说「高性能」「易用」，必须有对比或具体数据（延迟/吞吐/包大小/Memory）\n"
@@ -217,7 +217,7 @@ def ai_summarize(repos, since_label):
         "范例：\n"
         '{{"index": 1, '
         '"summary": "Rust 写的嵌入式向量数据库，单二进制 6MB，百万级 embedding 检索 P99 <5ms。'
-        '比 Milvus 轻量 10 倍不需要独立部署服务，适合不想搞分布式但又需要语义搜索的后端场景；'
+        '比 Milvus 轻量 10 倍不需要独立部署服务，适合不想搞分布式但又需要语义搜索的 AI 开发 / 软件开发场景；'
         '缺点是单节点写入吞吐有上限，超 500 万向量建议还是上 Qdrant 或 Milvus。'
         '上手成本：cargo install 后写 30 行代码就能用，无外部依赖。", '
         '"backend_focus": "在 staging 跑一次：cargo install lance-db && git clone demo，'
@@ -264,7 +264,7 @@ def _call_ai_api(prompt, max_retries=10):
         "messages": [
             {
                 "role": "system",
-                "content": "你是一个资深后端工程师，正在给团队同事推荐值得关注的开源项目。"
+                "content": "你是一个资深 AI 开发工程师 / 软件开发工程师，正在给团队同事推荐值得关注的开源项目。"
                            "语气务实、直白，像技术群里聊天。请始终返回有效的 JSON 格式。",
             },
             {"role": "user", "content": prompt},

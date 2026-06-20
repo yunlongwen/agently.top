@@ -54,7 +54,7 @@ from memory_prompts import memory_enhanced_summary_prompt
 
 def summarize_content_items(items, section_label, memory_context=""):
     """
-    为统一信息项生成中文摘要和后端关注点。
+    为统一信息项生成中文摘要和开发关注点。
 
     Args:
         items: 统一信息项列表
@@ -73,7 +73,7 @@ def summarize_content_items(items, section_label, memory_context=""):
             item["chinese_summary"] = "（未配置 AI Token，无法生成中文摘要）{}".format(
                 item.get("original_summary", "")
             )
-            item["backend_focus"] = "（未配置 AI Token，无法生成后端关注点）"
+            item["backend_focus"] = "（未配置 AI Token，无法生成开发关注点）"
         return items
 
     item_lines = []
@@ -92,14 +92,14 @@ def summarize_content_items(items, section_label, memory_context=""):
 
     base_prompt = (
         "以下是【{}】官方渠道的最新内容。这些是 AI 厂商一手发布，"
-        "读者是后端 / 平台 / AI 工程师，正在评估要不要跟进。\n\n"
+        "读者是 AI 开发工程师 / 软件开发工程师，正在评估要不要跟进。\n\n"
         "请为每条生成：\n"
         "- chinese_summary（100-160 字）：\n"
         "  · 第一句先讲这次更新/公告的核心事实（产品名 + 动作 + 关键能力变化）\n"
         "  · 第二句说清楚它相对此前的差异点（新参数、新模型、新能力、新限制）\n"
         "  · 第三句说清楚对已有系统的兼容性影响（旧功能是否被替代、是否需要迁移）\n"
         "- backend_focus（50-80 字）：\n"
-        "  · 给后端团队一条具体可执行的事：升级到哪个 API/SDK 版本、修改哪个配置、"
+        "  · 给 AI 开发团队 / 软件开发团队一条具体可执行的事：升级到哪个 API/SDK 版本、修改哪个配置、"
         "    删除哪段兼容代码、关注哪个 deprecation 时间线\n"
         "  · 如果只是营销/概念发布，直接写「营销大于实质，无需行动」并说明理由\n\n"
         "写作要求：\n"
@@ -110,7 +110,7 @@ def summarize_content_items(items, section_label, memory_context=""):
         "- 涉及模型版本号直接照抄（如 Claude Opus 4.5、GPT-5.4、GLM-5.2）\n"
         "- 涉及定价/限流/区域可用性变化必须写出来\n"
         "- 如果内容跟工程无关（纯品牌故事、招聘、公益），"
-        "chinese_summary 写「与后端工程无关」，backend_focus 写「无」\n\n"
+        "chinese_summary 写「与工程无关」，backend_focus 写「无」\n\n"
         "范例：\n"
         '{{"index": 1, "chinese_summary": "OpenAI 正式发布 Structured Outputs，'
         'Chat Completions 接口新增 strict 模式，能保证返回内容严格符合调用方传入的 JSON Schema，'
@@ -142,7 +142,7 @@ def summarize_content_items(items, section_label, memory_context=""):
                 item.get("original_summary", "")
             )
         if not item.get("backend_focus"):
-            item["backend_focus"] = "（AI 后端关注点生成失败）"
+            item["backend_focus"] = "（AI 开发关注点生成失败）"
 
     return items
 
@@ -326,7 +326,7 @@ def _call_content_ai_api(prompt, max_retries=10):
         "messages": [
             {
                 "role": "system",
-                "content": "你是一个关注 AI 基础设施动态的后端架构师。"
+                "content": "你是一个关注 AI 基础设施动态的 AI 开发工程师 / 软件开发工程师。"
                            "你帮团队判断哪些官方更新会影响现有系统，哪些是营销噪音。"
                            "请始终返回有效 JSON。",
             },

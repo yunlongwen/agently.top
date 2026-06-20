@@ -2,7 +2,7 @@
 """
 钛媒体 (tmtpost.com) 数据获取 + 中文总结模块
 
-通过 钛媒体 官方 RSS 抓取最近内容，调用 AI 生成中文摘要和后端关注点。
+通过 钛媒体 官方 RSS 抓取最近内容，调用 AI 生成中文摘要和开发关注点。
 """
 
 import html
@@ -139,7 +139,7 @@ def _limit_text(text, max_len):
 
 def ai_summarize_tmtpost_items(items):
     """
-    调用 AI 对 钛媒体 条目生成中文摘要和后端关注点。
+    调用 AI 对 钛媒体 条目生成中文摘要和开发关注点。
 
     Args:
         items: 钛媒体 条目列表
@@ -156,7 +156,7 @@ def ai_summarize_tmtpost_items(items):
             item["chinese_summary"] = "（未配置 AI Token，无法生成中文摘要）{}".format(
                 item.get("summary", "")
             )
-            item["backend_focus"] = "（未配置 AI Token，无法生成后端关注点）"
+            item["backend_focus"] = "（未配置 AI Token，无法生成开发关注点）"
         return items
 
     item_lines = []
@@ -179,9 +179,9 @@ def ai_summarize_tmtpost_items(items):
         "请为每条生成：\n"
         "- chinese_summary（100-160 字）：\n"
         "  · 第一句说清核心事实（谁、做了什么、金额/数字/规模）\n"
-        "  · 第二句点出对后端/AI 工程师的实际影响（选型、成本、供应链、人才市场）\n"
+        "  · 第二句点出对 AI 开发工程师 / 软件开发工程师的实际影响（选型、成本、供应链、人才市场）\n"
         "  · 涉及 AI/算力/开源模型/大厂动作的条目要重点说清工程选型层面的变化\n"
-        "  · 纯财经/股票/IPO/股价波动类内容，写「纯财经报道，与后端工程无关」\n"
+        "  · 纯财经/股票/IPO/股价波动类内容，写「纯财经报道，与工程无关」\n"
         "- backend_focus（50-80 字）：\n"
         "  · 对工程方向、技术选型、算力采购、系统架构的具体启发\n"
         "  · 涉及融资/收购时点出对供应链、客户关系、技术路线的影响\n"
@@ -191,7 +191,7 @@ def ai_summarize_tmtpost_items(items):
         "，后者直说「营销大于实质」并说明理由\n"
         "- 涉及具体公司、产品、融资轮次、芯片型号、模型名、金额、估值时直接照抄原文数字\n"
         "- 跟工程无关的纯财经/股票内容（股价、市值、PE、IPO 排队），"
-        "chinese_summary 写「与后端工程无关」，backend_focus 写「无」\n"
+        "chinese_summary 写「与工程无关」，backend_focus 写「无」\n"
         "- 涉及监管/政策/出口管制时点出对国内/海外服务可用性的影响\n\n"
         "请严格按以下 JSON 格式返回，不要包含 markdown 代码块或任何多余文字：\n"
         '{{"summaries": [{{"index": 1, "chinese_summary": "...", "backend_focus": "..."}}, ...]}}\n\n'
@@ -213,7 +213,7 @@ def ai_summarize_tmtpost_items(items):
         if not item.get("chinese_summary"):
             item["chinese_summary"] = "（AI 摘要生成失败）{}".format(item.get("summary", ""))
         if not item.get("backend_focus"):
-            item["backend_focus"] = "（AI 后端关注点生成失败）"
+            item["backend_focus"] = "（AI 开发关注点生成失败）"
 
     return items
 
@@ -234,7 +234,7 @@ def _call_tmtpost_ai_api(prompt, max_retries=10):
         "messages": [
             {
                 "role": "system",
-                "content": "你是一个关注中文 AI 行业动态的后端架构师。"
+                "content": "你是一个关注中文 AI 行业动态的 AI 开发工程师 / 软件开发工程师。"
                            "你帮团队从钛媒体的报道中筛选出真正影响工程方向、公司技术栈选型、算力供应链的消息，"
                            "过滤公关稿和无效财经噪音。请始终返回有效 JSON。",
             },
