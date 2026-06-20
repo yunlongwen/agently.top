@@ -14,7 +14,7 @@
 
 Agently.top 每天自动从 9 个信息源抓取最新内容，通过 OpenAI 兼容接口（默认 `MiniMax-M3`）生成中文摘要与开发关注点，并以卡片流形式呈现。同时支持将每日精选内容自动发布到微信公众号草稿箱。
 
-信息源包括：GitHub Trending 日榜/周榜、Hacker News、Linux.do、少数派、钛媒体、OpenAI、Anthropic、InfoQ AI。
+信息源包括：GitHub Trending 日榜/周榜、Hacker News、[Linux.do](https://linux.do/)、少数派、钛媒体、OpenAI、Anthropic、InfoQ AI。
 
 ---
 
