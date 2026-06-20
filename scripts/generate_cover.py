@@ -15,9 +15,9 @@ for y in range(500):
     b = int(246 + (226 - 246) * y / 500)
     draw.line([(0, y), (900, y)], fill=(r, g, b))
 
-# 字体
-font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 48)
-font2 = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 20)
+# 字体 - 使用支持中文的 Noto Sans CJK
+font = ImageFont.truetype('/usr/share/fonts/google-noto-cjk/NotoSansCJK-Bold.ttc', 48)
+font2 = ImageFont.truetype('/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc', 20)
 
 # 主标题
 bbox = draw.textbbox((0, 0), 'Agently', font=font)
