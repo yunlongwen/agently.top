@@ -153,7 +153,7 @@ export SMTP_SERVER="smtp.qiye.aliyun.com"
 export SMTP_PORT="465"
 export SMTP_USER="ai@agently.top"
 export SMTP_PASSWORD="your-password"
-export MAIL_FROM="AI助手 <ai@agently.top>"
+export MAIL_FROM="Agently AI <ai@agently.top>"
 export MAIL_TO="recipient@example.com"
 export SEND_EMAIL_ENABLED=true
 export EMAIL_SEND_TIMES="08:30"
@@ -294,7 +294,7 @@ python3 scripts/generate_cover.py
 | `SMTP_PORT` | SMTP 端口 (465/587) | `465` |
 | `SMTP_USER` | Agently 企业邮箱账号 | 空 |
 | `SMTP_PASSWORD` | 邮箱密码 | 空 |
-| `MAIL_FROM` | 发件人显示名称 | `AI助手 <ai@agently.top>` |
+| `MAIL_FROM` | 发件人显示名称 | `Agently AI <ai@agently.top>` |
 | `MAIL_TO` | 收件人邮箱 | 空 |
 | `SEND_EMAIL_ENABLED` | 启用邮件发送 | `false` |
 | `EMAIL_SEND_TIMES` | 邮件发送时间 | `08:30` |
