@@ -327,6 +327,10 @@ WECHAT_FALLBACK_LOGO_URL = os.environ.get(
     "https://agently.top/android-chrome-192x192.png",
 )
 
+# 文末「阅读原文」跳转 URL。
+# 未配置时，自动使用当日第一条资讯的 url；若当日无资讯则使用站点首页。
+WECHAT_CONTENT_SOURCE_URL = os.environ.get("WECHAT_CONTENT_SOURCE_URL", "")
+
 # 正文最大字符数限制（微信图文素材内容上限约 20000 字，这里留有余量）。
 WECHAT_CONTENT_MAX_LENGTH = int(os.environ.get("WECHAT_CONTENT_MAX_LENGTH", "15000"))
 

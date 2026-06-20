@@ -14,6 +14,7 @@ from config import (
     ADMIN_API_TOKEN,
     PUBLISH_ENABLED,
     PUBLISH_SCHEDULE_TIMES,
+    WECHAT_CONTENT_SOURCE_URL,
     WECHAT_DEFAULT_AUTHOR,
     WECHAT_DEFAULT_DIGEST,
     WECHAT_DEFAULT_TITLE,
@@ -52,6 +53,24 @@ def _normalize_time(scheduled_time: Any) -> str:
     if len(text) >= 5:
         return text[:5]
     return text
+
+
+def _resolve_content_source_url(items: list[dict]) -> str:
+    """
+    确定微信公众号文章底部「阅读原文」跳转 URL。
+
+    优先级：
+    1. 环境变量 WECHAT_CONTENT_SOURCE_URL
+    2. 当日第一条资讯的 url
+    3. 站点首页兜底
+    """
+    if WECHAT_CONTENT_SOURCE_URL:
+        return WECHAT_CONTENT_SOURCE_URL
+    for item in items or []:
+        url = (item.get("url") or "").strip()
+        if url:
+            return url
+    return "https://agently.top/"
 
 
 def _should_publish_at(scheduled_time: Any) -> bool:
@@ -113,6 +132,7 @@ def publish_daily(items: list[dict], scheduled_time: Any = None) -> dict[str, An
         "title": WECHAT_DEFAULT_TITLE.replace("{date}", date_text),
         "author": WECHAT_DEFAULT_AUTHOR,
         "digest": WECHAT_DEFAULT_DIGEST,
+        "content_source_url": _resolve_content_source_url(items),
     }
 
     for publisher in enabled_publishers:
@@ -156,6 +176,8 @@ def publish_to(publisher_id: str, items: list[dict] | None = None,
     if items and not content:
         date_text = datetime.now().strftime("%Y-%m-%d")
         content = build_daily_markdown(items, date_text=date_text)
+        if "content_source_url" not in options:
+            options["content_source_url"] = _resolve_content_source_url(items)
     elif not content:
         content = ""
 

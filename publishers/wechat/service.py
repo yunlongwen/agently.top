@@ -260,7 +260,8 @@ class WechatService:
         return str(soup), first_media_id, all_media_ids
 
     def publish_draft(self, title: str, content: str, thumb_media_id: str,
-                      author: str = "", digest: str = "") -> dict[str, Any]:
+                      author: str = "", digest: str = "",
+                      content_source_url: str = "") -> dict[str, Any]:
         """
         发布草稿到微信公众号草稿箱。
 
@@ -280,6 +281,8 @@ class WechatService:
             article["author"] = author
         if digest:
             article["digest"] = digest
+        if content_source_url:
+            article["content_source_url"] = content_source_url
 
         payload = {"articles": [article]}
         data = self._request("POST", url, json=payload)

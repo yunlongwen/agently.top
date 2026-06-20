@@ -93,6 +93,7 @@ class WechatPublisher(Publisher):
             thumb_media_id=thumb_media_id,
             author=author,
             digest=digest,
+            content_source_url=options.get("content_source_url", ""),
         )
 
         return {
