@@ -11,8 +11,7 @@ import json
 import os
 import sys
 
-# 避免启动 scheduler / Redis
-os.environ.setdefault("SPIDER_SCHEDULER_ENABLED", "false")
+# 避免启动 Redis / 真实发布
 os.environ.setdefault("STATS_ENABLED", "false")
 os.environ.setdefault("PUBLISH_ENABLED", "false")
 os.environ.setdefault("WECHAT_PUBLISH_ENABLED", "false")

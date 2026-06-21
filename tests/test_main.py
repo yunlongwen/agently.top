@@ -6,7 +6,6 @@
 import os
 from unittest.mock import patch, MagicMock
 
-os.environ.setdefault("SPIDER_SCHEDULER_ENABLED", "false")
 os.environ.setdefault("STATS_ENABLED", "false")
 os.environ.setdefault("PUBLISH_ENABLED", "false")
 os.environ.setdefault("WECHAT_PUBLISH_ENABLED", "false")

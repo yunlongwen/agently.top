@@ -283,21 +283,6 @@ MEMORY_LLM_ENABLED = _get_bool_env("MEMORY_LLM_ENABLED", False)
 MEMORY_OUTPUT_DIR = os.environ.get("MEMORY_OUTPUT_DIR", "output/memory")
 
 # =========================================================================
-# 内置采集调度配置
-# =========================================================================
-
-# 启动 API 后是否启用进程内定时采集。
-SPIDER_SCHEDULER_ENABLED = _get_bool_env("SPIDER_SCHEDULER_ENABLED", True)
-
-# 每天运行时间，24 小时制，逗号分隔。
-SPIDER_SCHEDULE_TIMES = os.environ.get(
-    "SPIDER_SCHEDULE_TIMES", "07:50,15:50,23:50"
-)
-
-# API 启动时是否立即跑一次采集。
-SPIDER_RUN_ON_STARTUP = _get_bool_env("SPIDER_RUN_ON_STARTUP", False)
-
-# =========================================================================
 # 邮件发送开关
 # =========================================================================
 
@@ -305,7 +290,8 @@ SPIDER_RUN_ON_STARTUP = _get_bool_env("SPIDER_RUN_ON_STARTUP", False)
 SEND_EMAIL_ENABLED = _get_bool_env("SEND_EMAIL_ENABLED", False)
 
 # 允许发送邮件的每日调度时间，24 小时制，逗号分隔。
-# 采集仍按 SPIDER_SCHEDULE_TIMES 执行；未配置 MAIL_TO_BY_TIME 时用这里控制哪些调度批次发邮件。
+# 邮件由 v2 调度器中的 daily-email-scheduler 线程按这里的时间触发；
+# 未配置 MAIL_TO_BY_TIME 时用这里控制哪些调度批次发邮件。
 EMAIL_SEND_TIMES = os.environ.get("EMAIL_SEND_TIMES", "07:50")
 
 # =========================================================================
@@ -316,7 +302,7 @@ EMAIL_SEND_TIMES = os.environ.get("EMAIL_SEND_TIMES", "07:50")
 PUBLISH_ENABLED = _get_bool_env("PUBLISH_ENABLED", False)
 
 # 允许执行发布的每日调度时间，24 小时制，逗号分隔。
-# 为空时表示跟随 SPIDER_SCHEDULE_TIMES（每次采集后都尝试发布）。
+# 为空时表示由 daily-email-scheduler 触发时同步触发发布。
 PUBLISH_SCHEDULE_TIMES = os.environ.get("PUBLISH_SCHEDULE_TIMES", "")
 
 # 管理员 API Token，用于 /api/admin/publish/* 等管理接口鉴权。
