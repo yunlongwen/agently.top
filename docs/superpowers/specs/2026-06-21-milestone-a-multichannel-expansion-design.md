@@ -223,10 +223,11 @@ rss:
       url: "https://www.v2ex.com/feed/tab/tech.xml"
       category: "community"
 
-    - id: "linux-do"
-      name: "Linux.do"
-      url: "https://linux.do/latest.rss"
-      category: "community"
+    - id: "sspai-matrix"
+      name: "少数派 Matrix"
+      url: "https://sspai.com/matrix"  # 无官方 RSS，需用 HTML 解析
+      category: "tech"
+      use_html_parser: true
 
     # 海外源默认关闭，需用户自建 RSSHub 或确认可访问后开启
     - id: "arxiv-daily"
@@ -298,9 +299,10 @@ def mark_rss_item_seen(source_id: str, guid: str, ttl_days: int = 7):
 
 ### 5.3 36kr 创投
 
-- 数据源：36kr 对应栏目 RSS（需确认具体 URL）
-- 方式：RSS 解析
+- 数据源：36kr 站内栏目页面（如 `https://36kr.com/information/technology`）或其实际 RSS 地址
+- 方式：优先 RSS，如无稳定 RSS 则使用 HTML 解析
 - 过滤：category 为「创投」「AI」「科技」的文章
+- 备注：具体 RSS URL 需在实现前实测确认，建议先用 `scripts/check_source_connectivity.py` 验证
 
 ### 5.4 少数派 Matrix
 
