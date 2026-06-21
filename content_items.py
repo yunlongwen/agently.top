@@ -147,7 +147,24 @@ def summarize_content_items(items, section_label, memory_context=""):
     return items
 
 
-def build_all_content_items(daily_repos, weekly_repos, hn_stories, sspai_items, tmtpost_items, ai_source_items, linux_do_items=None):
+def _rss_to_items(rss_items):
+    items_out = []
+    for item in rss_items or []:
+        items_out.append(make_content_item(
+            source=item.get("source", ""),
+            category=item.get("category", ""),
+            title=item.get("title", ""),
+            url=item.get("url", ""),
+            published_at=item.get("published_at", ""),
+            original_summary=item.get("original_summary", ""),
+            chinese_summary=item.get("chinese_summary", ""),
+            backend_focus=item.get("backend_focus", ""),
+            meta=item.get("meta", {}),
+        ))
+    return items_out
+
+
+def build_all_content_items(daily_repos, weekly_repos, hn_stories, sspai_items, tmtpost_items, ai_source_items, linux_do_items=None, rss_items=None):
     """将多个来源数据适配为统一 JSON 信息项。"""
     items = []
     items.extend(_github_to_items(daily_repos, SOURCE_GITHUB_DAILY, "每日热点"))
@@ -157,6 +174,7 @@ def build_all_content_items(daily_repos, weekly_repos, hn_stories, sspai_items, 
     items.extend(_sspai_to_items(sspai_items))
     items.extend(_tmtpost_to_items(tmtpost_items))
     items.extend(ai_source_items or [])
+    items.extend(_rss_to_items(rss_items))
     return items
 
 

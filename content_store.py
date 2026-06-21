@@ -14,6 +14,7 @@ from config import (
     REDIS_KEY_PREFIX,
     REDIS_SNAPSHOT_TTL_SECONDS,
 )
+from dedup import filter_duplicate_items
 from redis_client import get_redis_client
 from source_registry import (
     SOURCE_DEFINITIONS,
@@ -31,20 +32,24 @@ def build_source_snapshots(items, generated_at=None):
     if generated_at is None:
         generated_at = datetime.now().isoformat()
 
+    items = filter_duplicate_items(items)
+
     grouped = {}
     for item in items or []:
         source = get_source_by_content_source(item.get("source", ""))
+        if not source:
+            source = get_source_by_id(item.get("source", ""))
         if not source:
             logger.warning("跳过未注册来源: %s", item.get("source", ""))
             continue
         grouped.setdefault(source["id"], []).append(item)
 
     snapshots = {}
-    for source in SOURCE_DEFINITIONS:
-        source_items = grouped.get(source["id"], [])
-        if not source_items:
-            continue
-        snapshots[source["id"]] = {
+    for source_id, source_items in grouped.items():
+        source = get_source_by_id(source_id)
+        if not source:
+            source = {"id": source_id, "label": source_id, "category": ""}
+        snapshots[source_id] = {
             "generated_at": generated_at,
             "source": source,
             "item_count": len(source_items),
