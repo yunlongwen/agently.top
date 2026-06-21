@@ -10,7 +10,7 @@ from xml.etree import ElementTree
 
 sys.path.insert(0, ".")
 
-from rss_builder import build_rss_feed  # noqa: E402
+from infrastructure.rss_builder import build_rss_feed  # noqa: E402
 
 
 class TestRssBuilder(unittest.TestCase):

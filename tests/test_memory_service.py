@@ -19,7 +19,7 @@ os.environ.setdefault("MEMORY_ENABLED", "true")
 os.environ.setdefault("MEMORY_LLM_ENABLED", "false")
 os.environ.setdefault("REDIS_URL", "redis://localhost:6379/99")
 
-from memory_service import MemoryService
+from core.memory_service import MemoryService
 
 
 def _mock_get_redis_client():
@@ -31,7 +31,7 @@ class TestMemoryService(unittest.TestCase):
 
     def setUp(self):
         # 强制使用磁盘模式，避免连接真实 Redis 超时
-        import memory_service as ms_module
+        import core.memory_service as ms_module
         self._original_get_redis_client = ms_module.get_redis_client
         ms_module.get_redis_client = _mock_get_redis_client
 
@@ -40,7 +40,7 @@ class TestMemoryService(unittest.TestCase):
 
     def tearDown(self):
         import shutil
-        import memory_service as ms_module
+        import core.memory_service as ms_module
         ms_module.get_redis_client = self._original_get_redis_client
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 

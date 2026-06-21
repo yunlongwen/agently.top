@@ -8,9 +8,9 @@ import unittest
 
 sys.path.insert(0, ".")
 
-from content_items import CATEGORY_COMMUNITY, SOURCE_LINUX_DO, _linux_do_to_items
-from linux_do_news import parse_linux_do_daily_html
-from source_registry import get_source_by_content_source
+from core.content_items import CATEGORY_COMMUNITY, SOURCE_LINUX_DO, _linux_do_to_items
+from spiders.linux_do_news import parse_linux_do_daily_html
+from core.source_registry import get_source_by_content_source
 
 
 SAMPLE_HTML = """

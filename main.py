@@ -13,8 +13,8 @@ import time
 from datetime import datetime
 
 from config import EMAIL_SEND_TIMES, MAIL_TO, MAIL_TO_BY_TIME, OUTPUT_JSON_PATH, SEND_EMAIL_ENABLED
-from logging_config import setup_logging
-from subscription_store import load_subscribers
+from infrastructure.logging_config import setup_logging
+from core.subscription_store import load_subscribers
 
 setup_logging()
 logger = logging.getLogger(__name__)
@@ -138,14 +138,14 @@ def run_spider(scheduled_time=None):
     from sspai import fetch_sspai_items, ai_summarize_sspai_items
     from tmtpost import fetch_tmtpost_items, ai_summarize_tmtpost_items
     from official_ai_sources import fetch_anthropic_news, fetch_infoq_ai_development, fetch_openai_news
-    from content_items import build_all_content_items, summarize_content_items, write_content_json
-    from content_store import persist_source_snapshots
-    from email_builder import build_email_html
-    from email_sender import send_email, send_failure_notify
-    from memory_service import MemoryService
+    from core.content_items import build_all_content_items, summarize_content_items, write_content_json
+    from core.content_store import persist_source_snapshots
+    from builders.email_builder import build_email_html
+    from infrastructure.email_sender import send_email, send_failure_notify
+    from core.memory_service import MemoryService
     from sources.rss import build_all_rss_spiders
     from sources.rss_config import load_rss_config
-    from dedup import filter_duplicate_items
+    from core.dedup import filter_duplicate_items
 
     errors = []
 
@@ -407,7 +407,7 @@ def run_spider(scheduled_time=None):
     # 归档推送到 archive 分支(失败不影响主流程)
     # ==========================
     try:
-        from archive_sync import sync_archive_to_git
+        from infrastructure.archive_sync import sync_archive_to_git
         sync_archive_to_git(item_count=len(content_items))
     except Exception as e:
         logger.warning("归档推送异常(不影响采集): %s", e)
@@ -416,7 +416,7 @@ def run_spider(scheduled_time=None):
     # 多平台发布编排(失败不影响主流程)
     # ==========================
     try:
-        from publish_service import publish_daily
+        from core.publish_service import publish_daily
         publish_result = publish_daily(
             content_items,
             scheduled_time=scheduled_time,
