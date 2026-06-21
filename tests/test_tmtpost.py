@@ -11,7 +11,7 @@ import unittest
 sys.path.insert(0, ".")
 
 from spiders.tmtpost import fetch_tmtpost_items, _parse_tmtpost_rss  # noqa: E402
-from content_items import CATEGORY_AI_NEWS, SOURCE_TMTPOST, _tmtpost_to_items  # noqa: E402
+from core.content_items import CATEGORY_AI_NEWS, SOURCE_TMTPOST, _tmtpost_to_items  # noqa: E402
 
 
 SAMPLE_RSS_XML = """<?xml version="1.0" encoding="UTF-8"?>
