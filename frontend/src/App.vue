@@ -866,6 +866,7 @@ export default {
     isExpanded(key) {
       return !!this.expandedGroups[key];
     },
+    // 分组逻辑：假设 group.display_priority 与 source.display_priority 一一对应
     getSourcesByGroup(group) {
       const priority = group.display_priority;
       return this.sources.filter(s => s.display_priority === priority);

@@ -64,6 +64,8 @@ class RssSpider(SourceSpider):
         return self._def.get("enabled", True)
 
     def fetch(self) -> list[dict[str, Any]]:
+        # TODO(Phase 2): RSS 蜘蛛使用同步 requests，不应直接在 async 事件循环中调用。
+        # 未来应使用 asyncio.to_thread 包裹，或重构为 aiohttp 异步请求。
         url = self._def["url"]
         timeout = self._request_options.get("timeout", 10)
         retries = self._request_options.get("retries", 2)

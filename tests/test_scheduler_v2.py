@@ -3,8 +3,9 @@
 
 from datetime import timedelta
 
+from app_config import parse_interval
+
 
 def test_parse_interval():
-    from scheduler_v2 import parse_interval
     assert parse_interval("1h") == timedelta(hours=1)
     assert parse_interval("1d") == timedelta(days=1)

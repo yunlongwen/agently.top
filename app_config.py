@@ -35,7 +35,7 @@ def _default_config() -> dict:
     }
 
 
-def _parse_interval(value: str) -> timedelta:
+def parse_interval(value: str) -> timedelta:
     value = str(value).strip().lower()
     match = re.match(r"^(\d+)\s*([hdm])$", value)
     if not match:
@@ -55,9 +55,9 @@ def get_source_interval(source_id: str, priority: str, config: dict | None = Non
     schedule = cfg.get("source_schedule", {})
     overrides = schedule.get("overrides", {})
     if source_id in overrides:
-        return _parse_interval(overrides[source_id])
+        return parse_interval(overrides[source_id])
     defaults = schedule.get("default_intervals", {"high": "8h", "medium": "8h", "low": "8h"})
-    return _parse_interval(defaults.get(priority, "8h"))
+    return parse_interval(defaults.get(priority, "8h"))
 
 
 def get_frontend_source_groups(config: dict | None = None) -> list[dict]:

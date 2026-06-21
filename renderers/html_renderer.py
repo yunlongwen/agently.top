@@ -19,7 +19,13 @@ class HtmlRenderer(Renderer):
 
     def _escape_html(self, text: str) -> str:
         """Escape text for safe inclusion in HTML."""
-        return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+        return (
+            text.replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace('"', "&quot;")
+            .replace("'", "&#39;")
+        )
 
     def render(self, items: list[dict], channel: str = "email", options: dict[str, Any] | None = None) -> RenderedContent:
         """

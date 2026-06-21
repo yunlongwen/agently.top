@@ -15,27 +15,15 @@ _stop_event = asyncio.Event()
 _scheduler_thread: threading.Thread | None = None
 
 
-def parse_interval(value: str) -> timedelta:
-    import re
-    value = str(value).strip().lower()
-    match = re.match(r"^(\d+)\s*([hdm])$", value)
-    if not match:
-        raise ValueError(f"无效间隔格式: {value}")
-    number, unit = int(match.group(1)), match.group(2)
-    if unit == "h":
-        return timedelta(hours=number)
-    if unit == "d":
-        return timedelta(days=number)
-    if unit == "m":
-        return timedelta(minutes=number)
-    raise ValueError(f"无效间隔单位: {unit}")
-
-
 def run_source(source_id: str) -> bool:
     """执行单源采集。
 
     返回 True 表示 run_spider 返回真值且未抛出异常，
     返回 False 表示 run_spider 返回假值或执行过程中抛出异常。
+
+    TODO(Phase 2): 当前仍调用整体 run_spider()，会执行所有来源。
+    这是 Phase 1 的已知简化（见计划 brief）。后续应引入 run_source_only(source_id)
+    实现真正的按源采集，避免每次 tick 都全量运行。
     """
     from main import run_spider
     logger.info("[调度] 执行来源: %s", source_id)

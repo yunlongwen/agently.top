@@ -32,7 +32,7 @@ def build_source_snapshots(items, generated_at=None):
     if generated_at is None:
         generated_at = datetime.now().isoformat()
 
-    items = filter_duplicate_items(items)
+    items = filter_duplicate_items(items)  # TODO(Phase 2): 当前仅做同批次去重；跨运行持久化去重（如 Redis seen-urls set）为后续工作。
 
     grouped = {}
     for item in items or []:

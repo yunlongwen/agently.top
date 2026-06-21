@@ -29,6 +29,7 @@ def build_email_html(daily_repos, weekly_repos, hn_stories, sspai_items=None, tm
             "source": "GitHub Trending Daily",
             "title": repo.get("full_name", ""),
             "url": repo.get("url", ""),
+            "published_at": repo.get("fetched_at", ""),  # GitHub 数据无原生发布时间，使用采集时间
             "chinese_summary": repo.get("ai_summary", ""),
             "backend_focus": repo.get("backend_focus", ""),
         })
@@ -37,6 +38,7 @@ def build_email_html(daily_repos, weekly_repos, hn_stories, sspai_items=None, tm
             "source": "GitHub Trending Weekly",
             "title": repo.get("full_name", ""),
             "url": repo.get("url", ""),
+            "published_at": repo.get("fetched_at", ""),  # GitHub 数据无原生发布时间，使用采集时间
             "chinese_summary": repo.get("ai_summary", ""),
             "backend_focus": repo.get("backend_focus", ""),
         })
@@ -45,6 +47,7 @@ def build_email_html(daily_repos, weekly_repos, hn_stories, sspai_items=None, tm
             "source": "Hacker News",
             "title": story.get("title", ""),
             "url": story.get("url", ""),
+            "published_at": story.get("time", ""),  # HN 提供 Unix 时间戳或 ISO 时间
             "chinese_summary": story.get("ai_summary", ""),
             "backend_focus": story.get("backend_focus", ""),
         })

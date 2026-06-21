@@ -4,11 +4,12 @@
 import os
 import sys
 
+import pytest
+
 # Skip tests if running in CI without required dependencies
 if os.environ.get("CI") and not os.environ.get("FORCE_TESTS"):
     pytestmark = pytest.mark.skip("CI without dependencies")
 
-import pytest
 from fastapi.testclient import TestClient
 
 # Ensure imports work
