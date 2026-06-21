@@ -16,6 +16,7 @@ _stop_event = asyncio.Event()
 _scheduler_thread: threading.Thread | None = None
 _daily_email_thread: threading.Thread | None = None
 _email_run_lock = threading.Lock()
+_email_stop_event = threading.Event()
 
 
 def run_source(source_id: str) -> bool:
@@ -97,7 +98,7 @@ def _next_email_trigger(now, send_times):
 
 def _run_daily_email_loop(send_times):
     """每天在 EMAIL_SEND_TIMES 触发的时刻跑一次 run_spider 并发送邮件。"""
-    while not _stop_event.is_set():
+    while not _email_stop_event.is_set():
         now = datetime.now()
         next_run = _next_email_trigger(now, send_times)
         wait_seconds = max(1, int((next_run - now).total_seconds()))
@@ -105,7 +106,7 @@ def _run_daily_email_loop(send_times):
             "[邮件调度] 下一次邮件采集时间: %s",
             next_run.isoformat(timespec="seconds"),
         )
-        if _stop_event.wait(wait_seconds):
+        if _email_stop_event.wait(wait_seconds):
             break
         if not _email_run_lock.acquire(blocking=False):
             logger.warning("[邮件调度] 已有采集任务运行中，跳过本次邮件触发")
@@ -168,6 +169,7 @@ def start_scheduler_v2():
 def stop_scheduler_v2():
     """停止 v2 调度器 + 邮件专用线程。"""
     _stop_event.set()
+    _email_stop_event.set()
     for thread in (_scheduler_thread, _daily_email_thread):
         if thread and thread.is_alive():
             thread.join(timeout=5)
