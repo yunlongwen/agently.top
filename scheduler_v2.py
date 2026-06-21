@@ -32,12 +32,15 @@ def parse_interval(value: str) -> timedelta:
 
 
 def run_source(source_id: str) -> bool:
-    """执行单源采集。返回是否成功。"""
+    """执行单源采集。
+
+    返回 True 表示 run_spider 返回真值且未抛出异常，
+    返回 False 表示 run_spider 返回假值或执行过程中抛出异常。
+    """
     from main import run_spider
     logger.info("[调度] 执行来源: %s", source_id)
     try:
-        run_spider(scheduled_time=datetime.now())
-        return True
+        return bool(run_spider(scheduled_time=datetime.now()))
     except Exception as e:
         logger.exception("[调度] 来源 %s 执行失败: %s", source_id, e)
         return False
@@ -76,7 +79,9 @@ def start_scheduler_v2():
 
 
 def stop_scheduler_v2():
+    global _scheduler_thread
     _stop_event.set()
     if _scheduler_thread and _scheduler_thread.is_alive():
         _scheduler_thread.join(timeout=5)
+    _scheduler_thread = None
     logger.info("[调度] v2 异步调度器已停止")
