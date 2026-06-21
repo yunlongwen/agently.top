@@ -148,17 +148,31 @@
 
     <main class="layout">
       <aside class="source-panel">
-        <button
-          v-for="source in sources"
-          :key="source.id"
-          class="source-tab"
-          :class="{ active: source.id === activeSourceId }"
-          type="button"
-          @click="selectSource(source.id)"
-        >
-          <span>{{ getDisplayLabel(source) }}</span>
-          <small>{{ getDisplayCategory(source) }}</small>
-        </button>
+        <div v-for="group in sourceGroups" :key="group.key" class="source-group">
+          <button
+            class="source-group-header"
+            type="button"
+            @click="toggleGroup(group.key)"
+          >
+            <span>{{ group.label }}</span>
+            <span class="toggle-icon">{{ isExpanded(group.key) ? '−' : '+' }}</span>
+          </button>
+          <transition name="fade">
+            <div v-show="isExpanded(group.key)" class="source-group-body">
+              <button
+                v-for="source in getSourcesByGroup(group)"
+                :key="source.id"
+                class="source-tab"
+                :class="{ active: source.id === activeSourceId }"
+                type="button"
+                @click="selectSource(source.id)"
+              >
+                <span>{{ getDisplayLabel(source) }}</span>
+                <small>{{ getDisplayCategory(source) }}</small>
+              </button>
+            </div>
+          </transition>
+        </div>
       </aside>
 
       <section class="feed-panel">
@@ -464,6 +478,8 @@ export default {
       generatedAt: '',
       loading: false,
       errorMessage: '',
+      sourceGroups: [],
+      expandedGroups: {},
       historyDrawerOpen: false,
       historyDates: [],
       historyDatesLoading: false,
@@ -504,6 +520,7 @@ export default {
   async created() {
     document.title = this.t('siteTitle');
     this.countdownText = this.t('updateEvery8h');
+    await this.loadSourceGroups();
     await this.loadSources();
   },
   mounted() {
@@ -808,6 +825,38 @@ export default {
       }
       return tags;
     },
+    async loadSourceGroups() {
+      try {
+        const response = await fetch(`${API_PREFIX}/source-groups`);
+        if (!response.ok) throw new Error(response.status);
+        const payload = await response.json();
+        this.sourceGroups = payload.groups || [];
+        // 从 localStorage 恢复展开状态；首次使用配置默认值
+        const stored = localStorage.getItem('expandedGroups');
+        const storedMap = stored ? JSON.parse(stored) : {};
+        const expanded = {};
+        for (const group of this.sourceGroups) {
+          expanded[group.key] = storedMap.hasOwnProperty(group.key)
+            ? storedMap[group.key]
+            : group.default_expanded;
+        }
+        this.expandedGroups = expanded;
+      } catch (error) {
+        console.error('加载来源分组失败', error);
+        this.sourceGroups = [];
+      }
+    },
+    toggleGroup(key) {
+      this.expandedGroups = { ...this.expandedGroups, [key]: !this.expandedGroups[key] };
+      localStorage.setItem('expandedGroups', JSON.stringify(this.expandedGroups));
+    },
+    isExpanded(key) {
+      return !!this.expandedGroups[key];
+    },
+    getSourcesByGroup(group) {
+      const priority = group.display_priority;
+      return this.sources.filter(s => s.display_priority === priority);
+    },
     async loadSources() {
       this.loading = true;
       this.errorMessage = '';
@@ -1088,6 +1137,35 @@ a {
 
 .source-tab:hover:not(.active) {
   background: #F7F8FB;
+}
+
+.source-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.source-group-header:hover {
+  color: var(--primary);
+}
+.toggle-icon {
+  font-size: 14px;
+}
+.source-group-body {
+  padding: 0 6px 6px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .2s;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }
 
 /* ── Feed panel ───────────────────────────── */
