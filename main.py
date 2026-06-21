@@ -143,6 +143,9 @@ def run_spider(scheduled_time=None):
     from email_builder import build_email_html
     from email_sender import send_email, send_failure_notify
     from memory_service import MemoryService
+    from sources.rss import build_all_rss_spiders
+    from sources.rss_config import load_rss_config
+    from dedup import filter_duplicate_items
 
     errors = []
 
@@ -319,9 +322,30 @@ def run_spider(scheduled_time=None):
         )
 
     # ==========================
+    # RSS 聚合阶段
+    # ==========================
+    rss_items = []
+    try:
+        cfg = load_rss_config()
+        spiders = build_all_rss_spiders(cfg)
+        for spider in spiders:
+            try:
+                fetched = spider.fetch()
+                if fetched:
+                    rss_items.extend(fetched)
+                    logger.info("RSS 源 %s: 获取 %d 条", spider.source_id, len(fetched))
+            except Exception as e:
+                logger.error("RSS 源 %s 采集异常: %s", spider.source_id, e)
+        rss_items = filter_duplicate_items(rss_items)
+        if rss_items:
+            rss_items = summarize_content_items(rss_items, "RSS 聚合")
+    except Exception as e:
+        logger.error("RSS 阶段异常: %s", e)
+
+    # ==========================
     # 判断是否有数据
     # ==========================
-    if not daily_repos and not weekly_repos and not hn_stories and not linux_do_items and not sspai_items and not tmtpost_items and not ai_source_items:
+    if not daily_repos and not weekly_repos and not hn_stories and not linux_do_items and not sspai_items and not tmtpost_items and not ai_source_items and not rss_items:
         logger.error("所有数据源均获取失败")
         should_send_email, email_skip_reason, recipients = _email_send_decision(scheduled_time)
         if should_send_email:
@@ -341,6 +365,7 @@ def run_spider(scheduled_time=None):
         tmtpost_items,
         ai_source_items,
         linux_do_items=linux_do_items,
+        rss_items=rss_items,
     )
 
     # ==========================

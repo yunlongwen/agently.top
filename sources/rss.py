@@ -126,7 +126,10 @@ class RssSpider(SourceSpider):
         return items
 
 
-def build_all_rss_spiders(config_path: str | None = None) -> list["RssSpider"]:
-    cfg = load_rss_config(config_path)
+def build_all_rss_spiders(config_or_path: str | dict | None = None) -> list["RssSpider"]:
+    if isinstance(config_or_path, dict):
+        cfg = config_or_path
+    else:
+        cfg = load_rss_config(config_or_path)
     request_options = get_rss_request_options(cfg)
     return [RssSpider(s, request_options) for s in cfg.get("rss", {}).get("sources", []) if s.get("enabled", True)]
