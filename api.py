@@ -20,6 +20,7 @@ from config import (
     STATS_ENABLED,
     STATS_TRACK_CACHEABLE,
 )
+from app_config import get_frontend_source_groups
 from content_store import (
     is_valid_history_date,
     list_recent_history_dates,
@@ -82,13 +83,29 @@ def health_check():
     return {"status": "ok"}
 
 
+@app.get("/api/source-groups")
+def list_source_groups():
+    """返回前端分组配置。"""
+    return {"groups": get_frontend_source_groups()}
+
+
 @app.get("/api/sources")
 def list_sources():
     """返回前端可展示的全部来源。"""
-    logger.info("[数据] 请求来源列表 | 注册来源数=%d", len(SOURCE_DEFINITIONS))
+    sources = []
+    for source in SOURCE_DEFINITIONS:
+        source_id = source["id"]
+        snapshot, served_from = load_latest_snapshot(source_id)
+        generated_at = snapshot.get("generated_at", "") if snapshot else ""
+        sources.append({
+            **source,
+            "last_updated_at": generated_at,
+            "served_from": served_from,
+        })
+    logger.info("[数据] 请求来源列表 | 注册来源数=%d", len(sources))
     return {
-        "sources": SOURCE_DEFINITIONS,
-        "count": len(SOURCE_DEFINITIONS),
+        "sources": sources,
+        "count": len(sources),
     }
 
 
