@@ -20,7 +20,7 @@ from publishers.base import Publisher
 from publishers.wechat.config import WechatConfig
 from publishers.wechat.renderer import WechatRenderer
 from builders.wechat_article_builder import build_daily_markdown
-from cover_generator import _draw_text_cover, _validate_hex, _is_dark
+from infrastructure.cover_generator import _draw_text_cover, _validate_hex, _is_dark
 
 
 class DummyPublisher(Publisher):

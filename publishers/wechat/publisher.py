@@ -119,7 +119,7 @@ class WechatPublisher(Publisher):
         # 4.2 尝试 LLM 生成封面
         if WECHAT_GENERATE_COVER_BY_LLM:
             try:
-                from cover_generator import generate_cover_image
+                from infrastructure.cover_generator import generate_cover_image
                 image_bytes = generate_cover_image(title=title, digest=digest, content=content)
                 material = self._service.upload_material(image_bytes)
                 media_id = material.get("media_id")

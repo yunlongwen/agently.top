@@ -29,7 +29,7 @@ from core.content_store import (
 )
 from publish_service import get_publish_status, is_admin_authorized, publish_to
 from infrastructure.rss_builder import build_rss_feed
-from scheduler_v2 import start_scheduler_v2, stop_scheduler_v2
+from infrastructure.scheduler_v2 import start_scheduler_v2, stop_scheduler_v2
 from core.source_registry import SOURCE_DEFINITIONS, get_source_by_id
 from infrastructure.stats import (
     TRANSPARENT_GIF,
