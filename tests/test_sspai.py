@@ -10,7 +10,7 @@ import unittest
 
 sys.path.insert(0, ".")
 
-from sspai import fetch_sspai_items, _parse_sspai_rss  # noqa: E402
+from spiders.sspai import fetch_sspai_items, _parse_sspai_rss  # noqa: E402
 from content_items import CATEGORY_AI_NEWS, SOURCE_SSPAI, _sspai_to_items  # noqa: E402
 
 
