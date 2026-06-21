@@ -140,7 +140,7 @@ def run_spider(scheduled_time=None):
     from official_ai_sources import fetch_anthropic_news, fetch_infoq_ai_development, fetch_openai_news
     from core.content_items import build_all_content_items, summarize_content_items, write_content_json
     from core.content_store import persist_source_snapshots
-    from email_builder import build_email_html
+    from builders.email_builder import build_email_html
     from infrastructure.email_sender import send_email, send_failure_notify
     from core.memory_service import MemoryService
     from sources.rss import build_all_rss_spiders

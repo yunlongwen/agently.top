@@ -19,7 +19,7 @@ from publishers import registry
 from publishers.base import Publisher
 from publishers.wechat.config import WechatConfig
 from publishers.wechat.renderer import WechatRenderer
-from wechat_article_builder import build_daily_markdown
+from builders.wechat_article_builder import build_daily_markdown
 from cover_generator import _draw_text_cover, _validate_hex, _is_dark
 
 

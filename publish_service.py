@@ -22,7 +22,7 @@ from config import (
 from publishers import registry
 from renderers.html_renderer import HtmlRenderer
 from renderers.markdown_renderer import MarkdownRenderer
-from wechat_article_builder import _filter_items_for_publish
+from builders.wechat_article_builder import _filter_items_for_publish
 
 logger = logging.getLogger(__name__)
 
