@@ -170,3 +170,13 @@ def test_plain_renderer_outputs_text():
     result = renderer.render([{"title": "T", "url": "https://t", "chinese_summary": "S"}], channel="bark")
     assert result.format == "plain"
     assert "T" in result.body
+
+
+def test_feishu_card_renderer_outputs_json():
+    from renderers.feishu_card_renderer import FeishuCardRenderer
+    renderer = FeishuCardRenderer()
+    result = renderer.render([{"title": "T", "chinese_summary": "S", "url": "https://t"}], channel="feishu")
+    assert result.format == "feishu_card"
+    import json
+    payload = json.loads(result.body)
+    assert payload["msg_type"] == "interactive"
