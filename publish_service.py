@@ -20,9 +20,14 @@ from config import (
     WECHAT_DEFAULT_TITLE,
 )
 from publishers import registry
-from wechat_article_builder import build_daily_markdown
+from renderers.html_renderer import HtmlRenderer
+from renderers.markdown_renderer import MarkdownRenderer
+from wechat_article_builder import _filter_items_for_publish
 
 logger = logging.getLogger(__name__)
+
+html_renderer = HtmlRenderer()
+markdown_renderer = MarkdownRenderer()
 
 
 def _parse_schedule_times(value: str) -> set[str]:
@@ -130,11 +135,7 @@ def publish_daily(
         return results
 
     date_text = datetime.now().strftime("%Y-%m-%d")
-    markdown_content = build_daily_markdown(
-        items,
-        date_text=date_text,
-        memory_insights=memory_insights,
-    )
+    filtered_items = _filter_items_for_publish(items)
 
     common_options = {
         "display_date": date_text,
@@ -145,11 +146,20 @@ def publish_daily(
         "memory_insights": memory_insights,
     }
 
+    rendered = {
+        "wechat": markdown_renderer.render(filtered_items, channel="wechat", options=common_options),
+        "email": html_renderer.render(filtered_items, channel="email", options=common_options),
+    }
+
     for publisher in enabled_publishers:
         publisher_id = publisher.id
         logger.info("开始执行发布器: %s", publisher.name)
         try:
-            result = publisher.publish(markdown_content, options=common_options)
+            if publisher_id in rendered:
+                content = rendered[publisher_id].body
+            else:
+                content = markdown_renderer.render(filtered_items, channel=publisher_id, options=common_options).body
+            result = publisher.publish(content, options=common_options)
             results["publishers"][publisher_id] = result
             logger.info("发布器 %s 执行成功: %s", publisher_id, result)
         except Exception as e:
@@ -185,11 +195,15 @@ def publish_to(publisher_id: str, items: list[dict] | None = None,
 
     if items and not content:
         date_text = datetime.now().strftime("%Y-%m-%d")
-        content = build_daily_markdown(
-            items,
-            date_text=date_text,
-            memory_insights=options.get("memory_insights") if options else None,
-        )
+        content = markdown_renderer.render(
+            _filter_items_for_publish(items),
+            channel=publisher_id,
+            options={
+                "date_text": date_text,
+                "memory_insights": options.get("memory_insights") if options else None,
+                "title": f"Agently.top 每日 AI 资讯 - {date_text}",
+            },
+        ).body
         if "content_source_url" not in options:
             options["content_source_url"] = _resolve_content_source_url(items)
     elif not content:
