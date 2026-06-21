@@ -28,7 +28,7 @@ from content_store import (
 )
 from publish_service import get_publish_status, is_admin_authorized, publish_to
 from rss_builder import build_rss_feed
-from scheduler import start_scheduler, stop_scheduler
+from scheduler_v2 import start_scheduler_v2, stop_scheduler_v2
 from source_registry import SOURCE_DEFINITIONS, get_source_by_id
 from stats import (
     TRANSPARENT_GIF,
@@ -64,7 +64,7 @@ if API_CORS_ORIGINS:
 @app.on_event("startup")
 def on_startup():
     """API 启动时启动内置采集调度和统计报告。"""
-    start_scheduler()
+    start_scheduler_v2()
     start_stats_reporter()
     logger.info("[启动] API 服务已启动，访问日志和每小时统计已开启")
 
@@ -72,7 +72,7 @@ def on_startup():
 @app.on_event("shutdown")
 def on_shutdown():
     """API 关闭时停止内置采集调度。"""
-    stop_scheduler()
+    stop_scheduler_v2()
     logger.info("[关闭] API 服务已停止")
 
 
