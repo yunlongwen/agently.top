@@ -114,54 +114,117 @@ agently.top/
 
 #### 目标
 
-主页按来源优先级展开显示，低优先级来源默认收起，用户点击后展开，避免信息过载。
+主页按来源优先级展开显示，低优先级来源默认收起，用户点击后展开，避免信息过载。**风格必须与现有 Vue 3 卡片流保持一致**。
 
-#### 优先级分级
+#### 设计原则
 
-| 优先级 | 来源示例 | 默认状态 |
-|---|---|---|
-| P0（核心） | GitHub Trending、Hacker News、V2EX、Linux.do、量子位、机器之心 | 默认展开 |
-| P1（扩展） | 极客公园、36kr、Solidot、开源中国、InfoQ、钛媒体、少数派 | 默认收起 |
-| P2（可选） | arXiv、ModelScope GitHub Releases、RSS 自定义源 | 默认收起 |
+- **风格一致**：沿用现有配色、卡片圆角、阴影、字体、间距，不引入新设计系统。
+- **配置驱动**：优先级分级、默认展开/折叠状态、分组标签全部写入配置文件，不硬编码在 Vue 组件里。
+- **向后兼容**：旧版 `SOURCE_DISPLAY_MAP` 等映射表保留，新字段为扩展而非替换。
+
+#### 配置示例
+
+```yaml
+# config.yaml
+frontend:
+  source_groups:
+    - key: "core"
+      label: "核心源"
+      display_priority: "high"
+      default_expanded: true
+    - key: "extended"
+      label: "扩展源"
+      display_priority: "medium"
+      default_expanded: false
+    - key: "optional"
+      label: "可选源"
+      display_priority: "low"
+      default_expanded: false
+```
+
+```python
+# source_registry.py
+SOURCE_DEFINITIONS = [
+    {"id": "github-daily", "name": "GitHub Trending 日榜", "category": "open-source", "display_priority": "high"},
+    {"id": "rss-qbitai", "name": "量子位", "category": "ai-news", "display_priority": "high"},
+    {"id": "rss-geekpark", "name": "极客公园", "category": "tech", "display_priority": "medium"},
+    # ...
+]
+```
 
 #### 前端实现
 
-- 在 `source_registry.py` 中新增 `display_priority` 字段（`high` / `medium` / `low`）。
-- 前端 Vue 根据 `display_priority` 渲染分组卡片。
-- 用户展开/折叠状态保存在 `localStorage`，刷新后保留。
-- 首次访问默认按优先级展开/折叠。
+- 前端从 `/api/sources` 读取来源列表及其 `display_priority`。
+- 根据 `config.frontend.source_groups` 对来源分组并渲染折叠面板。
+- 默认展开/折叠状态来自配置，用户手动状态保存在 `localStorage`。
+- 首次访问按配置展开；刷新后优先使用用户历史状态。
 
 ```vue
-<!-- frontend/src/App.vue 示例 -->
+<!-- frontend/src/App.vue 示例，风格与现有卡片一致 -->
 <template>
-  <div v-for="group in sourceGroups" :key="group.priority">
-    <h2>{{ group.label }}</h2>
-    <source-section
-      v-for="source in group.sources"
-      :key="source.id"
-      :source="source"
-      :default-expanded="source.priority === 'high'"
-    />
+  <div class="source-group" v-for="group in sourceGroups" :key="group.key">
+    <div class="group-header" @click="toggleGroup(group.key)">
+      <h2 class="text-lg font-semibold">{{ group.label }}</h2>
+      <span class="toggle-icon">{{ isExpanded(group.key) ? '−' : '+' }}</span>
+    </div>
+    <transition name="fade">
+      <div v-show="isExpanded(group.key)" class="cards-grid">
+        <source-card
+          v-for="source in group.sources"
+          :key="source.id"
+          :source="source"
+        />
+      </div>
+    </transition>
   </div>
 </template>
 ```
+
+**禁止**：在模板或脚本中硬编码来源 ID、优先级、默认展开状态。
 
 ### 2.4 实时性、去重与防浪费策略
 
 #### 1. 实时性
 
-- **高频源短周期采集**：Hacker News、V2EX、Linux.do 等社区源每 1 小时采集一次。
+- **按源优先级配置采集周期**：来源按 `display_priority` 分为高/中/低三档，每档有独立默认间隔；单个源可通过 `source_schedule.overrides.{source_id}` 覆盖。
+- **默认值与现有项目保持一致**：三档默认间隔均为当前项目默认间隔（8 小时，即每天 3 次），不在代码中写死具体小时数。
 - **RSS 源按 published 时间触发**：每次只处理 `published_at` 在最新检查时间之后的条目。
 - **前端显示"最后更新"时间戳**：让用户感知内容新鲜度。
 
 ```yaml
 # config.yaml 示例
 source_schedule:
-  github-daily: 6h      # GitHub Trending 每日更新，无需过频
-  hacker-news: 1h       # 社区源每小时
-  v2ex: 1h
-  linux-do: 1h
-  rss-default: 2h       # RSS 默认 2 小时
+  # 三挡默认间隔，默认值均等于现有项目间隔（8h），可随时整体调整
+  default_intervals:
+    high: 8h
+    medium: 8h
+    low: 8h
+
+  # 单个源覆盖默认间隔，实现高频实时采集
+  overrides:
+    hacker-news: 1h
+    v2ex: 1h
+    linux-do: 1h
+    rss-qbitai: 2h
+    rss-jiqizhixin: 2h
+    github-daily: 6h
+    github-weekly: 1d
+    rss-arxiv: 6h
+```
+
+```python
+# config.py
+DEFAULT_INTERVALS = config.get(
+    "source_schedule.default_intervals",
+    {"high": "8h", "medium": "8h", "low": "8h"}
+)
+OVERRIDES = config.get("source_schedule.overrides", {})
+
+
+def get_source_interval(source_id: str, priority: str) -> timedelta:
+    if source_id in OVERRIDES:
+        return parse_interval(OVERRIDES[source_id])
+    return parse_interval(DEFAULT_INTERVALS.get(priority, "8h"))
 ```
 
 #### 2. 去重
@@ -295,11 +358,6 @@ rss:
       max_age_days: 2
       max_items: 10
 
-    - id: "geekpark"
-      name: "极客公园"
-      url: "https://www.geekpark.net/rss"
-      category: "tech"
-
     - id: "jiqizhixin"
       name: "机器之心"
       url: "https://www.jiqizhixin.com/rss"
@@ -376,32 +434,40 @@ def mark_rss_item_seen(source_id: str, guid: str, ttl_days: int = 7):
 
 确保消息最新、实时，避免无效采集和浪费。不同源按更新频率配置不同采集周期，无新内容时不触发摘要和推送。
 
-### 5.2 按源配置采集频率
+### 5.2 按源优先级配置采集频率
+
+与 2.4 一致，来源按 `display_priority` 分为高/中/低三档，默认间隔均为现有项目间隔（8h），并允许按源覆盖：
 
 ```yaml
 source_schedule:
-  # 社区类：更新快，每小时采集
-  hacker-news: 1h
-  v2ex: 1h
-  linux-do: 1h
+  default_intervals:
+    high: 8h
+    medium: 8h
+    low: 8h
 
-  # 媒体 RSS：每 2 小时
-  rss-qbitai: 2h
-  rss-jiqizhixin: 2h
-  rss-geekpark: 2h
-  rss-36kr: 2h
-  rss-solidot: 2h
-  rss-oschina: 2h
+  overrides:
+    # 社区类：更新快，可配置为每小时采集
+    hacker-news: 1h
+    v2ex: 1h
+    linux-do: 1h
 
-  # 日更类
-  github-daily: 6h
-  github-weekly: 1d
-  openai: 6h
-  anthropic: 6h
-  infoq: 6h
+    # 媒体 RSS
+    rss-qbitai: 2h
+    rss-jiqizhixin: 2h
+    rss-geekpark: 2h
+    rss-36kr: 2h
+    rss-solidot: 2h
+    rss-oschina: 2h
 
-  # 可选/低频
-  rss-arxiv: 6h
+    # 日更类
+    github-daily: 6h
+    github-weekly: 1d
+    openai: 6h
+    anthropic: 6h
+    infoq: 6h
+
+    # 可选/低频
+    rss-arxiv: 6h
 ```
 
 ### 5.3 调度器改造
@@ -652,6 +718,4 @@ async def publish_daily():
 - [ ] 微信公众号模板消息可发送。
 - [ ] 现有邮件和微信公众号文章输出与原版本一致。
 - [ ] 单源或渠道失败不影响整体。
-- [ ] 渲染层单元测试覆盖率 ≥80%。
-- [ ] 单个源或渠道失败不影响整体。
 - [ ] 渲染层单元测试覆盖率 ≥80%。
