@@ -273,7 +273,7 @@ def test_feishu_card_renderer_excerpt_is_body_prefix():
 
 
 def test_build_email_html_uses_renderer():
-    from email_builder import build_email_html
+    from builders.email_builder import build_email_html
     html = build_email_html([], [], [], [], [], [{
         "source": "OpenAI", "title": "T", "url": "https://t",
         "published_at": "2026-06-20", "chinese_summary": "摘要", "backend_focus": "看点"
@@ -283,7 +283,7 @@ def test_build_email_html_uses_renderer():
 
 
 def test_build_daily_markdown_uses_renderer():
-    from wechat_article_builder import build_daily_markdown
+    from builders.wechat_article_builder import build_daily_markdown
     md = build_daily_markdown([{
         "source": "github-daily", "title": "Repo", "url": "https://github.com/x",
         "chinese_summary": "摘要", "backend_focus": "看点", "meta": {}

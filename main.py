@@ -132,12 +132,12 @@ def run_spider(scheduled_time=None):
     logger.info("=" * 60)
 
     # 延迟导入，确保日志配置已初始化
-    from github_trending import fetch_trending, ai_summarize
-    from hacker_news import fetch_hn_top_stories, fetch_all_comments, ai_summarize_hn
-    from linux_do_news import fetch_linux_do_daily_items, ai_summarize_linux_do_items
-    from sspai import fetch_sspai_items, ai_summarize_sspai_items
-    from tmtpost import fetch_tmtpost_items, ai_summarize_tmtpost_items
-    from official_ai_sources import fetch_anthropic_news, fetch_infoq_ai_development, fetch_openai_news
+    from spiders.github_trending import fetch_trending, ai_summarize
+    from spiders.hacker_news import fetch_hn_top_stories, fetch_all_comments, ai_summarize_hn
+    from spiders.linux_do_news import fetch_linux_do_daily_items, ai_summarize_linux_do_items
+    from spiders.sspai import fetch_sspai_items, ai_summarize_sspai_items
+    from spiders.tmtpost import fetch_tmtpost_items, ai_summarize_tmtpost_items
+    from spiders.official_ai_sources import fetch_anthropic_news, fetch_infoq_ai_development, fetch_openai_news
     from core.content_items import build_all_content_items, summarize_content_items, write_content_json
     from core.content_store import persist_source_snapshots
     from builders.email_builder import build_email_html

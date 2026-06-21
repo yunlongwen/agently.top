@@ -92,7 +92,7 @@ class TestSyncOutput(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             output = self._make_output(tmp)
             archive = Path(tmp) / "archive"
-            with patch("archive_sync._has_rsync", return_value=False):
+            with patch("infrastructure.archive_sync._has_rsync", return_value=False):
                 _sync_output(output, archive)
             self.assertTrue((archive / "latest.json").exists())
             self.assertTrue((archive / "github-daily" / "2026-06-17" / "01.json").exists())
@@ -101,8 +101,8 @@ class TestSyncOutput(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             output = self._make_output(tmp)
             archive = Path(tmp) / "archive"
-            with patch("archive_sync._has_rsync", return_value=True), \
-                 patch("archive_sync._run") as mock_run:
+            with patch("infrastructure.archive_sync._has_rsync", return_value=True), \
+                 patch("infrastructure.archive_sync._run") as mock_run:
                 mock_run.return_value = (0, "", "")
                 _sync_output(output, archive)
             invoked = [call.args[0] for call in mock_run.call_args_list]
@@ -146,22 +146,22 @@ class TestSyncArchiveToGit(unittest.TestCase):
             (output / "tldr-ai" / "2026-06-17").mkdir(parents=True)
             (output / "tldr-ai" / "2026-06-17" / "01.json").write_text("{}", encoding="utf-8")
             (output / "latest.json").write_text("{}", encoding="utf-8")
-            with patch("archive_sync.ARCHIVE_GIT_ENABLED", True), \
-                 patch("archive_sync._repo_root", return_value=repo), \
-                 patch("archive_sync._has_rsync", return_value=False):
+            with patch("infrastructure.archive_sync.ARCHIVE_GIT_ENABLED", True), \
+                 patch("infrastructure.archive_sync._repo_root", return_value=repo), \
+                 patch("infrastructure.archive_sync._has_rsync", return_value=False):
                 result = sync_archive_to_git(item_count=1)
             self.assertTrue(result)
             code, stdout, _ = _run_git(["ls-remote", "--heads", "origin", "archive"], cwd=repo)
             self.assertTrue(stdout.strip())
 
     def test_skips_when_disabled(self):
-        with patch("archive_sync.ARCHIVE_GIT_ENABLED", False):
+        with patch("infrastructure.archive_sync.ARCHIVE_GIT_ENABLED", False):
             result = sync_archive_to_git()
         self.assertFalse(result)
 
     def test_swallows_exceptions(self):
-        with patch("archive_sync.ARCHIVE_GIT_ENABLED", True), \
-             patch("archive_sync._repo_root", side_effect=RuntimeError("boom")):
+        with patch("infrastructure.archive_sync.ARCHIVE_GIT_ENABLED", True), \
+             patch("infrastructure.archive_sync._repo_root", side_effect=RuntimeError("boom")):
             result = sync_archive_to_git()  # 不得抛出
         self.assertFalse(result)
 
