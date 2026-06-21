@@ -180,3 +180,98 @@ def test_feishu_card_renderer_outputs_json():
     import json
     payload = json.loads(result.body)
     assert payload["msg_type"] == "interactive"
+
+
+def test_feishu_card_renderer_elements_contain_div_text():
+    from renderers.feishu_card_renderer import FeishuCardRenderer
+    renderer = FeishuCardRenderer()
+    result = renderer.render(
+        [{"title": "Hello", "chinese_summary": "World", "url": "https://example.com"}],
+        channel="feishu"
+    )
+    import json
+    payload = json.loads(result.body)
+    elements = payload["card"]["elements"]
+    div = next(e for e in elements if e["tag"] == "div")
+    assert "Hello" in div["text"]["content"]
+    assert "World" in div["text"]["content"]
+
+
+def test_feishu_card_renderer_url_has_action_button():
+    from renderers.feishu_card_renderer import FeishuCardRenderer
+    renderer = FeishuCardRenderer()
+    result = renderer.render(
+        [{"title": "Hello", "chinese_summary": "World", "url": "https://example.com"}],
+        channel="feishu"
+    )
+    import json
+    payload = json.loads(result.body)
+    elements = payload["card"]["elements"]
+    action = next(e for e in elements if e["tag"] == "action")
+    button = action["actions"][0]
+    assert button["tag"] == "button"
+    assert button["text"]["content"] == "阅读原文"
+    assert button["url"] == "https://example.com"
+
+
+def test_feishu_card_renderer_empty_items():
+    from renderers.feishu_card_renderer import FeishuCardRenderer
+    renderer = FeishuCardRenderer()
+    for empty in ([], None):
+        result = renderer.render(empty, channel="feishu")
+        import json
+        payload = json.loads(result.body)
+        elements = payload["card"]["elements"]
+        assert len(elements) == 1
+        assert elements[0]["tag"] == "div"
+        assert "今日暂无内容" in elements[0]["text"]["content"]
+        assert result.metadata["item_count"] == 0
+
+
+def test_feishu_card_renderer_custom_title_and_date():
+    from renderers.feishu_card_renderer import FeishuCardRenderer
+    renderer = FeishuCardRenderer()
+    result = renderer.render([], channel="feishu", options={"title": "Custom Title", "date_text": "2026-06-20"})
+    assert result.title == "Custom Title"
+    import json
+    payload = json.loads(result.body)
+    header_title = payload["card"]["header"]["title"]["content"]
+    assert header_title == "Custom Title"
+
+
+def test_feishu_card_renderer_20_item_limit():
+    from renderers.feishu_card_renderer import FeishuCardRenderer
+    renderer = FeishuCardRenderer()
+    items = [{"title": f"Item {i}", "url": f"https://example.com/{i}"} for i in range(25)]
+    result = renderer.render(items, channel="feishu")
+    import json
+    payload = json.loads(result.body)
+    elements = payload["card"]["elements"]
+    text_blocks = [e for e in elements if e["tag"] == "div"]
+    action_blocks = [e for e in elements if e["tag"] == "action"]
+    assert len(text_blocks) == 20
+    assert len(action_blocks) == 20
+    assert result.metadata["item_count"] == 25
+
+
+def test_feishu_card_renderer_per_item_truncation():
+    from renderers.feishu_card_renderer import FeishuCardRenderer
+    renderer = FeishuCardRenderer()
+    long_summary = "A" * 1000
+    result = renderer.render(
+        [{"title": "Short", "chinese_summary": long_summary}],
+        channel="feishu"
+    )
+    import json
+    payload = json.loads(result.body)
+    elements = payload["card"]["elements"]
+    div = next(e for e in elements if e["tag"] == "div")
+    content = div["text"]["content"]
+    assert len(content) <= 500
+
+
+def test_feishu_card_renderer_excerpt_is_body_prefix():
+    from renderers.feishu_card_renderer import FeishuCardRenderer
+    renderer = FeishuCardRenderer()
+    result = renderer.render([], channel="feishu")
+    assert result.excerpt == result.body[:200]

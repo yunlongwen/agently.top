@@ -17,13 +17,19 @@ logger = logging.getLogger(__name__)
 
 
 class FeishuCardRenderer(Renderer):
+    """飞书（Lark）交互卡片渲染器。
+
+    将信息项列表渲染为飞书机器人可发送的交互卡片 JSON 格式，
+    包含标题、摘要文本块及可选的 "阅读原文" 按钮，最多 20 条。
+    """
+
     def render(self, items: list[dict], channel: str = "feishu", options: dict[str, Any] | None = None) -> RenderedContent:
         options = options or {}
         date_text = options.get("date_text") or datetime.now().strftime("%Y-%m-%d")
         title = options.get("title") or f"Agently 每日速览 · {date_text}"
 
         elements = []
-        for idx, item in enumerate(items[:20], 1):
+        for idx, item in enumerate((items or [])[:20], 1):
             text = f"{idx}. {item.get('title', '无标题')}\n{item.get('chinese_summary') or item.get('original_summary') or ''}".strip()
             elements.append({
                 "tag": "div",
@@ -57,6 +63,6 @@ class FeishuCardRenderer(Renderer):
             format="feishu_card",
             title=title,
             body=body,
-            excerpt=title,
-            metadata={"item_count": len(items)},
+            excerpt=body[:200],
+            metadata={"item_count": len(items or [])},
         )
