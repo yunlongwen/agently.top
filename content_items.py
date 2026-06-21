@@ -49,7 +49,7 @@ def make_content_item(source, category, title, url, published_at="", original_su
     }
 
 
-from memory_prompts import memory_enhanced_summary_prompt
+from core.memory_prompts import memory_enhanced_summary_prompt
 
 
 def summarize_content_items(items, section_label, memory_context=""):

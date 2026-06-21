@@ -14,9 +14,9 @@ from config import (
     REDIS_KEY_PREFIX,
     REDIS_SNAPSHOT_TTL_SECONDS,
 )
-from dedup import filter_duplicate_items
-from redis_client import get_redis_client
-from source_registry import (
+from core.dedup import filter_duplicate_items
+from infrastructure.redis_client import get_redis_client
+from core.source_registry import (
     SOURCE_DEFINITIONS,
     get_source_by_content_source,
     get_source_by_id,

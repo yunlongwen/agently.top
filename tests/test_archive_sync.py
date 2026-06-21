@@ -14,11 +14,11 @@ from unittest.mock import patch
 
 sys.path.insert(0, ".")
 
-from archive_sync import _run_git, _repo_root  # noqa: E402
-from archive_sync import _ensure_worktree  # noqa: E402
-from archive_sync import _sync_output  # noqa: E402
-from archive_sync import _commit_and_push  # noqa: E402
-from archive_sync import sync_archive_to_git  # noqa: E402
+from infrastructure.archive_sync import _run_git, _repo_root  # noqa: E402
+from infrastructure.archive_sync import _ensure_worktree  # noqa: E402
+from infrastructure.archive_sync import _sync_output  # noqa: E402
+from infrastructure.archive_sync import _commit_and_push  # noqa: E402
+from infrastructure.archive_sync import sync_archive_to_git  # noqa: E402
 
 
 def _git(args, cwd):

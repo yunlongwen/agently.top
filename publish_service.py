@@ -251,7 +251,7 @@ def get_publish_status() -> dict[str, Any]:
 
 def is_admin_authorized(ip: str, token: str) -> bool:
     """判断管理接口是否已授权。"""
-    from stats import _is_private_ip
+    from infrastructure.stats import _is_private_ip
 
     if ADMIN_API_TOKEN:
         return token == ADMIN_API_TOKEN

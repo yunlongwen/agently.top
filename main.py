@@ -13,8 +13,8 @@ import time
 from datetime import datetime
 
 from config import EMAIL_SEND_TIMES, MAIL_TO_BY_TIME, OUTPUT_JSON_PATH, SEND_EMAIL_ENABLED
-from logging_config import setup_logging
-from subscription_store import load_subscribers
+from infrastructure.logging_config import setup_logging
+from core.subscription_store import load_subscribers
 
 setup_logging()
 logger = logging.getLogger(__name__)
@@ -141,11 +141,11 @@ def run_spider(scheduled_time=None):
     from content_items import build_all_content_items, summarize_content_items, write_content_json
     from content_store import persist_source_snapshots
     from email_builder import build_email_html
-    from email_sender import send_email, send_failure_notify
+    from infrastructure.email_sender import send_email, send_failure_notify
     from memory_service import MemoryService
     from sources.rss import build_all_rss_spiders
     from sources.rss_config import load_rss_config
-    from dedup import filter_duplicate_items
+    from core.dedup import filter_duplicate_items
 
     errors = []
 
@@ -407,7 +407,7 @@ def run_spider(scheduled_time=None):
     # 归档推送到 archive 分支(失败不影响主流程)
     # ==========================
     try:
-        from archive_sync import sync_archive_to_git
+        from infrastructure.archive_sync import sync_archive_to_git
         sync_archive_to_git(item_count=len(content_items))
     except Exception as e:
         logger.warning("归档推送异常(不影响采集): %s", e)

@@ -8,7 +8,7 @@ from datetime import datetime
 
 from config import WECHAT_CONTENT_MAX_LENGTH, WECHAT_MAX_ITEMS_PER_SOURCE, WECHAT_SOURCE_WHITELIST
 from renderers.markdown_renderer import MarkdownRenderer
-from source_registry import SOURCE_BY_ID
+from core.source_registry import SOURCE_BY_ID
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ def _filter_items_for_publish(items: list[dict]) -> list[dict]:
         source_id = item.get("source", "")
         source_def = SOURCE_BY_ID.get(source_id)
         if not source_def:
-            from source_registry import get_source_by_content_source
+            from core.source_registry import get_source_by_content_source
             source_def = get_source_by_content_source(source_id)
             if source_def:
                 source_id = source_def["id"]

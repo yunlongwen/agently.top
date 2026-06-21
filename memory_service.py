@@ -35,12 +35,12 @@ from config import (
     OPENAI_MODEL,
     REDIS_KEY_PREFIX,
 )
-from memory_prompts import (
+from core.memory_prompts import (
     daily_trend_extraction_prompt,
     memory_insights_prompt,
     topic_match_prompt,
 )
-from redis_client import get_redis_client
+from infrastructure.redis_client import get_redis_client
 
 logger = logging.getLogger(__name__)
 

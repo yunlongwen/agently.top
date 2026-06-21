@@ -7,7 +7,7 @@ import threading
 from datetime import datetime, timedelta
 
 from app_config import get_source_interval, load_app_config
-from source_registry import SOURCE_DEFINITIONS
+from core.source_registry import SOURCE_DEFINITIONS
 
 logger = logging.getLogger(__name__)
 

@@ -11,7 +11,7 @@ from fastapi import FastAPI, HTTPException, Query, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from access_log import AccessLogMiddleware, _get_client_ip, start_stats_reporter
+from infrastructure.access_log import AccessLogMiddleware, _get_client_ip, start_stats_reporter
 from config import (
     ADMIN_API_TOKEN,
     API_CORS_ORIGINS,
@@ -28,17 +28,17 @@ from content_store import (
     load_latest_snapshot,
 )
 from publish_service import get_publish_status, is_admin_authorized, publish_to
-from rss_builder import build_rss_feed
+from infrastructure.rss_builder import build_rss_feed
 from scheduler_v2 import start_scheduler_v2, stop_scheduler_v2
-from source_registry import SOURCE_DEFINITIONS, get_source_by_id
-from stats import (
+from core.source_registry import SOURCE_DEFINITIONS, get_source_by_id
+from infrastructure.stats import (
     TRANSPARENT_GIF,
     get_summary,
     is_authorized,
     record_track,
 )
-from subscription_store import add_subscriber
-from logging_config import setup_logging
+from core.subscription_store import add_subscriber
+from infrastructure.logging_config import setup_logging
 
 setup_logging()
 logger = logging.getLogger(__name__)
