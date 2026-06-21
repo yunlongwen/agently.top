@@ -15,16 +15,15 @@ import xml.etree.ElementTree as ET
 import requests
 from bs4 import BeautifulSoup
 
-from config import (
-    OPENAI_API_KEY,
-    OPENAI_BASE_URL,
-    OPENAI_MODEL,
-    TMTPOST_FEED_URL,
-    TMTPOST_MAX_RETRIES,
-    TMTPOST_TOP_COUNT,
-)
+from config import OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL
+from core.source_registry import get_source_config
 
 logger = logging.getLogger(__name__)
+
+
+def _tmtpost_config():
+    return get_source_config("tmtpost") or {}
+
 
 HEADERS = {
     "User-Agent": (
@@ -41,22 +40,24 @@ def fetch_tmtpost_items(count=None, max_retries=None):
     抓取 钛媒体 (tmtpost.com) RSS 最近内容。
 
     Args:
-        count: 保留前 N 条，默认使用 TMTPOST_TOP_COUNT 配置
-        max_retries: 最大重试次数，默认使用 TMTPOST_MAX_RETRIES 配置
+        count: 保留前 N 条，默认使用 tmtpost 源配置中的 top_count
+        max_retries: 最大重试次数，默认使用 tmtpost 源配置中的 max_retries
 
     Returns:
         list[dict]: 每个 dict 包含 title, url, summary, published_at, category
     """
+    cfg = _tmtpost_config()
     if count is None:
-        count = TMTPOST_TOP_COUNT
+        count = cfg.get("top_count", 10)
     if max_retries is None:
-        max_retries = TMTPOST_MAX_RETRIES
+        max_retries = cfg.get("max_retries", 5)
 
-    rss_text = _fetch_text(TMTPOST_FEED_URL, max_retries)
+    feed_url = cfg.get("feed_url", "https://www.tmtpost.com/rss")
+    rss_text = _fetch_text(feed_url, max_retries)
     if not rss_text:
         return []
 
-    items = _parse_tmtpost_rss(rss_text, TMTPOST_FEED_URL)
+    items = _parse_tmtpost_rss(rss_text, feed_url)
     logger.info("钛媒体 RSS: 解析到 %d 条内容", len(items))
     return items[:count]
 

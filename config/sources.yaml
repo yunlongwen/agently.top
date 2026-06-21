@@ -1,0 +1,218 @@
+# 消息源统一配置文件
+#
+# 说明：
+#   - 所有消息源（内置源 + RSS 源）的定义和源级参数统一放在此文件。
+#   - .env 只保留部署级参数（密钥、开关、Redis/SMTP/输出目录等）。
+#   - 修改此文件后无需重启，下次采集/服务请求会自动加载。
+
+sources:
+  # ========================================================================
+  # 内置源（对应 spiders/ 目录下的采集器）
+  # ========================================================================
+  builtin:
+    - id: github-daily
+      name: GitHub Daily
+      label: GitHub 日榜
+      content_source: GitHub Trending Daily
+      category: 开源趋势
+      display_priority: high
+      enabled: true
+      fetcher: spiders.github_trending
+      config:
+        top_count: 10
+
+    - id: github-weekly
+      name: GitHub Weekly
+      label: GitHub 周榜
+      content_source: GitHub Trending Weekly
+      category: 开源趋势
+      display_priority: low
+      enabled: true
+      fetcher: spiders.github_trending
+      config:
+        top_count: 10
+
+    - id: linux-do
+      name: Linux.do
+      label: Linux.do 技术日报
+      content_source: Linux.do
+      category: 社区讨论
+      display_priority: high
+      enabled: true
+      fetcher: spiders.linux_do_news
+      config:
+        news_url: "https://news.linuxe.top/"
+        max_items: 0
+        max_retries: 5
+
+    - id: hacker-news
+      name: Hacker News
+      label: Hacker News
+      content_source: Hacker News
+      category: 社区讨论
+      display_priority: high
+      enabled: true
+      fetcher: spiders.hacker_news
+      config:
+        api_base: "https://hacker-news.firebaseio.com/v0"
+        top_count: 10
+        comments_per_story: 10
+        max_retries: 5
+        concurrent_workers: 10
+
+    - id: sspai
+      name: Sspai
+      label: 少数派
+      content_source: 少数派
+      category: AI 快讯
+      display_priority: medium
+      enabled: true
+      fetcher: spiders.sspai
+      config:
+        feed_url: "https://sspai.com/feed"
+        top_count: 10
+        max_retries: 5
+
+    - id: tmtpost
+      name: Tmtpost
+      label: 钛媒体
+      content_source: 钛媒体
+      category: AI 快讯
+      display_priority: medium
+      enabled: true
+      fetcher: spiders.tmtpost
+      config:
+        feed_url: "https://www.tmtpost.com/rss"
+        top_count: 10
+        max_retries: 5
+
+    - id: openai
+      name: OpenAI
+      label: OpenAI
+      content_source: OpenAI
+      category: AI 官方更新
+      display_priority: low
+      enabled: true
+      fetcher: spiders.official_ai_sources
+      config:
+        news_url: "https://openai.com/news/"
+        rss_url: "https://openai.com/news/rss.xml"
+        count: 10
+
+    - id: anthropic
+      name: Anthropic
+      label: Anthropic
+      content_source: Anthropic
+      category: AI 官方更新
+      display_priority: low
+      enabled: true
+      fetcher: spiders.official_ai_sources
+      config:
+        news_url: "https://www.anthropic.com/news"
+        count: 10
+
+    - id: infoq
+      name: InfoQ
+      label: InfoQ AI
+      content_source: InfoQ AI Development
+      category: AI 工程实践
+      display_priority: medium
+      enabled: true
+      fetcher: spiders.official_ai_sources
+      config:
+        page_url: "https://www.infoq.com/ai-development/"
+        rss_urls:
+          - "https://feed.infoq.com/ai-development/news"
+          - "https://feed.infoq.com/ai-development/articles"
+          - "https://feed.infoq.com/artificial_intelligence/news"
+          - "https://feed.infoq.com/artificial_intelligence/articles"
+          - "https://feed.infoq.com/generative-ai/news"
+          - "https://feed.infoq.com/generative-ai/articles"
+        count: 10
+        max_retries: 5
+
+  # ========================================================================
+  # RSS 聚合源（对应 sources.rss.RssSpider）
+  # ========================================================================
+  rss:
+    enabled: true
+    global_max_age_days: 3
+    request:
+      timeout: 10
+      retries: 2
+      headers:
+        User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    sources:
+      - id: rss-qbitai
+        name: 量子位
+        url: "https://www.qbitai.com/feed"
+        category: AI 快讯
+        display_priority: high
+        enabled: true
+        max_age_days: 2
+        max_items: 10
+
+      - id: rss-geekpark
+        name: 极客公园
+        url: "https://www.geekpark.net/rss"
+        category: 科技动态
+        display_priority: medium
+        enabled: true
+        max_age_days: 2
+        max_items: 10
+
+      - id: rss-jiqizhixin
+        name: 机器之心
+        url: "https://www.jiqizhixin.com/rss"
+        category: AI 快讯
+        display_priority: high
+        enabled: true
+        max_age_days: 2
+        max_items: 10
+
+      - id: rss-36kr
+        name: 36kr
+        url: "https://36kr.com/feed"
+        category: 科技动态
+        display_priority: medium
+        enabled: true
+        max_age_days: 2
+        max_items: 10
+
+      - id: rss-solidot
+        name: Solidot
+        url: "https://www.solidot.org/index.rss"
+        category: 开源科技
+        display_priority: medium
+        enabled: true
+        max_age_days: 2
+        max_items: 10
+
+      - id: rss-oschina
+        name: 开源中国
+        url: "https://www.oschina.net/news/rss"
+        category: 开源趋势
+        display_priority: medium
+        enabled: true
+        max_age_days: 2
+        max_items: 10
+
+      - id: rss-v2ex-tech
+        name: V2EX 技术
+        url: "https://www.v2ex.com/feed/tab/tech.xml"
+        category: 社区讨论
+        display_priority: high
+        enabled: true
+        fetch_interval_hours: 1
+        max_age_days: 1
+        max_items: 15
+
+      - id: rss-arxiv
+        name: arXiv AI 论文
+        url: "https://rsshub.app/arxiv/query/AI"
+        category: 论文
+        display_priority: low
+        enabled: false
+        fetch_interval_hours: 6
+        max_age_days: 3
+        max_items: 5

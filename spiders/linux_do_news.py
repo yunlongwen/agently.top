@@ -14,24 +14,24 @@ from urllib.parse import urljoin
 
 import requests
 
-from config import (
-    LINUX_DO_MAX_ITEMS,
-    LINUX_DO_MAX_RETRIES,
-    LINUX_DO_NEWS_URL,
-    OPENAI_API_KEY,
-    OPENAI_BASE_URL,
-    OPENAI_MODEL,
-)
+from config import OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL
+from core.source_registry import get_source_config
 
 logger = logging.getLogger(__name__)
 
 
+def _linux_do_config():
+    return get_source_config("linux-do") or {}
+
+
 def fetch_linux_do_daily_items(count=None, max_retries=None):
     """获取 Linux.do 技术日报中的原帖索引。"""
+    cfg = _linux_do_config()
     if count is None:
-        count = LINUX_DO_MAX_ITEMS
+        count = cfg.get("max_items", 0)
     if max_retries is None:
-        max_retries = LINUX_DO_MAX_RETRIES
+        max_retries = cfg.get("max_retries", 5)
+    news_url = cfg.get("news_url", "https://news.linuxe.top/")
 
     headers = {
         "User-Agent": "github-trending-spider/1.0 (+https://github.com/wenbochang888/github-trending-spider)",
@@ -39,9 +39,9 @@ def fetch_linux_do_daily_items(count=None, max_retries=None):
     for attempt in range(max_retries):
         try:
             logger.info("正在获取 Linux.do 技术日报 (第 %d 次尝试)", attempt + 1)
-            resp = requests.get(LINUX_DO_NEWS_URL, headers=headers, timeout=30)
+            resp = requests.get(news_url, headers=headers, timeout=30)
             resp.raise_for_status()
-            report = parse_linux_do_daily_html(resp.text, LINUX_DO_NEWS_URL)
+            report = parse_linux_do_daily_html(resp.text, news_url)
             items = report.get("items", [])
             if count and count > 0:
                 items = items[:count]
@@ -59,8 +59,10 @@ def fetch_linux_do_daily_items(count=None, max_retries=None):
     return []
 
 
-def parse_linux_do_daily_html(html_text, page_url=LINUX_DO_NEWS_URL):
+def parse_linux_do_daily_html(html_text, page_url=None):
     """解析 news.linuxe.top 首页 HTML。"""
+    if page_url is None:
+        page_url = get_source_config("linux-do", "news_url", "https://news.linuxe.top/")
     parser = _LinuxDoDailyParser(page_url)
     parser.feed(html_text or "")
     parser.close()

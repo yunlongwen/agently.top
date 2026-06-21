@@ -13,17 +13,7 @@ from urllib.parse import urljoin, urlparse
 import requests
 from bs4 import BeautifulSoup
 
-from config import (
-    ANTHROPIC_NEWS_COUNT,
-    ANTHROPIC_NEWS_URL,
-    INFOQ_AI_NEWS_COUNT,
-    INFOQ_AI_PAGE_URL,
-    INFOQ_AI_RSS_URLS,
-    OFFICIAL_AI_MAX_RETRIES,
-    OPENAI_NEWS_COUNT,
-    OPENAI_NEWS_RSS_URL,
-    OPENAI_NEWS_URL,
-)
+from core.source_registry import get_source_config
 from core.content_items import (
     CATEGORY_AI_ENGINEERING,
     CATEGORY_OFFICIAL_AI,
@@ -53,50 +43,61 @@ MONTH_PATTERN = (
 
 def fetch_openai_news(count=None, max_retries=None):
     """抓取 OpenAI News 最近内容。"""
+    cfg = get_source_config("openai")
     if count is None:
-        count = OPENAI_NEWS_COUNT
+        count = cfg.get("count", 10)
     if max_retries is None:
-        max_retries = OFFICIAL_AI_MAX_RETRIES
+        max_retries = cfg.get("max_retries", 5)
 
-    rss_text = _fetch_text(OPENAI_NEWS_RSS_URL, max_retries)
+    news_url = cfg.get("news_url", "https://openai.com/news/")
+    rss_url = cfg.get("rss_url", "https://openai.com/news/rss.xml")
+
+    rss_text = _fetch_text(rss_url, max_retries)
     if rss_text:
         items = _parse_rss_items(rss_text, SOURCE_OPENAI, CATEGORY_OFFICIAL_AI)
         logger.info("OpenAI News: RSS 解析到 %d 条内容", len(items))
         if items:
             return items[:count]
 
-    html_text = _fetch_text(OPENAI_NEWS_URL, max_retries)
+    html_text = _fetch_text(news_url, max_retries)
     if not html_text:
         return []
-    items = _parse_news_page(html_text, OPENAI_NEWS_URL, SOURCE_OPENAI, CATEGORY_OFFICIAL_AI)
+    items = _parse_news_page(html_text, news_url, SOURCE_OPENAI, CATEGORY_OFFICIAL_AI)
     logger.info("OpenAI News: 解析到 %d 条候选内容", len(items))
     return items[:count]
 
 
 def fetch_anthropic_news(count=None, max_retries=None):
     """抓取 Anthropic Newsroom 最近内容。"""
+    cfg = get_source_config("anthropic")
     if count is None:
-        count = ANTHROPIC_NEWS_COUNT
+        count = cfg.get("count", 10)
     if max_retries is None:
-        max_retries = OFFICIAL_AI_MAX_RETRIES
+        max_retries = cfg.get("max_retries", 5)
 
-    html_text = _fetch_text(ANTHROPIC_NEWS_URL, max_retries)
+    news_url = cfg.get("news_url", "https://www.anthropic.com/news")
+
+    html_text = _fetch_text(news_url, max_retries)
     if not html_text:
         return []
-    items = _parse_news_page(html_text, ANTHROPIC_NEWS_URL, SOURCE_ANTHROPIC, CATEGORY_OFFICIAL_AI)
+    items = _parse_news_page(html_text, news_url, SOURCE_ANTHROPIC, CATEGORY_OFFICIAL_AI)
     logger.info("Anthropic News: 解析到 %d 条候选内容", len(items))
     return items[:count]
 
 
 def fetch_infoq_ai_development(count=None, max_retries=None):
     """聚合 InfoQ AI Development 及相关 AI 主题 RSS 内容。"""
+    cfg = get_source_config("infoq")
     if count is None:
-        count = INFOQ_AI_NEWS_COUNT
+        count = cfg.get("count", 10)
     if max_retries is None:
-        max_retries = OFFICIAL_AI_MAX_RETRIES
+        max_retries = cfg.get("max_retries", 5)
+
+    rss_urls = cfg.get("rss_urls", [])
+    page_url = cfg.get("page_url", "https://www.infoq.com/ai-development/")
 
     items = []
-    for rss_url in _split_urls(INFOQ_AI_RSS_URLS):
+    for rss_url in _split_urls(rss_urls):
         rss_text = _fetch_text(rss_url, max_retries)
         if not rss_text:
             continue
@@ -104,7 +105,7 @@ def fetch_infoq_ai_development(count=None, max_retries=None):
         logger.info("InfoQ feed %s: 解析到 %d 条内容", rss_url, len(feed_items))
         items.extend(feed_items)
 
-    items = _dedupe_items(items)
+    items = _dedupe_items(items, page_url)
     logger.info("InfoQ AI Development: 聚合解析到 %d 条内容", len(items))
     return items[:count]
 
@@ -212,13 +213,17 @@ def _node_text(node, child_name):
     return child.text if child is not None and child.text else ""
 
 
-def _split_urls(urls_text):
-    """解析逗号分隔 URL。"""
-    return [url.strip() for url in urls_text.split(",") if url.strip()]
+def _split_urls(urls):
+    """解析 URL 列表或逗号分隔 URL 字符串。"""
+    if isinstance(urls, list):
+        return [str(u).strip() for u in urls if u and str(u).strip()]
+    return [url.strip() for url in urls.split(",") if url.strip()]
 
 
-def _dedupe_items(items):
+def _dedupe_items(items, page_url=None):
     """按 URL 和标题去重。"""
+    if page_url is None:
+        page_url = get_source_config("infoq", "page_url", "https://www.infoq.com/ai-development/")
     deduped = []
     seen = set()
     for item in items:
@@ -227,7 +232,7 @@ def _dedupe_items(items):
             continue
         seen.add(key)
         if not item.get("original_summary"):
-            item["original_summary"] = "来自 InfoQ 页面: {}".format(INFOQ_AI_PAGE_URL)
+            item["original_summary"] = "来自 InfoQ 页面: {}".format(page_url)
         deduped.append(item)
     return deduped
 

@@ -53,13 +53,6 @@ AI_API_URL = OPENAI_BASE_URL
 AI_MODEL = OPENAI_MODEL
 
 # =========================================================================
-# GitHub Trending 配置
-# =========================================================================
-
-# GitHub Trending 每日/每周分别获取前 N 个仓库
-GITHUB_TRENDING_TOP_COUNT = int(os.environ.get("GITHUB_TRENDING_TOP_COUNT", "10"))
-
-# =========================================================================
 # 邮件配置 (SMTP)
 # =========================================================================
 
@@ -93,121 +86,11 @@ LOG_FILE = os.environ.get(
 )
 
 # =========================================================================
-# Hacker News 配置
+# 输出与归档配置
 # =========================================================================
 
-# HN 官方 Firebase API 基础地址
-HN_API_BASE = os.environ.get(
-    "HN_API_BASE", "https://hacker-news.firebaseio.com/v0"
-)
-
-# 获取前 N 个热门帖子
-HN_TOP_COUNT = int(os.environ.get("HN_TOP_COUNT", "10"))
-
-# 每个帖子获取前 N 条顶级评论
-HN_COMMENTS_PER_STORY = int(os.environ.get("HN_COMMENTS_PER_STORY", "10"))
-
-# HN 请求最大重试次数
-HN_MAX_RETRIES = int(os.environ.get("HN_MAX_RETRIES", "5"))
-
-# 并发请求线程数
-HN_CONCURRENT_WORKERS = int(os.environ.get("HN_CONCURRENT_WORKERS", "10"))
-
-# =========================================================================
-# Linux.do 技术日报配置
-# =========================================================================
-
-# Linux.do 技术聚合日报页面。只读取该页面摘要和原帖索引，不抓取原帖正文。
-LINUX_DO_NEWS_URL = os.environ.get(
-    "LINUX_DO_NEWS_URL", "https://news.linuxe.top/"
-)
-
-# Linux.do 原帖卡片最多展示 N 条；0 表示全部解析到的条目。
-LINUX_DO_MAX_ITEMS = int(os.environ.get("LINUX_DO_MAX_ITEMS", "0"))
-
-# Linux.do 请求最大重试次数
-LINUX_DO_MAX_RETRIES = int(os.environ.get("LINUX_DO_MAX_RETRIES", "5"))
-
-# =========================================================================
-# 少数派 (sspai.com) 配置
-# =========================================================================
-
-# 少数派 官方 RSS
-SSPAI_FEED_URL = os.environ.get("SSPAI_FEED_URL", "https://sspai.com/feed")
-
-# 少数派 获取前 N 条内容
-SSPAI_TOP_COUNT = int(os.environ.get("SSPAI_TOP_COUNT", "10"))
-
-# 少数派 请求最大重试次数
-SSPAI_MAX_RETRIES = int(os.environ.get("SSPAI_MAX_RETRIES", "5"))
-
-# =========================================================================
-# 钛媒体 (tmtpost.com) 配置
-# =========================================================================
-
-# 钛媒体 官方 RSS
-TMTPOST_FEED_URL = os.environ.get("TMTPOST_FEED_URL", "https://www.tmtpost.com/rss")
-
-# 钛媒体 获取前 N 条内容
-TMTPOST_TOP_COUNT = int(os.environ.get("TMTPOST_TOP_COUNT", "10"))
-
-# 钛媒体 请求最大重试次数
-TMTPOST_MAX_RETRIES = int(os.environ.get("TMTPOST_MAX_RETRIES", "5"))
-
-# =========================================================================
-# 官方 AI / AI 工程实践信息源配置
-# =========================================================================
-
-# OpenAI 官方新闻页
-OPENAI_NEWS_URL = os.environ.get(
-    "OPENAI_NEWS_URL", "https://openai.com/news/"
-)
-
-# OpenAI 官方新闻 RSS
-OPENAI_NEWS_RSS_URL = os.environ.get(
-    "OPENAI_NEWS_RSS_URL", "https://openai.com/news/rss.xml"
-)
-
-# OpenAI 获取前 N 条内容
-OPENAI_NEWS_COUNT = int(os.environ.get("OPENAI_NEWS_COUNT", "10"))
-
-# Anthropic 官方新闻页
-ANTHROPIC_NEWS_URL = os.environ.get(
-    "ANTHROPIC_NEWS_URL", "https://www.anthropic.com/news"
-)
-
-# Anthropic 获取前 N 条内容
-ANTHROPIC_NEWS_COUNT = int(os.environ.get("ANTHROPIC_NEWS_COUNT", "10"))
-
-# InfoQ AI Development RSS
-INFOQ_AI_RSS_URL = os.environ.get(
-    "INFOQ_AI_RSS_URL", "https://feed.infoq.com/ai-development/news"
-)
-
-# InfoQ AI Development 页面
-INFOQ_AI_PAGE_URL = os.environ.get(
-    "INFOQ_AI_PAGE_URL", "https://www.infoq.com/ai-development/"
-)
-
-# InfoQ 相关 RSS 列表。InfoQ AI Development 单个 news feed 当前条目较少，
-# 所以默认聚合 AI Development / Artificial Intelligence / Generative AI。
-INFOQ_AI_RSS_URLS = os.environ.get(
-    "INFOQ_AI_RSS_URLS",
-    "https://feed.infoq.com/ai-development/news,"
-    "https://feed.infoq.com/ai-development/articles,"
-    "https://feed.infoq.com/artificial_intelligence/news,"
-    "https://feed.infoq.com/artificial_intelligence/articles,"
-    "https://feed.infoq.com/generative-ai/news,"
-    "https://feed.infoq.com/generative-ai/articles",
-)
-
-# InfoQ AI Development 获取前 N 条内容
-INFOQ_AI_NEWS_COUNT = int(os.environ.get("INFOQ_AI_NEWS_COUNT", "10"))
-
-# 官方 AI 信息源请求最大重试次数
-OFFICIAL_AI_MAX_RETRIES = int(os.environ.get("OFFICIAL_AI_MAX_RETRIES", "5"))
-
-# 统一 JSON 输出路径，后续可由后端读取后写入 Redis
+# 源级参数（URL、条数、重试次数等）已迁移到 config/sources.yaml。
+# 这里不再保留对应环境变量，避免 .env 与 YAML 配置重复冲突。
 OUTPUT_JSON_PATH = os.environ.get("OUTPUT_JSON_PATH", "output/latest.json")
 
 # 按来源归档输出目录。归档结构：

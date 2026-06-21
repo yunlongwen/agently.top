@@ -19,15 +19,20 @@
 
 ## 信息源
 
+所有消息源（内置源 + RSS 源）统一在 [`config/sources.yaml`](../config/sources.yaml) 中定义，`.env` 只保留部署级参数。
+
 | ID | 名称 | 类型 | 说明 |
 |---|---|---|---|
-| `github-daily` / `github-weekly` | GitHub Trending | 开源趋势 | 日榜/周榜各前 N 个仓库 |
-| `hacker-news` | Hacker News | 社区讨论 | Top Stories + 顶级评论 |
-| `linux-do` | Linux.do 技术日报 | 社区讨论 | 技术聚合日报 |
-| `sspai` | 少数派 | 中文科技 | RSS 抓取 + AI 总结 |
-| `tmtpost` | 钛媒体 | 中文商业科技 | RSS 抓取 + AI 总结 |
-| `openai` / `anthropic` | 官方 News | 厂商一手 | 官方博客/新闻页 |
-| `infoq` | InfoQ AI Development | 工程实践 | 聚合 AI Development / AI / Generative AI 多 RSS |
+| `github-daily` / `github-weekly` | GitHub Trending | 内置 | 日榜/周榜各前 N 个仓库 |
+| `hacker-news` | Hacker News | 内置 | Top Stories + 顶级评论 |
+| `linux-do` | Linux.do 技术日报 | 内置 | 技术聚合日报 |
+| `sspai` | 少数派 | 内置 | RSS 抓取 + AI 总结 |
+| `tmtpost` | 钛媒体 | 内置 | RSS 抓取 + AI 总结 |
+| `openai` / `anthropic` | 官方 News | 内置 | 官方博客/新闻页 |
+| `infoq` | InfoQ AI | 内置 | 聚合 AI Development / AI / Generative AI 多 RSS |
+| `rss-qbitai` / `rss-geekpark` / `rss-jiqizhixin` / `rss-36kr` / `rss-solidot` / `rss-oschina` / `rss-v2ex-tech` | RSS 聚合源 | RSS | 在 `config/sources.yaml` 的 `rss.sources` 中配置 |
+
+新增、禁用或调整某个来源的 URL/条数/重试次数等，直接修改 `config/sources.yaml` 对应源的 `config` 块，无需改代码、无需重启（下次采集/请求自动加载）。
 
 每个源**独立抓取、独立容错**，单一源失败不影响其他源输出。
 
@@ -266,6 +271,50 @@ python3 scripts/generate_cover.py
 
 ---
 
+## 消息源配置（`config/sources.yaml`）
+
+`config/sources.yaml` 是消息源的唯一事实源，结构如下：
+
+```yaml
+sources:
+  builtin:
+    - id: github-daily
+      name: GitHub Daily
+      label: GitHub 日榜
+      content_source: GitHub Trending Daily
+      category: 开源趋势
+      display_priority: high
+      enabled: true
+      fetcher: spiders.github_trending
+      config:
+        top_count: 10
+    # ... 更多内置源
+  rss:
+    enabled: true
+    request:
+      timeout: 10
+      retries: 2
+      headers:
+        User-Agent: "Mozilla/5.0 ..."
+    sources:
+      - id: rss-qbitai
+        name: 量子位
+        url: "https://www.qbitai.com/feed"
+        category: AI 快讯
+        display_priority: high
+        enabled: true
+        max_age_days: 2
+        max_items: 10
+```
+
+- `builtin`：内置源，对应 `spiders/` 目录下的采集器；`fetcher` 表示采集模块路径。
+- `rss`：RSS 聚合源，由 `sources.rss.RssSpider` 统一抓取；`request` 为全局请求选项。
+- 每个源下的 `config` 块（或 RSS 源根级字段）存放源级参数，例如 `top_count`、`feed_url`、`max_retries`、`rss_urls` 等。
+
+修改后无需重启服务，下次采集或 API 请求会自动重新加载。
+
+---
+
 ## 环境变量完整列表
 
 详见 [`.env.example`](../.env.example)。下表列出主要变量：
@@ -282,35 +331,13 @@ python3 scripts/generate_cover.py
 | `LOG_FILE` | 日志文件路径 | `/root/logs/github-python/trending.log` |
 
 ### 采集配置
+
 | 变量 | 说明 | 默认值 |
 |---|---|---|
-| `GITHUB_TRENDING_TOP_COUNT` | GitHub 日榜/周榜各取前 N | 10 |
-| `HN_API_BASE` | Hacker News API 基础地址 | `https://hacker-news.firebaseio.com/v0` |
-| `HN_TOP_COUNT` | Hacker News 取前 N 帖 | 10 |
-| `HN_COMMENTS_PER_STORY` | 每帖取前 N 条评论 | 10 |
-| `HN_MAX_RETRIES` | HN 请求最大重试次数 | 5 |
-| `HN_CONCURRENT_WORKERS` | HN 并发请求线程数 | 10 |
-| `LINUX_DO_NEWS_URL` | Linux.do 聚合日报页面 | `https://news.linuxe.top/` |
-| `LINUX_DO_MAX_ITEMS` | Linux.do 展示条数上限 | 0（全部） |
-| `LINUX_DO_MAX_RETRIES` | Linux.do 请求最大重试次数 | 5 |
-| `SSPAI_FEED_URL` | 少数派 RSS 地址 | `https://sspai.com/feed` |
-| `SSPAI_TOP_COUNT` | 少数派取前 N 条 | 10 |
-| `SSPAI_MAX_RETRIES` | 少数派请求最大重试次数 | 5 |
-| `TMTPOST_FEED_URL` | 钛媒体 RSS 地址 | `https://www.tmtpost.com/rss` |
-| `TMTPOST_TOP_COUNT` | 钛媒体取前 N 条 | 10 |
-| `TMTPOST_MAX_RETRIES` | 钛媒体请求最大重试次数 | 5 |
-| `OPENAI_NEWS_URL` | OpenAI 新闻页 | `https://openai.com/news/` |
-| `OPENAI_NEWS_RSS_URL` | OpenAI 新闻 RSS | `https://openai.com/news/rss.xml` |
-| `OPENAI_NEWS_COUNT` | OpenAI 取前 N 条 | 10 |
-| `ANTHROPIC_NEWS_URL` | Anthropic 新闻页 | `https://www.anthropic.com/news` |
-| `ANTHROPIC_NEWS_COUNT` | Anthropic 取前 N 条 | 10 |
-| `INFOQ_AI_RSS_URLS` | InfoQ 相关 RSS 列表（逗号分隔） | 见 config.py |
-| `INFOQ_AI_PAGE_URL` | InfoQ AI Development 页面 | `https://www.infoq.com/ai-development/` |
-| `INFOQ_AI_NEWS_COUNT` | InfoQ 取前 N 条 | 10 |
-| `OFFICIAL_AI_MAX_RETRIES` | 官方 AI 源请求最大重试次数 | 5 |
-| `SPIDER_SCHEDULE_TIMES` | 采集调度时间 | `07:50,15:50,23:50` |
-| `SPIDER_SCHEDULER_ENABLED` | 是否启用定时采集 | `true` |
-| `SPIDER_RUN_ON_STARTUP` | API 启动时是否立即采集 | `false` |
+| `OUTPUT_JSON_PATH` | 统一 JSON 输出路径 | `output/latest.json` |
+| `OUTPUT_ARCHIVE_DIR` | 按来源归档输出目录 | `output` |
+
+源级参数（GitHub/HN/Linux.do/sspai/tmtpost/OpenAI/Anthropic/InfoQ/RSS 的 URL、条数、重试次数等）已迁移到 `config/sources.yaml`，不再通过 `.env` 配置。
 
 ### 微信公众号发布
 | 变量 | 说明 | 默认值 |

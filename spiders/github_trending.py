@@ -20,12 +20,8 @@ except ImportError:
     print("请先安装依赖: pip3 install requests beautifulsoup4")
     sys.exit(1)
 
-from config import (
-    OPENAI_API_KEY,
-    OPENAI_MODEL,
-    OPENAI_BASE_URL,
-    GITHUB_TRENDING_TOP_COUNT,
-)
+from config import OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL
+from core.source_registry import get_source_config
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +56,8 @@ def fetch_trending(since="daily", max_retries=10, count=None):
                     language, stars, forks, stars_period
     """
     if count is None:
-        count = GITHUB_TRENDING_TOP_COUNT
+        source_id = "github-daily" if since == "daily" else "github-weekly"
+        count = get_source_config(source_id, "top_count", 10)
 
     url = "{}?since={}".format(TRENDING_URL, since)
     repos = []

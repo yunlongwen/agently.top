@@ -15,20 +15,16 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import requests
 from bs4 import BeautifulSoup
 
-from config import (
-    HN_API_BASE,
-    HN_COMMENTS_PER_STORY,
-    HN_CONCURRENT_WORKERS,
-    HN_MAX_RETRIES,
-    HN_TOP_COUNT,
-    OPENAI_API_KEY,
-    OPENAI_BASE_URL,
-    OPENAI_MODEL,
-)
+from config import OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL
+from core.source_registry import get_source_config
 
 logger = logging.getLogger(__name__)
 
 HN_AI_SUMMARY_FAILED_TEXT = "（AI 总结生成失败）"
+
+
+def _hn_config():
+    return get_source_config("hacker-news") or {}
 
 
 # =========================================================================
@@ -46,10 +42,11 @@ def fetch_hn_top_stories(count=None, max_retries=None):
         list[dict]: 帖子详情列表，每个 dict 含
             id, title, url, score, by, time, descendants, kids
     """
+    cfg = _hn_config()
     if count is None:
-        count = HN_TOP_COUNT
+        count = cfg.get("top_count", 10)
     if max_retries is None:
-        max_retries = HN_MAX_RETRIES
+        max_retries = cfg.get("max_retries", 5)
 
     # 获取 Top Stories ID 列表
     top_ids = _fetch_top_story_ids(max_retries)
@@ -84,7 +81,7 @@ def fetch_all_comments(stories, comments_per_story=None):
         list[dict]: 增强后的帖子列表（每个帖子新增 "comments" 字段）
     """
     if comments_per_story is None:
-        comments_per_story = HN_COMMENTS_PER_STORY
+        comments_per_story = _hn_config().get("comments_per_story", 10)
 
     for story in stories:
         kids = story.get("kids", [])
@@ -113,7 +110,9 @@ def fetch_all_comments(stories, comments_per_story=None):
 
 def _fetch_top_story_ids(max_retries):
     """获取 Top Stories 的 ID 列表。"""
-    url = "{}/topstories.json".format(HN_API_BASE)
+    cfg = _hn_config()
+    api_base = cfg.get("api_base", "https://hacker-news.firebaseio.com/v0")
+    url = "{}/topstories.json".format(api_base)
 
     for attempt in range(max_retries):
         try:
@@ -135,7 +134,9 @@ def _fetch_top_story_ids(max_retries):
 
 def _fetch_item(item_id):
     """获取单个 HN item（story 或 comment）。"""
-    url = "{}/item/{}.json".format(HN_API_BASE, item_id)
+    cfg = _hn_config()
+    api_base = cfg.get("api_base", "https://hacker-news.firebaseio.com/v0")
+    url = "{}/item/{}.json".format(api_base, item_id)
     try:
         resp = requests.get(url, timeout=15)
         resp.raise_for_status()
@@ -149,7 +150,10 @@ def _fetch_items_concurrent(item_ids):
     """并发获取多个 HN item。"""
     results = [None] * len(item_ids)
 
-    with ThreadPoolExecutor(max_workers=HN_CONCURRENT_WORKERS) as executor:
+    cfg = _hn_config()
+    max_workers = cfg.get("concurrent_workers", 10)
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_to_idx = {
             executor.submit(_fetch_item, item_id): idx
             for idx, item_id in enumerate(item_ids)

@@ -53,6 +53,10 @@ async def scheduler_loop():
     config = load_app_config()
     tasks = []
     for source in SOURCE_DEFINITIONS:
+        if not source.get("enabled", True):
+            continue
+        if source.get("kind") != "builtin":
+            continue
         interval = get_source_interval(source["id"], source.get("display_priority", "medium"), config)
         tasks.append(asyncio.create_task(schedule_source(source["id"], interval)))
     await asyncio.gather(*tasks, return_exceptions=True)
