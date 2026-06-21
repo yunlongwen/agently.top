@@ -148,7 +148,8 @@
 
     <main class="layout">
       <aside class="source-panel">
-        <div v-for="group in sourceGroups" :key="group.key" class="source-group">
+        <div v-if="sourceGroupsError" class="state-box error">{{ sourceGroupsError }}</div>
+        <div v-else v-for="group in sourceGroups" :key="group.key" class="source-group">
           <button
             class="source-group-header"
             type="button"
@@ -275,6 +276,7 @@ const I18N = {
     noContent: '当前来源暂无内容',
     loadSourceErr: '加载来源失败：',
     loadContentErr: '加载内容失败：',
+    loadSourceGroupsErr: '加载来源分组失败，请刷新重试',
     sourceApiErr: '来源接口返回 ',
     dataApiErr: '数据接口返回 ',
     historyApiErr: '历史接口返回 ',
@@ -333,6 +335,7 @@ const I18N = {
     noContent: 'No content available for this source',
     loadSourceErr: 'Failed to load sources: ',
     loadContentErr: 'Failed to load content: ',
+    loadSourceGroupsErr: 'Failed to load source groups, please refresh.',
     sourceApiErr: 'Sources API returned ',
     dataApiErr: 'Data API returned ',
     historyApiErr: 'History API returned ',
@@ -480,6 +483,7 @@ export default {
       errorMessage: '',
       sourceGroups: [],
       expandedGroups: {},
+      sourceGroupsError: '',
       historyDrawerOpen: false,
       historyDates: [],
       historyDatesLoading: false,
@@ -826,6 +830,7 @@ export default {
       return tags;
     },
     async loadSourceGroups() {
+      this.sourceGroupsError = '';
       try {
         const response = await fetch(`${API_PREFIX}/source-groups`);
         if (!response.ok) throw new Error(response.status);
@@ -833,7 +838,14 @@ export default {
         this.sourceGroups = payload.groups || [];
         // 从 localStorage 恢复展开状态；首次使用配置默认值
         const stored = localStorage.getItem('expandedGroups');
-        const storedMap = stored ? JSON.parse(stored) : {};
+        let storedMap = {};
+        if (stored) {
+          try {
+            storedMap = JSON.parse(stored);
+          } catch (parseError) {
+            console.error('解析展开状态失败', parseError);
+          }
+        }
         const expanded = {};
         for (const group of this.sourceGroups) {
           expanded[group.key] = storedMap.hasOwnProperty(group.key)
@@ -844,6 +856,7 @@ export default {
       } catch (error) {
         console.error('加载来源分组失败', error);
         this.sourceGroups = [];
+        this.sourceGroupsError = this.t('loadSourceGroupsErr');
       }
     },
     toggleGroup(key) {
