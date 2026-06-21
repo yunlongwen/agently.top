@@ -139,6 +139,7 @@ def publish_daily(
 
     common_options = {
         "display_date": date_text,
+        "date_text": date_text,
         "title": WECHAT_DEFAULT_TITLE.replace("{date}", date_text),
         "author": WECHAT_DEFAULT_AUTHOR,
         "digest": WECHAT_DEFAULT_DIGEST,
@@ -146,10 +147,15 @@ def publish_daily(
         "memory_insights": memory_insights,
     }
 
-    rendered = {
-        "wechat": markdown_renderer.render(filtered_items, channel="wechat", options=common_options),
-        "email": html_renderer.render(filtered_items, channel="email", options=common_options),
-    }
+    try:
+        rendered = {
+            "wechat": markdown_renderer.render(filtered_items, channel="wechat", options=common_options),
+            "email": html_renderer.render(filtered_items, channel="email", options=common_options),
+        }
+    except Exception as e:
+        logger.exception("渲染内容失败: %s", e)
+        results["publishers"]["__render__"] = {"success": False, "error": str(e)}
+        return results
 
     for publisher in enabled_publishers:
         publisher_id = publisher.id
@@ -200,6 +206,7 @@ def publish_to(publisher_id: str, items: list[dict] | None = None,
             channel=publisher_id,
             options={
                 "date_text": date_text,
+                "display_date": date_text,
                 "memory_insights": options.get("memory_insights") if options else None,
                 "title": f"Agently.top 每日 AI 资讯 - {date_text}",
             },

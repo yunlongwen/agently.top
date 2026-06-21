@@ -10,7 +10,19 @@ _renderer = HtmlRenderer()
 
 
 def build_email_html(daily_repos, weekly_repos, hn_stories, sspai_items=None, tmtpost_items=None, content_items=None):
-    """生成 HTML 邮件内容（兼容旧签名，内部使用 HtmlRenderer）。"""
+    """生成 HTML 邮件内容（兼容旧签名，内部使用 HtmlRenderer）。
+
+    Args:
+        daily_repos: GitHub Trending 日榜列表。
+        weekly_repos: GitHub Trending 周榜列表。
+        hn_stories: Hacker News 故事列表。
+        sspai_items: 少数派文章列表。
+        tmtpost_items: 钛媒体文章列表。
+        content_items: 通用信息项列表（优先级最高，直接追加）。
+
+    Returns:
+        str: HTML 邮件正文。
+    """
     items = []
     for repo in daily_repos or []:
         items.append({

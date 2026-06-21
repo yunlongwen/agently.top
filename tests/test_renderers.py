@@ -7,6 +7,7 @@ TDD 流程：
 2. 实现最小代码使测试通过（GREEN）
 """
 
+import json
 import os
 import sys
 
@@ -189,7 +190,6 @@ def test_feishu_card_renderer_elements_contain_div_text():
         [{"title": "Hello", "chinese_summary": "World", "url": "https://example.com"}],
         channel="feishu"
     )
-    import json
     payload = json.loads(result.body)
     elements = payload["card"]["elements"]
     div = next(e for e in elements if e["tag"] == "div")
@@ -204,7 +204,6 @@ def test_feishu_card_renderer_url_has_action_button():
         [{"title": "Hello", "chinese_summary": "World", "url": "https://example.com"}],
         channel="feishu"
     )
-    import json
     payload = json.loads(result.body)
     elements = payload["card"]["elements"]
     action = next(e for e in elements if e["tag"] == "action")
@@ -219,7 +218,6 @@ def test_feishu_card_renderer_empty_items():
     renderer = FeishuCardRenderer()
     for empty in ([], None):
         result = renderer.render(empty, channel="feishu")
-        import json
         payload = json.loads(result.body)
         elements = payload["card"]["elements"]
         assert len(elements) == 1
@@ -233,7 +231,6 @@ def test_feishu_card_renderer_custom_title_and_date():
     renderer = FeishuCardRenderer()
     result = renderer.render([], channel="feishu", options={"title": "Custom Title", "date_text": "2026-06-20"})
     assert result.title == "Custom Title"
-    import json
     payload = json.loads(result.body)
     header_title = payload["card"]["header"]["title"]["content"]
     assert header_title == "Custom Title"
@@ -244,7 +241,6 @@ def test_feishu_card_renderer_20_item_limit():
     renderer = FeishuCardRenderer()
     items = [{"title": f"Item {i}", "url": f"https://example.com/{i}"} for i in range(25)]
     result = renderer.render(items, channel="feishu")
-    import json
     payload = json.loads(result.body)
     elements = payload["card"]["elements"]
     text_blocks = [e for e in elements if e["tag"] == "div"]
@@ -262,7 +258,6 @@ def test_feishu_card_renderer_per_item_truncation():
         [{"title": "Short", "chinese_summary": long_summary}],
         channel="feishu"
     )
-    import json
     payload = json.loads(result.body)
     elements = payload["card"]["elements"]
     div = next(e for e in elements if e["tag"] == "div")
