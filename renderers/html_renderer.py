@@ -17,6 +17,10 @@ logger = logging.getLogger(__name__)
 class HtmlRenderer(Renderer):
     """HTML 格式渲染器。"""
 
+    def _escape_html(self, text: str) -> str:
+        """Escape text for safe inclusion in HTML."""
+        return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+
     def render(self, items: list[dict], channel: str = "email", options: dict[str, Any] | None = None) -> RenderedContent:
         """
         渲染信息项为 HTML 格式。
@@ -61,16 +65,16 @@ class HtmlRenderer(Renderer):
                 "<tr><th>#</th><th>来源</th><th>标题</th><th>发布时间</th><th>中文摘要</th><th>后端看点</th></tr>",
             ])
             for i, item in enumerate(items, 1):
-                title = str(item.get("title") or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-                url = item.get("url") or ""
-                source = str(item.get("source") or "").replace("&", "&amp;").replace("<", "&lt;")
-                published = str(item.get("published_at") or "").replace("<", "&lt;")
-                summary = str(item.get("chinese_summary") or item.get("original_summary") or "").replace("&", "&amp;").replace("<", "&lt;")
-                backend = str(item.get("backend_focus") or "").replace("&", "&amp;").replace("<", "&lt;")
+                item_title = self._escape_html(str(item.get("title") or ""))
+                url = self._escape_html(str(item.get("url") or ""))
+                source = self._escape_html(str(item.get("source") or ""))
+                published = self._escape_html(str(item.get("published_at") or ""))
+                summary = self._escape_html(str(item.get("chinese_summary") or item.get("original_summary") or ""))
+                backend = self._escape_html(str(item.get("backend_focus") or ""))
                 rows.append(
-                    f"<tr><td>{i}</td><td>{source}</td>"
-                    f'<td><a href="{url}">{title}</a></td>'
-                    f"<td>{published}</td><td class=\"summary\">{summary}</td><td class=\"summary\">{backend}</td></tr>"
+                    f'<tr><td>{i}</td><td>{source}</td>'
+                    f'<td><a href="{url}">{item_title}</a></td>'
+                    f'<td>{published}</td><td class="summary">{summary}</td><td class="summary">{backend}</td></tr>'
                 )
             rows.append("</table>")
 
