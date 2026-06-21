@@ -2,6 +2,7 @@ import logging
 import time
 from datetime import datetime, timedelta, timezone
 from typing import Any
+from urllib.parse import urlparse, urlunparse, parse_qsl, urlencode
 
 import feedparser
 import requests
@@ -10,6 +11,9 @@ from sources.base import SourceSpider
 from sources.rss_config import get_rss_request_options, load_rss_config
 
 logger = logging.getLogger(__name__)
+
+
+UTM_PARAMS = {"utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"}
 
 
 def _parse_published(entry: dict) -> str:
@@ -21,12 +25,17 @@ def _parse_published(entry: dict) -> str:
 
 
 def _normalize_url(url: str) -> str:
-    url = url.split("#")[0]
-    # 移除常见跟踪参数
-    for param in ("utm_source", "utm_medium", "utm_campaign", "utm_content"):
-        # 简化处理：仅做演示，实际可用 urllib.parse
-        pass
-    return url
+    parsed = urlparse(url)
+    # Strip fragment
+    fragment = ""
+    # Remove common tracking query parameters
+    filtered_query = [
+        (k, v) for k, v in parse_qsl(parsed.query) if k not in UTM_PARAMS
+    ]
+    query = urlencode(filtered_query)
+    return urlunparse(
+        (parsed.scheme, parsed.netloc, parsed.path, parsed.params, query, fragment)
+    )
 
 
 class RssSpider(SourceSpider):
@@ -80,6 +89,7 @@ class RssSpider(SourceSpider):
         cutoff = datetime.now(timezone.utc) - timedelta(days=max_age_days)
 
         items = []
+        # 扫描最多 max_items * 2 条，因为部分会被 max_age_days 过滤掉
         for entry in feed.entries[:max_items * 2]:
             published_at = _parse_published(entry)
             if published_at:

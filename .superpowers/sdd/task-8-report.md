@@ -38,6 +38,26 @@ tests/test_sources.py::test_rss_spider_parses_feed PASSED                [100%]
 ============================== 2 passed in 0.47s ==============================
 ```
 
-## 提交
+## Fix 报告
 
-- 提交信息：`feat(sources): 实现 RSS 采集蜘蛛 RssSpider`
+1. **移除未使用导入** (`tests/test_sources.py`)
+   - 删除 `import datetime as dt`（原测试未使用）。
+
+2. **实现 `_normalize_url`** (`sources/rss.py`)
+   - 使用 `urllib.parse` 去除 URL fragment，并移除 `utm_source`、`utm_medium`、`utm_campaign`、`utm_content`、`utm_term` 等常见跟踪参数。
+
+3. **补充注释** (`sources/rss.py`)
+   - 在 `feed.entries[:max_items * 2]` 前添加注释，说明扫描两倍条目是因为部分会被 `max_age_days` 过滤掉。
+
+4. **新增失败路径测试** (`tests/test_sources.py`)
+   - `test_rss_spider_returns_empty_on_failure`：模拟 `requests.get` 抛出 `RequestException`，断言返回空列表。
+
+5. **新增日期过滤测试** (`tests/test_sources.py`)
+   - `test_rss_spider_skips_old_entries`：构造一条近期、一条过期条目，断言仅返回近期条目。
+
+## 验证结果
+
+```bash
+PYTHONPATH=. pytest tests/test_sources.py -v
+# 4 passed
+```
