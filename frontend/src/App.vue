@@ -241,10 +241,19 @@
     <footer class="site-footer">
       <div class="footer-info">
         <span class="footer-copy">© 2026 智能与自律</span>
-        <a class="footer-link" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">陕ICP备2023006299号-3</a>
-        <span class="footer-police">
-          <img alt="公安备案" src="https://beian.mps.gov.cn/img/logo01.dd7ff50e.png" class="footer-police-logo">
-          <a class="footer-link" href="https://beian.mps.gov.cn/#/query/webSearch?code=陕公网安备61019002003752号" target="_blank" rel="noopener noreferrer">陕公网安备61019002003752号</a>
+        <span class="footer-beian">
+          <a class="footer-link" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">陕ICP备2023006299号-3</a>
+          <span class="footer-police">
+            <img alt="公安备案" src="https://beian.mps.gov.cn/img/logo01.dd7ff50e.png" class="footer-police-logo">
+            <a class="footer-link" href="https://beian.mps.gov.cn/#/query/webSearch?code=陕公网安备61019002003752号" target="_blank" rel="noopener noreferrer">陕公网安备61019002003752号</a>
+          </span>
+        </span>
+        <span class="footer-stat" aria-label="访问统计">
+          <span>访问量</span>
+          <span id="busuanzi_value_site_pv" class="footer-stat-value">--</span>
+          <span class="footer-stat-sep">·</span>
+          <span>访客数</span>
+          <span id="busuanzi_value_site_uv" class="footer-stat-value">--</span>
         </span>
       </div>
     </footer>
@@ -1981,16 +1990,27 @@ button.quick-link {
 }
 
 .footer-info {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: center;
-  gap: 6px 14px;
+  gap: 6px 16px;
   line-height: normal;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 .footer-copy {
   color: var(--text-2);
   font-size: 12px;
+  justify-self: start;
+}
+.footer-beian {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  justify-self: center;
 }
 .footer-link {
   color: var(--text-2);
@@ -2010,6 +2030,23 @@ button.quick-link {
   width: 20px;
   height: 20px;
   vertical-align: middle;
+}
+.footer-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-2);
+  justify-self: end;
+}
+.footer-stat-value {
+  color: var(--text-2);
+  font-size: 12px;
+}
+.footer-stat-sep {
+  color: var(--text-3);
+  font-size: 12px;
+  margin: 0 4px;
 }
 
 /* ── Language Switch ─────────────────────── */

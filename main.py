@@ -12,7 +12,7 @@ import sys
 import time
 from datetime import datetime
 
-from config import EMAIL_SEND_TIMES, MAIL_TO_BY_TIME, OUTPUT_JSON_PATH, SEND_EMAIL_ENABLED
+from config import EMAIL_SEND_TIMES, MAIL_TO, MAIL_TO_BY_TIME, OUTPUT_JSON_PATH, SEND_EMAIL_ENABLED
 from logging_config import setup_logging
 from subscription_store import load_subscribers
 
