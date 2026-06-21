@@ -153,3 +153,20 @@ def test_markdown_renderer_empty_items():
     result = renderer.render(None, channel="wechat")
     assert result.metadata["item_count"] == 0
     assert "Agently" in result.title
+
+
+def test_html_renderer_outputs_html():
+    from renderers.html_renderer import HtmlRenderer
+    renderer = HtmlRenderer()
+    result = renderer.render([{"title": "T", "url": "https://t", "chinese_summary": "S"}], channel="email")
+    assert result.format == "html"
+    assert "<html" in result.body
+    assert "T" in result.body
+
+
+def test_plain_renderer_outputs_text():
+    from renderers.plain_renderer import PlainRenderer
+    renderer = PlainRenderer()
+    result = renderer.render([{"title": "T", "url": "https://t", "chinese_summary": "S"}], channel="bark")
+    assert result.format == "plain"
+    assert "T" in result.body
