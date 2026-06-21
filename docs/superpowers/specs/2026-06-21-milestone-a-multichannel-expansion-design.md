@@ -22,7 +22,7 @@ Agently.top 目前已具备：
 
 按用户确定的优先级 **A（扩大触达）→ B（提升粘性）→ D（生态壁垒）→ C（降本稳态）**，Milestone A 聚焦：
 
-1. **扩展信息源**：RSS 自定义输入 + 国内可访问的新源（V2EX、36kr、少数派 Matrix、ModelScope、arXiv 可选）。
+1. **扩展信息源**：RSS 自定义输入 + 国内可访问的新源（量子位、极客公园、机器之心、36kr、Solidot、开源中国、V2EX，arXiv 可选）。
 2. **统一渲染层**：把邮件、微信公众号、各渠道推送的渲染逻辑抽象出来，避免重复。
 3. **国内多渠道推送**：飞书、企业微信、钉钉、微信公众号模板消息、QQ Bot、微博、WPS 协作。
 
@@ -48,12 +48,8 @@ agently.top/
 │   ├── sspai.py
 │   ├── tmtpost.py
 │   ├── official_ai_sources.py
-│   ├── rss.py                        # A1: RSS 聚合输入
-│   ├── v2ex.py                       # A2: V2EX
-│   ├── thirty_six_kr_venture.py      # A2: 36kr 创投
-│   ├── sspai_matrix.py               # A2: 少数派 Matrix
-│   ├── modelscope.py                 # A2: ModelScope 魔搭
-│   └── arxiv.py                      # A2: arXiv（默认关闭）
+│   ├── rss.py                        # A1: RSS 聚合输入（含所有新增 RSS 源）
+│   └── arxiv.py                      # A2: arXiv API（可选，默认关闭）
 ├── renderers/                        # A5: 统一渲染层
 │   ├── base.py
 │   ├── markdown_renderer.py
@@ -113,6 +109,97 @@ agently.top/
                                             │ QQ/微博   │
                                             └──────────┘
 ```
+
+### 2.3 前端展示策略：优先级与折叠
+
+#### 目标
+
+主页按来源优先级展开显示，低优先级来源默认收起，用户点击后展开，避免信息过载。
+
+#### 优先级分级
+
+| 优先级 | 来源示例 | 默认状态 |
+|---|---|---|
+| P0（核心） | GitHub Trending、Hacker News、V2EX、Linux.do、量子位、机器之心 | 默认展开 |
+| P1（扩展） | 极客公园、36kr、Solidot、开源中国、InfoQ、钛媒体、少数派 | 默认收起 |
+| P2（可选） | arXiv、ModelScope GitHub Releases、RSS 自定义源 | 默认收起 |
+
+#### 前端实现
+
+- 在 `source_registry.py` 中新增 `display_priority` 字段（`high` / `medium` / `low`）。
+- 前端 Vue 根据 `display_priority` 渲染分组卡片。
+- 用户展开/折叠状态保存在 `localStorage`，刷新后保留。
+- 首次访问默认按优先级展开/折叠。
+
+```vue
+<!-- frontend/src/App.vue 示例 -->
+<template>
+  <div v-for="group in sourceGroups" :key="group.priority">
+    <h2>{{ group.label }}</h2>
+    <source-section
+      v-for="source in group.sources"
+      :key="source.id"
+      :source="source"
+      :default-expanded="source.priority === 'high'"
+    />
+  </div>
+</template>
+```
+
+### 2.4 实时性、去重与防浪费策略
+
+#### 1. 实时性
+
+- **高频源短周期采集**：Hacker News、V2EX、Linux.do 等社区源每 1 小时采集一次。
+- **RSS 源按 published 时间触发**：每次只处理 `published_at` 在最新检查时间之后的条目。
+- **前端显示"最后更新"时间戳**：让用户感知内容新鲜度。
+
+```yaml
+# config.yaml 示例
+source_schedule:
+  github-daily: 6h      # GitHub Trending 每日更新，无需过频
+  hacker-news: 1h       # 社区源每小时
+  v2ex: 1h
+  linux-do: 1h
+  rss-default: 2h       # RSS 默认 2 小时
+```
+
+#### 2. 去重
+
+- **单源去重**：基于 `guid` / `url` 在 A1 中实现。
+- **跨源去重（A1 阶段基础版）**：对同一 URL 只保留一条。
+- **跨源去重（B 阶段增强）**：基于标题相似度 + URL 归一化识别同一事件的不同报道。
+
+```python
+def normalize_url(url: str) -> str:
+    # 移除跟踪参数、#fragment，统一 https
+    ...
+
+def is_duplicate_url(url: str) -> bool:
+    return redis.sismember("global:seen_urls", normalize_url(url))
+```
+
+#### 3. 防浪费
+
+- **无新内容不推送**：如果某次采集没有任何新条目，不向渠道发送空消息。
+- **低质量过滤**：标题为空、正文过短、内容重复的条目不进入摘要流程。
+- **按渠道控制频率**：每个渠道独立记录最后一次成功发布时间，避免重复推送相同批次。
+
+```python
+# publish_service.py
+async def publish_daily():
+    items = await content_store.get_latest_items()
+    if not items:
+        logger.info("no new items, skip publishing")
+        return
+    ...
+```
+
+#### 4. 实时性指标
+
+- 主页显示每个来源的"X 分钟前更新"。
+- 推送消息里标注"今日更新 N 条"。
+- 后台记录每个源的"最新条目时间"，超过阈值标为 stale。
 
 ---
 
@@ -222,12 +309,13 @@ rss:
       name: "V2EX 技术"
       url: "https://www.v2ex.com/feed/tab/tech.xml"
       category: "community"
+      fetch_interval_hours: 1
 
-    - id: "sspai-matrix"
-      name: "少数派 Matrix"
-      url: "https://sspai.com/matrix"  # 无官方 RSS，需用 HTML 解析
+    - id: "geekpark"
+      name: "极客公园"
+      url: "https://www.geekpark.net/rss"
       category: "tech"
-      use_html_parser: true
+      fetch_interval_hours: 2
 
     # 海外源默认关闭，需用户自建 RSSHub 或确认可访问后开启
     - id: "arxiv-daily"
@@ -235,14 +323,16 @@ rss:
       url: "https://rsshub.app/arxiv/query/AI"
       category: "paper"
       enabled: false
+      fetch_interval_hours: 6
 ```
 
 ### 4.3 去重与 Freshness
 
 1. **guid 优先去重**：RSS 条目通常有 `guid` 或 `id`。
 2. **url 兜底去重**：没有 guid 时用 URL。
-3. **时间过滤**：超过 `max_age_days` 的文章直接丢弃。
-4. **跨源去重**：A1 阶段不做，B 阶段补充。
+3. **跨源 URL 去重**：归一化 URL 后写入全局 `global:seen_urls`（见 2.4）。
+4. **时间过滤**：超过 `max_age_days` 的文章直接丢弃。
+5. **跨标题去重**：B 阶段补充（基于标题相似度识别同一事件的不同报道）。
 
 去重存储复用 Redis：
 
@@ -280,59 +370,86 @@ def mark_rss_item_seen(source_id: str, guid: str, ttl_days: int = 7):
 
 ---
 
-## 5. A2：新增信息源
+## 5. A2：源实时性优化
 
-### 5.1 原计划与调整后
+### 5.1 目标
 
-| 原计划 | 调整后 | 原因 |
-|---|---|---|
-| V2EX | ✅ V2EX RSS | 国内稳定 |
-| Product Hunt | ✅ 36kr 创投 + 少数派 Matrix | 国内产品/创业动态替代 |
-| HuggingFace Papers | ✅ ModelScope 魔搭社区 | 国内模型开源动态 |
-| arXiv | ⚠️ arXiv API（默认关闭） | 国内直连不稳定 |
+确保消息最新、实时，避免无效采集和浪费。不同源按更新频率配置不同采集周期，无新内容时不触发摘要和推送。
 
-### 5.2 V2EX
+### 5.2 按源配置采集频率
 
-- 数据源：`https://www.v2ex.com/feed/tab/tech.xml`
-- 方式：`feedparser` 解析 RSS
-- 字段：title、url、summary、author
+```yaml
+source_schedule:
+  # 社区类：更新快，每小时采集
+  hacker-news: 1h
+  v2ex: 1h
+  linux-do: 1h
 
-### 5.3 36kr 创投
+  # 媒体 RSS：每 2 小时
+  rss-qbitai: 2h
+  rss-jiqizhixin: 2h
+  rss-geekpark: 2h
+  rss-36kr: 2h
+  rss-solidot: 2h
+  rss-oschina: 2h
 
-- 数据源：36kr 站内栏目页面（如 `https://36kr.com/information/technology`）或其实际 RSS 地址
-- 方式：优先 RSS，如无稳定 RSS 则使用 HTML 解析
-- 过滤：category 为「创投」「AI」「科技」的文章
-- 备注：具体 RSS URL 需在实现前实测确认，建议先用 `scripts/check_source_connectivity.py` 验证
+  # 日更类
+  github-daily: 6h
+  github-weekly: 1d
+  openai: 6h
+  anthropic: 6h
+  infoq: 6h
 
-### 5.4 少数派 Matrix
+  # 可选/低频
+  rss-arxiv: 6h
+```
 
-- 数据源：`https://sspai.com/matrix`
-- 方式：优先 RSS，如无则复用现有 `sspai.py` 的 HTML 解析
+### 5.3 调度器改造
 
-### 5.5 ModelScope 魔搭社区
-
-- 数据源：`https://www.modelscope.cn/headlines` 或官方 API
-- 方式：HTML 解析或 API
-- 价值：覆盖国内大模型开源、模型更新、数据集发布
-
-### 5.6 arXiv（可选）
-
-- 数据源：`http://export.arxiv.org/api/query?search_query=cs.AI&sortBy=submittedDate`
-- 方式：`feedparser` 解析 arXiv API
-- 默认：`enabled=false`
-
-### 5.7 source_registry 注册
+当前 `scheduler.py` 是进程内定时器，默认每天 3 次。改造为支持按源独立调度：
 
 ```python
-SOURCE_DEFINITIONS = [
-    # ... 现有源 ...
-    {"id": "v2ex", "name": "V2EX", "category": "community"},
-    {"id": "36kr-venture", "name": "36氪创投", "category": "business"},
-    {"id": "sspai-matrix", "name": "少数派 Matrix", "category": "tech"},
-    {"id": "modelscope", "name": "ModelScope", "category": "ai-model"},
-    {"id": "arxiv", "name": "arXiv AI", "category": "paper", "default_enabled": False},
-]
+# scheduler.py
+async def run_scheduler():
+    for source_id, interval in SOURCE_SCHEDULE.items():
+        asyncio.create_task(schedule_source(source_id, interval))
+
+async def schedule_source(source_id: str, interval: timedelta):
+    while True:
+        await run_source(source_id)
+        await asyncio.sleep(interval.total_seconds())
 ```
+
+### 5.4 无新内容跳过
+
+每个源采集后：
+
+1. 对比最新条目时间 / guid / url。
+2. 如果全部已存在，跳过摘要和存储。
+3. 记录 "last_no_update_at"，避免频繁空跑。
+
+```python
+async def run_source(source_id: str):
+    items = await fetch_source(source_id)
+    new_items = [i for i in items if not is_seen(i)]
+    if not new_items:
+        logger.info(f"{source_id}: no new items, skip")
+        return
+    await summarize_and_store(new_items)
+```
+
+### 5.5 前端实时性展示
+
+- 每个来源卡片显示 "X 分钟前更新"。
+- 来源按最后更新时间排序（可选）。
+- 超过 24 小时未更新的源标灰/提示 stale。
+
+### 5.6 防浪费策略
+
+- **不采集已禁用的源**。
+- **不采集 unhealthy 源**，每天恢复检测一次。
+- **不推送空内容**：publish_service 在 items 为空时直接返回。
+- **控制单次摘要 Token 消耗**：单批次条目数上限，避免源爆发时成本失控。
 
 ---
 
@@ -489,8 +606,8 @@ async def publish_daily():
 | 阶段 | 内容 | 预估工时 | 依赖 |
 |---|---|---|---|
 | A5 | 统一渲染层 + 现有渠道迁移 | 5d | 无 |
-| A1 | RSS 输入源 + 国内默认源 | 4d | 无 |
-| A2 | V2EX / 36kr / 少数派 Matrix / ModelScope / arXiv 可选 | 5d | 无 |
+| A1 | RSS 输入源 + 国内默认源（量子位/极客公园/机器之心/36kr/Solidot/开源中国/V2EX/arXiv 可选） | 4d | 无 |
+| A2 | 源实时性优化：按源调度、无新内容跳过、前端实时性展示 | 3d | A1 |
 | A3 | 飞书 / 企业微信 / 钉钉 / 公众号模板消息 | 5d | A5 |
 | A3+ | QQ Bot / 微博 / WPS 协作 / Telegram | 5d | A5 |
 | 联调 & 测试 | 全链路集成测试、文档、部署脚本 | 4d | 以上全部 |
@@ -515,20 +632,26 @@ async def publish_daily():
 
 | 风险 | 影响 | 缓解措施 |
 |---|---|---|
-| 36kr / 少数派 Matrix RSS 不稳定 | A2 延迟 | 准备 HTML 解析 fallback |
+| 36kr / 机器之心 RSS 反爬（需 UA/重定向） | A1 部分源采集失败 | feedparser 请求时带浏览器 UA，跟随 302 |
 | 企业微信/钉钉 webhook 签名规则变更 | A3 需要更新 | 抽象签名逻辑，便于维护 |
 | 个人微信协议风险 | 封号 | 默认关闭，文档提示风险 |
-| arXiv 国内访问不稳定 | A2 可选源不可用 | 默认关闭，用户自建 RSSHub |
-| 前端 App.vue 已接近 2000 行 | A5 后前端改造困难 | B 阶段拆分组件 |
+| arXiv 国内访问不稳定 | A1 可选源不可用 | 默认关闭，用户自建 RSSHub |
+| 高频采集导致 API 成本上升 | A2 成本增加 | 无新内容跳过 + 单批次条目上限 |
+| 前端 App.vue 已接近 2000 行 | A5 后前端改造困难 | B 阶段拆分组件，本次仅做最小改动 |
 
 ---
 
 ## 12. 验收标准
 
-- [ ] 用户可配置 RSS 源，次日看到中文摘要卡片。
-- [ ] V2EX、36kr、少数派 Matrix、ModelScope 在国内无代理服务器稳定采集。
+- [ ] 用户可配置 RSS 源，新增源次日可看到中文摘要卡片。
+- [ ] 默认 RSS 源（量子位、极客公园、机器之心、36kr、Solidot、开源中国、V2EX）在国内无代理服务器稳定采集。
+- [ ] 高频源（Hacker News / V2EX / Linux.do）支持每小时采集。
+- [ ] 无新内容时跳过摘要和推送，不发送空消息。
+- [ ] 主页按优先级默认展开/折叠来源，用户状态可保留。
 - [ ] 飞书、企业微信、钉钉可发送测试消息。
 - [ ] 微信公众号模板消息可发送。
 - [ ] 现有邮件和微信公众号文章输出与原版本一致。
+- [ ] 单源或渠道失败不影响整体。
+- [ ] 渲染层单元测试覆盖率 ≥80%。
 - [ ] 单个源或渠道失败不影响整体。
 - [ ] 渲染层单元测试覆盖率 ≥80%。
