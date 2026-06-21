@@ -27,7 +27,7 @@ from core.content_store import (
     load_history_archive_snapshot,
     load_latest_snapshot,
 )
-from publish_service import get_publish_status, is_admin_authorized, publish_to
+from core.publish_service import get_publish_status, is_admin_authorized, publish_to
 from infrastructure.rss_builder import build_rss_feed
 from infrastructure.scheduler_v2 import start_scheduler_v2, stop_scheduler_v2
 from core.source_registry import SOURCE_DEFINITIONS, get_source_by_id

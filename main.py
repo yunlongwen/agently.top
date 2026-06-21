@@ -416,7 +416,7 @@ def run_spider(scheduled_time=None):
     # 多平台发布编排(失败不影响主流程)
     # ==========================
     try:
-        from publish_service import publish_daily
+        from core.publish_service import publish_daily
         publish_result = publish_daily(
             content_items,
             scheduled_time=scheduled_time,
