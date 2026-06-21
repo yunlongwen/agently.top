@@ -12,7 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, ".")
 
-from content_store import (  # noqa: E402
+from core.content_store import (  # noqa: E402
     is_valid_history_date,
     latest_archive_batch_file,
     list_recent_history_dates,

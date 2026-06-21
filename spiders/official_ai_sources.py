@@ -24,7 +24,7 @@ from config import (
     OPENAI_NEWS_RSS_URL,
     OPENAI_NEWS_URL,
 )
-from content_items import (
+from core.content_items import (
     CATEGORY_AI_ENGINEERING,
     CATEGORY_OFFICIAL_AI,
     SOURCE_ANTHROPIC,

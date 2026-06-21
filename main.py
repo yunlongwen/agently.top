@@ -138,11 +138,11 @@ def run_spider(scheduled_time=None):
     from sspai import fetch_sspai_items, ai_summarize_sspai_items
     from tmtpost import fetch_tmtpost_items, ai_summarize_tmtpost_items
     from official_ai_sources import fetch_anthropic_news, fetch_infoq_ai_development, fetch_openai_news
-    from content_items import build_all_content_items, summarize_content_items, write_content_json
-    from content_store import persist_source_snapshots
+    from core.content_items import build_all_content_items, summarize_content_items, write_content_json
+    from core.content_store import persist_source_snapshots
     from email_builder import build_email_html
     from infrastructure.email_sender import send_email, send_failure_notify
-    from memory_service import MemoryService
+    from core.memory_service import MemoryService
     from sources.rss import build_all_rss_spiders
     from sources.rss_config import load_rss_config
     from core.dedup import filter_duplicate_items

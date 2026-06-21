@@ -89,7 +89,7 @@ def _ensure_env(require_key=True):
 
 def _summarize_group(items):
     """对一组 item 调用 AI 摘要。先清空失败占位。"""
-    from content_items import summarize_content_items
+    from core.content_items import summarize_content_items
 
     cleaned = []
     for it in items:

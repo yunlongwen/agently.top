@@ -21,7 +21,7 @@ from config import (
     STATS_TRACK_CACHEABLE,
 )
 from app_config import get_frontend_source_groups
-from content_store import (
+from core.content_store import (
     is_valid_history_date,
     list_recent_history_dates,
     load_history_archive_snapshot,
