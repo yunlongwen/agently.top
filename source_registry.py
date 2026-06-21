@@ -22,6 +22,7 @@ SOURCE_DEFINITIONS = [
         "label": "GitHub 日榜",
         "content_source": "GitHub Trending Daily",
         "category": "开源趋势",
+        "display_priority": "high",
     },
     {
         "id": SOURCE_GITHUB_WEEKLY_ID,
@@ -29,6 +30,7 @@ SOURCE_DEFINITIONS = [
         "label": "GitHub 周榜",
         "content_source": "GitHub Trending Weekly",
         "category": "开源趋势",
+        "display_priority": "low",
     },
     {
         "id": SOURCE_LINUX_DO_ID,
@@ -36,6 +38,7 @@ SOURCE_DEFINITIONS = [
         "label": "Linux.do 技术日报",
         "content_source": "Linux.do",
         "category": "社区讨论",
+        "display_priority": "high",
     },
     {
         "id": SOURCE_HACKER_NEWS_ID,
@@ -43,6 +46,7 @@ SOURCE_DEFINITIONS = [
         "label": "Hacker News",
         "content_source": "Hacker News",
         "category": "社区讨论",
+        "display_priority": "high",
     },
     {
         "id": SOURCE_SSPAI_ID,
@@ -50,6 +54,7 @@ SOURCE_DEFINITIONS = [
         "label": "少数派",
         "content_source": "少数派",
         "category": "AI 快讯",
+        "display_priority": "medium",
     },
     {
         "id": SOURCE_TMTPOST_ID,
@@ -57,6 +62,7 @@ SOURCE_DEFINITIONS = [
         "label": "钛媒体",
         "content_source": "钛媒体",
         "category": "AI 快讯",
+        "display_priority": "medium",
     },
     {
         "id": SOURCE_OPENAI_ID,
@@ -64,6 +70,7 @@ SOURCE_DEFINITIONS = [
         "label": "OpenAI",
         "content_source": "OpenAI",
         "category": "AI 官方更新",
+        "display_priority": "low",
     },
     {
         "id": SOURCE_ANTHROPIC_ID,
@@ -71,6 +78,7 @@ SOURCE_DEFINITIONS = [
         "label": "Anthropic",
         "content_source": "Anthropic",
         "category": "AI 官方更新",
+        "display_priority": "low",
     },
     {
         "id": SOURCE_INFOQ_ID,
@@ -78,6 +86,7 @@ SOURCE_DEFINITIONS = [
         "label": "InfoQ AI",
         "content_source": "InfoQ AI Development",
         "category": "AI 工程实践",
+        "display_priority": "medium",
     },
 ]
 
