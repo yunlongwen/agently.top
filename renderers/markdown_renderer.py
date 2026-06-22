@@ -3,7 +3,9 @@
 Markdown 渲染器实现。
 
 将统一信息项列表渲染为 Markdown 格式，支持按来源分组、
-AI 摘要展示、后端看点及阅读原文链接。
+AI 摘要展示、后端看点。每条不再带「阅读原文」链接，
+跳转链接由发布渠道（如微信公众号）通过底部"阅读原文"或
+其他渠道机制承载。
 """
 
 import logging
@@ -68,9 +70,6 @@ class MarkdownRenderer(Renderer):
                 if backend_focus and backend_focus != summary:
                     lines.append("")
                     lines.append(f"> 后端看点：{backend_focus}")
-                if url:
-                    lines.append("")
-                    lines.append(f"[阅读原文 →]({url})")
                 lines.append("")
 
         body = "\n".join(lines)

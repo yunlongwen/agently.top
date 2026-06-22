@@ -75,7 +75,10 @@ def test_markdown_renderer_with_items():
     assert "Test Repo" in result.body
     assert "中文摘要" in result.body
     assert "后端看点" in result.body
-    assert "https://github.com/test/repo" in result.body
+    # 微信公众号平台对 inline 外链不可点击，已移除「阅读原文 →」内联链接；
+    # 跳转由发布渠道底部「阅读原文」按钮承载。
+    assert "阅读原文" not in result.body
+    assert "https://github.com/test/repo" not in result.body
     assert result.metadata["item_count"] == 1
 
 
