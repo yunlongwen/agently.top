@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-23T05:19:52.327212",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 11,387 | Forks: 843 | 6,372 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP 服务，单二进制部署。一个普通 repo 平均毫秒级完成索引，158 种语言支持，查询亚毫秒，token 消耗砍掉 99%。比传统基于 tree-sitter + embedding 的方案快一两个数量级，本质上是想做代码 RAG 的团队的 Claude/Cursor 配套基础设施；不擅长：非代码类文档检索、跨仓库联邦查询。上手零成本，丢一个二进制 + 接 MCP 协议即可。",
+      "backend_focus": "下载 release 静态二进制，配进 Claude Code 或 Cursor 的 MCP 配置里，拿本团队最复杂的 monorepo 跑一遍索引时间和查询 P99，对比目前用的 repomix / aider 仓库上下文方案，看 token 账单能降多少。",
+      "meta": {
+        "language": "C",
+        "stars": 11387,
+        "forks": 843,
+        "stars_period": "6,372 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 37,754 | Forks: 2,995 | 8,233 stars this week",
+      "chinese_summary": "Python CLI 一行命令让 AI agent 拥有全网阅读能力。零 API 费用直接抓 Twitter/Reddit/YouTube/GitHub/B站/小红书的公开内容，比各家官方 API 省 quota 和钱。差异化是统一接口 + 反爬绕过，比 scrapy/Playwright 脚本现成得多；不适合需要登录态、强实时或合规要求高的抓取场景。pip install 就能用，但部分站点 anti-bot 升级后稳定性会波动。",
+      "backend_focus": "pip install agent-reach 后接进自家 agent，先跑 youtube 和 github 子命令验证返回质量，再把目前用 tweepy / Reddit API 的监控脚本迁过来跑一周，对比抓取成功率和延迟。",
+      "meta": {
+        "language": "Python",
+        "stars": 37754,
+        "forks": 2995,
+        "stars_period": "8,233 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,532 | Forks: 479 | 1,712 stars this week",
+      "chinese_summary": "Rust 写的模块化点对点网络栈，用 dial key 取代 IP 地址做寻址。libp2p 太重、纯 TCP 又太底层，iroh 切在中间层，定位是给分布式应用做 NAT 穿透 + 节点发现。比 libp2p 编译产物小、API 简洁，比 tailscale/zerotier 更适合嵌入到自己的服务里；不适合做传统 C/S 架构服务端。上手需要懂 Rust async，概念和 IP 网络模型差异较大。",
+      "backend_focus": "cargo add iroh，跑 examples/gossip.rs 验证两个节点在不同 NAT 下的连通性，再评估是否能在自家边缘节点同步场景里替换掉现有的 WebRTC + signaling server 方案。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10532,
+        "forks": 479,
+        "stars_period": "1,712 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,114 | Forks: 2,391 | 4,114 stars this week",
+      "chinese_summary": "Google Research 开源的时序预训练基础模型 TimesFM。做零样本时间序列预测，比传统 ARIMA/Prophet 不用训练直接出结果，比 Chronos/Moment 同类 foundation model 背靠 Google 论文和持续维护更可信；不适合：超高频金融 tick 数据、需要分布外解释性的场景。pip 装包即可推理，要 fine-tune 得准备 GPU。",
+      "backend_focus": "pip install timesfm 后用 huggingface 上的 checkpoint，先在本团队监控指标（QPS、延迟）上跑零样本预测对比 Prophet baseline，看 MAPE 差距决定要不要上 fine-tune。",
+      "meta": {
+        "language": "Python",
+        "stars": 25114,
+        "forks": 2391,
+        "stars_period": "4,114 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,417 | Forks: 361 | 1,272 stars this week",
+      "chinese_summary": "Astro 团队出的 sandbox agent 框架，TS 写。比 e2b/Modal 这类通用 sandbox 更偏 agent 场景抽象，支持代码执行隔离 + 状态恢复。定位是想自建 coding agent 的团队的中间层，比直接 fork openhands 省事，比 LangChain Sandbox 跟 AI 工作流结合更紧；不适合纯容器调度场景。npm 装包起步，运行时需要 Firecracker 或 Docker。",
+      "backend_focus": "npm i @withastro/flue 后跑 quickstart，把现有 agent 里裸跑 subprocess 的节点换掉，对比隔离性和冷启动延迟，看是否值得替换 openhands 的 sandbox 模块。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6417,
+        "forks": 361,
+        "stars_period": "1,272 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 9,365 | Forks: 732 | 4,055 stars this week",
+      "chinese_summary": "NVIDIA 出的 AI agent skill 安全扫描器，Python 实现。专门审计 agent skill 文件里的恶意模式和漏洞，跟传统 SAST（semgrep/CodeQL）不冲突而是互补——后者看代码，前者看 prompt+tool 描述里的提示词注入、越权调用等。比手工 review 适合 CI 卡点，不适合做运行时防御。上手 pip 装包，写一条 GitHub Action 就能跑。",
+      "backend_focus": "pip install skillspector 接进 CI，对自家 agent skill 仓库 main 分支跑一次扫描，按报告里的 high 风险项先修；同时把扫描步骤加到 PR workflow 当作强制门禁。",
+      "meta": {
+        "language": "Python",
+        "stars": 9365,
+        "forks": 732,
+        "stars_period": "4,055 stars this week"
+      }
+    }
+  ]
+}
