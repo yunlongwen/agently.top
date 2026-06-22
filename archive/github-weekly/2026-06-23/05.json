@@ -1,0 +1,148 @@
+{
+  "generated_at": "2026-06-23T01:56:26.684655",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 8,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 11,256 | Forks: 836 | 6,372 stars this week",
+      "chinese_summary": "MCP 形态的代码知识图谱服务，C 写的单文件二进制。158 种语言毫秒级建索引、亚毫秒查询，号称比传统 RAG 少 99% token。对比直接把 repo 喂给 Claude/Cursor 的方案，它把索引常驻本地，跨会话复用；劣势是不像 Sourcegraph 那样支持多 repo 联邦查询，单机是天花板。部署成本极低，下载二进制配进 Claude Desktop 或 Cursor 的 MCP config 即可，不动现有架构。",
+      "backend_focus": "curl 拉二进制扔到 /usr/local/bin/，把仓库克隆下来跑一次 codebase-memory-mcp index 你的主项目，把生成的 .cmem 路径写进 ~/.claude/mcp.json，对比在 Cursor 里问同一个跨文件问题比之前少多少 token、有没有幻觉。",
+      "meta": {
+        "language": "C",
+        "stars": 11256,
+        "forks": 836,
+        "stars_period": "6,372 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 37,689 | Forks: 2,992 | 8,233 stars this week",
+      "chinese_summary": "给 AI agent 用的统一网络信息抓取 CLI，Twitter/Reddit/YouTube/GitHub/Bili/小红书一套命令搞定，不花 API 钱。跟直接用 Playwright 爬比，它封装了各站反爬绕过（XHR 抓取、签名接口），省掉维护成本；跟 Perplexity API 比，零费用但稳定性靠站点改版速度。生产环境别直接当主链路，当 fallback 调研工具更稳。",
+      "backend_focus": "pip install agent-reach 之后跑 agent-reach search '你业务关键词' --site reddit,bilibili，把你团队当下要做技术选型的几个问题各搜一次，看返回质量是否够用，能省下多少 SerpAPI 账单。",
+      "meta": {
+        "language": "Python",
+        "stars": 37689,
+        "forks": 2992,
+        "stars_period": "8,233 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,519 | Forks: 479 | 1,712 stars this week",
+      "chinese_summary": "Rust 写的点对点网络栈，用 32 字节的 dial key 代替 IP 地址做寻址。模块化设计，QUIC/gRPC/Relay 都能挂。对比 libp2p：API 简单一个数量级，文档和示例多；对比 tailscale/zerotier：它是库不是现成产品，得自己写 server relay。适合做 IoT mesh、离线优先 app、跨 NAT 文件同步这类 IP 不稳的场景。",
+      "backend_focus": "cargo add iroh 跑通 examples/ping.rs，在两个 NAT 后的机器之间测连通性；如果你正在做的产品有『跨网络设备直连』需求，立刻评估用它替换自研的 NAT 穿透逻辑，省掉 ICE/STUN 那套。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10519,
+        "forks": 479,
+        "stars_period": "1,712 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,087 | Forks: 2,388 | 4,114 stars this week",
+      "chinese_summary": "Google Research 开源的时序预测基础模型，decoder-only transformer，零样本预测不用 fine-tune。对比 statsforecast/AutoGluon 这类传统时序工具：长序列+冷启动场景强很多，few-shot 表现比 Chronos 还稳。劣势是 GPU 推理比 LightGBM 这类表格模型重 10 倍，量大要排队。适合 KPI 预测、容量规划、异常前置预警。",
+      "backend_focus": "pip install timesfm，在你的 Prometheus 历史指标上跑一次零样本预测下周 QPS，对比 Prophet/ARIMA 的 MAPE；如果误差在可接受范围，把它接进现有告警链路做提前扩容，比静态阈值省人力。",
+      "meta": {
+        "language": "Python",
+        "stars": 25087,
+        "forks": 2388,
+        "stars_period": "4,114 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "iptv-org/iptv",
+      "url": "https://github.com/iptv-org/iptv",
+      "published_at": "",
+      "original_summary": "Collection of publicly available IPTV channels from all over the world | 语言: TypeScript | Stars: 127,428 | Forks: 6,997 | 7,266 stars this week",
+      "chinese_summary": "全球公开 IPTV 频道合集，纯 TypeScript 维护的 M3U/M3U8 播放列表仓库。跟 Plex/Jellyfin 比它不是媒体库，是源头抓取；跟 xTeVe/Tvheadend 比它只管频道列表，录制和 EPG 得自己接。不适合做生产级 IPTV 产品（频道随时失效），但做 demo、内部网络电视、安防大屏底料完全够用。",
+      "backend_focus": "你团队的监控大屏、会议等候屏需要塞点背景内容时，git clone 拉 playlists 目录挑 10 个稳定频道，丢给公司大屏的 Chromium kiosk 模式即可，零成本替代商业 IPTV 订阅。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 127428,
+        "forks": 6997,
+        "stars_period": "7,266 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 44,924 | Forks: 7,399 | 1,984 stars this week",
+      "chinese_summary": "逆向提取的各路 LLM 厂商 system prompt 资源库，覆盖 Claude/GPT/Gemini/Grok/Cursor/Copilot 等 20+ 产品，周更。对做 prompt 工程的团队来说，这是免费黑盒情报：能看到厂商怎么约束 agent、怎么用 XML 标签、怎么藏安全护栏。跟 OpenRouter/Litellm 的官方文档比，它揭示了厂商嘴上不说但实际生效的指令。痛点：纯 markdown 阅读，没检索工具，几万行得自己 grep。",
+      "backend_focus": "git clone 后 grep -r 'tool_use\\|xml' 拉出所有厂商的工具调用约束规范，对比你团队 agent 的 system prompt，参照 Claude Code 的工具描述风格重写一遍你自家 agent 的 prompt，下周跑 eval 看成功率有没有提升。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 44924,
+        "forks": 7399,
+        "stars_period": "1,984 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,396 | Forks: 359 | 1,272 stars this week",
+      "chinese_summary": "Astro 团队出的沙箱 agent 框架，TypeScript 写，定位是『安全跑 AI agent 的执行环境』。比 Docker-in-Docker 方案轻量，比 E2B/Firecracker 这种商用沙箱开源可自托管。适合给 AI agent 提供隔离代码执行、文件系统操作、网络访问——核心卖点是限制 agent 越权。生产部署需 K8s + gVisor 或者 firecracker 才能真正安全，裸跑 node 沙箱不够。",
+      "backend_focus": "pnpm add @withastro/flue 跑通 sandbox-execute demo，把你现有 agent 里执行用户代码那段替换成 flue 的 sandbox 调用，对比 gVisor 容器方案的冷启动延迟（flue 目标是 ms 级），评估能否省掉一层容器编排。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6396,
+        "forks": 359,
+        "stars_period": "1,272 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 9,327 | Forks: 728 | 4,055 stars this week",
+      "chinese_summary": "NVIDIA 出的 AI agent skill 安全扫描器，Python，能扫 skill 文件里的 prompt 注入、危险 shell 模式、敏感信息外发。跟传统 Semgrep/Trivy 比，它懂 LLM 上下文，知道哪些字段是给模型看的、哪些是 tool 调用的；跟手工 code review 比，能批量扫 MCP/Claude Skills 商店。痛点：刚开源，规则集少，得自己加 YARA-like 规则。",
+      "backend_focus": "pip install skillspector，把你团队 agent 用的所有 skill 文件夹喂进去跑一遍，看误报率；如果你们接 Anthropic/Cursor Skills 商店的数据，集成进 CI 流水线，PR 阶段拦截高危 skill。",
+      "meta": {
+        "language": "Python",
+        "stars": 9327,
+        "forks": 728,
+        "stars_period": "4,055 stars this week"
+      }
+    }
+  ]
+}
