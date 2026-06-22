@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-23T01:40:21.088707",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 11,244 | Forks: 835 | 6,372 stars this week",
+      "chinese_summary": "代码知识图谱 MCP 服务，给 AI agent 喂仓库上下文。用 C 写的单静态二进制，毫秒级索引、子毫秒查询，宣称比传统 RAG 少 99% token，覆盖 158 种语言。对比 Sourcegraph/Zigzag 这种需要服务端 + 数据库的方案，它零依赖扔进容器就能跑，适合不想搭基础设施又想让 Claude/Cursor 真正读懂自家 monorepo 的团队；缺点是社区刚起步、协议还是 MCP 单点，enterprise 级权限控制没有。上手成本：下载二进制 + 改一行 MCP 配置即可，无需 PG/ES。",
+      "backend_focus": "拉一个 staging 仓库跑 ./codebase-memory-mcp serve --path ./monorepo，用 Claude Desktop 连上去测一次跨服务调用查询，对比之前塞整文件到 context 的 token 用量；顺手把二进制塞进现有 devcontainer Dockerfile 跑通 CI 场景。",
+      "meta": {
+        "language": "C",
+        "stars": 11244,
+        "forks": 835,
+        "stars_period": "6,372 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 37,684 | Forks: 2,991 | 8,233 stars this week",
+      "chinese_summary": "给 AI agent 一把扫遍全网的扫帚，CLI 封装主流平台读+搜索接口。Python 单进程，覆盖 Twitter/Reddit/YouTube/GitHub/B站/小红书，零 API key 走的是爬虫 + 第三方代理。对比官方 API 配额方案（如 Twitter Basic $100/月 10000 条），它免费但依赖第三方抓取稳定性，适合做舆情/选题监控的 agent；生产用必须配代理池和限速，否则 IP 封得快。上手：pip install + 配几个 cookie 就行。",
+      "backend_focus": "pip install agent-reach 后跑 agent-reach search reddit \"site:python\" 验证通联，把需要长期监控的 query 写进定时任务并加 rate limit；接入前先评估代理 IP 池预算。",
+      "meta": {
+        "language": "Python",
+        "stars": 37684,
+        "forks": 2991,
+        "stars_period": "8,233 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,517 | Forks: 479 | 1,712 stars this week",
+      "chinese_summary": "Rust 写的模块化网络栈，核心抽象是「拨号 key 代替 IP」——节点迁移、IP 变了连接不断。libp2p 是通用 P2P 框架偏厚，iroh 更聚焦在 NAT 穿透 + 持续可达场景。对比 Tailscale/Wireguard 走中心化协调，它完全去中心化无控制平面，适合做 IoT/边缘设备 P2P、跨 NAT 文件同步；不适合需要审计日志的合规场景。上手：cargo add iroh，300 行能写个 P2P 文件传输 demo。",
+      "backend_focus": "cargo new demo && cargo add iroh，抄 docs 里 P2P echo example 跑通两个进程跨 NAT 互联；下一步把现有 WebRTC 信令服里那块 NAT 穿透替换成 iroh endpoint 做对比 benchmark。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10517,
+        "forks": 479,
+        "stars_period": "1,712 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,085 | Forks: 2,388 | 4,114 stars this week",
+      "chinese_summary": "Google 出品的时间序列基础模型，pretrained 直接做零样本预测。Python 包，PyTorch 后端，支持 univariate/multivariate 和协变量。对比 Chronos/TimeGPT 这种同期开源的 TSFM，TimesFM 论文+模型权重最完整、Google 内部用得多、inference 成本低；但比传统 Prophet/ARIMA 部署重，需要 GPU 或量化才能跑。适合电商/IoT 这种数据维度多但不想每条线单独调参的场景。上手：pip install timesfm，加载模型 3 行代码出预测。",
+      "backend_focus": "pip install timesfm && pip install timesfm[gpu]，拿本团队过去 90 天某条核心业务指标（GMU/DAU）跑 zero-shot 预测，对比现有 Prophet 模型的 MAE；若 GPU 资源紧，试 torch.compile + int8 量化版。",
+      "meta": {
+        "language": "Python",
+        "stars": 25085,
+        "forks": 2388,
+        "stars_period": "4,114 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,396 | Forks: 359 | 1,272 stars this week",
+      "chinese_summary": "Astro 出的沙箱 agent 框架，让 AI agent 在隔离环境跑代码。TypeScript 实现，强调 sandbox 安全边界。对比 E2B/Firecracker 类通用沙箱，它更轻量、专为 LLM tool-use 设计，内置文件系统 + 网络策略；适合给 coding agent/Code Interpreter 类产品加一层隔离。上手：npm i @withastro/flue，配置 policy 即可。",
+      "backend_focus": "npm install @withastro/flue，把现有 agent demo 的工具调用从本地 child_process 切到 flue sandbox，跑通 file read / shell exec / network fetch 三类操作验证隔离生效；下一步评估是否替换 production 里 E2B 那部分。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6396,
+        "forks": 359,
+        "stars_period": "1,272 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 9,325 | Forks: 728 | 4,055 stars this week",
+      "chinese_summary": "NVIDIA 出的 AI agent skill 安全扫描器，专门检恶意 prompt、越权调用、敏感操作。Python 写，规则 + LLM 双引擎。对比传统 SAST（Semgrep/Snyk）只扫静态代码，它扫的是 agent 加载的 skill 文件、tool schema、prompt 模板，适合所有上线 agent 产品的团队做 CI 卡点；目前 4k 周 star 说明需求真实存在。上手：pip install 后 pre-commit 钩子即可。",
+      "backend_focus": "pip install skillspector，在现有 agent repo 的 .skills/ 目录跑一次 skillspector scan --report json；把这条命令加进 GitHub Actions PR check，high severity 直接 fail pipeline。",
+      "meta": {
+        "language": "Python",
+        "stars": 9325,
+        "forks": 728,
+        "stars_period": "4,055 stars this week"
+      }
+    }
+  ]
+}
