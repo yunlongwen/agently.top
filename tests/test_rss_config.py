@@ -21,3 +21,21 @@ def test_get_rss_request_options():
     assert options["timeout"] == 10
     assert options["retries"] == 2
     assert "User-Agent" in options["headers"]
+
+
+def test_build_all_rss_spiders_with_loaded_config():
+    from sources.rss_config import load_rss_config
+    from sources.rss import build_all_rss_spiders
+
+    cfg = load_rss_config("config/sources.yaml")
+    spiders = build_all_rss_spiders(cfg)
+
+    source_ids = {spider.source_id for spider in spiders}
+    assert "rss-qbitai" in source_ids
+    assert "rss-geekpark" in source_ids
+    assert "rss-jiqizhixin" in source_ids
+    assert "rss-36kr" in source_ids
+    assert "rss-solidot" in source_ids
+    assert "rss-oschina" in source_ids
+    assert "rss-v2ex-tech" in source_ids
+    assert "rss-arxiv" not in source_ids

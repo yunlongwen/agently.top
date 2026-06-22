@@ -133,5 +133,7 @@ def build_all_rss_spiders(config_or_path: str | dict | None = None) -> list["Rss
         cfg = config_or_path
     else:
         cfg = load_rss_config(config_or_path)
+    if not cfg.get("enabled", True):
+        return []
     request_options = get_rss_request_options(cfg)
-    return [RssSpider(s, request_options) for s in cfg.get("rss", {}).get("sources", []) if s.get("enabled", True)]
+    return [RssSpider(s, request_options) for s in cfg.get("sources", []) if s.get("enabled", True)]
