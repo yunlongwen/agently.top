@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-06-23T05:33:15.176040",
+  "source": {
+    "id": "rss-solidot",
+    "name": "Solidot",
+    "url": "https://www.solidot.org/index.rss",
+    "category": "开源科技",
+    "display_priority": "medium",
+    "enabled": true,
+    "max_age_days": 2,
+    "max_items": 10,
+    "kind": "rss",
+    "label": "Solidot",
+    "content_source": "Solidot"
+  },
+  "item_count": 4,
+  "items": [
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "回顾对 AUR 的攻击",
+      "url": "https://www.solidot.org/story?sid=84647",
+      "published_at": "2026-06-22T14:47:40+00:00",
+      "original_summary": "由用户递交的软件仓库 Arch User Repository(AUR)最近遭遇了大规模恶意攻击，攻击者创建了一系列新账号，然后通过这些账号接管无人维护的软件包（被称为 orphaned packages），植入恶意代码，推送恶意更新。Arch 项目的维护者现已关闭了新用户注册，正在讨论如何处理这些被恶意滥用的无人维护软件包。AUR 中的软件包由用户递交，其他用户可通过搜索下载 PKGBUILD 文件、解依、编译、安装和更新软件。它不提供软件的二进制版本。目前 AUR 中有逾 107,000 个软件包，其中近 14,000 个无人维护可供认领。任何注册用户都可以认领和修改无人维护的软件包。它提供的软件包未经审核，风险由用户自己承担。其它 Linux 发行版也都有类似的软件仓库，如 Fedora 的 Copr，openSUSE 的 Open Build Service (OBS)，Ubuntu 的 Personal Package Archives (PPA)。但这些服务与 AUR 有显著区别：它们提供了类似官方软件包的构建环境，而且不允许预编译二进制文件或私有软件。AUR 的要求过于宽",
+      "chinese_summary": "Arch 用户仓库 AUR 遭大规模恶意接管：攻击者注册账号、认领无人维护（orphaned）的包并植入恶意 PKGBUILD。Arch 已关闭新用户注册并讨论如何处理被滥用的孤儿包。此事件影响所有基于 AUR 构建 Arch 系统的 CI/CD 与镜像站信任链。",
+      "backend_focus": "Arch 系的构建机/CI 立即做三件事：1) 对最近 24-48 小时更新的 AUR 包执行 diff 审查并锁定版本；2) 暂停或加白名单处理 makepkg 自动拉取；3) 关注 orphan 包处理方案发布，准备移除对受影响包的依赖。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84647"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Anthropic 对特定功能访问要求身份验证",
+      "url": "https://www.solidot.org/story?sid=84645",
+      "published_at": "2026-06-22T11:02:33+00:00",
+      "original_summary": "Anthropic 更新了其隐私政策，从 2026 年 7 月 8 日起，部分功能将需要身份验证，该验证将由 Persona 公司负责。Persona 是一家第三方身份验证公司，由 Peter Thiel 投资。此前 Discord 因用户强烈反对以及 2026 年 2 月发生的一起数据泄露事件而终止了在年龄验证上与 Persona 的合作。\n<p></p>",
+      "chinese_summary": "Anthropic 更新隐私政策，自 2026 年 7 月 8 日起部分功能将强制要求通过 Persona 完成身份验证。这是对 Claude 系列产品（网页/客户端/API 中的人相关功能）的访问限制变更，并非 API 密钥或 SDK 接口变更。已用 API Key 调用的开发者通常不受影响，但使用了受限功能（涉及未成年/敏感内容）的产品需要改造。",
+      "backend_focus": "如果你调用的是 Anthropic API（Messages API、Tool Use、MCP）且仅用 API Key，7/8 之前一般无需改动；若产品里有面向终端用户的 Claude.ai 类功能或未成年相关流程，准备好接入 Persona 身份验证 SDK，并在隐私政策中追加第三方处理说明。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84645"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Linux 7.2 内核完全移除 strncpy 函数",
+      "url": "https://www.solidot.org/story?sid=84644",
+      "published_at": "2026-06-22T10:55:05+00:00",
+      "original_summary": "在 6 年 362 个补丁之后，Linux 7.2 内核终于完全移除了 strncpy() 函数。strncpy() 是一个 C 语言字符串复制函数，内核文档将其标记为“极度危险（actively dangerous）”。strncpy()是一类内存错误的主要来源：包含敏感数据的内核缓冲区可能会在未终止字符串边界外泄漏字节，导致内存信息泄露。strncpy()被 5 个不同函数取代：strscpy() 用于 NUL 结尾的目的地址，strscpy_pad() 用于 NUL 结尾零填充的目标地址， strtomem_pad() 用于非 NUL 结尾固定宽度字段，memcpy_and_pad() 用于显式填充的有边界复制，memcpy()用于已知长度的内存复制。\n<p></p>",
+      "chinese_summary": "Linux 7.2 内核在经过 6 年、362 个补丁后彻底移除 strncpy()，官方标记其为\"极度危险\"。strncpy 已知会导致未 NUL 终止的栈缓冲区信息泄露。替代方案按场景分配：NUL 结尾用 strscpy/strscpy_pad，固定宽度非 NUL 用 strtomem_pad，有界复制用 memcpy_and_pad/memcpy。",
+      "backend_focus": "升级到 Linux 7.2 前，先在代码库全局 grep \"strncpy(\" 并按目标语义替换为 strscpy/strscpy_pad/strtomem_pad/memcpy_and_pad/memcpy；驱动和内核模块重点审查，重点检查是否依赖\"未 NUL 终止\"的旧行为。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84644"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "美国芯片安全法案将强制性要求位置跟踪 AI 芯片",
+      "url": "https://www.solidot.org/story?sid=84641",
+      "published_at": "2026-06-22T07:53:11+00:00",
+      "original_summary": "美国国会正在审议芯片安全法案（Chip Security Act），该法案将为先进 AI 芯片加入更严格的安全验证功能，将要求芯片出口商通过定制的位置验证硬件或软件追踪先进芯片的流向，确保先进芯片不会进入中国等国家。美国众议院外交事务委员会于 3 月下旬以 42 比 0 的投票结果一致通过了芯片安全法案，将其提交到众议院全体会议审议。参议院的配套立法则尚处于审议的第一个阶段。美国芯片行业组织反对这项法案，认为会阻碍芯片出口。最大的 AI 芯片制造商英伟达去年 12 月宣布它已开发出能满足该法案部分要求的技术。\n<p></p>",
+      "chinese_summary": "美国国会推进 Chip Security Act，拟强制要求先进 AI 芯片内置位置验证硬件/软件，防止流向中国等地。众议院外交事务委员会已 42:0 通过，英伟达称已开发可满足部分要求的技术。该法案若通过将影响 AI 加速卡的供应链和固件层。",
+      "backend_focus": "关注 H100/H200/B200 等加速卡的固件与 SDK 更新日志，留意位置验证 API/驱动层是否有新字段；同时提前评估备用算力方案（如国产卡或非美区云），以防出口合规变动影响采购。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84641"
+      }
+    }
+  ]
+}
