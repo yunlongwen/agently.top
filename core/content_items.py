@@ -175,7 +175,49 @@ def build_all_content_items(daily_repos, weekly_repos, hn_stories, sspai_items, 
     items.extend(_tmtpost_to_items(tmtpost_items))
     items.extend(ai_source_items or [])
     items.extend(_rss_to_items(rss_items))
-    return items
+    return _filter_irrelevant_items(items)
+
+
+def _is_irrelevant_item(item: dict) -> bool:
+    """判断一条信息是否被 AI 标记为「与工程无关」。
+
+    约定触发条件（来自各 spider 的 prompt）：
+
+    - chinese_summary 整段等于「与工程无关」 → 丢弃
+    - backend_focus 整段等于「无」/「与开发工作无关」 → 丢弃
+    - backend_focus 以「与工程无关」「与开发工作无关」「营销大于实质」
+      开头 → 整段为负向判断，丢弃
+    """
+    summary = (item.get("chinese_summary") or "").strip()
+    if summary == "与工程无关":
+        return True
+    focus = (item.get("backend_focus") or "").strip()
+    if not focus:
+        return False
+    if focus in {"无", "与开发工作无关"}:
+        return True
+    negative_prefixes = ("与工程无关", "与开发工作无关", "营销大于实质")
+    return focus.startswith(negative_prefixes)
+
+
+def _filter_irrelevant_items(items: list[dict]) -> list[dict]:
+    """过滤掉被 AI 标记为「与工程无关」的信息项。
+
+    这些项不应进入归档、不应发送到邮件、不应发布到公众号、
+    不应进入前端 / API 视图。
+    """
+    if not items:
+        return items
+    kept = []
+    dropped = 0
+    for item in items:
+        if _is_irrelevant_item(item):
+            dropped += 1
+            continue
+        kept.append(item)
+    if dropped:
+        logger.info("过滤与工程无关条目: 丢弃 %d / 保留 %d", dropped, len(kept))
+    return kept
 
 
 def write_content_json(items, output_path):
