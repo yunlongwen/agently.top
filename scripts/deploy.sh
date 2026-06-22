@@ -14,7 +14,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 FRONTEND_DIR="${ROOT_DIR}/frontend"
 DIST_DIR="${FRONTEND_DIR}/dist"
-WWW_DIR="/www/wwwroot/agently.top"
+NGINX_ROOT="${ROOT_DIR}/frontend/dist"
 NGINX_CONF="/www/server/panel/vhost/nginx/agently.top.conf"
 
 BUILD_ONLY=false
@@ -67,8 +67,16 @@ if [ "$BUILD_ONLY" = true ] || [ "$PULL_ONLY" = false ]; then
   # --- 4. 部署静态文件 ---
   echo ""
   echo "[4/4] 部署静态文件到 Nginx..."
-  cp -r "${DIST_DIR}"/* "${WWW_DIR}/"
-  nginx -s reload 2>/dev/null || echo "  ⚠ Nginx 重载失败，请手动执行: nginx -s reload"
+  # nginx site config 的 root 直接指向 ${ROOT_DIR}/frontend/dist，
+  # 构建产物已经在这里，无需复制；只需刷新页面缓存。
+  if [ -d "${NGINX_ROOT}" ]; then
+    echo "  ✓ dist 已就位于 ${NGINX_ROOT}"
+  else
+    echo "  ✗ 找不到 dist 目录: ${NGINX_ROOT}"
+    exit 1
+  fi
+  nginx -t 2>&1 | tail -2
+  nginx -s reload 2>/dev/null || echo "  ⚠ Nginx reload 失败，请手动执行: nginx -s reload"
   echo "  ✓ 部署完成"
 fi
 
