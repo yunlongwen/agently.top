@@ -1,0 +1,97 @@
+{
+  "generated_at": "2026-06-23T05:51:21.766342",
+  "source": {
+    "id": "rss-solidot",
+    "name": "Solidot",
+    "url": "https://www.solidot.org/index.rss",
+    "category": "开源科技",
+    "display_priority": "medium",
+    "enabled": true,
+    "max_age_days": 2,
+    "max_items": 10,
+    "kind": "rss",
+    "label": "Solidot",
+    "content_source": "Solidot"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "回顾对 AUR 的攻击",
+      "url": "https://www.solidot.org/story?sid=84647",
+      "published_at": "2026-06-22T14:47:40+00:00",
+      "original_summary": "由用户递交的软件仓库 Arch User Repository(AUR)最近遭遇了大规模恶意攻击，攻击者创建了一系列新账号，然后通过这些账号接管无人维护的软件包（被称为 orphaned packages），植入恶意代码，推送恶意更新。Arch 项目的维护者现已关闭了新用户注册，正在讨论如何处理这些被恶意滥用的无人维护软件包。AUR 中的软件包由用户递交，其他用户可通过搜索下载 PKGBUILD 文件、解依、编译、安装和更新软件。它不提供软件的二进制版本。目前 AUR 中有逾 107,000 个软件包，其中近 14,000 个无人维护可供认领。任何注册用户都可以认领和修改无人维护的软件包。它提供的软件包未经审核，风险由用户自己承担。其它 Linux 发行版也都有类似的软件仓库，如 Fedora 的 Copr，openSUSE 的 Open Build Service (OBS)，Ubuntu 的 Personal Package Archives (PPA)。但这些服务与 AUR 有显著区别：它们提供了类似官方软件包的构建环境，而且不允许预编译二进制文件或私有软件。AUR 的要求过于宽",
+      "chinese_summary": "Arch Linux 的 AUR 用户仓库遭大规模恶意接管攻击，攻击者注册新账号认领 orphaned 软件包并植入恶意代码后推送更新。这是开源软件供应链安全事件，Arch 已关闭新用户注册并讨论治理方案。对于使用 makepkg 从 AUR 拉取 PKGBUILD 编译安装的服务/CI，需要立即审计。",
+      "backend_focus": "立即行动：检查 CI/容器镜像中所有来自 AUR 的依赖，确认 2026-06-22 前后的更新来源；对未维护包做溯源；优先迁移到 Copr/OBS/PPA 或固定 commit hash 构建，避免继续信任 AUR 自动更新。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84647"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Anthropic 对特定功能访问要求身份验证",
+      "url": "https://www.solidot.org/story?sid=84645",
+      "published_at": "2026-06-22T11:02:33+00:00",
+      "original_summary": "Anthropic 更新了其隐私政策，从 2026 年 7 月 8 日起，部分功能将需要身份验证，该验证将由 Persona 公司负责。Persona 是一家第三方身份验证公司，由 Peter Thiel 投资。此前 Discord 因用户强烈反对以及 2026 年 2 月发生的一起数据泄露事件而终止了在年龄验证上与 Persona 的合作。\n<p></p>",
+      "chinese_summary": "Anthropic 更新隐私政策，从 2026 年 7 月 8 日起部分功能将要求身份验证，验证由第三方 Persona 提供。这是面向最终用户的功能访问限制变化，而非面向开发者的 API/SDK 变更。具体哪些功能受身份验证影响、是否影响 API key 调用在摘要中未说明。",
+      "backend_focus": "关注 7 月 8 日生效细节：阅读 Anthropic 官方 changelog，确认被要求身份验证的是 claude.ai 网页端功能还是也涉及 API 调用；若仅是消费端 UI 影响，无需改动服务端 SDK。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84645"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Linux 7.2 内核完全移除 strncpy 函数",
+      "url": "https://www.solidot.org/story?sid=84644",
+      "published_at": "2026-06-22T10:55:05+00:00",
+      "original_summary": "在 6 年 362 个补丁之后，Linux 7.2 内核终于完全移除了 strncpy() 函数。strncpy() 是一个 C 语言字符串复制函数，内核文档将其标记为“极度危险（actively dangerous）”。strncpy()是一类内存错误的主要来源：包含敏感数据的内核缓冲区可能会在未终止字符串边界外泄漏字节，导致内存信息泄露。strncpy()被 5 个不同函数取代：strscpy() 用于 NUL 结尾的目的地址，strscpy_pad() 用于 NUL 结尾零填充的目标地址， strtomem_pad() 用于非 NUL 结尾固定宽度字段，memcpy_and_pad() 用于显式填充的有边界复制，memcpy()用于已知长度的内存复制。\n<p></p>",
+      "chinese_summary": "Linux 7.2 内核经过 6 年 362 个补丁彻底移除 strncpy()，改由 strscpy/strscpy_pad/strtomem_pad/memcpy_and_pad/memcpy 五个函数取代。这是面向内核及驱动开发者的源码级 API 变更，用户态 glibc 不受影响。提交到 mainline 或 backport 驱动的代码必须替换。",
+      "backend_focus": "立即行动：内核/驱动代码全局替换 strncpy() 调用，根据是否需 NUL 结尾选择 strscpy/strscpy_pad 等；CI 中增加 -Wstringop-truncation 警告；用户态 glibc 的 strncpy 保留，无需修改应用层代码。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84644"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "日本宣布新超算理究",
+      "url": "https://www.solidot.org/story?sid=84642",
+      "published_at": "2026-06-22T09:18:41+00:00",
+      "original_summary": "日本理化学研究所 19 日宣布，为利用 AI 进行科学研究而建设的新超级计算机命名为“理究”。该名称寓意利用 AI 探“究”自然现象背后的“理”。该超算将设在神户市中央区的理研神户地区，力争 7 月投入使用。理化所还在同一天宣布了另一台量子计算-高性能计算混合平台超算 ROQUO，两台超算都使用了英伟达的 GB200 NVL4 系统。其中 ROQUO 配备了 135 个计算节点，540 (NVIDIA Blackwell)&nbsp; GPU 以及 270 (NVIDIA Grace) CPU，FP64 峰值逾 21 PFLOPS，FP8 峰值 5 EFLOPS 等。\n<p></p>",
+      "chinese_summary": "日本理化学研究所宣布新建超算「理究」专用于 AI 科研，7 月投用；同日正式启用量子-HPC 混合平台 ROQUO，两台超算均采用 NVIDIA GB200 NVL4 系统。这是国家级科研基础设施新闻，ROQUO 配备 540 颗 Blackwell GPU、270 颗 Grace CPU，FP64 峰值 21 PFLOPS、FP8 峰值 5 EFLOPS。属于公共算力资源公告，不涉及商用 API。",
+      "backend_focus": "若团队在日本/亚太有科研合作，可关注理究/ROQUO 后续是否对外开放申请队列；普通商用 AI 工程无需任何改动。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84642"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "美国芯片安全法案将强制性要求位置跟踪 AI 芯片",
+      "url": "https://www.solidot.org/story?sid=84641",
+      "published_at": "2026-06-22T07:53:11+00:00",
+      "original_summary": "美国国会正在审议芯片安全法案（Chip Security Act），该法案将为先进 AI 芯片加入更严格的安全验证功能，将要求芯片出口商通过定制的位置验证硬件或软件追踪先进芯片的流向，确保先进芯片不会进入中国等国家。美国众议院外交事务委员会于 3 月下旬以 42 比 0 的投票结果一致通过了芯片安全法案，将其提交到众议院全体会议审议。参议院的配套立法则尚处于审议的第一个阶段。美国芯片行业组织反对这项法案，认为会阻碍芯片出口。最大的 AI 芯片制造商英伟达去年 12 月宣布它已开发出能满足该法案部分要求的技术。\n<p></p>",
+      "chinese_summary": "美国国会正在审议 Chip Security Act，要求先进 AI 芯片加入位置验证硬件/软件以追踪流向，防止流入受限国家，众议院外委会已 42-0 通过。英伟达已宣布有技术可满足部分要求。这是地缘/合规层面的立法进展，会影响 GPU 出口链路，不直接改变 CUDA/SDK 接口。",
+      "backend_focus": "关注合规链：若团队涉及海外采购 H100/B200 等加速卡，跟踪法案参议院进度及对所在地区供货的影响；CUDA 编程接口本身不变，无需改代码。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84641"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Canonical 将为 Ubuntu 桌面加入语音文本转录 AI 功能",
+      "url": "https://www.solidot.org/story?sid=84638",
+      "published_at": "2026-06-22T06:02:52+00:00",
+      "original_summary": "Canonical 宣布将为 Ubuntu 桌面加入语音文本转录 AI 功能，它正在征询用户对该功能的反馈。预计于今年 10 月发布的 Ubuntu 26.10 将包含被称为 Myna 的 AI 功能的早期版本。在 Myna 中，语音识别在名为 Canonical Inference Snap 的沙盒组件中进行，Speech Orchestrator 负责管理会话，Audio Adapter 处理麦克风拾取的音频，在音频到达模型前对其进行降噪和分块处理。语音识别将在本地进行，一旦安装相应模型后就不再需要连接互联网。音频数据也不会被长期保存，将在会话结束后立即被丢弃。Myna 暂时不会支持语音输入密码、持续监听、翻译等功能。\n<p></p>",
+      "chinese_summary": "Canonical 宣布将在 Ubuntu 26.10（2026 年 10 月）中内置语音转录 AI 功能 Myna，语音识别在本地沙盒组件 Canonical Inference Snap 中完成，处理流程为 Speech Orchestrator + Audio Adapter + 模型，音频会话结束即丢弃。这是面向 Ubuntu 桌面用户的 OS 层功能，非 API 服务，开发者无法远程调用。",
+      "backend_focus": "暂不行动：Myna 是 OS 本地功能，不提供云 API；Ubuntu Server 用户不受影响。如需本地 STT，建议持续关注模型许可与硬件加速要求。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84638"
+      }
+    }
+  ]
+}
