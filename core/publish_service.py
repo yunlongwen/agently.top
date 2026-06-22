@@ -199,6 +199,8 @@ def publish_to(publisher_id: str, items: list[dict] | None = None,
     if not publisher:
         return {"success": False, "error": f"Unknown publisher: {publisher_id}"}
 
+    options = options or {}
+
     if items and not content:
         date_text = datetime.now().strftime("%Y-%m-%d")
         content = markdown_renderer.render(
@@ -207,7 +209,7 @@ def publish_to(publisher_id: str, items: list[dict] | None = None,
             options={
                 "date_text": date_text,
                 "display_date": date_text,
-                "memory_insights": options.get("memory_insights") if options else None,
+                "memory_insights": options.get("memory_insights"),
                 "title": f"Agently.top 每日 AI 资讯 - {date_text}",
             },
         ).body
@@ -216,7 +218,6 @@ def publish_to(publisher_id: str, items: list[dict] | None = None,
     elif not content:
         content = ""
 
-    options = options or {}
     if "title" not in options:
         date_text = datetime.now().strftime("%Y-%m-%d")
         options["title"] = WECHAT_DEFAULT_TITLE.replace("{date}", date_text)
