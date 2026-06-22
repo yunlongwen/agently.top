@@ -1,0 +1,180 @@
+{
+  "generated_at": "2026-06-22T10:56:13.904220",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 10,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "palmier-io/palmier-pro",
+      "url": "https://github.com/palmier-io/palmier-pro",
+      "published_at": "",
+      "original_summary": "macOS video editor built for AI | 语言: Swift | Stars: 5,367 | Forks: 405 | 1,834 stars today",
+      "chinese_summary": "Swift 写的 macOS 原生 AI 视频剪辑器。核心能力是直接把 LLM/MCP 接进剪辑流程，让 AI 改时间线、调色、生成字幕而不用出导 XML。横向对比 Final Cut 自动化只能跑 AppleScript，跟 DaVinci Resolve scripting 比它更偏 agent 驱动；不适合纯剪辑师，AI 工作流团队玩花活比较合适。上手成本：装 Swift 工具链后 clone 仓库 build，macOS 限定，没 Linux/Windows 方案。",
+      "backend_focus": "与开发工作无关，纯 macOS 端视频工具，没有服务端 API 也不暴露 SDK，非本团队目标项目。",
+      "meta": {
+        "language": "Swift",
+        "stars": 5367,
+        "forks": 405,
+        "stars_period": "1,834 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 9,004 | Forks: 1,325 | 987 stars today",
+      "chinese_summary": "Python 写的开源 agentic 视频生产线，挂在 AI 编程助手（Cline/Cursor/Claude Code）里当 skill 调用，12 条 pipeline、52 个工具覆盖剪辑/字幕/配音/合成。横向对比直接调 FFmpeg 脚本它多了一层任务编排，比剪映 CLI 自动化更适合被 agent 调；不适合做实时直播剪辑，更偏离线成片。上手成本：clone 之后按 README 装 FFmpeg + 各 API key，跑 make demo 即可，但要配齐视频/语音模型的 key 才跑得动完整链路。",
+      "backend_focus": "在内部 demo 环境跑一遍：clone 后用现有 Claude Code/Cursor 加载 skills，选一条短视频 pipeline 跑端到端，评估生成的视频成片质量是否能替代外包剪辑，再决定是否接进内容生产线 CI。",
+      "meta": {
+        "language": "Python",
+        "stars": 9004,
+        "forks": 1325,
+        "stars_period": "987 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "chopratejas/headroom",
+      "url": "https://github.com/chopratejas/headroom",
+      "published_at": "",
+      "original_summary": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 60-95% fewer tokens, same answers. Library, proxy, MCP server. | 语言: Python | Stars: 44,671 | Forks: 3,118 | 2,624 stars today",
+      "chinese_summary": "Python 写的 LLM 上下文压缩层，给开发者用，三种部署形态：import 库、反向代理、MCP server。能砍掉 60-95% 输入 token 但保回答质量，对 Claude/GPT 这种按 token 计费场景直接省钱。横向对比 LangChain 的 ContextualCompressionRetriever 只压检索片段，它是全链路压（tool output/log/RAG chunk）；不适合已经用 context caching 的场景（缓存命中后压缩反而浪费 CPU）。上手成本：pip install 就能当库用，proxy 模式一行 docker run，无侵入。",
+      "backend_focus": "选一条高频 agent 链路（如 GitHub MCP 工具调用），在中间插 headroom proxy，对比一周内 Anthropic/OpenAI 后台的 token 消耗和回答准确率，ROI 确认后挂到团队所有 coding agent 前置层。",
+      "meta": {
+        "language": "Python",
+        "stars": 44671,
+        "forks": 3118,
+        "stars_period": "2,624 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "tursodatabase/turso",
+      "url": "https://github.com/tursodatabase/turso",
+      "published_at": "",
+      "original_summary": "Turso is an in-process SQL database, compatible with SQLite. | 语言: Rust | Stars: 20,857 | Forks: 1,068 | 548 stars today",
+      "chinese_summary": "Rust 写的进程内 SQLite 兼容数据库，LibSQL/SQLite 协议。核心是嵌入式 + async + 多语言绑定，比 better-sqlite3 多了 async/网络访问能力，比 libSQL 上游多了更好的 Rust 集成；不适合替代 PostgreSQL 这种多写 OLTP 场景，更适合 Edge/服务端嵌入单实例。上手成本：cargo add libsql，单 binary embed 即可，迁移成本主要在异步 API 重写。",
+      "backend_focus": "挑一个读多写少的服务（如内部 admin 后台），把 better-sqlite3 换成 turso-client 异步版，跑同样的 query 压 QPS 和 P99，同时确认现有 migration 工具链兼容后再灰度上线。",
+      "meta": {
+        "language": "Rust",
+        "stars": 20857,
+        "forks": 1068,
+        "stars_period": "548 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 52,307 | Forks: 3,347 | 1,135 stars today",
+      "chinese_summary": "Clojure 写的开源设计协作平台，浏览器跑，输出标准 SVG/CSS 而非私有格式。核心是设计-代码同源，CSS 变量直接映射 token，比 Figma 导 CSS 干净；不适合要做高保真原型动效的纯设计师，更偏前端+设计协作。上手成本：Docker compose 一行起，但 Self-host 需要 Postgres + 一定存储，团队小于 5 人用官方 SaaS 更省事。",
+      "backend_focus": "与开发工作无关，除非你要自建私有设计平台，否则直接用 Penpot SaaS 注册账号导入现有 Figma 文件评估迁移成本，不要自托管。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 52307,
+        "forks": 3347,
+        "stars_period": "1,135 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 44,645 | Forks: 41,485 | 568 stars today",
+      "chinese_summary": "Python 写的 LLM 驱动多市场股票分析系统，含实时行情、新闻聚合、决策看板、定时推送。横向对比 AKShare 脚本它多了 LLM 决策层，比 qstock 多自动推送；不适合做高频交易信号（LLM 延迟分钟级），偏中长线复盘。上手成本：clone 后配 LLM API key + 行情源即可跑，主要精力在 prompt 调优和信号验证。",
+      "backend_focus": "不要直接接实盘账户，先在 paper trading 环境跑两周，记录 LLM 给出的买卖信号和实际涨跌对比胜率，确认有 alpha 再考虑接券商 API 做自动化下单。",
+      "meta": {
+        "language": "Python",
+        "stars": 44645,
+        "forks": 41485,
+        "stars_period": "568 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "koala73/worldmonitor",
+      "url": "https://github.com/koala73/worldmonitor",
+      "published_at": "",
+      "original_summary": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface | 语言: TypeScript | Stars: 58,155 | Forks: 9,211 | 163 stars today",
+      "chinese_summary": "TypeScript 写的实时全球情报仪表盘，多源新闻聚合 + 地缘事件 + 基础设施监控。横向对比 NewsNow/HN 算法订阅，它多了地理位置可视化和基础设施图层（光缆/电网）；不适合做企业内 BI，更偏公共舆情/安全态势感知。上手成本：clone 后 npm install + 配若干 RSS/API key 即可，前端 Next.js 直接起 dev server。",
+      "backend_focus": "与开发工作无关，纯情报展示工具，没有可复用 SDK/API 给业务系统接入，非生产环境目标项目。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 58155,
+        "forks": 9211,
+        "stars_period": "163 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "bytedance/deer-flow",
+      "url": "https://github.com/bytedance/deer-flow",
+      "published_at": "",
+      "original_summary": "An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours. | 语言: Python | Stars: 72,643 | Forks: 9,836 | 442 stars today",
+      "chinese_summary": "Python 写的字节出品的 long-horizon SuperAgent 框架，跑在沙箱里、记忆/工具/子 agent 全套，比 LangGraph 单 agent 循环更擅长几十分钟到几小时的复合任务。横向对比 OpenAI Deep Research 它开源可自部署，比 AutoGen 多沙箱隔离；不适合做毫秒级响应的客服 agent，偏深度研究/代码自动化。上手成本：clone + 配 LLM key + docker 启 sandbox，需要至少 16G 内存跑子 agent 沙箱。",
+      "backend_focus": "选一个团队里最耗时的研究类任务（如竞品技术栈调研、RFC 影响面分析），用 deer-flow 跑一次端到端对比人工耗时和质量，评估是否替换现有 LangChain agent pipeline。",
+      "meta": {
+        "language": "Python",
+        "stars": 72643,
+        "forks": 9836,
+        "stars_period": "442 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 10,416 | Forks: 788 | 1,032 stars today",
+      "chinese_summary": "C 写的高性能代码知识图谱 MCP server，单 static binary 零依赖，支持 158 种语言，亚毫秒查询、索引平均仓库毫秒级。比 Sourcegraph 轻量（不用部署 8 个微服务），比 ctags/LSP 多了一层语义图谱；不适合做语义代码搜索（这个偏结构化），更适合给 coding agent 当 codebase 上下文源。上手成本：curl 拉二进制即跑，stdio MCP 直接挂 Claude Code/Cursor。",
+      "backend_focus": "把二进制下到本地，挂到团队的 Claude Code/Cursor MCP 配置里，挑一个 50 万行级别的 monorepo 跑索引，对比之前用 grep/ripgrep 给 agent 喂上下文时的 token 消耗和回答准确率。",
+      "meta": {
+        "language": "C",
+        "stars": 10416,
+        "forks": 788,
+        "stars_period": "1,032 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "mukul975/Anthropic-Cybersecurity-Skills",
+      "url": "https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
+      "published_at": "",
+      "original_summary": "754 structured cybersecurity skills for AI agents · Mapped to 5 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND & NIST AI RMF · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI & 20+ platforms · 26 security domains · Apache 2.0 | 语言: Python | Stars: 17,771 | Forks: 2,133 | 361 stars today",
+      "chinese_summary": "Python 写的安全 agent skills 包，754 个结构化 skill 对齐 MITRE ATT&CK/NIST CSF/ATLAS/D3FEND/AI RMF 五大框架，agentskills.io 标准协议。横向对比 OWASP cheat sheet 它是为 agent 调用的，不是给人看的；跟 MITRE 官方数据比它做了 skill 化包装；不适合合规审计场景（那个需要人工签章），偏 AI agent 安全工程化。上手成本：clone 后按各 agent 平台文档加载 skills 文件即可，无运行时依赖。",
+      "backend_focus": "挑团队现有的 Claude Code 或 Cursor，把这批 skills 加载进 skills 目录，跑一次红队 prompt 评估 agent 是否按 MITRE ATT&CK 给出可执行步骤，对比没加载时的安全建议质量。",
+      "meta": {
+        "language": "Python",
+        "stars": 17771,
+        "forks": 2133,
+        "stars_period": "361 stars today"
+      }
+    }
+  ]
+}
