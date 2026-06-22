@@ -1,0 +1,149 @@
+{
+  "generated_at": "2026-06-22T15:46:31.096046",
+  "source": {
+    "id": "rss-oschina",
+    "name": "开源中国",
+    "url": "https://www.oschina.net/news/rss",
+    "category": "开源趋势",
+    "display_priority": "medium",
+    "enabled": true,
+    "max_age_days": 2,
+    "max_items": 10,
+    "kind": "rss",
+    "label": "开源中国",
+    "content_source": "开源中国"
+  },
+  "item_count": 10,
+  "items": [
+    {
+      "source": "rss-oschina",
+      "category": "开源趋势",
+      "title": "Deno Desktop 入场：TypeScript 桌面应用开发的第四种选择",
+      "url": "https://www.oschina.net/news/464911",
+      "published_at": "2026-06-22T07:02:03+00:00",
+      "original_summary": "在 2026 年的桌面应用开发领域，如果你用 JavaScript 或 TypeScript 写一个带 UI 的程序并想分发给用户，摆在你面前的选择本质上是三选一：Electron——功能全但打包出来 100MB 起步；Tauri——体积小但后端必须写 Rust；或者忍受每个平台的 WebView 渲染差异，祈祷你的 CSS 在 Windows 7 的老 Edge WebView 上不会崩。2...",
+      "chinese_summary": "Deno 推出 Deno Desktop 框架，作为 TypeScript 桌面应用开发的第四种选择，区别于 Electron（Tauri 之外），由 Deno 团队原生打包，绕开各家平台 WebView 渲染差异。相对 Electron 100MB+ 起步的体积和 Tauri 必须写 Rust 后端的限制，差异在 TypeScript 可全栈 + 统一渲染层。已有 Electron/Tauri 项目无需迁移，但新项目可作为评估项。",
+      "backend_focus": "行动项：新建 TS 桌面应用可对 Deno Desktop 做 PoC，验证打包体积、启动速度与 WebView 兼容性；现有 Electron 项目维持现状，关注其正式 GA 与 Tauri 2.x 对比数据后再决策。",
+      "meta": {
+        "guid": "https://www.oschina.net/news/464911"
+      }
+    },
+    {
+      "source": "rss-oschina",
+      "category": "开源趋势",
+      "title": "Canonical 发布 Project Myna，Ubuntu 桌面迎来系统级本地 AI 语音转文本功能",
+      "url": "https://www.oschina.net/news/464891/myna-speech-to-text-for-ubuntu-deskto",
+      "published_at": "2026-06-22T06:31:42+00:00",
+      "original_summary": "2026 年 6 月 17 日，Canonical 工程总监 Jean-Baptiste Lallement 在 Ubuntu 社区论坛正式公布了 Project Myna，旨在为 Ubuntu 桌面带来系统级的本地 AI 语音转文本功能。 Myna 得名于擅长模仿人类说话的八哥鸟（Myna bird），这个意象本身就暗示了项目的本质：不是理解语言，而是忠实地将语音复制为文字。项目的初始定...",
+      "chinese_summary": "Canonical 发布 Project Myna，为 Ubuntu 桌面提供系统级本地 AI 语音转录功能，计划随 Ubuntu 26.10（2026 年 10 月）放出早期版本；识别在 Canonical Inference Snap 沙盒中本地完成，原始音频不在会话外保留。相对此前的云端 STT 方案，差异在于 Audio Adapter 在音频抵达模型前做降噪与分块处理，并明确不支持密码输入、持续监听与翻译。已使用云端 STT 的应用可继续走原链路，待 26.10 发布后再评估是否切换到 Myna 本地能力。",
+      "backend_focus": "关注点：Ubuntu 26.10 后系统可能默认捆绑 Myna 并占用麦克风设备，依赖录音/音频采集的应用需自测设备占用冲突；Myna 走 Canonical Inference Snap，第三方集成需等官方 SDK 文档。",
+      "meta": {
+        "guid": "https://www.oschina.net/news/464891/myna-speech-to-text-for-ubuntu-deskto"
+      }
+    },
+    {
+      "source": "rss-oschina",
+      "category": "开源趋势",
+      "title": "Docker 29.6.0 发布",
+      "url": "https://www.oschina.net/news/464885/docker-29-6-0-released",
+      "published_at": "2026-06-22T06:18:22+00:00",
+      "original_summary": "Docker 29.6.0 现已发布，具体更新内容如下： New POST /containers/{id}/update现在支持每个设备的 blkio 资源设置。moby/moby#52651 新增GET /images/{name}/attestations端点，用于检索附加到镜像的完整证明声明（例如 SLSA 出处和 SPDX SBOM）。支持可选的平台选择、谓词类型过滤以及用于获取声明原文正文的声明查询...",
+      "chinese_summary": "Docker 29.6.0 发布，Engine API 新增 POST /containers/{id}/update 支持每个设备的 blkio 资源设置（moby/moby#52651），并新增 GET /images/{name}/attestations 端点用于检索镜像附带的 SLSA 出处与 SPDX SBOM 证明声明，支持平台选择、谓词类型过滤与原文查询。相对此前只能整体设置 blkio，差异在可按块设备粒度调权重；attestations 端点让供应链验证可直接在 Engine API 上完成，无需外部 cosign。已有 CI/CD 中依赖 attest 命令或外部签名工具的链路可以切换到新 API。",
+      "backend_focus": "升级方式：Docker Engine 升级到 29.6.0；CI 中可用 GET /v1.46/images/{name}/attestations?platform=linux/amd64&predicateType=slsaprovenance 替代外部 cosign verify，blkio 精细化配置可写入 update API 请求体 bps_device / io_device 字段。",
+      "meta": {
+        "guid": "https://www.oschina.net/news/464885/docker-29-6-0-released"
+      }
+    },
+    {
+      "source": "rss-oschina",
+      "category": "开源趋势",
+      "title": "LM Studio 与苹果合作，用四台 Mac Studio 成功运行万亿参数大模型 Kimi K2.6",
+      "url": "https://www.oschina.net/news/464871",
+      "published_at": "2026-06-22T05:54:42+00:00",
+      "original_summary": "LM Studio 官方账号近日发布了一条推文：&quot;我们在 WWDC 期间与 Apple 合作，在四台 Mac Studio 组成的集群上运行了 Kimi K2.6——一个万亿参数模型。我们通过 LM Link 展示了从 MacBook Neo 和 iPhone 的安全远程访问。这是你私人拥有的、前沿级 AI 的一瞥。&quot; 要理解这次演示的技术含量，必须先厘清&quot;万亿参数模型&quot;对算力的...",
+      "chinese_summary": "LM Studio 联合苹果，在 WWDC 期间用四台 Mac Studio 集群运行了万亿参数模型 Kimi K2.6，并演示通过 LM Link 从 MacBook Neo 与 iPhone 安全远程访问。相对此前 Kimi K2 仅能在大型 GPU 集群或云端运行的方案，差异在把推理下沉到 Apple Silicon 集群 + 跨设备代理。已有云端 Kimi API 接入的应用无需改动。",
+      "backend_focus": "关注点：跟踪 LM Studio 何时开放对 Kimi K2.6 集群推理的官方接入 API（LM Link 协议细节暂未披露），目前仅是 WWDC 演示，营销大于实质，无需行动；待 API 正式 GA 后再评估私有化部署成本。",
+      "meta": {
+        "guid": "https://www.oschina.net/news/464871"
+      }
+    },
+    {
+      "source": "rss-oschina",
+      "category": "开源趋势",
+      "title": "从代码到产线：恩和发布 BPL 协议语言，定义生物制造的“工业级编译器”",
+      "url": "https://www.oschina.net/news/464839",
+      "published_at": "2026-06-22T04:45:57+00:00",
+      "original_summary": "近日，恩和科技在《bioRxiv》发布Biology Protocol Language（BPL）及其生成管线BPL-COGEN，首次为生物实验协议建立了一套形式化的语言体系，打通了Physical AI进入物理世界的标准接口。 BPL是专为生物实验协议设计的可编译、可验证的形式化语言。BPL-COGEN把自然语言协议自动翻译为BPL程序，由一个300亿参数微调大语言模...",
+      "chinese_summary": "与工程无关",
+      "backend_focus": "无",
+      "meta": {
+        "guid": "https://www.oschina.net/news/464839"
+      }
+    },
+    {
+      "source": "rss-oschina",
+      "category": "开源趋势",
+      "title": "DBeaver 26.1.1 发布",
+      "url": "https://www.oschina.net/news/464802/dbeaver-26-1-1-released",
+      "published_at": "2026-06-22T03:40:33+00:00",
+      "original_summary": "DBeaver 是一个免费开源的通用数据库工具，适用于开发人员和数据库管理员。DBeaver 26.1.1 现已发布，具体更新内容包括： SQL Editor： 修复了在包含别名表的 SELECT 语句后自动补全的问题 修复了类型转换时的列高亮显示问题 修复了打开多个编辑器时单标签/多标签模式切换状态的问题 修复了 SQL 模板显示错误列列表的问题...",
+      "chinese_summary": "DBeaver 26.1.1 发布，修复 SQL Editor 在含别名表的 SELECT 后自动补全失效、类型转换时列高亮异常、多编辑器单/多标签切换状态错乱、SQL 模板列列表显示错误等若干问题。相对 26.1 主要是稳定性补丁，无接口或行为变更。已有 26.x 集成可平滑升级。",
+      "backend_focus": "升级方式：DBeaver Community/Enterprise 升级到 26.1.1，JDBC 驱动协议与连接配置无变化，CI 中拉取的 Docker 镜像同步更新即可。",
+      "meta": {
+        "guid": "https://www.oschina.net/news/464802/dbeaver-26-1-1-released"
+      }
+    },
+    {
+      "source": "rss-oschina",
+      "category": "开源趋势",
+      "title": "OpenYurt v1.7 正式发布：OTA、节点自动化纳管全面升级",
+      "url": "https://www.oschina.net/news/464780/openyurt-1-7-released",
+      "published_at": "2026-06-22T03:21:53+00:00",
+      "original_summary": "OpenYurt 社区于日前正式发布了 v1.7.0版本，本次发布带来了三项重磅特性，覆盖边缘 OTA 升级、多租户控制面部署和节点自动化纳管。 OTA 升级支持镜像预热： 大幅度降低服务服务中断时间 OpenYurt 此前已通过增强版 DaemonSet 控制器为边缘工作负载提供 OTA（Over-The-Air）升级能力。但在 AI 推理、视频处理等大镜像场景...",
+      "chinese_summary": "OpenYurt v1.7 正式发布，在 OTA 升级中新增「镜像预热」能力，显著降低 AI 推理、视频处理等大镜像场景下边缘节点的服务中断时间；同时强化多租户控制面部署与节点自动化纳管。相对 v1.6 单纯用增强型 DaemonSet 做升级，差异在预热阶段先把新镜像拉到节点本地再切换流量。已使用 v1.6 OTA 的集群需关注升级顺序与回滚策略。",
+      "backend_focus": "升级方式：OpenYurt 控制面与节点组件升到 v1.7，开启 YurtHub OTA 预热特性（CRD 中配置 prestrainImage），并在大镜像业务上重新评估 maxUnavailable/maxSurge 参数；旧版无预热逻辑的节点可分批升级。",
+      "meta": {
+        "guid": "https://www.oschina.net/news/464780/openyurt-1-7-released"
+      }
+    },
+    {
+      "source": "rss-oschina",
+      "category": "开源趋势",
+      "title": "微信推出原生 AI 助手“小微”——14 亿用户的新入口，一场从应用到操作系统的静默跃迁",
+      "url": "https://www.oschina.net/news/464775",
+      "published_at": "2026-06-22T03:13:53+00:00",
+      "original_summary": "2026 年 6 月 20 日，微信正式向其 14.32 亿月活用户中最早获得灰度测试资格的一小批人，亮出了一张准备了超过一年的 AI 底牌——原生 AI 助手&quot;小微&quot;。获得内测资格的用户会在微信主界面左上角发现一个绿色眼睛形状的机器人图标，点击后进入一个标注着&quot;测试版&quot;的对话界面，支持文字和语音两种交互方式。 微信团队次日向媒...",
+      "chinese_summary": "微信推出原生 AI 助手「小微」，在 14.32 亿月活用户中灰度测试，主界面左上角出现绿色眼睛图标，支持文字与语音两种交互。这是微信首次在操作系统级集成 AI 入口，相对此前的第三方小程序 AI 方案，差异在调用方无需自建前端，由微信原生分发。已有微信生态内的 AI 应用需关注微信是否开放对外 API；目前灰度阶段暂无对外接口。",
+      "backend_focus": "关注点：等小微灰度扩大并开放对外 API 后，再评估是否把现有微信公众号/小程序内的 AI 问答逻辑迁移到小微平台；目前营销大于实质，灰度期间无工程动作。",
+      "meta": {
+        "guid": "https://www.oschina.net/news/464775"
+      }
+    },
+    {
+      "source": "rss-oschina",
+      "category": "开源趋势",
+      "title": "MQTT 高可用实践：单机已经够用了，但我们还是要做集群",
+      "url": "https://my.oschina.net/u/2385344/blog/19700593",
+      "published_at": "2026-06-22T03:04:28+00:00",
+      "original_summary": "对于真正的生产系统而言，性能往往只是工程问题，而高可用才是业务问题。",
+      "chinese_summary": "与工程无关",
+      "backend_focus": "无",
+      "meta": {
+        "guid": "https://my.oschina.net/u/2385344/blog/19700593"
+      }
+    },
+    {
+      "source": "rss-oschina",
+      "category": "开源趋势",
+      "title": "ClickHouse 开源十年：从 Yandex 内部工具到 2.5 亿美元 ARR，一个“完全从零构建”的数据库传奇",
+      "url": "https://www.oschina.net/news/464764/clickhouse-open-source-10",
+      "published_at": "2026-06-22T02:54:00+00:00",
+      "original_summary": "2026 年 6 月 15 日，ClickHouse 迎来了作为开源项目的第十个年头。创始人 Alexey Milovidov 在官方博客上发布了一篇十年回顾，从 2009 年一个替换慢速 libc 时间函数的 commit 讲起，到如今 48000 个 GitHub star、2600 多位贡献者和 2.5 亿美元年化营收，这个&quot;完全从零构建&quot;的列式分析数据库走过了一条在开源世界极为罕...",
+      "chinese_summary": "与工程无关",
+      "backend_focus": "无",
+      "meta": {
+        "guid": "https://www.oschina.net/news/464764/clickhouse-open-source-10"
+      }
+    }
+  ]
+}
