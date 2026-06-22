@@ -31,11 +31,14 @@ def test_build_all_rss_spiders_with_loaded_config():
     spiders = build_all_rss_spiders(cfg)
 
     source_ids = {spider.source_id for spider in spiders}
+    # 当前网络环境可用的 RSS 源
     assert "rss-qbitai" in source_ids
-    assert "rss-geekpark" in source_ids
-    assert "rss-jiqizhixin" in source_ids
     assert "rss-36kr" in source_ids
     assert "rss-solidot" in source_ids
     assert "rss-oschina" in source_ids
-    assert "rss-v2ex-tech" in source_ids
+    # 2026-06-22 禁用：极客公园(www 443 超时)、机器之心(无 RSS 端点)、V2EX(网络不可达)
+    assert "rss-geekpark" not in source_ids
+    assert "rss-jiqizhixin" not in source_ids
+    assert "rss-v2ex-tech" not in source_ids
+    # arxiv 始终未启用
     assert "rss-arxiv" not in source_ids

@@ -91,9 +91,11 @@ def list_source_groups():
 
 @app.get("/api/sources")
 def list_sources():
-    """返回前端可展示的全部来源。"""
+    """返回前端可展示的全部启用来源。"""
     sources = []
     for source in SOURCE_DEFINITIONS:
+        if not source.get("enabled", True):
+            continue
         source_id = source["id"]
         snapshot, served_from = load_latest_snapshot(source_id)
         generated_at = snapshot.get("generated_at", "") if snapshot else ""
