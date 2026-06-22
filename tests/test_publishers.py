@@ -105,15 +105,17 @@ class TestArticleBuilder(unittest.TestCase):
                 "published_at": "2026-06-20",
                 "original_summary": "summary",
                 "chinese_summary": "中文摘要",
-                "backend_focus": "后端看点",
+                "backend_focus": "工程看点",
                 "meta": {},
             }
         ]
         md = build_daily_markdown(items, "2026-06-20")
         self.assertIn("Test Repo", md)
         self.assertIn("中文摘要", md)
-        self.assertIn("后端看点", md)
-        self.assertIn("https://github.com/test/repo", md)
+        self.assertIn("工程看点", md)
+        # 微信公众号平台对 inline 外链不可点击，build_daily_markdown 不再输出
+        # 「阅读原文 →」链接（2026-06-22 refactor(renderer) 移除）。
+        self.assertNotIn("https://github.com/test/repo", md)
 
 
 class TestCoverGenerator(unittest.TestCase):

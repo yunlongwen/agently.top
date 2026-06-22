@@ -68,7 +68,7 @@ class HtmlRenderer(Renderer):
         else:
             rows.extend([
                 "<table>",
-                "<tr><th>#</th><th>来源</th><th>标题</th><th>发布时间</th><th>中文摘要</th><th>后端看点</th></tr>",
+                "<tr><th>#</th><th>来源</th><th>标题</th><th>发布时间</th><th>中文摘要</th><th>工程看点</th></tr>",
             ])
             for i, item in enumerate(items, 1):
                 item_title = self._escape_html(str(item.get("title") or ""))

@@ -66,7 +66,7 @@ def test_markdown_renderer_with_items():
             "title": "Test Repo",
             "url": "https://github.com/test/repo",
             "chinese_summary": "中文摘要",
-            "backend_focus": "后端看点",
+            "backend_focus": "工程看点",
         }
     ]
     result = renderer.render(items, channel="wechat")
@@ -74,7 +74,7 @@ def test_markdown_renderer_with_items():
     assert result.format == "markdown"
     assert "Test Repo" in result.body
     assert "中文摘要" in result.body
-    assert "后端看点" in result.body
+    assert "工程看点" in result.body
     # 微信公众号平台对 inline 外链不可点击，已移除「阅读原文 →」内联链接；
     # 跳转由发布渠道底部「阅读原文」按钮承载。
     assert "阅读原文" not in result.body
@@ -145,9 +145,9 @@ def test_markdown_renderer_no_duplicate_backend_focus():
         }
     ]
     result = renderer.render(items, channel="wechat")
-    # 只应出现一次 "相同内容"（在 summary 中），不应出现 "后端看点"
+    # 只应出现一次 "相同内容"（在 summary 中），不应出现 "工程看点"
     assert result.body.count("相同内容") == 1
-    assert "后端看点" not in result.body
+    assert "工程看点" not in result.body
 
 
 def test_markdown_renderer_empty_items():
