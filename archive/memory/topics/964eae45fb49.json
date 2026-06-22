@@ -16,7 +16,7 @@
   "evolution": [
     {
       "date": "2026-06-22",
-      "summary": "Linux 7.2 内核经 6 年 362 个补丁后彻底移除 strncpy()，原因是它不保证 NUL 终止、曾导致内核缓冲区敏感数据泄露。官方建议按场景替换为 strscpy()（NUL 结尾目标）、strscpy_pad()（零填充）、strtomem_pad()（定宽字段）、memcpy_and_pad()（显式填充）、memcpy()（已知长度）。属于内核子系统接口变更，不影响用户态 C",
+      "summary": "Linux 7.2 内核经过约 6 年、362 个补丁后完全移除 strncpy() 函数，官方文档将其标记为“极度危险”，因未终止字符串会越过缓冲区边界泄露敏感内存。取代函数按场景分为 5 个：strscpy、strscpy_pad、strtomem_pad、memcpy_and_pad、memcpy。下游内核模块、驱动、eBPF 程序若仍使用 strncpy 将编译失败。",
       "urls": [
         "https://www.solidot.org/story?sid=84644"
       ]
