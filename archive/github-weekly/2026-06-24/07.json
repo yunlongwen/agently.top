@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-24T02:24:23.777754",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 12,642 | Forks: 918 | 7,560 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server。静态二进制零依赖，给 LLM 喂代码上下文用。158 种语言毫秒级索引、亚毫秒查询，相比传统 RAG 上下文 token 砍掉 99%。对标 tree-sitter + LSP 组合方案，优势是开箱即用、不用配 language server，缺点是纯 C 二进制要嵌入现有 MCP 客户端（如 Claude Desktop / Cursor），没有 SDK 也没看到 benchmark 数据可验证。上手成本：下载二进制配一行 MCP config 就行。",
+      "backend_focus": "在你的 Claude Code / Cursor 里配一条 mcp config 指向这个二进制，挑一个内部 repo 跑一遍 indexing，对比之前手动粘贴文件给 LLM 的 token 消耗和回答准确率，评估是否替代现有 context 注入链路。",
+      "meta": {
+        "language": "C",
+        "stars": 12642,
+        "forks": 918,
+        "stars_period": "7,560 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,274 | Forks: 2,402 | 4,259 stars this week",
+      "chinese_summary": "Google 出品的时间序列基础模型。零样本预测，不用训练直接 inference。长 horizon 时序任务对标 Chronos / TimeGPT，优势是 Google Research 背书、Apache 2.0 可商用，缺点是输入长度和频率有限制，季节性强的业务数据（KPI 监控、IoT 传感器）可能不如自家 fine-tune 的 Prophet/LSTM。生产场景：快速搭时序告警基线、冷启动指标预测。上手成本：pip install + 一行 predict()。",
+      "backend_focus": "拉一个月的内部业务时序数据跑 zero-shot baseline，对比当前用的 Prophet / ARIMA 的 MAPE 和推理延迟，重点验证长 horizon（>30 天）预测的稳定性再决定是否接入。",
+      "meta": {
+        "language": "Python",
+        "stars": 25274,
+        "forks": 2402,
+        "stars_period": "4,259 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 38,504 | Forks: 3,052 | 8,108 stars this week",
+      "chinese_summary": "Python 的 AI agent 联网工具集。CLI 形式聚合 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书等平台数据采集，免 API 费。跟 Tavily / SerpAPI 类付费搜索 API 对比，优势是覆盖中文平台和零边际成本，缺点是依赖各平台前端接口（反爬一改就挂）、合规风险高、企业生产别用。适合个人 agent demo 和竞品舆情监控。上手成本：pip install + 配 cookie 即可。",
+      "backend_focus": "不建议直接接生产，只用于个人 agent 玩具场景；如果要做舆情/竞品监控，走官方 API + 自建 ETL。clone 仓库只看它对各平台接口签名的适配代码做参考。",
+      "meta": {
+        "language": "Python",
+        "stars": 38504,
+        "forks": 3052,
+        "stars_period": "8,108 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,612 | Forks: 484 | 1,806 stars this week",
+      "chinese_summary": "Rust 写的模块化网络栈，用内容寻址（content key）替代 IP 地址做 P2P 通信。对标 libp2p，iroh 更聚焦在「拨号 = 拿内容」的简化模型，单二进制部署友好，不强制 Substrate 依赖；缺点是生态比 libp2p 小一截、生产案例少。适合去中心化应用、跨 NAT 直连、边缘节点 mesh 场景。上手成本：cargo add iroh + 看 examples/。",
+      "backend_focus": "跑 cargo run --example echo 看 NAT 穿透成功率，再写个 toy demo 测两个不同网络环境的节点互拨延迟；如果你团队正在做边缘设备直连方案，这是值得 star 跟进的候选底层。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10612,
+        "forks": 484,
+        "stars_period": "1,806 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 53,230 | Forks: 3,410 | 2,983 stars this week",
+      "chinese_summary": "Clojure 写的开源设计协作平台，对标 Figma，核心差异化是 self-host + 真实可导 SVG/CSS 代码。WebAssembly 内核，插件用 ClojureScript 写。对私有部署、代码到设计工作流有刚需的团队是 Figma 唯一替代；对个人设计师 Figma 免费版仍更优。上手成本：docker compose 一键起服务，需要 Postgres。",
+      "backend_focus": "与后端开发关系不大（前端/设计工具）。DevOps 角度值得看的是它自带的 docker-compose.yml 和 Postgres schema，可作为 Clojure 应用自托管的参考模板。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 53230,
+        "forks": 3410,
+        "stars_period": "2,983 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,500 | Forks: 364 | 1,413 stars this week",
+      "chinese_summary": "TypeScript 写的 sandbox agent framework（仓库描述只说「The sandbox agent framework」，无更多技术细节）。名字带 flue 可能是 agent 代码沙箱执行框架。信息量太少，star 涨速也一般，没看到对比和 benchmark。建议先观望。上手成本：未知。",
+      "backend_focus": "信息不足不建议接入。建议先 star 跟进，等作者补 README 和 demo；如果你团队正用 Vercel AI SDK / LangChain 跑 agent，可关注其 sandbox 隔离方案是否值得替换现有 vm2 / docker 执行层。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6500,
+        "forks": 364,
+        "stars_period": "1,413 stars this week"
+      }
+    }
+  ]
+}
