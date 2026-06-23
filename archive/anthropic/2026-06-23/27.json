@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-06-23T10:56:26.629923",
+  "source": {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "label": "Anthropic",
+    "content_source": "Anthropic",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://www.anthropic.com/news",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Statement on the US government directive to suspend access to Fable 5 and Mythos 5",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "published_at": "Jun 12, 2026",
+      "original_summary": "The US government has issued an export control directive to suspend all access to Fable 5 and Mythos 5.",
+      "chinese_summary": "Anthropic 发布官方声明，应美国政府出口管制指令，暂停 Claude Fable 5 与 Claude Mythos 5 的全部访问，包括现有客户与 API 调用方。这是面向 API 消费者的硬性可用性变更，相对此前在 GA 状态直接降级为不可用，且未给出恢复时间线。任何把 model 路由到 claude-fable-5 / claude-mythos-5 的调用会立即失败。",
+      "backend_focus": "紧急行动：立即在代码中移除或替换所有 model=\"claude-fable-5\" / model=\"claude-mythos-5\" 的硬编码，回退到 Claude Opus 4.5 / Sonnet 4.5 系列；检查路由层（如 LiteLLM、内部 model router）中的默认模型映射。在 Anthropic 给出恢复或迁移方案前，所有指向这两个 model ID 的请求都需要兜底重试到其他可用模型。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Opus 4.8 An upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consi",
+      "url": "https://www.anthropic.com/news/claude-opus-4-8",
+      "published_at": "Jun 11, 2026",
+      "original_summary": "Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Expanding Project Glasswing We’re extending Project Glasswing to approx...",
+      "chinese_summary": "Anthropic 发布 Claude Opus 4.8，是 Opus 系列的升级版本，在编码、agent 任务与专业工作负载上表现更强，并带来相关的 API 行为变化（具体 token/上下文参数待官方文档确认）。相对 Claude Opus 4.5 是同一产品线的迭代升级，旧 Opus 4.5 短期不会被立即 deprecate，但中长期需规划迁移。",
+      "backend_focus": "建议在测试环境把 model=\"claude-opus-4-8\" 接入回归用例，对比 Opus 4.5 在 coding 与 tool use 场景的输出质量与 max_tokens 利用率；生产环境暂不切换，等官方公布 Opus 4.8 的 pricing、context window 与 deprecation 时间线后再做灰度迁移。关注 anthropic-sdk-python / TypeScript SDK 是否需要升到支持 4.8 的版本。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Anthropic opens Seoul office and announces new partnerships across the Korean AI ecosystem",
+      "url": "https://www.anthropic.com/news/seoul-office-partnerships-korean-ai-ecosystem",
+      "published_at": "Jun 17, 2026",
+      "original_summary": "Announcements",
+      "chinese_summary": "Anthropic 宣布在首尔开设办公室并与韩国 AI 生态系统的多家新机构达成合作。这是区域扩张与商务合作公告，没有新的 Claude 模型、API 端点或 SDK 版本发布。对在亚太区调用 Claude 的工程团队而言，可能意味着新的区域可用性，但具体 endpoint 域名未公布。",
+      "backend_focus": "关注 api.anthropic.com 是否新增首尔区域的请求路由或更低延迟端点；如果你的服务对韩国用户敏感，可等官方公布 regional endpoint 域名后再做 DNS/连接池配置。短期无 SDK 版本强制升级。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    }
+  ]
+}
