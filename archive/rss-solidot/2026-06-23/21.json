@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-06-23T08:18:39.103795",
+  "source": {
+    "id": "rss-solidot",
+    "name": "Solidot",
+    "url": "https://www.solidot.org/index.rss",
+    "category": "开源科技",
+    "display_priority": "medium",
+    "enabled": true,
+    "max_age_days": 2,
+    "max_items": 10,
+    "kind": "rss",
+    "label": "Solidot",
+    "content_source": "Solidot"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "回顾对 AUR 的攻击",
+      "url": "https://www.solidot.org/story?sid=84647",
+      "published_at": "2026-06-22T14:47:40+00:00",
+      "original_summary": "由用户递交的软件仓库 Arch User Repository(AUR)最近遭遇了大规模恶意攻击，攻击者创建了一系列新账号，然后通过这些账号接管无人维护的软件包（被称为 orphaned packages），植入恶意代码，推送恶意更新。Arch 项目的维护者现已关闭了新用户注册，正在讨论如何处理这些被恶意滥用的无人维护软件包。AUR 中的软件包由用户递交，其他用户可通过搜索下载 PKGBUILD 文件、解依、编译、安装和更新软件。它不提供软件的二进制版本。目前 AUR 中有逾 107,000 个软件包，其中近 14,000 个无人维护可供认领。任何注册用户都可以认领和修改无人维护的软件包。它提供的软件包未经审核，风险由用户自己承担。其它 Linux 发行版也都有类似的软件仓库，如 Fedora 的 Copr，openSUSE 的 Open Build Service (OBS)，Ubuntu 的 Personal Package Archives (PPA)。但这些服务与 AUR 有显著区别：它们提供了类似官方软件包的构建环境，而且不允许预编译二进制文件或私有软件。AUR 的要求过于宽",
+      "chinese_summary": "Arch User Repository(AUR)遭遇大规模供应链攻击，攻击者接管无人维护软件包(orphaned packages)并植入恶意代码。Arch 已关闭新用户注册，正讨论处理方案。这是一起已发生的安全事件，不涉及 API 升级。",
+      "backend_focus": "如果团队 CI/CD 或开发机使用了 AUR 安装的依赖（如 yay -S），立即审计近 90 天 orphan package 的更新记录；对生产构建镜像优先从 Arch 官方仓库或固定 commit hash 拉取，禁用 AUR 自动更新。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84647"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Anthropic 对特定功能访问要求身份验证",
+      "url": "https://www.solidot.org/story?sid=84645",
+      "published_at": "2026-06-22T11:02:33+00:00",
+      "original_summary": "Anthropic 更新了其隐私政策，从 2026 年 7 月 8 日起，部分功能将需要身份验证，该验证将由 Persona 公司负责。Persona 是一家第三方身份验证公司，由 Peter Thiel 投资。此前 Discord 因用户强烈反对以及 2026 年 2 月发生的一起数据泄露事件而终止了在年龄验证上与 Persona 的合作。\n<p></p>",
+      "chinese_summary": "Anthropic 更新隐私政策，自 2026 年 7 月 8 日起部分功能需要通过第三方 Persona 进行身份验证。这是合规层面的访问限制变化，接口字段本身不变。",
+      "backend_focus": "排查产品中调用 Anthropic API 的入口是否在 7 月 8 日后会触发身份验证（如 Web 端使用 claude.ai 能力）；服务端 API key 调用通常不受影响，但前端嵌入 Claude 能力的页面需提前准备身份验证流程的降级方案。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84645"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Linux 7.2 内核完全移除 strncpy 函数",
+      "url": "https://www.solidot.org/story?sid=84644",
+      "published_at": "2026-06-22T10:55:05+00:00",
+      "original_summary": "在 6 年 362 个补丁之后，Linux 7.2 内核终于完全移除了 strncpy() 函数。strncpy() 是一个 C 语言字符串复制函数，内核文档将其标记为“极度危险（actively dangerous）”。strncpy()是一类内存错误的主要来源：包含敏感数据的内核缓冲区可能会在未终止字符串边界外泄漏字节，导致内存信息泄露。strncpy()被 5 个不同函数取代：strscpy() 用于 NUL 结尾的目的地址，strscpy_pad() 用于 NUL 结尾零填充的目标地址， strtomem_pad() 用于非 NUL 结尾固定宽度字段，memcpy_and_pad() 用于显式填充的有边界复制，memcpy()用于已知长度的内存复制。\n<p></p>",
+      "chinese_summary": "Linux 7.2 内核在经过 6 年、362 个补丁后完全移除 strncpy()，因其存在缓冲区未终止导致内存信息泄露的风险，由 strscpy、strscpy_pad、strtomem_pad、memcpy_and_pad、memcpy 五个函数按场景替代。这是底层 API 重大破坏性变更。",
+      "backend_focus": "维护 Linux 内核驱动或内核模块的团队：升级前 grep 出所有 strncpy 用例并按目标类型迁移到上述 5 个替代函数之一；用户态代码不受影响，但若你的产品依赖特定内核版本提供的行为需要回归测试。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84644"
+      }
+    }
+  ]
+}
