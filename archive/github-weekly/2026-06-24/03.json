@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-24T00:44:11.667554",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 12,565 | Forks: 914 | 7,560 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP 服务，单静态二进制、零依赖，毫秒级索引整个 repo、亚毫秒查询，号称 99% 减少 token。比起 Grep/ripgrep 这类纯文本搜索，它构建的是带语义边关系的图，Cline/Cursor 接 MCP 后能直接问「订单模块被谁调用」；劣势是单进程嵌入式，不适合超过千万节点的超大 monorepo，远端协同还得自建 sync。上手成本：下一个二进制、配一条 MCP server 入口就能跑。",
+      "backend_focus": "在 IDE 里配 Claude/Cursor 的 MCP server 指向这个二进制，跑一遍 git clone 自己的主仓库做索引基准，对比 ripgrep + tree-sitter 的 grep 链路看 RAG 上下文命中率能提升多少，再决定是否纳入 CI 知识库构建环节。",
+      "meta": {
+        "language": "C",
+        "stars": 12565,
+        "forks": 914,
+        "stars_period": "7,560 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,264 | Forks: 2,402 | 4,259 stars this week",
+      "chinese_summary": "Google Research 的时序基础模型，预训练后做 zero-shot 预测，原生支持概率分位数输出。比 Prophet/sktime 这类传统统计模型省特征工程、季节性/趋势自动捕捉；跟 Lag-Llama、Chronos 比有 Google 出品的可复现 checkpoint；劣势是长 horizon 漂移明显、需要 GPU 推理（CPU 上百万点会很慢），高频实时监控还是上 InfluxDB + 自定义模型。上手成本：pip install 后一行 load_from_hub 就能预测。",
+      "backend_focus": "克隆仓库跑 notebooks/usage.ipynb，用团队过去 6 个月业务指标序列做 zero-shot 预测 7/30 天 horizon，评估 MASE vs 当前 Prophet 模型，再决定是替换现有 Prophet 还是只用于冷启动新指标的 baseline。",
+      "meta": {
+        "language": "Python",
+        "stars": 25264,
+        "forks": 2402,
+        "stars_period": "4,259 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 38,470 | Forks: 3,050 | 8,108 stars this week",
+      "chinese_summary": "Python CLI 把 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书 的读和搜索统一封装，免 API key。跟官方 API 比省配额审批和计费，但本质是爬虫封装，反爬升级时就会挂；跟 Bright Data 这类商业数据接口比省钱但 SLA 没保障。不适合生产合规抓取，适合做内部 research agent 的数据源插件。pip install 即用，无外部服务依赖。",
+      "backend_focus": "在隔离的沙箱 venv 里 pip install agent-reach，挑 2-3 个目标平台跑 search 命令对比官方 API 的字段缺失情况，评估 ToS 风险后再决定接入到内部 research agent 还是仅限个人调试使用。",
+      "meta": {
+        "language": "Python",
+        "stars": 38470,
+        "forks": 3050,
+        "stars_period": "8,108 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,607 | Forks: 483 | 1,806 stars this week",
+      "chinese_summary": "Rust 写的模块化网络栈，用对等 key 寻址替代 IP，节点迁移/NAT 穿透不需要重新配置。跟 libp2p 比 API 更现代、async/await 一等公民；跟 tailscale/zerotier 比去中心化、无控制平面，单二进制 embed 友好。劣势是生态比 libp2p 薄、QUIC transport 还在演进，生产 P2P overlay 自建仍要写不少 glue code。上手成本：cargo add iroh，单文件 demo 跑通 relay 即可。",
+      "backend_focus": "在 staging 跑 cargo run --example relay，把现有 TCP 服务用 iroh endpoint 暴露给跨 NAT 的客户端，测一下 reconnect 时间和移动网络切换表现，评估是否替代自建 WebRTC 信令层。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10607,
+        "forks": 483,
+        "stars_period": "1,806 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 53,215 | Forks: 3,409 | 2,983 stars this week",
+      "chinese_summary": "Clojure 写的开源设计协作平台，Figma 开源替代，支持 SVG 原生、设计 token 同步到代码、设计/开发同源 spec。跟 Figma 比无云端锁定、可自托管、导出无水印 CSS；但插件生态比 Figma 弱一个数量级，sketch/Figma 导入偶有路径丢失。不适合对设计交付节奏要求极快的团队。Docker compose 自托管，依赖 Postgres。",
+      "backend_focus": "在内部 staging docker compose up penpot，把现有 Figma 文件导出 SVG 后导入对比保真度，评估是否把设计协作迁移过来 —— 重点关注 design tokens 导出是否能直接接到团队的 Tailwind/前端组件库。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 53215,
+        "forks": 3409,
+        "stars_period": "2,983 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,492 | Forks: 364 | 1,413 stars this week",
+      "chinese_summary": "Astro 团队出的沙箱 agent 框架，TypeScript 写，给 coding agent 提供隔离执行环境。跟 E2B/Modal 的远程 sandbox 比它是进程级 sandbox（landlock/seccomp/bubblewrap），延迟低、无网络往返；跟 Docker-in-Docker 比启动快 10x 但隔离强度弱一档，恶意 payload 不建议跑。适合在 CI 或本地给 agent 跑 untrusted code。npm i 直接接。",
+      "backend_focus": "在 staging 跑 pnpm add @withastro/flue，把现有 Claude Code 工具调用里的 bash 执行层切到 flue sandbox，跑一组恶意测试 payload 验证 escape 风险，再决定是否上生产 agent 执行链路。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6492,
+        "forks": 364,
+        "stars_period": "1,413 stars this week"
+      }
+    }
+  ]
+}
