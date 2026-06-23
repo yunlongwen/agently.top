@@ -16,7 +16,7 @@
   "evolution": [
     {
       "date": "2026-06-23",
-      "summary": "Linux 7.2 内核在历经 6 年 362 个补丁后完全移除 strncpy() 函数，原因为其会导致未终止字符串越界泄漏敏感数据，由 strscpy/strscpy_pad/strtomem_pad/memcpy_and_pad/memcpy 五个替代函数取代。这是内核层面的硬性 API 移除，对直接参与内核或驱动开发的工程师有强制迁移要求。",
+      "summary": "Linux 7.2 内核在 6 年 362 个补丁后彻底移除 strncpy() 函数，原因是该函数未对 NUL 终止做保证，会导致敏感缓冲区越界泄露。内核代码中 strncpy 已被拆分为 strscpy、strscpy_pad、strtomem_pad、memcpy_and_pad 与 memcpy 五个明确语义的替代函数。这是面向内核开发者的硬性 API 变更，下游驱动/模块需迁移。",
       "urls": [
         "https://www.solidot.org/story?sid=84644"
       ]
