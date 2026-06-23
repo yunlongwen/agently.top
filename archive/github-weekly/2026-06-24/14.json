@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-24T06:10:20.931366",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 12,782 | Forks: 927 | 7,560 stars this week",
+      "chinese_summary": "代码智能 MCP 服务器，单二进制 C 实现。158 种语言毫秒级索引、亚毫秒查询，token 消耗比传统 RAG 少 99%。跟 tree-sitter+向量库拼接方案比，省了 embedding 步骤和外部依赖；跟 Aider/Continue 这类纯编辑器外挂比，索引常驻可跨 IDE/CLI 复用。适合想给 Cursor/Cline 加项目级记忆、又不想自建知识图谱后端的团队。索引 10GB 代码库大约占 X MB 内存（需自测）。上手：下载二进制，配置一行 MCP endpoint。",
+      "backend_focus": "在 dev 环境跑 ./codebase-memory-mcp serve --port 7451，用公司核心服务的 monorepo 做压测：对比当前用的 RAG（OpenAI embedding + pgvector）在 query 延迟、token 消耗、答案准确度三项上的差异，决定是否切到 MCP 模式给团队 IDE 统一配。",
+      "meta": {
+        "language": "C",
+        "stars": 12782,
+        "forks": 927,
+        "stars_period": "7,560 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,297 | Forks: 2,406 | 4,259 stars this week",
+      "chinese_summary": "Google 出品的时间序列基础模型，零样本预测，可直接跳过 ARIMA/Prophet 调参流程。跟 Chronos/TimeGPT 比，背靠 Google Research 论文背书，长序列外推更稳；跟 NeuralForecast/DeepAR 比，不用自己训不用写 dataloader，冷启动场景直接用。金融、运维指标、业务指标都能上，缺点是黑盒不可微调，精度要求极致得在自家数据上 fine-tune 一版。上手：pip install timesfm，10 行代码跑 inference。",
+      "backend_focus": "拉最近 90 天的接口 QPS 日志跑 timesfm.forecast()，对比现有 Prophet/AutoARIMA 的 MAPE 和推理耗时；偏差 >15% 就 fine-tune 一版再上 A/B，<15% 直接接 cron 替换日报预测脚本。",
+      "meta": {
+        "language": "Python",
+        "stars": 25297,
+        "forks": 2406,
+        "stars_period": "4,259 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 38,575 | Forks: 3,058 | 8,108 stars this week",
+      "chinese_summary": "给 AI agent 装联网眼睛的 Python CLI，Twitter/Reddit/YouTube/GitHub/B 站/小红书全包，零 API 费。跟 Tavily/SerpAPI 比，胜在免费且覆盖中文社区；跟自建 scraper 比，省了维护反爬、cookie 池的功夫。风控和登录态拿不到的内容会失效，大规模抓取要小心平台限流。上手：pip install 配 .env 加一个 cookie 文件就能跑。",
+      "backend_focus": "在 sandbox 里 pip install agent-reach，配好 Twitter/GitHub cookie 后跑 agent-reach watch 配置你关注的产品关键词列表，验证告警延迟；下一步接入团队内部 alert webhook 替换掉现在付费的舆情监控 API。",
+      "meta": {
+        "language": "Python",
+        "stars": 38575,
+        "forks": 3058,
+        "stars_period": "8,108 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,623 | Forks: 484 | 1,806 stars this week",
+      "chinese_summary": "Rust 写的点对点网络栈，用 content address 替代 IP。跟 libp2p 比 API 友好、单二进制好分发；跟 tailscale/zerotier 比，走去中心化路由更适合设备经常换网的环境，IoT 边缘节点友好。生产里需要 NAT 穿透稳定就别选这个（成功率受网络类型影响），传统 K8s service mesh 场景 libp2p 生态更成熟。上手：cargo add iroh，写 50 行就能建 P2P 通道。",
+      "backend_focus": "在两台跨 NAT 的家用宽带机器上跑 iroh/examples/echo，验证打洞成功率；超过 80% 再考虑接入你们 IoT 设备 OTA 升级链路，失败率高就回退到 wireguard + 自建中转。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10623,
+        "forks": 484,
+        "stars_period": "1,806 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 53,256 | Forks: 3,412 | 2,983 stars this week",
+      "chinese_summary": "Clojure 写的开源设计+代码协作平台，自托管 Figma 替代。跟 Figma 比胜在数据自有、SVG 导出干净、能跟代码仓库双向同步；缺点是组件变体、原型交互这些高级能力还有差距，团队惯性大。适合对设计资产有合规/本地化要求的金融、政企团队，初创直接用 Figma 别折腾。上手：docker run 起一个实例，浏览器直接用。",
+      "backend_focus": "docker run -d -p 9001:9001 penpot/penpot 起一个 staging 实例，把 Figma 里一个核心组件库导成 SVG 导入 Penpot，对比变体管理、design token 同步能力；符合要求再评估迁移成本。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 53256,
+        "forks": 3412,
+        "stars_period": "2,983 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,522 | Forks: 366 | 1,413 stars this week",
+      "chinese_summary": "Astro 团队出的沙箱 agent 框架，TypeScript 写。跟 LangChain/LlamaIndex 比定位更偏执行沙箱，agent 跑在受限环境里操作文件系统/网络；跟 E2B/Firecracker 这类纯沙箱比，封了 agent loop 和工具协议，上手快。适合给 AI agent 配安全执行环境（CI 修复、代码评审、自动化运维），不适合跑长任务训练或大模型推理（沙箱开销大）。上手：npm i @withastro/flue，几行配 sandbox policy 就能用。",
+      "backend_focus": "npm install @withastro/flue，按文档起一个沙箱 agent 跑你仓库的 npm test：对比直接在本机跑和沙箱里跑的安全边界差异；下一步把 CI 里危险的 PR 权限收敛到 flue 沙箱代理执行。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6522,
+        "forks": 366,
+        "stars_period": "1,413 stars this week"
+      }
+    }
+  ]
+}
