@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-06-24T08:05:07.257654",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 7,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 12,850 | Forks: 933 | 7,560 stars this week",
+      "chinese_summary": "代码知识图谱 MCP server，单二进制秒级建索引。把仓库解析成持久化知识图，查询走 sub-ms 路径，相比传统 LSP tree-sitter 索引方案（如 Sourcegraph 内部那套），它不挑语言——158 种全覆盖，token 消耗砍掉 99% 这点对喂给 Claude/Cursor 的场景很关键。痛点是「AI 改大仓库时 context 爆掉」，它直接在 MCP 层把检索粒度压到符号级。缺点：12k star 才 7.5k this week 增长偏慢，说明还在早期，C 写的扩展性需要观察。单二进制零依赖这一点比 SCIP/lsif 工具链友好太多，不需要 Neo4j 后端。",
+      "backend_focus": "下周跑通：拉二进制启动后接进 Claude Desktop/Cursor 的 MCP config，挑本团队最大的 monorepo（建议 >100 万行）测一次 cold start 建索引耗时，对比现有 ripgrep+grep 方案在「跨服务调用链查询」这个场景下的准确率和 token 消耗，写一页评估文档决定是否纳入 CI 索引流水线。",
+      "meta": {
+        "language": "C",
+        "stars": 12850,
+        "forks": 933,
+        "stars_period": "7,560 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 15,549 | Forks: 1,848 | 6,089 stars this week",
+      "chinese_summary": "把 AI 编程助手升级成视频制作工作室，12 条管线 52 个工具 500+ agent skill 全 Python。跟 FFmpeg 命令行拼接、ComfyUI 节点拖拽这些主流方案比，它的差异化在「agentic」——不是 GUI 编排而是 LLM 直接调工具链完成任务，适合批量化短视频场景。注意：描述里没提支持哪些 LLM、也没给生成时延数据，15k star 6k this week 增长很猛但需要警惕 demo 视频美化的可能。纯视频后期团队可以试，已有 DaVinci/Premiere 工作流的不必迁。",
+      "backend_focus": "下一步动作：clone 仓库后按 README 配 LLM API key，跑一遍「输入一段产品文案，自动生成 60s 竖屏解说视频」的端到端 pipeline，统计单条视频生成耗时和 API 成本，对比你团队现有人工剪辑+CapCut 流水线的人天成本，决定是否在小红书/TikTok 矩阵号场景引入。",
+      "meta": {
+        "language": "Python",
+        "stars": 15549,
+        "forks": 1848,
+        "stars_period": "6,089 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,307 | Forks: 2,407 | 4,259 stars this week",
+      "chinese_summary": "Google Research 的时间序列基础模型，纯 Python 预训练权重直接用。跟传统 statsforecast/Prophet/informer 这些专用时序模型比，它走的是 foundation model 路线——零样本 forecasting，不用每个指标单独调参，跨 domain 通用。25k star 4.2k this week 增长稳健说明工业界认可度在起来。痛点是「指标多了之后每条都训练一个模型成本炸」，它一次预训练到处跑。缺点：长 horizon 精度对极端事件仍弱于专门 fine-tune 的 DeepAR/Nixtla 模型，超 1000 步预测建议还是上专用方案。上手：pip install 即可，没分布式依赖。",
+      "backend_focus": "跑 baseline：pip install timesfm 后用本团队 Prometheus 导出的 1-2 个核心业务指标（建议选 DAU 和支付成功率）做 7/30 天 zero-shot 预测，对比当前在用的 Prophet 或 ARIMA 的 MAPE 和 SMAPE，如果 zero-shot 误差在可接受范围内（比如 <15%），就把其余 50+ 业务指标也迁过来省掉训练开销。",
+      "meta": {
+        "language": "Python",
+        "stars": 25307,
+        "forks": 2407,
+        "stars_period": "4,259 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 38,611 | Forks: 3,060 | 8,108 stars this week",
+      "chinese_summary": "给 AI agent 装一套免费社媒数据抓取 CLI，覆盖 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书。跟官方 API 比（如 Twitter API Basic 100$/月），它走网页抓取零费用；跟 Apify/Bright Data 这些商业 scraping 平台比，本地 CLI 无平台抽成。38k star 8.1k this week 增长极猛说明开发者对「绕过 API 收费」需求强烈。注意：所有社媒平台 ToS 都禁止未授权抓取，生产环境直接用有账号封禁风险，更适合做内部研究、舆情分析原型。零 API 费这话听着美好但有合规代价。",
+      "backend_focus": "合规评估先行：先让法务过一遍各平台 ToS 确认「仅用于内部市场调研、不存储用户 PII」是否可接受，然后跑 agent-reach search --platform xhs --keyword <你业务词> 抓一批样本数据，对比官方 API 拉取的数据完整度和延迟，确认数据质量后再决定是否纳入竞品监控流水线，不要直接上生产。",
+      "meta": {
+        "language": "Python",
+        "stars": 38611,
+        "forks": 3060,
+        "stars_period": "8,108 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,626 | Forks: 484 | 1,806 stars this week",
+      "chinese_summary": "Rust 写的模块化网络栈，用 content-addressable 拨号 key 替代 IP 地址定位 peer。对比主流 libp2p（IPFS/Substrate/Ethereum 2.0 用的）和 tailscale/zerotier 这些基于 DERP 中继的方案，iroh 的差异化在「完全去 IP 化」——节点迁移、NAT 穿透、IP 变更都对上层透明，连接保持不中断。10k star 1.8k this week 增长平稳属于基础设施项目正常节奏。痛点是「P2P/边缘节点动态网络下连接经常断」，它用 iroh-relay 做兜底 NAT traversal。缺点：生态比 libp2p 薄很多，需要自己造轮子的地方多，生产建议小范围试点不要直接替换 WireGuard。",
+      "backend_focus": "POC 阶段：cargo new 一个 demo，用 iroh::Endpoint::builder() 启一个 endpoint，在两台不同 NAT 后的机器上跑通双向 gRPC over iroh 通道，测试一方断网 10 分钟后恢复是否自动重连，评估替代现有 Tailscale mesh 在边缘设备场景下的可行性和延迟开销，写一页 go/no-go 报告。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10626,
+        "forks": 484,
+        "stars_period": "1,806 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 53,275 | Forks: 3,412 | 2,983 stars this week",
+      "chinese_summary": "开源设计协作平台，Clojure 后端 + JS 前端，自托管友好。跟 Figma 比，它的差异化在「真开源 + 自部署 + SVG 原生」，设计文件直接是可读 XML/JSON 不是私有格式，CI 里跑设计校验、版本控制、code review 流程能直接套上。53k star 3k this week 增长稳健证明社区成熟。痛点是「Figma 数据锁死在云端 + 企业版贵」，penpot 用 Postgres 单库就能跑。缺点：插件生态比 Figma 薄至少 3 倍，组件库和自动布局能力还有差距，纯设计团队迁过去会有阵痛。后端 Rust 性能不错但需要 JVM 部署是另一个门槛。",
+      "backend_focus": "POC 准备：docker compose up 起一套 penpot，把当前 Figma 项目导出 SVG 后导入验证保真度，重点测「设计 token → CSS 变量」自动同步链路是否满足前端团队 handoff 流程；如果团队 <20 人可以小范围试，超过这个规模先评估插件生态缺口再决定是否全员迁移。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 53275,
+        "forks": 3412,
+        "stars_period": "2,983 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,530 | Forks: 366 | 1,413 stars this week",
+      "chinese_summary": "Astro 团队出的 sandbox agent 框架，TypeScript 写，6.5k star 1.4k this week 还在早期。跟 LangChain/AutoGen/CrewAI 这些 agent 框架比，它的定位差异在「sandbox」——执行环境隔离是核心卖点，不是 prompt 编排也不是 multi-agent 协作。但描述里没提沙箱用 gVisor/Firecracker 还是 Docker，也没提支持哪些 LLM 和 tool calling 协议，跟 e2b/Modal/CodeSandbox SDK 这些成熟沙箱服务比功能边界还不清晰。痛点是「让 agent 安全跑不可信代码」这个真实需求，但目前信息不足以判断成熟度。",
+      "backend_focus": "等官方文档补全再动手：现在 clone 下来跑 example 看 sandbox 隔离到底用的是什么底层技术（Docker/gVisor/WASM），对比 e2b 和 modal 的 SDK 体验差异；如果你团队已经在用 LangGraph 或 Vercel AI SDK 做 agent，建议先观望 1-2 个 minor 版本，等 API 稳定再考虑接入，不要现在就把生产 agent 跑在 6k star 的早期框架上。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6530,
+        "forks": 366,
+        "stars_period": "1,413 stars this week"
+      }
+    }
+  ]
+}
