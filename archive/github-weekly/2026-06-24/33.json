@@ -1,0 +1,100 @@
+{
+  "generated_at": "2026-06-24T13:06:54.109479",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 5,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 13,265 | Forks: 969 | 8,536 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP 服务，单静态二进制 0 依赖。158 种语言毫秒级建图、亚毫秒查询、token 用量砍 99%。比 Sourcegraph / cursor codebase indexing 轻一个数量级，适合本地 dev/cursor 接入；缺点是团队级增量更新未提，多人协作需自己包一层。上手成本：下载二进制丢进 PATH，claude/cursor 配 5 行 MCP 即可。",
+      "backend_focus": "在 CI 跑一次：cargo 装好后对你们最大的一个 monorepo 跑索引，测查询 P99 延迟和 token 消耗；再写个脚本把现有 cursor codebase indexing 切到它，对比 IDE 内补全响应时间。",
+      "meta": {
+        "language": "C",
+        "stars": 13265,
+        "forks": 969,
+        "stars_period": "8,536 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,337 | Forks: 2,412 | 4,376 stars this week",
+      "chinese_summary": "Google Research 的时序基础模型，零样本 forecasting，不用训模型直接喂数据出预测。比 Chronos / TimeGPT-1 强在 Google 自研 decoder-only 架构 + 2 亿参数规模；零售销量、服务器 QPS、监控指标都能直接用。缺点是输入长度限 2k，长序列要自己切窗。上手成本：pip install 一行，colab 就能跑，生产建议 GPU 推理。",
+      "backend_focus": "用 M5 数据集跑一次零样本 baseline，对比你们当前 Prophet / LSTM pipeline 的 sMAPE；再把推理打包成 FastAPI endpoint 接到现有 Prometheus 告警链路试一周。",
+      "meta": {
+        "language": "Python",
+        "stars": 25337,
+        "forks": 2412,
+        "stars_period": "4,376 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 38,783 | Forks: 3,071 | 6,915 stars this week",
+      "chinese_summary": "Python 写的 agent 联网 CLI，统一封装 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书搜索和抓取，零 API key。跟自建 scraper 比省去反爬对抗，跟 Tavily / Exa 这类付费搜索比省钱但实时性差几秒。适合做舆情/竞品监控的 agent 后端；大规模抓取会被平台限流，重度使用还是买官方 API。上手成本：pip install，env 里配 cookie 即可，5 分钟能跑。",
+      "backend_focus": "把 agent-reach 接进你们内部 research agent，用它替换现有的 Tavily 调用，监控一周小红书 + Twitter 抓取成功率与延迟差异。",
+      "meta": {
+        "language": "Python",
+        "stars": 38783,
+        "forks": 3071,
+        "stars_period": "6,915 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,640 | Forks: 484 | 1,531 stars this week",
+      "chinese_summary": "Rust 写的模块化点对点网络栈，用内容寻址拨号替代 IP。比 libp2p 简单一截，API 更薄、错误处理更 Rust idiomatic；比 tailscale/headscale 这种 VPN 方案强在底层可嵌入自定义协议。适合 P2P 文件同步、agent 间直连、边缘节点通信；不适合需要中心化管控的企业内网。上手成本：cargo add iroh，单 binary 几 MB，doc 完整。",
+      "backend_focus": "在内部跑一个 demo：两个 NAT 后的节点用 iroh 拨号传 1GB 文件，测握手时延和吞吐；如果你们 agent mesh 有 P2P 需求，fork irequest 协议做 PoC。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10640,
+        "forks": 484,
+        "stars_period": "1,531 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,549 | Forks: 367 | 1,489 stars this week",
+      "chinese_summary": "TypeScript 写的沙箱 agent 框架（Astro 团队出品），定位类似 e2b / daytona 但更轻量。强调 sandbox 隔离和可嵌入 workflow；跟 docker-in-docker 沙箱比省去镜像管理，比 E2B 商业方案省钱但缺托管。适合 CI 里跑不可信代码、agent 工具调用隔离。上手成本：npm install，按文档写几行 spawn sandbox 即可。",
+      "backend_focus": "在 CI 跑通：npm i @withastro/flue 后写个 demo 沙箱执行 untrusted user code，测启动延迟和 CPU/Memory 开销；对比你们现在 docker exec 方案，决定是否替换 CI 隔离层。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6549,
+        "forks": 367,
+        "stars_period": "1,489 stars this week"
+      }
+    }
+  ]
+}
