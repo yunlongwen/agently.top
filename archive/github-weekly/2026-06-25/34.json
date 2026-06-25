@@ -1,0 +1,180 @@
+{
+  "generated_at": "2026-06-25T14:15:49.304553",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 10,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 20,210 | Forks: 2,280 | 12,948 stars this week",
+      "chinese_summary": "AI 视频生产编排框架，把 12 条流水线、52 个工具、500+ agent skills 打包给 AI 编程助手用。跟传统剪辑脚本（比如 ffmpeg pipeline）比，差别在「agent 编排」层——LLM 自己挑镜头、拼节奏，不是写死的时间线；适合做短视频批量生成、广告 A/B 出片、播客可视化。短板是底层还是依赖外部模型 API，生成一段 60s 1080p 视频 token/算力成本不低，且 Python 单体跑长任务容易 OOM，建议加 queue 分片。上手成本：pip 装好、喂一段 prompt，10 分钟出 demo，但接生产链路要自己接存储和渲染队列。",
+      "backend_focus": "先 clone 仓库跑 demo pipeline，把输出视频拉到本地比对 ffmpeg + SD 脚本的画质/成本；下一步用 Celery + Redis 把 12 条 pipeline 拆成异步任务，加 GPU 配额限流。",
+      "meta": {
+        "language": "Python",
+        "stars": 20210,
+        "forks": 2280,
+        "stars_period": "12,948 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 14,297 | Forks: 1,053 | 9,589 stars this week",
+      "chinese_summary": "代码知识图谱 MCP server，单静态二进制零依赖，158 种语言、亚毫秒查询、token 消耗砍 99%。跟传统 LSP（gopls/tsserver）比，它返回的是「跨文件语义图」而不是单文件 symbol，AI agent 改代码时一次 RAG 拿到调用链；跟别的 MCP（比如 code-context-mcp）比，启动后建图毫秒级，不预热不限速。短板是 C 写的，定制 parser 规则要改源码，团队想加私域 DSL 支持门槛高。上手成本：二进制下载即跑，挂到 Claude/Cursor MCP config 就行。",
+      "backend_focus": "下一个迭代：下载二进制跑在本地，把它接进团队用的 Cursor/Claude Code MCP config，对比之前用的 Grep/Ripgrep+embeddings 方案，看跨文件重构任务完成率提升多少，再决定是否 CI 里强制接入。",
+      "meta": {
+        "language": "C",
+        "stars": 14297,
+        "forks": 1053,
+        "stars_period": "9,589 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,488 | Forks: 2,424 | 3,915 stars this week",
+      "chinese_summary": "Google 出的时序基础模型，零样本预测，不用训模型直接用。跟统计方法（Prophet/ARIMA）比，免特征工程且能 handle 100k+ 长序列；跟深度方案（DeepAR/TFT）比不用 fine-tune 就能用，推理 CPU 也能跑。短板是单变量为主，多协变量场景要自己拼，对突发异常（黑天鹅）鲁棒性一般，金融/IoT 关键指标建议叠加自家异常检测。上手成本：pip 装好两行 predict，但生产用要自己写 retrain 策略和 drift 监控。",
+      "backend_focus": "立刻从内部 BI 拉一组指标数据（DAU/订单量/接口 QPS），跑 timesfm.predict 对比现有 Prophet/LSTM，统计 MAPE 和推理耗时；下一步把 timesfm 推理包成 FastAPI 服务挂到监控面板做基线对比。",
+      "meta": {
+        "language": "Python",
+        "stars": 25488,
+        "forks": 2424,
+        "stars_period": "3,915 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,713 | Forks: 489 | 1,196 stars this week",
+      "chinese_summary": "Rust 写的模块化网络栈，用「dial by key」代替 IP，点对点穿透不依赖公网 IP。跟 libp2p 比，API 更薄、二进制更小、Rust 异步原生支持，适合不想引入 go-libp2p/复杂 gossip 协议的 P2P 场景；跟传统 NAT 穿透（coturn/frp）比，节点之间用内容寻址，不需要中转服务器。短板是生态比 libp2p 小，pub/sub/discovery 这些高层模块得自己拼，企业级 mesh 路由不成熟。上手成本：cargo add iroh，写 50 行就能跑通节点拨号 demo。",
+      "backend_focus": "下一个 PoC：在两台不同 NAT 环境的机器跑 iroh relay demo，验证打洞延迟和带宽；评估能不能替换现有 frp/coturn 中转方案，把配置文档和性能数据贴到团队 wiki 评审。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10713,
+        "forks": 489,
+        "stars_period": "1,196 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "koala73/worldmonitor",
+      "url": "https://github.com/koala73/worldmonitor",
+      "published_at": "",
+      "original_summary": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface | 语言: TypeScript | Stars: 59,639 | Forks: 9,326 | 2,899 stars this week",
+      "chinese_summary": "实时全球情报仪表盘，AI 聚合新闻 + 地缘事件 + 基础设施监控。跟前身 GDELT/RSS 聚合器比，多了 LLM 摘要和事件去重；跟商业方案（Dataminr/Recorded Future）比免费但数据源透明度高，适合做公开信息 dashboard 或内部风控辅助。短板是数据源都是公开的，暗网/付费情报没有；前端是 TypeScript 重客户端，后端聚合靠定时抓取，实时性跟推特 API 限流挂钩。上手成本：clone 之后 docker-compose up，需要配各家 API key。",
+      "backend_focus": "把数据源列表对照团队现有舆情/竞品监控清单查漏，重点评估 RSS/Reddit/Twitter 抓取接口被限流后的 fallback；下一步搭一套抓取代理池避免 IP 被 ban。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 59639,
+        "forks": 9326,
+        "stars_period": "2,899 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 45,834 | Forks: 7,522 | 2,662 stars this week",
+      "chinese_summary": "收集各家大模型系统提示词的仓库，覆盖 Claude/GPT/Gemini/Grok/Cursor/VS Code 等几十个产品。本质是「逆向出来的 prompt 工程参考集」，不是生产工具——跟直接看官方文档比，能看到产品实际约束和风格控制细节，对做 prompt engineering 和安全审计有用。短板是法律/合规风险：商用模型行为复制可能踩 ToS，且 prompt 经常变旧了。上手成本：clone 下来当参考书用即可，无需部署。",
+      "backend_focus": "对照自家 prompt 模板和这份列表做差异评审，找出 system prompt 缺失的约束（安全/拒答/格式）；下一迭代把这些 best practice 同步到团队 prompt 仓库并配 lint 检查。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 45834,
+        "forks": 7522,
+        "stars_period": "2,662 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 40,143 | Forks: 3,181 | 6,752 stars this week",
+      "chinese_summary": "给 AI agent 的互联网读取 CLI，免 API 费抓 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书。跟官方 API 比，省钱且绕过限流（用 cookie + 公开页面）；跟传统 scraper（scrapy/playwright）比，开箱即用且带 LLM 友好的清洗输出。短板是依赖前端页面结构，反爬一升级就挂，ToS 风险自担；高频采集要自己加代理池。上手成本：pip install 一行命令就能跑，单接口 demo 5 分钟。",
+      "backend_focus": "评估团队舆情/竞品监控 pipeline，把现有付费 API（Twitter/X、YouTube Data API）替换为 agent-reach 做对照测试；下一步写一份 scraper fallback 策略和限速监控，部署到内部 cronjob。",
+      "meta": {
+        "language": "Python",
+        "stars": 40143,
+        "forks": 3181,
+        "stars_period": "6,752 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 53,549 | Forks: 3,446 | 3,593 stars this week",
+      "chinese_summary": "开源设计协作平台，Figma 的自托管替代。跟 Figma 比，核心优势是代码可改、Self-host、文件格式开放（SVG 原生），DevOps 团队能把它嵌进私有网络；跟 Sketch/Lunacy 比，浏览器原生、多人实时协作免费。短板是插件生态远不如 Figma，复杂原型交互能力弱，前端设计转代码的同步精度还不够。上手成本：docker-compose 起一套，团队域名绑定后直接用。",
+      "backend_focus": "评估迁移路径：拉一份 Figma 设计稿导成 SVG/Penpot 文件做对照，跑视觉 diff；下一步用 docker-compose 在 staging 部署一份，跑 2 周验证团队协作流畅度。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 53549,
+        "forks": 3446,
+        "stars_period": "3,593 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,637 | Forks: 371 | 1,415 stars this week",
+      "chinese_summary": "Astro 出的沙箱 agent 框架，把 AI agent 锁在受限环境里执行不可信代码。跟传统 docker exec 比，节点级 sandbox（gVisor/firecracker）开销更低，适合 agent 频繁跑 snippet 的场景；跟 E2B/Modal 沙箱比，TypeScript 原生、能直接嵌进 Next.js/Astro 应用。短板是生产级多租户隔离方案还在演进，CPU/内存配额要自己写 cgroup 规则。上手成本：npm install 一行接入，agent 工具调用改一行 wrapper。",
+      "backend_focus": "立刻把内部 agent 里的「用户输入跑代码」分支接入 flue sandbox，对比之前用 vm2/isolated-vm 的延迟和安全事件率；下一步在 k8s 节点配 cgroup 配额做硬上限。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6637,
+        "forks": 371,
+        "stars_period": "1,415 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "jamiepine/voicebox",
+      "url": "https://github.com/jamiepine/voicebox",
+      "published_at": "",
+      "original_summary": "The open-source AI voice studio. Clone, dictate, create. | 语言: TypeScript | Stars: 33,945 | Forks: 4,086 | 3,583 stars this week",
+      "chinese_summary": "开源 AI 语音工作室，支持声音克隆、听写、内容生成。跟商业方案（ElevenLabs/PlayHT）比，免费 + 本地部署 + 隐私可控；跟开源同类（OpenVoice/Coqui TTS）比，带完整 web UI 和工程化链路，适合非算法团队直接做产品。短板是中文/小语种克隆质量比英文差，GPU 显存门槛 8G+；商用要注意训练数据 license。上手成本：docker-compose 起来跑 web UI，下载预训练模型即用。",
+      "backend_focus": "拉一份客服/播客场景的 5 分钟样本跑 voicebox clone，对比 ElevenLabs 输出 MOS 分；下一步压 GPU 显存和并发，评估能不能替换现有付费 TTS 服务，按月调用量算 ROI。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 33945,
+        "forks": 4086,
+        "stars_period": "3,583 stars this week"
+      }
+    }
+  ]
+}
