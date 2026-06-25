@@ -1,0 +1,100 @@
+{
+  "generated_at": "2026-06-25T20:33:53.547793",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 5,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 14,507 | Forks: 1,065 | 9,589 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单静态二进制零依赖。把仓库索引成持久图，平均索引一个 repo 毫秒级，支持 158 种语言、子毫秒查询、token 用量降 99%。对比 Sourcegraph / LSP 方案：MCP 协议直接喂给 Claude/Cursor，无需本地起 daemon；但当前实现主要服务「只读代码检索」，写操作和跨仓库语义重构还覆盖不到。上手成本：下载二进制丢到 PATH，Cursor/Claude Desktop 改一行 mcp config 即可接入。",
+      "backend_focus": "下载对应平台二进制，写入 ~/.config/claude/config.json（或 Cursor 的 mcp.json）的 mcpServers 段，重启客户端后用本团队最大那个 monorepo 做索引压测，对比现有 Sourcegraph 检索 P95 延迟和 token 消耗。",
+      "meta": {
+        "language": "C",
+        "stars": 14507,
+        "forks": 1065,
+        "stars_period": "9,589 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,513 | Forks: 2,426 | 3,915 stars this week",
+      "chinese_summary": "Google Research 的时序基础模型，Python/PyTorch。预训练参数可直接 zero-shot 预测，不用每个业务指标单独训练 ARIMA / Prophet / LSTM。横向对比 nixtla 的 TimeGPT：胜在开源可本地部署+微调，数据隐私合规友好；输在没商业版那种持续预训练更新，自定义领域还得自己 fine-tune。上手成本：pip install 后 5 行代码 load 预训练 checkpoint 就能 predict，长序列需要扩 context window 时要自己改 model config。",
+      "backend_focus": "拉仓库跑 notebooks/usage.ipynb，用本团队过去 90 天的核心业务指标（DAU/GMV/QPS）做 zero-shot 预测，对比团队现有 Prophet 模型的 MAPE 和推理耗时，再决定要不要 fine-tune 到自家数据。",
+      "meta": {
+        "language": "Python",
+        "stars": 25513,
+        "forks": 2426,
+        "stars_period": "3,915 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 53,605 | Forks: 3,453 | 3,593 stars this week",
+      "chinese_summary": "Clojure 写的开源设计协作平台，Figma 的开源替代。前端 SVG 原生 + 后端 ClojureScript，self-host 友好。横向对比 Figma：胜在完全自托管+导出标准 SVG/CSS 可直接进代码仓库；输在插件生态只有 Figma 的 1/20，团队协作实时性不如 Figma 多人光标。上手成本：docker-compose 一键起，但要绑 PostgreSQL + S3/MinIO 存资源，团队迁移成本主要是设计稿资产批量导入。",
+      "backend_focus": "起 staging：docker compose -f deploys/docker-compose.yml up，把当前 Figma 团队空间导出 SVG 后用 penpot 的批量导入脚本验证资源迁移完整性，验证通过再考虑正式切流量。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 53605,
+        "forks": 3453,
+        "stars_period": "3,593 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 45,945 | Forks: 7,535 | 2,662 stars this week",
+      "chinese_summary": "JavaScript 仓库，扒了 Claude/GPT/Gemini/Grok/Copilot 等主流 AI 产品的 system prompt 并定期更新。横向对比类似 leak 集合：覆盖产品更全（含 Cursor / VS Code 内部 prompt），更新频率高；纯静态文档仓库不能跑、无 API。上手成本：clone 下来即可 grep 搜索，无环境依赖。",
+      "backend_focus": "跑 ripgrep 在 prompts/leaks/ 下搜本团队正在对接的产品名（比如 Codex、Gemini Pro），把里面涉及 tool_use / function_calling 格式约定的段落摘出来，对照本团队 SDK 默认参数，定位 prompt 偏差导致的工具调用失败 case。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 45945,
+        "forks": 7535,
+        "stars_period": "2,662 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 40,662 | Forks: 3,212 | 6,752 stars this week",
+      "chinese_summary": "Python 写的 AI 代理联网 CLI，统一封装 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书 抓取，零 API 费用。横向对比 SerpAPI / Tavily：胜在免费且覆盖小红书/B站这种封闭平台，输在依赖页面结构变化、稳定性比付费 API 差、并发起来容易触发反爬封号。不适合生产 SLA 场景，适合本地 agent 调研。上手成本：pip install + 配 cookie 即可，但 cookie 过期后要重新登录抓取。",
+      "backend_focus": "pip install agent-reach 后跑 agent-reach search \"本团队关键词\" --platform=github --limit=50，验证返回质量；若团队要做内部 RAG 数据源，把抓取层接到自建代理池避免线上 cookie 被封。",
+      "meta": {
+        "language": "Python",
+        "stars": 40662,
+        "forks": 3212,
+        "stars_period": "6,752 stars this week"
+      }
+    }
+  ]
+}
