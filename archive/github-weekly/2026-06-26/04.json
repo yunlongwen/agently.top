@@ -1,0 +1,100 @@
+{
+  "generated_at": "2026-06-26T01:05:12.201098",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 5,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 14,630 | Forks: 1,077 | 9,589 stars this week",
+      "chinese_summary": "代码知识图谱 MCP server，单 C 静态二进制把仓库索引成图谱。声称毫秒级索引、亚毫秒查询、支持 158 种语言、对接 LLM 时比传统 RAG 省 99% token。横向对比 Sourcegraph/Codeium 这类 SaaS 代码检索是本地化、零依赖、无需上传源码到第三方；和传统 ripgrep+embedding 方案相比省去 embedding 模型和向量库。上手成本：下载二进制 + MCP 配置一行即可接 Claude/Cursor。",
+      "backend_focus": "拉最新 release 二进制，在 Claude Desktop 或 Cursor 的 MCP config 里加一行指向仓库根目录，对一个 50 万行 monorepo 跑一次 index，问几个跨文件调用问题，对比原来 ripgrep+embedding 方案的首次响应延迟和 token 消耗。",
+      "meta": {
+        "language": "C",
+        "stars": 14630,
+        "forks": 1077,
+        "stars_period": "9,589 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,539 | Forks: 2,427 | 3,915 stars this week",
+      "chinese_summary": "Google 出品的时间序列基础模型预训练权重与推理代码。零样本/少样本即可做时序预测，避免为每个指标单独训练 Prophet/LSTM。跟 StatsForecast、NeuralForecast 这类专用时序库相比卖点是 foundation model 范式不用训练；和 Chronos、TimeGPT 相比有 Google 官方背书和权重开放。上手成本：pip 装 timesfm 即可 inference，要微调得准备 GPU 和 HuggingFace 数据流。",
+      "backend_focus": "pip install timesfm 跑官方 quickstart，把团队监控里某条 P99 延迟序列丢进去做 24h 预测，对比当前用的 Prophet 模型的 MAPE 和推理耗时，评估能否直接替换做容量预警。",
+      "meta": {
+        "language": "Python",
+        "stars": 25539,
+        "forks": 2427,
+        "stars_period": "3,915 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 53,642 | Forks: 3,456 | 3,593 stars this week",
+      "chinese_summary": "开源设计协作平台，类 Figma 但走自托管路线。用 Clojure + ClojureScript 全栈，支持 SVG 原生编辑和 design tokens 导出到代码。横向对比 Figma 是私有部署、API 完全开放、组件规格可导出成 Tailwind/CSS Variables；和 Sketch 比跨平台。适合合规/内网团队替代 Figma；不适合需要 Figma 生态插件的设计师。上手成本：docker compose 一键起，需 Postgres + MinIO。",
+      "backend_focus": "docker compose up 起一套本地实例，把团队现有 Figma 文件 import 一份进去，验证 design tokens 导出是否能直接接前端 Tailwind config 和 CSS Variables。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 53642,
+        "forks": 3456,
+        "stars_period": "3,593 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "jamiepine/voicebox",
+      "url": "https://github.com/jamiepine/voicebox",
+      "published_at": "",
+      "original_summary": "The open-source AI voice studio. Clone, dictate, create. | 语言: TypeScript | Stars: 34,126 | Forks: 4,105 | 3,583 stars this week",
+      "chinese_summary": "开源 AI 语音工作室，主打声音克隆 + 听写 + 语音生成。TypeScript 全栈，对标 ElevenLabs 的自托管方案。跟 ElevenLabs 比是免费 + 数据不出本地；跟 Coqui TTS/Coqui Studio 比工程化更完整带 UI。适合需要批量生成配音/有声内容又不想付 API 费用的团队；不适合追求顶级音质播音场景。上手成本：需 GPU 跑推理，CPU 模式存在但慢。",
+      "backend_focus": "clone 后按 README 准备 CUDA 环境，跑 docker compose up 拉起服务，用一段 30 秒干声样本克隆音色，对比团队目前在用的 ElevenLabs API 在音质 MOS 分和单次成本上的差异。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 34126,
+        "forks": 4105,
+        "stars_period": "3,583 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 40,958 | Forks: 3,241 | 6,752 stars this week",
+      "chinese_summary": "给 AI Agent 接互联网读取能力的 CLI 工具，覆盖 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书。声称零 API 费用，靠抓取+反爬绕过。跟 SerpAPI/Tavily 这类付费搜索 API 比胜在免费+覆盖面广含中文站；和 Browser Use/Playwright MCP 比是垂直渠道专用而非通用浏览器。适合做舆情/竞品监控的 Agent；不适合对稳定性/合规要求高的生产链路。上手成本：pip install agent-reach，配 cookie 即可。",
+      "backend_focus": "pip install agent-reach，配置好对应平台 cookie 后跑一次 read twitter 命令验证成功率，评估能否塞进现有 Agent 的 tool registry 替代付费搜索 API。",
+      "meta": {
+        "language": "Python",
+        "stars": 40958,
+        "forks": 3241,
+        "stars_period": "6,752 stars this week"
+      }
+    }
+  ]
+}
