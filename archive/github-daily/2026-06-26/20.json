@@ -1,0 +1,100 @@
+{
+  "generated_at": "2026-06-26T08:02:26.841612",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 5,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 19,123 | Forks: 1,644 | 1,407 stars today",
+      "chinese_summary": "设计系统规约格式，给 coding agent 喂结构化设计稿。TypeScript 写的 spec 解析器，让 Claude Code / Cursor 之类 agent 持久化理解 token、组件、间距体系，痛点是截图喂 LLM 容易丢失圆角/阴影细节，DESIGN.md 用 JSON Schema 兜底。比 Figma Dev Mode 多一层语义层，agent 改 UI 时不再瞎猜；但只适合规范驱动的中型团队，个人项目 overkill。上手成本：仓库有 demo，拷个 design.md 到根目录就能让 agent 识别。",
+      "backend_focus": "跑一下 npx design-md init 看看生成什么 schema，把团队当前 design token (Tailwind config / Style Dictionary) 导出一份 design.md，丢给 Claude Code 改一个真实组件验证它能不能读懂 spacing/radius token。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 19123,
+        "forks": 1644,
+        "stars_period": "1,407 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "apple/container",
+      "url": "https://github.com/apple/container",
+      "published_at": "",
+      "original_summary": "A tool for creating and running Linux containers using lightweight virtual machines on a Mac. It is written in Swift, and optimized for Apple silicon. | 语言: Swift | Stars: 43,187 | Forks: 1,266 | 1,366 stars today",
+      "chinese_summary": "Apple 官方出的 macOS 容器工具，Swift 写。在 Apple Silicon 上用轻量 VM 跑 Linux 容器，区别于 Docker Desktop 的 Linux VM 方案走的是 macOS 原生 Virtualization.framework。比 OrbStack / Docker Desktop 启动更快（冷启 <1s）、内存占用更低（空容器 ~50MB vs Docker 的 200MB+），跟 Lima / Colima 同赛道但有 Apple 官方背书。缺点：目前仅支持 Linux 镜像，macOS-to-macOS 容器还没出。上手成本：brew 装 container CLI 即可，无 daemon。",
+      "backend_focus": "在 M-series Mac 上跑 brew install container && container run --image ubuntu，按官方 benchmark 对照 OrbStack 测冷启动时间和 idle 内存，决定是否在团队内替换 Docker Desktop 省 License 费。",
+      "meta": {
+        "language": "Swift",
+        "stars": 43187,
+        "forks": 1266,
+        "stars_period": "1,366 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack",
+      "published_at": "",
+      "original_summary": "Use Garry Tan's exact Claude Code setup: 23 opinionated tools that serve as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA | 语言: TypeScript | Stars: 115,773 | Forks: 17,165 | 836 stars today",
+      "chinese_summary": "Garry Tan 的 Claude Code 配置合集，23 个 tool/skill 模拟 CEO/Designer/Eng Manager 等角色。TypeScript 写的 slash command + subagent 配置。跟 Anthropic 官方 cookbook 比是「更激进的工程化 SOP」，把 PR review、上线 checklist、PRD 写作都写死成可复用 prompt。适合 5-30 人小公司强制流程，不适合已经有 Jira/Linear 成熟协作链的团队。上手成本：clone 仓库后复制 .claude/ 目录到项目根，5 分钟。",
+      "backend_focus": "git clone 这个仓库后把 .claude/ 目录复制到你们主力 repo，跑 /eng-manager 跑一个真实 PR 让它出 review 意见，对比团队现有 lint + 人工 review 流程的漏检率。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 115773,
+        "forks": 17165,
+        "stars_period": "836 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "aws/agent-toolkit-for-aws",
+      "url": "https://github.com/aws/agent-toolkit-for-aws",
+      "published_at": "",
+      "original_summary": "Official, AWS-supported MCP servers, skills, and plugins to help AI agents build on AWS | 语言: Python | Stars: 1,123 | Forks: 114 | 15 stars today",
+      "chinese_summary": "AWS 官方出的 Agent 工具包，Python 写。一组 MCP server + skill + plugin，让 Claude Code / Cursor 直接读写 AWS 资源（Lambda/S3/DynamoDB/IAM 等）。跟 AWS 自己 Console 里的 Amazon Q 比是「走 MCP 协议任何 agent 都能用」，跟 terraform-mcp 之类的社区方案比是 AWS 一手维护、覆盖服务最全。适合 agent 自动运维场景，IAM 权限必须最小化否则 agent 误删资源。上手成本：pip install + 配置 AWS credential profile。",
+      "backend_focus": "在 sandbox AWS 账号上 pip install aws-agent-toolkit，配 read-only IAM role，先跑 S3 list / Lambda invoke 两个只读工具验证 MCP 连接，再决定是否在生产账号给开发机的 agent 配受限 write 权限。",
+      "meta": {
+        "language": "Python",
+        "stars": 1123,
+        "forks": 114,
+        "stars_period": "15 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "mukul975/Anthropic-Cybersecurity-Skills",
+      "url": "https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
+      "published_at": "",
+      "original_summary": "817 structured cybersecurity skills for AI agents · Mapped to 6 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND, NIST AI RMF & MITRE F3 (Fight Fraud) · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI & 20+ platforms · 29 security domains · Apache 2.0 | 语言: Python | Stars: 21,200 | Forks: 2,445 | 600 stars today",
+      "chinese_summary": "817 个网络安全 agent skill 集合，Python 写。对齐 MITRE ATT&CK / NIST CSF 2.0 / MITRE ATLAS / D3FEND 等 6 个框架，覆盖 29 个安全域。跟 Microsoft 的安全 Copilot 比是「开源 + 框架中立 + 可审计」，跟 OWASP 文档比是「直接喂给 agent 的可执行 skill 而不是 PDF」。适合做内部安全审计/合规检查的自动化，不替代专业 SAST/DAST 工具。上手成本：把 skills/ 目录软链到 .claude/skills/ 即可。",
+      "backend_focus": "把 skills/ 目录软链到 .claude/skills/，用 /mitre-attack skill 对一个真实 staging 服务跑一次威胁建模，对比团队当前 STRIDE 文档看 agent 输出能否直接进风险登记册。",
+      "meta": {
+        "language": "Python",
+        "stars": 21200,
+        "forks": 2445,
+        "stars_period": "600 stars today"
+      }
+    }
+  ]
+}
