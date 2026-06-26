@@ -1,0 +1,164 @@
+{
+  "generated_at": "2026-06-27T05:13:57.043350",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 9,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "simplex-chat/simplex-chat",
+      "url": "https://github.com/simplex-chat/simplex-chat",
+      "published_at": "",
+      "original_summary": "SimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱! | 语言: Haskell | Stars: 12,417 | Forks: 704 | 191 stars today",
+      "chinese_summary": "端到端加密的无标识符聊天协议，Haskell 实现。痛点是主流 IM（Signal/Telegram）都依赖手机号或 username，SIM-卡 换绑就能定位人；Simplex 用一次性临时地址 + SMP 协议，通信双方不持有对方长期 ID，连服务端都看不到用户关系图。支持 iOS/Android/桌面端。区别于 Matrix/Element：Matrix 是联邦化但用户仍有 MXID，Simplex 是真正无标识符；缺点是 Haskell 招人难、客户端 UI 简陋，找人必须扫码或贴链接。上手成本：Docker 起 SMP relay 即可，但团队迁移要全员换工具。",
+      "backend_focus": "跑一次 docker-compose 拉起 simplex-chat-server，测 SMP 协议延迟和并发连接数，评估能否替换内部敏感沟通场景的 Signal 自建版；Haskell 二进制需关注 GC 调优参数。",
+      "meta": {
+        "language": "Haskell",
+        "stars": 12417,
+        "forks": 704,
+        "stars_period": "191 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 21,066 | Forks: 1,715 | 2,319 stars today",
+      "chinese_summary": "给 AI coding agent 喂的设计规范格式，类似 DESIGN.md 文件约定。核心是把颜色、字体、间距、组件 token 用结构化方式描述，让 Claude Code/Cursor 能跨会话保持 UI 一致性。比直接贴 Figma 截图或 Tailwind config 强在：人类可读的 markdown + agent 可解析的 schema，比纯 prompt 描述精确、比 Storybook 轻量。适合多 agent 协作的中后台项目；不适合纯 CLI 或一次性脚本。上手成本：写一份 DESIGN.md 即可，TypeScript schema 可选。",
+      "backend_focus": "在你们前端 repo 根目录新建 DESIGN.md，按 schema 填齐 design token，把 Claude Code / Cursor 的 system prompt 加上「读取 DESIGN.md 后再生成组件」的规则，跑一轮生成表单组件看色值是否对得上。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 21066,
+        "forks": 1715,
+        "stars_period": "2,319 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 3,358 | Forks: 202 | 412 stars today",
+      "chinese_summary": "Go 写的 git pre-receive 拦截器，防止误推导致线上事故。单二进制部署到 git server 钩子目录，按规则（分支保护/提交信息/敏感文件/作者白名单）阻断 push。比 GitHub 原生 branch protection 强在：可以跑在自建 Gitea/GitLab 上、支持正则匹配 commit message、检测误删文件；比 Husky/lint-staged 强在：拦截在服务端，绕不过去。痛点是开发者本地 hook 经常被 --no-verify 跳过。上手成本：go build 后拷到 hooks/post-receive，零依赖。",
+      "backend_focus": "go build 后把二进制丢到 Gitea/GitLab 的 custom_hooks/post-receive.d/ 目录，配一份 YAML 规则（禁推 main、禁删 migration 文件），跑 git push --force 验证拦截，然后接内部 webhook 推送飞书告警。",
+      "meta": {
+        "language": "Go",
+        "stars": 3358,
+        "forks": 202,
+        "stars_period": "412 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "grafana/grafana",
+      "url": "https://github.com/grafana/grafana",
+      "published_at": "",
+      "original_summary": "The open and composable observability and data visualization platform. Visualize metrics, logs, and traces from multiple sources like Prometheus, Loki, Elasticsearch, InfluxDB, Postgres and many more. | 语言: TypeScript | Stars: 74,848 | Forks: 14,124 | 17 stars today",
+      "chinese_summary": "老牌可观测平台，74k stars，TS+Go 双栈。今天 17 stars 属于常规维护，不是新版本。核心能力是统一面板 + 多数据源适配（Prometheus/Loki/Elasticsearch/InfluxDB/Postgres 等）。区别于 Datadog：自部署免费但 OOM 常见（>=10k series），插件体系复杂；新版 Grafana 11 把 alert 引擎和 IRSA 收紧了。痛点解决：避免在 N 个监控工具之间切换。上手成本：Helm chart 一键起，但告警规则和 dashboard 迁移成本高。",
+      "backend_focus": "检查你们 Grafana 版本是否 <11，<11 的 LTS 到期前先 helm upgrade；新建 dashboard 时改用 transformations 而不是逐条 query，内存占用能降 30%；告警改走 Grafana Alerting 而不是单独跑 Alertmanager。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 74848,
+        "forks": 14124,
+        "stars_period": "17 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ripienaar/free-for-dev",
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "published_at": "",
+      "original_summary": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev | 语言: HTML | Stars: 123,681 | Forks: 13,049 | 137 stars today",
+      "chinese_summary": "DevOps/SRE 圈内最全的 SaaS 免费额度清单，HTML 静态站，123k stars。本质是社区维护的 cheat sheet：列了 DB/Queue/Monitoring/CI/CD 等几百个服务的免费档限制（每月多少 GB、多少请求）。痛点是各个厂商免费策略总变，自己盯不过来。区别于 Pricing.ai 这种自动比较站：它是社区人工筛选，质量更高但更新滞后几天。上手成本：零，star 后定期看 PR diff。",
+      "backend_focus": "与开发工作无直接关系。下一步：把你们生产用的第三方服务在 free-for-dev 里搜一遍，看是否踩到了免费档上限（比如 Sentry/Logtail 超出后被限速），评估是否需要切到自托管或换付费档。",
+      "meta": {
+        "language": "HTML",
+        "stars": 123681,
+        "forks": 13049,
+        "stars_period": "137 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "opendatalab/MinerU",
+      "url": "https://github.com/opendatalab/MinerU",
+      "published_at": "",
+      "original_summary": "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows. | 语言: Python | Stars: 70,330 | Forks: 5,935 | 944 stars today",
+      "chinese_summary": "PDF/Word/PPT 解析为 LLM-ready Markdown/JSON 的工具，70k stars，Python。核心能力是版面分析 + 表格识别 + 公式 OCR，把扫描件、复杂多栏论文还原成结构化文本。区别于 Unstructured/Tesseract：MinerU 自带 layout detection 模型（DocLayout-YOLO），表格和公式识别用 YOLO+vlm 比纯 OCR 准；比 Marker 快，GPU 模式单页 <1s。痛点：传统 pdfplumber 解析多栏 PDF 直接乱序。上手成本：pip install magic-pdf，需要 PyTorch，CPU 可跑但慢。",
+      "backend_focus": "pip install magic-pdf[full] --extra-index-url https://wheels.com/MinerU，跑 magic-pdf -p input.pdf -o output/ 测你们最复杂的财报 PDF，重点验证表格跨页合并和公式 LaTeX 输出，对比 Unstructured 看哪个召回高。",
+      "meta": {
+        "language": "Python",
+        "stars": 70330,
+        "forks": 5935,
+        "stars_period": "944 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "alchaincyf/zhangxuefeng-skill",
+      "url": "https://github.com/alchaincyf/zhangxuefeng-skill",
+      "published_at": "",
+      "original_summary": "张雪峰.skill — 张雪峰的认知操作系统。高考志愿/考研/职业规划的实战思维框架。由女娲.skill生成。 | 语言: N/A | Stars: 9,233 | Forks: 2,560 | 185 stars today",
+      "chinese_summary": "中文圈高考志愿/考研规划 prompt skill 包，张雪峰语料 + AI skill 格式。跟 Claude Code / Cursor 的 skill 机制对接，把张雪峰公开的择校方法论封装成可复用 prompt。区别于普通 prompt 模板：它是结构化 skill（trigger + body + examples），能被 skill 加载器解析。痛点：国内家长用户没工程能力用 AI，这套把 prompt 做成即装即用。适合做教育/求职方向 AI 产品的团队调研用户心智；不适合做技术决策。上手成本：丢到 .claude/skills/ 即可。",
+      "backend_focus": "如果你团队做教育/求职方向 Agent，把这个 skill clone 到 .claude/skills/ 目录当 prompt 工程参考样本，分析 trigger 设计和 examples 组织方式；如果做纯 toB 后端工具，与开发工作无关。",
+      "meta": {
+        "language": "",
+        "stars": 9233,
+        "forks": 2560,
+        "stars_period": "185 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "mauriceboe/TREK",
+      "url": "https://github.com/mauriceboe/TREK",
+      "published_at": "",
+      "original_summary": "A self-hosted travel/trip planner with real-time collaboration, interactive maps, PWA support, SSO, budgets, packing lists, and more. | 语言: TypeScript | Stars: 7,567 | Forks: 646 | 1,063 stars today",
+      "chinese_summary": "自部署的旅行规划 PWA，TypeScript 全栈，今天 1k+ stars 涨得猛。核心能力：实时协作（CRDT）+ 交互地图（Mapbox）+ SSO（OIDC/SAML）+ 预算与装箱清单。区别于 Wanderlog/TripIt：完全自部署，数据自己拿；但没有商业版的票务集成、不能直接订机票酒店。痛点解决：公司团建/家庭出游不想把行程交给广告驱动的 SaaS。上手成本：Docker compose 一键起，依赖 Postgres + Redis，需要配 OIDC 客户端。",
+      "backend_focus": "docker compose up -d 起一套，配 Keycloak 做 SSO，导入一份 sample trip data 测 CRDT 多人并发编辑延迟；如果你团队要做内部协作工具的 PWA 模板，这是个不错的 Next.js + Yjs 参考实现。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 7567,
+        "forks": 646,
+        "stars_period": "1,063 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "xbtlin/ai-berkshire",
+      "url": "https://github.com/xbtlin/ai-berkshire",
+      "published_at": "",
+      "original_summary": "AI 时代的伯克希尔：基于 Claude Code 的价值投资研究框架。巴菲特·芒格·段永平·李录四大师方法论 + 多Agent并行研究。| AI-era Berkshire: a value investing research framework built on Claude Code. 4 masters' methodologies + multi-agent adversarial analysis. | 语言: Python | Stars: 3,054 | Forks: 450 | 1,270 stars today",
+      "chinese_summary": "基于 Claude Code 的价值投资研究框架，4 位大师方法论 + 多 Agent 对抗分析。核心是把巴菲特/芒格/段永平/李录的投资原则封装成独立 Agent，跑同一支股票时输出互相质疑的研报。区别于 GPT-Vestor/AInvest：它是 prompt + 多 agent 编排框架而不是 SaaS，本地跑、数据不出。痛点：散户研究 A 股/港股没体系，靠 KOL 荐股。适合做金融 AI 产品的团队；不适合做量化交易（无行情接口、无回测引擎）。上手成本：需要 Claude Code 订阅，clone 后配 API key。",
+      "backend_focus": "如果你团队做投研 AI，下一步是 clone 仓库看 multi-agent 编排代码（应该用了 sub-agent / Task tool），把 prompt 模板移植到你们自己的 Agent 框架；纯工程角度重点学它怎么设计 adversarial 角色让 agent 互相挑战。",
+      "meta": {
+        "language": "Python",
+        "stars": 3054,
+        "forks": 450,
+        "stars_period": "1,270 stars today"
+      }
+    }
+  ]
+}
