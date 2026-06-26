@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-26T22:52:00.352412",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 20,640 | Forks: 1,694 | 2,319 stars today",
+      "chinese_summary": "给AI编码Agent的设计规范格式，类似DESIGN.md喂给Agent让它持久理解设计系统。TypeScript实现，Google Labs出品。和Figma Tokens/Storybook比，它不输出UI组件，而是把视觉token、组件约束、布局规则结构化成Markdown供LLM消费；适合Cursor/Copilot/Cline工作流里反复生成一致UI的场景。缺点是只解决设计规范传递，不替代Figma/MCP集成。上手成本：写一份DESIGN.md放仓库根目录即可，零运行时依赖。",
+      "backend_focus": "在你们前端仓库根目录新建 DESIGN.md，按规范定义 color/spacing/component tokens，然后在 Cursor/Copilot 里让 Agent 改组件看是否还生成紫色按钮，对比改前改后一致性差异。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 20640,
+        "forks": 1694,
+        "stars_period": "2,319 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 3,210 | Forks: 189 | 996 stars today",
+      "chinese_summary": "Git预推送钩子工具拦截commit/push中的常见错误（密钥、.env、大文件、敏感信息）。Go单二进制，无运行时依赖。和git-secrets/gitleaks比，它走shell hooks拦截更靠前，速度更快；缺点是规则需要自己维护JSON配置，复杂场景不如gitleaks的regex体系。上手成本：go install后跑一次 init 加到 .git/hooks，无需服务端。",
+      "backend_focus": "在CI加一步：go install 后跑 init 把钩子推到所有 repo 的 .git/hooks，再在 pre-commit 里挂一条 docker run 跑一遍验证 leak 检测漏报率，对比 gitleaks 决定是否替换。",
+      "meta": {
+        "language": "Go",
+        "stars": 3210,
+        "forks": 189,
+        "stars_period": "996 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "grafana/grafana",
+      "url": "https://github.com/grafana/grafana",
+      "published_at": "",
+      "original_summary": "The open and composable observability and data visualization platform. Visualize metrics, logs, and traces from multiple sources like Prometheus, Loki, Elasticsearch, InfluxDB, Postgres and many more. | 语言: TypeScript | Stars: 74,760 | Forks: 14,116 | 17 stars today",
+      "chinese_summary": "可组合的可观测性平台，TS/Go前后端，支持Prometheus/Loki/Tempo/ES/Postgres等40+数据源作为面板数据后端。跟Datadog/NewRelic比它是纯自托管、无采样限制、面板可版本化进Git；但大规模集群下tsdb存储成本自己扛，APM和日志的关联分析体验仍弱于商业方案。上手成本：Docker Compose 5分钟跑起来，生产建议K8s Helm chart配对象存储。",
+      "backend_focus": "跑一遍 helm install grafana，把你们 Prometheus/Loki/Tempo 的 datasource 都接上，用 explore 查一条 trace 看 metric→log→trace 关联链路是否打通，再决定替换 Datadog 的成本账。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 74760,
+        "forks": 14116,
+        "stars_period": "17 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "opendatalab/MinerU",
+      "url": "https://github.com/opendatalab/MinerU",
+      "published_at": "",
+      "original_summary": "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows. | 语言: Python | Stars: 70,156 | Forks: 5,924 | 944 stars today",
+      "chinese_summary": "把PDF/Word/Excel等复杂文档解析成LLM可直接消费的Markdown/JSON。Python实现，支持扫描件OCR、表格结构识别、公式转LaTeX、版面分析。和Unstructured/Tika比它在中文PDF、扫描件、多栏排版的还原度更好，输出直接对齐RAG chunk；缺点是大文档内存峰值高，GPU模式需CUDA。上手成本：pip install mineru后跑CLI，Docker镜像含完整模型权重约6GB。",
+      "backend_focus": "在你们RAG流水线加一个评测节点：pip install mineru[core] 后拿 50 份真实业务 PDF（含扫描件+表格）跑一遍，对比当前 Unstructured/Tika 的 chunk 质量和检索召回率，再决定是否替换文档解析环节。",
+      "meta": {
+        "language": "Python",
+        "stars": 70156,
+        "forks": 5924,
+        "stars_period": "944 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "mauriceboe/TREK",
+      "url": "https://github.com/mauriceboe/TREK",
+      "published_at": "",
+      "original_summary": "A self-hosted travel/trip planner with real-time collaboration, interactive maps, PWA support, SSO, budgets, packing lists, and more. | 语言: TypeScript | Stars: 7,333 | Forks: 634 | 1,063 stars today",
+      "chinese_summary": "自托管的协作旅行规划器，TS全栈（Next.js+Prisma+Postgres），支持实时协作、地图、SSO、预算、打包清单、PWA。跟Wanderlog/TripIt比它数据100%在自己服务器，适合注重隐私的团队或旅行社内部工具；缺点是UI打磨和移动端体验弱于商业产品，需自己运维DB+Redis。上手成本：docker-compose up跑Postgres+Redis+app三件套，约15分钟首次部署。",
+      "backend_focus": "fork后把你们团队的 OIDC 接上 auth provider，再改 prisma schema 加业务字段（出差/客户拜访场景），docker-compose -f deploy.yml up -d 部署到内部 K8s 跑两周看稳定性。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 7333,
+        "forks": 634,
+        "stars_period": "1,063 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "xbtlin/ai-berkshire",
+      "url": "https://github.com/xbtlin/ai-berkshire",
+      "published_at": "",
+      "original_summary": "AI 时代的伯克希尔：基于 Claude Code 的价值投资研究框架。巴菲特·芒格·段永平·李录四大师方法论 + 多Agent并行研究。| AI-era Berkshire: a value investing research framework built on Claude Code. 4 masters' methodologies + multi-agent adversarial analysis. | 语言: Python | Stars: 2,889 | Forks: 422 | 1,270 stars today",
+      "chinese_summary": "基于Claude Code的价值投资研究框架，把巴菲特/芒格/段永平/李录的方法论编排成多Agent对抗式分析流水线。Python实现，调用Claude API做行业、公司、估值并行研究。和LangChain/AutoGen比它是垂直领域的prompt+tool组合而非通用Agent框架；缺点是输出质量强依赖Claude API且方法论不一定适配A股/加密资产。上手成本：clone后配ANTHROPIC_API_KEY即跑，单次研究消耗约$1-5 token。",
+      "backend_focus": "在你们投研/策略团队 staging 环境跑一次：配 ANTHROPIC_API_KEY 后拿 3 只已知标的两正一负样本跑一遍，研究输出和你自己的研判对比准确率，评估是否纳入日常投研流程。",
+      "meta": {
+        "language": "Python",
+        "stars": 2889,
+        "forks": 422,
+        "stars_period": "1,270 stars today"
+      }
+    }
+  ]
+}
