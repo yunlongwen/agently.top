@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-06-26T11:51:37.854889",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 7,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 14,856 | Forks: 1,094 | 8,024 stars this week",
+      "chinese_summary": "代码知识图谱 MCP 服务，C 写，零依赖单二进制。158 种语言，索引一个中型仓库只要毫秒级，sub-ms 查询，比传统 LSP + RAG 方案少 99% token 消耗。跟 Sourcegraph / aider 的 repo map 比，优势是真持久化知识图谱（不是每次重新扫 AST），跨会话可累积；劣势是名字里带 MCP，必须有 MCP 客户端（Claude Code / Cline）才能消费，纯 vim/neovim 党目前用不上。上手成本：下载二进制加进 MCP 配置即可，不用改代码。",
+      "backend_focus": "把二进制加进 Claude Code / Cline 的 mcp_servers.json，拿团队最常改的那个 monorepo 跑一次索引，对比开启前后的上下文 token 用量和回答准确率，评估是否值得长期挂载。",
+      "meta": {
+        "language": "C",
+        "stars": 14856,
+        "forks": 1094,
+        "stars_period": "8,024 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,584 | Forks: 2,430 | 3,040 stars this week",
+      "chinese_summary": "Google 出品的时间序列基础模型，零样本预测能力开箱即用。适合流量、订单、监控指标这种带明显周期性的序列，比传统 Prophet / ARIMA 强在能捕捉非线性长程依赖；比 Chronos / TimeGPT 优势是 Apache 2.0 + 权重公开可商用、本地推理。劣势是对极短序列（<30 点）效果差，且 GPU 推理比 statsforecast 这种统计库慢 10-100 倍。上手成本：pip install 即可，没 GPU 也能跑小模型。",
+      "backend_focus": "pip install timesfm 跑 quickstart，导一份团队现有监控的 QPS 时序数据，分别用 TimesFM 和 statsforecast 跑 24h 预测，对比 MAPE 和推理耗时，决定是否接入告警前的前瞻预测。",
+      "meta": {
+        "language": "Python",
+        "stars": 25584,
+        "forks": 2430,
+        "stars_period": "3,040 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 53,708 | Forks: 3,460 | 3,379 stars this week",
+      "chinese_summary": "开源设计协作平台，设计稿直接出代码 token。跟 Figma 比，核心差异化是 Self-host 友好（数据不出域）+ 真开源（GPL 但前端组件层可剥离）；劣势是插件生态、实时协作流畅度、Auto-layout 能力仍落后 Figma 至少 1-2 个版本。上手成本：Docker compose 一行起，PostgreSQL + MinIO 依赖。",
+      "backend_focus": "docker compose up -d 拉一套 staging 出来，让设计同学导入现有 Figma 文件验证兼容性和代码导出质量，对比团队是否值得从 Figma 迁出以解决合规问题。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 53708,
+        "forks": 3460,
+        "stars_period": "3,379 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "jamiepine/voicebox",
+      "url": "https://github.com/jamiepine/voicebox",
+      "published_at": "",
+      "original_summary": "The open-source AI voice studio. Clone, dictate, create. | 语言: TypeScript | Stars: 34,241 | Forks: 4,118 | 3,688 stars this week",
+      "chinese_summary": "开源 AI 语音工作室，支持声音克隆、听写、TTS 三件套。TypeScript 写，自带 Web 端 UI。跟 ElevenLabs / PlayHT 闭源比，优势是模型可换（支持 CosyVoice / XTTS / OpenVoice 多种后端）、数据本地；劣势是声音克隆质量仍显著差 ElevenLabs 商用级，对噪声样本敏感。上手成本：需要 GPU 跑推理，或接云 TTS API。",
+      "backend_focus": "在有 GPU 的 staging 机器跑 docker compose，对比 CosyVoice 和 ElevenLabs 在相同中文 10 秒样本上的 MOS 分，若达 3.8+ 可考虑替换产品里的 TTS 环节以省 API 费。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 34241,
+        "forks": 4118,
+        "stars_period": "3,688 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 46,090 | Forks: 7,556 | 2,720 stars this week",
+      "chinese_summary": "各类闭源 AI 产品系统提示词泄露合集，覆盖 Claude / GPT / Gemini / Cursor / Copilot 等。纯资料库，没有代码运行价值。跟直接逆向抓包比，优势是定期更新、覆盖广。给做 prompt engineering / agent 开发的工程师一个'竞品能力边界'参考——能看出来各家怎么定义工具、怎么注入角色、怎么防越狱。",
+      "backend_focus": "clone 仓库到本地，挑出 Claude Code 和 Cursor 的 system prompt 跟自家 agent 的 prompt 对照，重点看工具描述粒度、安全规则措辞，借用那些经过实战检验的 prompt pattern 优化自家 agent。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 46090,
+        "forks": 7556,
+        "stars_period": "2,720 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 41,394 | Forks: 3,278 | 6,830 stars this week",
+      "chinese_summary": "给 AI Agent 用的全网读 + 搜索 CLI，一条命令抓 Twitter / Reddit / YouTube / GitHub / B 站 / 小红书内容，零 API 费用。背后靠的是各家非官方接口 + 反爬。跟 SerpAPI / Tavily 比，优势是覆盖中文平台（小红书、B 站）且免 key；劣势是不稳定，平台一改前端就挂，且有 ToS 风险不适合商用产品嵌入。上手成本：pip install + 配 Cookie 即可。",
+      "backend_focus": "pip install agent-reach，导一份自己 Twitter / 小红书关注的关键词列表跑批量抓取，验证延迟和数据完整率，团队内部研究 / 舆情场景可用，商用产品路径需先评估法律风险。",
+      "meta": {
+        "language": "Python",
+        "stars": 41394,
+        "forks": 3278,
+        "stars_period": "6,830 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 49,632 | Forks: 43,532 | 6,383 stars this week",
+      "chinese_summary": "LLM 驱动的多市场股票分析系统，行情 + 新闻 + 决策看板 + 自动推送，支持定时跑零成本。跟传统同花顺 / 雪球比，优势是接入 LLM 做事件摘要 + 技术面解读；跟 quantstats 这种纯量化回测比，优势是带 NLP 新闻面。劣势是 LLM 调用有成本延迟、信号质量依赖 prompt，'自动推送'功能在合规上要小心。上手成本：配 LLM API key + 选数据源即可。",
+      "backend_focus": "git clone 后按 .env.example 配 AKShare / Tushare token 和 LLM key，先用历史 30 天数据回放验证信号与次日走势的相关性，确认不是 overfit 再上定时任务。",
+      "meta": {
+        "language": "Python",
+        "stars": 49632,
+        "forks": 43532,
+        "stars_period": "6,383 stars this week"
+      }
+    }
+  ]
+}
