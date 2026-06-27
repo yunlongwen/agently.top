@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-27T23:08:08.056787",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 24,715 | Forks: 2,738 | 17,249 stars this week",
+      "chinese_summary": "Agentic 视频生产编排框架，把 AI 编码助手包装成剪辑工作室。核心是把 52 个工具和 12 条流水线做成技能包，Claude/Cursor 这类 agent 能直接调用做字幕、剪辑、合成。差异点：不是端到端模型，而是 skill layer，比单独跑 FFmpeg 脚本 + 手动 prompt 高效，适合做短视频自动化的内容团队。纯本地 Python 包形式，clone 下来按 README 装载 skill 即可，不需要改后端架构，但产出的视频要走人工审核链路。",
+      "backend_focus": "clone 仓库后把 skills/ 目录挂到 Claude Code 或 Cursor 的 skills 路径，先拿一条 1 分钟短片跑通字幕 + 剪辑流水线，确认输出码率和时长再考虑接入 CI。",
+      "meta": {
+        "language": "Python",
+        "stars": 24715,
+        "forks": 2738,
+        "stars_period": "17,249 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 16,614 | Forks: 1,215 | 7,592 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单静态二进制、零依赖、毫秒级索引。给 Cursor / Claude 这类 MCP client 当 codebase context 用，支持 158 种语言，号称 token 用量减少 99%。对比同类 tree-sitter + LSP 组合：省去每语言单独配 grammar 的麻烦，单文件部署 vs Sourcegraph 这种重平台；劣势是知识图谱 schema 是黑盒，复杂 monorepo 跨仓引用可能要等社区适配。上手成本：下载二进制 + 在 MCP client 配一行 command。",
+      "backend_focus": "下载 release 二进制，在 ~/.config/claude-desktop/mcp.json 加一条配置，用本团队主仓库跑一次索引，对比之前塞全文到 prompt 的 token 账单决定是否全团队切换。",
+      "meta": {
+        "language": "C",
+        "stars": 16614,
+        "forks": 1215,
+        "stars_period": "7,592 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 3,707 | Forks: 214 | 1,744 stars this week",
+      "chinese_summary": "Go 写的 git hook 包装，push 前跑断言拦截错误提交。定位：替代手写的 pre-push script，提供共享的「不该出现的模式」规则库。对比 husky + lint-staged 这类 Node 系方案：零 Node 依赖、单二进制、规则跨语言通用；适合 monorepo 里多语言项目统一规范。缺点是规则要靠社区贡献，私有业务规则还得自己 fork 加。上手成本：go install 之后配一个 .no-mistakes.yaml 即可。",
+      "backend_focus": "go install 安装后在主仓库配 .no-mistakes.yaml 启用最严档，先观察一周误报率，再决定是否推到所有 repo 强制启用。",
+      "meta": {
+        "language": "Go",
+        "stars": 3707,
+        "forks": 214,
+        "stars_period": "1,744 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 54,109 | Forks: 3,512 | 3,560 stars this week",
+      "chinese_summary": "开源设计协作平台，Figma 的 self-host 替代。基于 Clojure + Postgres + Redis 全栈，支持设计稿 → 代码导出 (SVG/CSS/React)。对比 Figma：开源可私有部署、文件无版权风险；劣势是插件生态差几个量级，性能在大型设计稿下明显落后 Figma Web。适合对设计资产有合规要求的金融/政企团队，或想摆脱 Figma seat 费用的中型公司。上手成本：docker-compose 一键起，但生产部署要解决文件存储和 SSO 接入。",
+      "backend_focus": "docker compose up 在 staging 起一套，把当前 Figma 团队的一个项目迁过去跑两周，对比大文件 (50+ artboard) 的卡顿率和导出代码准确率。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 54109,
+        "forks": 3512,
+        "stars_period": "3,560 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 43,121 | Forks: 3,434 | 7,199 stars this week",
+      "chinese_summary": "给 AI agent 加「眼睛」的 CLI 工具，统一封装 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书 的免 API 搜索与读取。核心是 selenium/playwright 抓前端 + 解析，省去各家 API key。对比官方 API 方案：零费用 + 覆盖小红书这种没开放 API 的平台；劣势是反爬脆弱、ToS 灰色地带、生产批量调用随时可能挂。上手成本：pip install + 配 playwright browser。",
+      "backend_focus": "pip install agent-reach 后用 agent-reach search \"关键词\" --platform xhs 跑通小红书抓取，评估团队舆情监控场景是否能替代现有第三方爬虫服务。",
+      "meta": {
+        "language": "Python",
+        "stars": 43121,
+        "forks": 3434,
+        "stars_period": "7,199 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "jamiepine/voicebox",
+      "url": "https://github.com/jamiepine/voicebox",
+      "published_at": "",
+      "original_summary": "The open-source AI voice studio. Clone, dictate, create. | 语言: TypeScript | Stars: 34,716 | Forks: 4,181 | 3,819 stars this week",
+      "chinese_summary": "开源 AI 语音工作室，支持声音克隆、语音听写、内容生成。对比 ElevenLabs / PlayHT：自托管 + 无使用费，声音克隆本地完成数据不出网；劣势是克隆质量依赖底座模型 (通常基于 XTTS/SO-VITS)，比 ElevenLabs 的商用模型音色还原度差一档。适合播客/有声书这类对成本敏感、对单条精度要求中等的场景。上手成本：需要 GPU 推理，至少 8GB 显存的 NVIDIA 卡。",
+      "backend_focus": "拉 docker 镜像在带 GPU 的 staging 跑 voice clone 流程，拿团队一段 5 分钟干声样本测克隆相似度，对比 ElevenLabs API 单价 0.1$/千字符决定是否迁。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 34716,
+        "forks": 4181,
+        "stars_period": "3,819 stars this week"
+      }
+    }
+  ]
+}
