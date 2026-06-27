@@ -1,0 +1,84 @@
+{
+  "generated_at": "2026-06-28T03:16:56.027992",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 4,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 17,172 | Forks: 1,248 | 7,592 stars this week",
+      "chinese_summary": "代码知识图谱 MCP server，单静态二进制零依赖，平均仓库毫秒级索引，sub-ms 查询，token 消耗声称减少 99%。支持 158 种语言，给 Claude/Cursor 当代码检索后端用，比 Sourcegraph Cody/CTags 多了结构化图谱，比 ripgrep 多了语义关系；缺点是仓库声称指标来自作者本人，未见独立 benchmark。上手成本：下载二进制配进 MCP 客户端即可，无 DB/网络依赖。",
+      "backend_focus": "下载 release 二进制，在 Claude Desktop 或 Cursor 的 MCP 配置里加一条 server entry，拿团队 50 万行 monorepo 跑一遍索引时间和查询延迟，对比当前用的 ripgrep/ctags 流程看是否值得作为 coding agent 的代码检索层。",
+      "meta": {
+        "language": "C",
+        "stars": 17172,
+        "forks": 1248,
+        "stars_period": "7,592 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 3,753 | Forks: 216 | 1,744 stars this week",
+      "chinese_summary": "Go 写的 git 防误推工具，hook 级拦截。面向经常误 push 到 main/误带 secret/误覆盖分支的工程团队，比单纯靠 pre-commit 钩子更靠近 push 那一刻拦截，比 Gerrit/Phabricator 轻太多不引入服务端；不适合已经用 Gerrit 或主干冻结流程的团队。上手成本：go install 后一条 git config remote.pushInsteadOf 即可。",
+      "backend_focus": "go install github.com/kunchenguid/no-mistakes，然后在 staging repo 的 .git/hooks 里挂上，对核心仓库开启保护分支演练一次误推拦截效果，再决定是否推到全团队。",
+      "meta": {
+        "language": "Go",
+        "stars": 3753,
+        "forks": 216,
+        "stars_period": "1,744 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 54,162 | Forks: 3,516 | 3,560 stars this week",
+      "chinese_summary": "开源设计与代码协作平台（基于 Clojure），Figma 开源替代。面向不想把设计稿锁在 SaaS 里的前端/设计团队，比 Figma 多了自托管和 SVG 原生，比 Sketch 多了实时协作和 inspect 代码导出；劣势是插件生态、生态成熟度仍远逊于 Figma，不适合重度依赖 Figma 插件库的团队。上手成本：Docker compose 一键起，但要给设计同事培训。",
+      "backend_focus": "docker compose 起一套 staging 实例，把现有 Figma 文件导入跑一周，让前端用 inspect 模式取 token，评估能否把内部项目的设计协作迁过来；用 docker stats 关注内存（Clojure JVM 一般吃 1-2G）。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 54162,
+        "forks": 3516,
+        "stars_period": "3,560 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 43,323 | Forks: 3,446 | 7,199 stars this week",
+      "chinese_summary": "AI agent 的\"互联网之眼\"CLI，一条命令读 Twitter/Reddit/YouTube/GitHub/B站/小红书，零 API 费。面向做舆情/竞品监控/数据采集的 AI agent 开发者，比官方 API 省配额费，比 scraper 脚本稳定（按描述做了反爬适配，未独立验证）；劣势是非官方抓取，长期合规和稳定性都存疑，生产关键路径慎用。上手成本：pip install + agent tool 注册即可。",
+      "backend_focus": "pip install agent-reach 后挂到现有 LangChain/AutoGen agent 的 tool 列表，先在 staging 跑一条\"读取 GitHub trending\"验证可用性，跑一周统计各平台的失败率再决定是否进生产采集链路。",
+      "meta": {
+        "language": "Python",
+        "stars": 43323,
+        "forks": 3446,
+        "stars_period": "7,199 stars this week"
+      }
+    }
+  ]
+}
