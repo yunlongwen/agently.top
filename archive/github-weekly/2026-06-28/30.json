@@ -1,0 +1,148 @@
+{
+  "generated_at": "2026-06-28T11:31:23.866491",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 8,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 25,428 | Forks: 2,812 | 18,000 stars this week",
+      "chinese_summary": "AI 编码助手转视频产线。把 Cursor/Claude Code 变成视频工作室，12 条 pipeline、52 个工具、500+ agent skills 串起剪辑/字幕/B-roll 全流程。跟 Runway、Pika 这类单点生成不同，它定位是「编排层」：你已经有 coding agent 想批量出短视频时用它，纯剪辑师用 Premiere 更顺手。Python 包装，对现有工作流零侵入，但需要本机有 ffmpeg 和足够的 disk IO。",
+      "backend_focus": "git clone 后跑 ./install.sh 装好 12 条 pipeline，挑一条（比如「短转 9:16」）用 5 段 4K 源片跑通，统计总耗时和 ffmpeg 报错率，再决定接不接入 CI 批量出片。",
+      "meta": {
+        "language": "Python",
+        "stars": 25428,
+        "forks": 2812,
+        "stars_period": "18,000 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 17,838 | Forks: 1,305 | 7,674 stars this week",
+      "chinese_summary": "MCP 形态的代码知识图谱后端，C 写的单二进制。158 种语言、毫秒级索引、sub-ms 查询，相对传统 LSP + RAG 方案 token 消耗降 99%。和 Sourcegraph/Cody 这类云端方案相比，它离线本地跑、数据不出域，适合金融/政企内网代码检索；但跨仓库联合查询、增量重建策略还得看实测。部署就一个二进制，零运行时依赖。",
+      "backend_focus": "拉最新 release 解压到 /opt，在 Claude Desktop 配 mcp 入口，对 10 万行量级的 monorepo 跑一次 build，再 grep 调用一次 .find() 对比 ripgrep+ctags 看看收益。",
+      "meta": {
+        "language": "C",
+        "stars": 17838,
+        "forks": 1305,
+        "stars_period": "7,674 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 3,832 | Forks: 219 | 2,229 stars this week",
+      "chinese_summary": "把 Git 推送变成 AI 预检环节。Go 单二进制，配成 git push 钩子，AI 自动审 diff 拦低级错误。和 husky/lint-staged 只能跑静态规则不同，它接 LLM 理解语义；代价是 push 延迟加 2-5 秒、消耗 token。和 SonarQube 这种全量扫描互补——它管 push 前的最后一道关。配环境变量塞 API key 就能跑，零迁移成本。",
+      "backend_focus": "go install 后 git config --global core.hooksPath 指向 hooks，在 test repo 故意留个空指针写一遍看拦截，评估是否在团队 pre-push 全量铺开。",
+      "meta": {
+        "language": "Go",
+        "stars": 3832,
+        "forks": 219,
+        "stars_period": "2,229 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 50,592 | Forks: 44,102 | 7,137 stars this week",
+      "chinese_summary": "多市场股票分析 + 自动推送，LLM 选股 + 决策看板。支持美股/A股/港股、新闻聚合、定时任务、零成本部署（GitHub Actions 跑）。和同花顺/雪球这类终端相比，它把分析权交给 LLM，胜在可定制 prompt 和 webhook 通知；劣势是数据源稳定性依赖第三方接口、无合规背书。Python + SQLite，docker compose 就能起。",
+      "backend_focus": "fork 后配 LLM API key 和市场数据源，跑 docker compose up -d，先订阅 1-2 只票跑一周看信号胜率，别直接接交易信号。",
+      "meta": {
+        "language": "Python",
+        "stars": 50592,
+        "forks": 44102,
+        "stars_period": "7,137 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 54,222 | Forks: 3,518 | 3,343 stars this week",
+      "chinese_summary": "开源设计协作平台，对标 Figma。Clojure 全栈，浏览器即用、支持 SVG 原生、自托管。和 Figma 比它胜在私有部署、代码可改、插件系统开放；牺牲的是生态成熟度和多人实时协作的稳定性，企业迁移成本不低。Docker compose 起一套，有 Postgres + Redis 依赖，前端资源 20MB+ 首次加载。",
+      "backend_focus": "docker compose up 起 demo，导一份 Figma .fig 看导入保真度，再让 3 个设计师并发编辑一个大文件测同步延迟，别直接迁生产设计资产。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 54222,
+        "forks": 3518,
+        "stars_period": "3,343 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 43,563 | Forks: 3,460 | 7,676 stars this week",
+      "chinese_summary": "给 AI agent 的「互联网眼睛」CLI。免 API key 直读 Twitter/Reddit/YouTube/GitHub/B站/小红书 6 站，比 SerpAPI/Tavily 这类付费搜索更偏「社媒深挖」，agent 写舆情/调研时少走一道代理。代价是抓取反爬靠社区维护，XHS/B 站动前端就可能挂。Python pip install 即用，零基础设施改动。",
+      "backend_focus": "pip install agent-reach 后用 reach read https://x.com/... 测一条真实 URL，对比官方 API 拉的数据完整度，确认稳定性后再嵌进你的 research agent 替换 SerpAPI。",
+      "meta": {
+        "language": "Python",
+        "stars": 43563,
+        "forks": 3460,
+        "stars_period": "7,676 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "interviewstreet/hiring-agent",
+      "url": "https://github.com/interviewstreet/hiring-agent",
+      "published_at": "",
+      "original_summary": "AI agent to evaluate and score resumes. | 语言: Python | Stars: 3,057 | Forks: 690 | 1,836 stars this week",
+      "chinese_summary": "AI 简历评估打分 agent，Python 写。给 HR/招聘团队筛简历用 LLM 跑评分。和传统 ATS（如 Greenhouse）比它轻、不挑格式（PDF/Word/图片 OCR 都吃）；但模型幻觉、候选人公平性、证据链缺失是硬伤，企业用前必须有人审。FastAPI 部署，单进程能扛几百份/小时。",
+      "backend_focus": "clone 后配 OPENAI_API_KEY，POST 50 份真实简历测准确率 vs HR 手评，同时抓 bad case 看 PII 泄露和幻觉比例，别直接上生产。",
+      "meta": {
+        "language": "Python",
+        "stars": 3057,
+        "forks": 690,
+        "stars_period": "1,836 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "jamiepine/voicebox",
+      "url": "https://github.com/jamiepine/voicebox",
+      "published_at": "",
+      "original_summary": "The open-source AI voice studio. Clone, dictate, create. | 语言: TypeScript | Stars: 34,959 | Forks: 4,211 | 3,965 stars this week",
+      "chinese_summary": "开源 AI 语音工作室：克隆/听写/创作三件套。TypeScript 全栈，本地跑 Whisper + 语音克隆模型。和 ElevenLabs 这类 SaaS 比，胜在数据私有、可商用、批量处理无分钟计费；代价是 GPU 显存吃紧、长音频分段对齐有 bug。Docker 一键起，自带 Web UI，后端有 FastAPI + Postgres。",
+      "backend_focus": "docker compose up 后用 30 秒样本跑一遍克隆，对比 ElevenLabs 同 prompt 输出音质和 RTF（real-time factor），评估能不能切到私有部署省掉 API 账单。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 34959,
+        "forks": 4211,
+        "stars_period": "3,965 stars this week"
+      }
+    }
+  ]
+}
