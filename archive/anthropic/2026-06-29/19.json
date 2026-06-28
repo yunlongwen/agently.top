@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-06-29T07:43:21.446769",
+  "source": {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "label": "Anthropic",
+    "content_source": "Anthropic",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://www.anthropic.com/news",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Statement on the US government directive to suspend access to Fable 5 and Mythos 5",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "published_at": "Jun 12, 2026",
+      "original_summary": "The US government has issued an export control directive to suspend all access to Fable 5 and Mythos 5.",
+      "chinese_summary": "跟进报道。Anthropic 发布正式声明，确认美国政府已下达出口管制指令，要求立即暂停对 Fable 5 与 Mythos 5 的全部访问。这是把此前传闻/草案落地为硬性合规要求，已在境外部署这两个模型的服务必须立刻下线和切流。Fable 5 / Mythos 5 的 API 端点将返回不可用或受限错误，地区可用性发生变化。",
+      "backend_focus": "立即检查：所有生产环境中是否仍指向 claude-fable-5 / claude-mythos-5（messages API）以及通过 Bedrock / Vertex 调用的对应 model id。在客户端做 503 兜底前先切到未受限版本（如 Claude Opus 4.8），并启用 region failover；同步打补丁到 SDK 与 gateway，避免继续发请求触发合规告警。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Tag Claude Tag is a new way for teams to work with Claude.",
+      "url": "https://www.anthropic.com/news/introducing-claude-tag",
+      "published_at": "Jun 23, 2026",
+      "original_summary": "Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America. Announcements  Expanding Project Glasswing We’re extending Project Glas...",
+      "chinese_summary": "Anthropic 在同一天打包发布多项公告，主条是 Introducing Claude Tag——团队使用 Claude 的新协作方式，另有 Claude Corps 奖学金、Project Glasswing 扩张以及 AI 政策建议发布。其中 Claude Tag 是面向团队协作的产品功能，其余为人才/政策类与工程无关。Anthropic 仅披露了标题，详细接口字段、SDK、定价尚未给出。",
+      "backend_focus": "暂不行动，仅关注 Claude Tag 后续 release notes。可让一个开发跟读 anthropic.com/news 看是否公布 API / SDK 字段或 admin 控制台入口；其余 Claude Corps、Glasswing、AExponential policy 与工程无关可直接忽略。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Opus 4.8 An upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consi",
+      "url": "https://www.anthropic.com/news/claude-opus-4-8",
+      "published_at": "Jun 23, 2026",
+      "original_summary": "Introducing Claude Tag Claude Tag is a new way for teams to work with Claude. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across Am...",
+      "chinese_summary": "Anthropic 正式发布 Claude Opus 4.8，作为 Opus 系列升级，重点强化 coding、agentic task 与专业工作能力。相对 Opus 4.5 在代理任务与复杂工作流上更强，通常伴随更大的有效 context window 与新的 tool use 行为。已有 Opus 4.x 调用应保持 SDK 最新，并在测试通过后平滑切换 model id，无需重写 prompt。",
+      "backend_focus": "升级方式：在 Messages API 把 model 字段从 claude-opus-4-5 切到 claude-opus-4-8，建议先在 staging 跑回归与 token 成本打点；同步更新 anthropic-sdk-python / anthropic-sdk-typescript 到最新 minor 以拿到新模型 metadata。注意观察 Opus 4.5 是否被纳入未来 deprecation 公告。",
+      "meta": {
+        "content_type": "Product"
+      }
+    }
+  ]
+}
