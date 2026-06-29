@@ -5,7 +5,7 @@
     "Robbyant",
     "lingbot",
     "map",
-    "前馈",
+    "流式",
     "3D"
   ],
   "first_seen": "2026-06-29",
@@ -16,7 +16,7 @@
   "evolution": [
     {
       "date": "2026-06-29",
-      "summary": "前馈式 3D 基础模型，从流式 RGB 视频增量重建场景，不做回环优化就能保持几何一致性。对比 COLMAP/OpenMVS：传统 SfM/MVS 离线 batch + 几分钟到几小时，lingbot-map 走 streaming inference 单帧十几 ms，更适合机器人/SLAM 在线建图；缺点是不带纹理 mesh 烘焙，精细建模还得接 NeRF/Gaussian Splatting。",
+      "summary": "流式 3D 场景重建的前馈式基础模型，输入 RGB 序列直接输出 3D Gaussian Splatting 或 mesh。核心是 feed-forward 不需要每场景优化（对比 NeRF/Splatfacto 那种 per-scene 训练），单卡 A100/H100 几秒出一场景。和 Dust3R/MV-DUSt3R 比：定位在 streaming 而非 pairwise，端到端不依赖 CO",
       "urls": [
         "https://github.com/Robbyant/lingbot-map"
       ]
