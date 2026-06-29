@@ -1,0 +1,100 @@
+{
+  "generated_at": "2026-06-29T20:51:55.194748",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 5,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 20,774 | Forks: 1,486 | 8,926 stars this week",
+      "chinese_summary": "C 语言写的代码知识图谱 MCP server，单二进制零依赖，给 LLM agent 当代码检索后端。核心能力：基于 tree-sitter 索引 158 种语言，亚毫秒级查询，号称比传统 codebase embedding 节省 99% token（直接走 AST 不丢上下文）。对比 LSP+ripgrep 组合它多了跨文件调用图，对比 Sourcegraph 这种自托管平台它轻量到能在 CI runner 里跑一份；但深度语义检索不如 embedding-based 向量方案，遇到陌生私有 DSL 容易识别错。上手成本：下载静态二进制 → 启 MCP server → 配到 Cursor/Claude Desktop，5 分钟搞定。",
+      "backend_focus": "在本地 clone 团队最大那个 monorepo，跑一下 codebase-memory-mcp index，对比目前用的 ripgrep+ctags 看跨文件引用查询延迟；同时把 MCP server 接入 Cursor 或 Claude Desktop，让 agent 改代码前先查调用图，记录一周 token 消耗下降幅度。",
+      "meta": {
+        "language": "C",
+        "stars": 20774,
+        "forks": 1486,
+        "stars_period": "8,926 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 23,079 | Forks: 1,830 | 6,728 stars this week",
+      "chinese_summary": "Google Labs 出的设计规范格式标准，类似 DESIGN.md 当 single source of truth 让 coding agent 理解视觉系统。核心能力：用结构化 markdown 描述色板、字号、组件 token、间距体系，agent 生成 UI 时按这份 spec 走。跟 Storybook/Figma Tokens 比它侧重的是「给 agent 看」而非「给人看」，跟 shadcn/ui 这类组件库比它不绑定 React。但纯规范文档没代码生成器，需自己写 prompt 模板把 spec 转成组件代码；也不解决设计 review 流程。上手成本：写一份 DESIGN.md 模板扔进 repo 即可，但要让 agent 真听话得配合 system prompt 注入。",
+      "backend_focus": "在团队前端 repo 根目录新建 DESIGN.md（色板/字号/组件 token 从 Figma 导出），在 Cursor/Claude system prompt 里强制 agent 改前端文件前先读这份 spec，跑两周统计前端 PR 里 design 相关的 review 轮次变化。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23079,
+        "forks": 1830,
+        "stars_period": "6,728 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 4,212 | Forks: 237 | 2,449 stars this week",
+      "chinese_summary": "Go 写的 git pre-push hook 工具：push 前自动跑检查，关掉就走不了。核心能力：把 lint、test、secret scan、commit message lint 串成 push 门禁，按分支/tag 配置不同严格度。跟 husky/lint-staged（前端场景）比它面向服务端 Go 工程，跟 pre-commit 这类 Python 框架比它是单二进制零依赖、启动更快。但功能集中在「拦」，不替代 CI，真正重的测试还是要丢到 CI runner。上手成本：go install 后在 repo 放 .no-mistakes.yaml，5 分钟接入。",
+      "backend_focus": "go install github.com/kunchenguid/no-mistakes，然后在团队 Go 服务 repo 写 .no-mistakes.yaml 接入 golangci-lint + go test ./... + gitleaks，强制所有 main 分支 push 都过门禁，对比启用前一周的 main 分支回滚率。",
+      "meta": {
+        "language": "Go",
+        "stars": 4212,
+        "forks": 237,
+        "stars_period": "2,449 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "interviewstreet/hiring-agent",
+      "url": "https://github.com/interviewstreet/hiring-agent",
+      "published_at": "",
+      "original_summary": "AI agent to evaluate and score resumes. | 语言: Python | Stars: 3,526 | Forks: 734 | 1,973 stars this week",
+      "chinese_summary": "Python 写的简历评估 agent，给 HR/招聘平台筛简历用。核心能力：解析 PDF/Word 简历 → JD 匹配打分 → 输出结构化 JSON，支持自定义评分维度（学历、年限、技能权重）。跟传统 ATS（如 Greenhouse 规则引擎）比它能处理非结构化表述，跟 LLM 直接 GPT 简历比它有评估可追溯性。但模型幻觉会误判边缘案例，公平性/合规（尤其涉及性别/年龄推断）需要自己加 guardrail。上手成本：pip install + 配 LLM API key，无外部 DB 依赖。",
+      "backend_focus": "不建议直接接生产招聘流程，先用 200 份脱敏简历跑一遍离线评估，对照 HR 人工打分算一遍 Cohen's kappa 看一致性，再决定是否进灰度；同时加 bias 检测规则把年龄/性别/学校关键词屏蔽。",
+      "meta": {
+        "language": "Python",
+        "stars": 3526,
+        "forks": 734,
+        "stars_period": "1,973 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 45,245 | Forks: 3,585 | 7,692 stars this week",
+      "chinese_summary": "Python 写的 CLI 工具，给 AI agent 加「联网眼睛」：免 API key 读 Twitter/Reddit/YouTube/GitHub/小红书/B站内容。核心能力：内置各平台 scraper（绕过部分反爬），统一 CLI 接口（agent-reach read/search），支持 MCP 协议让 Claude/Cursor 直接调用。跟官方 API 比它零费用免配额，跟 Playwright+自写 scraper 比它开箱覆盖 6+ 平台。但 scraper 跟平台反爬是猫鼠游戏，命中率会随时间下降，合规风险也存在（尤其小红书/B站账号被风控）。上手成本：pip install + 配 MCP server 到 IDE。",
+      "backend_focus": "pip install agent-reach，先单独跑 agent-reach read twitter <handle> 验证你关心的几个账号能否稳定拉取，再配进 Cursor 的 mcp.json 让 agent 联网搜；重点验证小红书和 B站命中率（这两个最容易触发反爬），拉不通就降级到 RSS。",
+      "meta": {
+        "language": "Python",
+        "stars": 45245,
+        "forks": 3585,
+        "stars_period": "7,692 stars this week"
+      }
+    }
+  ]
+}
