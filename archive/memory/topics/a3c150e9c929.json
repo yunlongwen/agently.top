@@ -16,7 +16,7 @@
   "evolution": [
     {
       "date": "2026-06-29",
-      "summary": "【Cloudflare 披露 hyper HTTP 库 bug】200 OK 但数据被截断。\n用户 giammbo：错误率平稳、延迟正常，光靠监控几乎抓不到，只能等用户投诉\n用户 logicchains：为什么 `let _ = self.poll_read(cx)?` 这种丢弃返回值的代码能活这么久？linter 都该报警\n【亮点】用 `let _ =` 吞掉错误这种反模式在关键基础设施里长期存",
+      "summary": "【Cloudflare 在 hyper HTTP 库发现竞态 bug】生产环境偶发截断响应，根因是 hyper 的 poll_flush 返回被丢弃。\n用户 100ms：hyper 的 reader 慢于 socket 缓冲区填满时，poll_flush 返回 Poll::Pending 但 dispatch loop 直接丢弃，然后认为响应完成关闭连接\n用户 giammbo：从 SRE 角度看这",
       "urls": [
         "https://blog.cloudflare.com/hyper-bug/"
       ]

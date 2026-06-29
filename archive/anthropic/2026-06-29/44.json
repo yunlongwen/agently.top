@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-06-29T17:48:21.415528",
+  "source": {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "label": "Anthropic",
+    "content_source": "Anthropic",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://www.anthropic.com/news",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Statement on the US government directive to suspend access to Fable 5 and Mythos 5",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "published_at": "Jun 12, 2026",
+      "original_summary": "The US government has issued an export control directive to suspend all access to Fable 5 and Mythos 5.",
+      "chinese_summary": "跟进报道：美国政府对 Anthropic 下达出口管制指令，立即全面暂停 Fable 5 与 Mythos 5 的访问。这是强制性下线通知，与历史报道一致，对使用这两个模型的服务是硬性停服。需要立即从生产环境的 model 字段移除，并在监控侧将相关请求切到仍可用的替代模型。",
+      "backend_focus": "紧急：把所有调用 model=\"fable-5\"、model=\"mythos-5\" 的请求立即迁回可用型号（如 Claude Opus 4.8、Claude Sonnet 4.x），并清空 SDK 客户端里硬编码的模型字符串；建立 model 白名单校验避免上游变更导致 403。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Tag Claude Tag is a new way for teams to work with Claude.",
+      "url": "https://www.anthropic.com/news/introducing-claude-tag",
+      "published_at": "Jun 23, 2026",
+      "original_summary": "Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America. Announcements  Expanding Project Glasswing We’re extending Project Glas...",
+      "chinese_summary": "Anthropic 推出 Claude Tag，作为团队与 Claude 协作的新方式。原文摘要同时混入 Claude Corps、Project Glasswing、Policy on the AI Exponential 等多条公告信息，具体功能边界和接口形态在摘要中未展开，需要进一步查看原页确认是产品功能、协作机制还是单纯的品牌项目。",
+      "backend_focus": "暂不行动：点击原页确认 Claude Tag 是否对应新的 API/SDK 能力、权限模型或 tool 字段；如果是产品功能，再评估对现有 Claude 集成的影响。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Opus 4.8 An upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consi",
+      "url": "https://www.anthropic.com/news/claude-opus-4-8",
+      "published_at": "Jun 23, 2026",
+      "original_summary": "Introducing Claude Tag Claude Tag is a new way for teams to work with Claude. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across Am...",
+      "chinese_summary": "Anthropic 发布 Claude Opus 4.8，作为 Opus 系列升级版本，在 coding、agentic tasks、专业工作负载上性能更强，并承载更一致的能力表现。这是从 Claude Opus 4.5 向 4.8 的大跨度迭代，coding 与 agent 能力提升对已有 Claude 集成是直接受益。调用方可在评估后把 model 字段从 claude-opus-4-5 升到 claude-opus-4-8。",
+      "backend_focus": "升级建议：在 Chat Completions / Messages API 中将 model=\"claude-opus-4-5\" 切换为 model=\"claude-opus-4-8\"；先在 staging 跑回归 eval，重点关注 tool use、long context 表现与 max_tokens 是否同步上调；4.5 的 deprecation 时间线关注后续公告。",
+      "meta": {
+        "content_type": "Product"
+      }
+    }
+  ]
+}
