@@ -1,0 +1,148 @@
+{
+  "generated_at": "2026-06-29T23:06:00.638425",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 8,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "msitarzewski/agency-agents",
+      "url": "https://github.com/msitarzewski/agency-agents",
+      "published_at": "",
+      "original_summary": "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with personality, processes, and proven deliverables. | 语言: Shell | Stars: 118,469 | Forks: 19,421 | 1,221 stars today",
+      "chinese_summary": "Shell 写的「AI Agency」Agent 人设库，一堆角色 prompt + 工作流，对接 Claude Code / Codex 这类 CLI agent 直接当团队扩编用。本质是 prompt 模板+编排范式，和 LangGraph/AutoGen 比好处是免去自己设计 SOP、开箱按职能分桶。坑在 prompt 全英文且没加版本管理，多 agent 并发调用 OpenAI/Anthropic API 账单不好控。",
+      "backend_focus": "拿一个真实项目（如内部周报生成、竞品监控、PR review pre-check）跑一下里面的 2-3 个角色 prompt，对比单 agent 直调的输出质量，再决定要不要纳入团队 agent 工具链。",
+      "meta": {
+        "language": "Shell",
+        "stars": 118469,
+        "forks": 19421,
+        "stars_period": "1,221 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "cupy/cupy",
+      "url": "https://github.com/cupy/cupy",
+      "published_at": "",
+      "original_summary": "NumPy & SciPy for GPU | 语言: Python | Stars: 11,732 | Forks: 1,077 | 352 stars today",
+      "chinese_summary": "把 NumPy/SciPy 数组计算 drop-in 换成 GPU 的库，API 完全兼容 ndarray、ufunc 和大部分 SciPy 例程，底层走 CUDA（原 ROCm/HIP 也有支持）。相对于手写 PyTorch/TensorFlow 算子，它对遗留科学计算代码最友好——只改 import 就能跑 A100/H100。明显短板是显存成为硬墙，>40GB 单 dataset 容易 OOM；纯深度学习还是 PyTorch 更顺。",
+      "backend_focus": "选一个 CPU 跑得慢的脚本（SciPy 信号处理 / 矩阵分解这类），pip install cupy-cuda12x 后把 import numpy as np 临时换成 cupy，跑到 GPU 上用 nvidia-smi 看显存和耗时，再决定是否纳入数值计算流水线。",
+      "meta": {
+        "language": "Python",
+        "stars": 11732,
+        "forks": 1077,
+        "stars_period": "352 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "soxoj/maigret",
+      "url": "https://github.com/soxoj/maigret",
+      "published_at": "",
+      "original_summary": "🕵️‍♂️ Collect a dossier on a person by username from 3000+ sites | 语言: Python | Stars: 34,168 | Forks: 2,590 | 191 stars today",
+      "chinese_summary": "OSINT 工具，给一个用户名到 3000+ 网站去查注册情况，Python CLI。底层是异步并发+各站点封面图/头像抓取拼 dossier。相对 Sherlock 覆盖站点多 2-3 倍并支持更多字段(profile bio / post)，相对 Maltego 不依赖商业 feed 也不画关系图。用途有边界：必须合法授权场景下的人身/账号尽调，企业内反钓鱼溯源能落地，做黑公关式背景调查就算了。",
+      "backend_focus": "pip install maigret 跑一下自己公司安全域名下的几个公开账号（官方推特/CTO GitHub），看返回的 URL 是否都干净不被劫持，再考虑纳入安全团队做员工钓鱼预警流程。",
+      "meta": {
+        "language": "Python",
+        "stars": 34168,
+        "forks": 2590,
+        "stars_period": "191 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "commaai/openpilot",
+      "url": "https://github.com/commaai/openpilot",
+      "published_at": "",
+      "original_summary": "openpilot is an operating system for robotics. Currently, it upgrades the driver assistance system on 300+ supported cars. | 语言: Python | Stars: 62,675 | Forks: 11,106 | 465 stars today",
+      "chinese_summary": "comma.ai 的开源 ADAS 操作系统，把 300+ 车型原车 ACC/LK 升级到 L2 级辅助驾驶。核心能力是 CAN 总线读写 + 视觉车道/车距模型 + 实时控制闭环，相对于 Tesla FSD/Mobileye EyeQ 是全栈开源+可改，但算力依赖特定 comma two/three 硬件(eon Gold 之类老 Atom)。后端工程师除非在做自动驾驶 / 机器人赛道，否则是看个思路。",
+      "backend_focus": "如果团队在搞边缘端实时控制/机器人，clone 仓库看下 cereal（comma 自定义 IPC 序列化）和 planner 子模块的架构，对自家 ROS2 节点设计有借鉴价值；不在这个赛道就纯 star 跟进。",
+      "meta": {
+        "language": "Python",
+        "stars": 62675,
+        "forks": 11106,
+        "stars_period": "465 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ripienaar/free-for-dev",
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "published_at": "",
+      "original_summary": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev | 语言: HTML | Stars: 126,476 | Forks: 13,245 | 1,971 stars today",
+      "chinese_summary": "DevOps/SRE 找免费层 SaaS/PaaS/IaaS 的清单仓库，HTML 单页索引。覆盖 DB、邮件、监控、CI、对象存储等几十个类目几百家厂商，每条带免费额度说明。相对于自己 Google 找「best free X」博客文，列表维护更勤、有 PR review，能直接拿来当内部 reference。对个人项目和 PoC 选型极有用；企业生产挑家还是要走 SOC2/合规评估。",
+      "backend_focus": "在团队 Confluence/Notion 起一页「Free Tier Register」,把这个 repo 当数据源，新 PoC 启动前先查一次表避免直接上付费层,顺手给已用服务补一个降级方案链接。",
+      "meta": {
+        "language": "HTML",
+        "stars": 126476,
+        "forks": 13245,
+        "stars_period": "1,971 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "logto-io/logto",
+      "url": "https://github.com/logto-io/logto",
+      "published_at": "",
+      "original_summary": "🧑‍🚀 Authentication and authorization infrastructure for SaaS and AI apps, built on OIDC and OAuth 2.1 with multi-tenancy, SSO, and RBAC. | 语言: TypeScript | Stars: 12,424 | Forks: 850 | 77 stars today",
+      "chinese_summary": "面向 B2B SaaS / AI 产品的 Auth/Authz 中台,TypeScript 写的,主协议 OIDC + OAuth 2.1,自带多租户、SSO、RBAC、MFA、开箱 UI。相对 Auth0/Clerk 它能私有化部署、无 per-MAU 计费;相对自撸 NextAuth 它把企业特性(目录同步/审计日志/机器账)做齐了。短板是自部署一套要 Postgres + Redis + 客户端 SDK 集成,代码改动量大于直接接 Clerk 的方案。",
+      "backend_focus": "docker compose 起 logto + postgres,跑 quick-start 集成到你们 NextJS/Node 服务里注册一个多租户应用,试试 OIDC token 长度/刷新/SAML 流;如果 B2B 客户开始提 SSO 要求就替换现有自研 auth。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 12424,
+        "forks": 850,
+        "stars_period": "77 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "xbtlin/ai-berkshire",
+      "url": "https://github.com/xbtlin/ai-berkshire",
+      "published_at": "",
+      "original_summary": "AI 时代的伯克希尔：基于 Claude Code / Codex 的价值投资研究框架。巴菲特·芒格·段永平·李录四大师方法论 + 多Agent并行研究。| AI-era Berkshire: a value investing research framework built for Claude Code / Codex. 4 masters' methodologies + multi-agent adversarial analysis. | 语言: Python | Stars: 6,410 | Forks: 843 | 1,397 stars today",
+      "chinese_summary": "基于 Claude Code / Codex CLI 的价值投资研究框架,Python 多 agent 并行 + 四位投资人方法论 prompt(巴菲特/芒格/段永平/李录)。相对于通用 auto-research(deep-research 类)它把投资 SOP 刻进了角色 prompt;相对 quant 框架 backtesting 它是定性分析为主。用途边界:只能当研报加速器辅助,信号和下单不进同一回路。",
+      "backend_focus": "拿一只你们正在跟踪的票,按它给的 demo 跑一次多 agent 研究,对比自家分析师 1 小时出的 memo 看哪些 fact/checklist 漏掉了;提示词可以抽出来给内部研究工具复用,不一定要照搬投资框架。",
+      "meta": {
+        "language": "Python",
+        "stars": 6410,
+        "forks": 843,
+        "stars_period": "1,397 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "browser-use/video-use",
+      "url": "https://github.com/browser-use/video-use",
+      "published_at": "",
+      "original_summary": "Edit videos with coding agents | 语言: Python | Stars: 11,661 | Forks: 1,548 | 976 stars today",
+      "chinese_summary": "browser-use 出的视频编辑 agent,把视频处理包成 coding agent 能调的工具(Python)。核心能力是 agent 能 ffmpeg-style 自动切片/转码/拼接/加字幕并自己 lint 输出。相对 handbrake/shotcut 桌面 GUI 它走 CLI+agent,适合 pipeline 化转码;相对纯 ffmpeg script 它牺牲粒度换 LLM 决定创意选择。要生产稳定批处理还是 ffmpeg pipeline 更可控。",
+      "backend_focus": "pip install browser-use + 它 video 插件,把团队内部的「会议录制转带字幕/重点剪辑」这种非实时任务跑一遍,对比现成 ffmpeg 脚本的耗时和报错率,决定是否替换为 agent 流程。",
+      "meta": {
+        "language": "Python",
+        "stars": 11661,
+        "forks": 1548,
+        "stars_period": "976 stars today"
+      }
+    }
+  ]
+}
