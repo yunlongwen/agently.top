@@ -16,7 +16,7 @@
   "evolution": [
     {
       "date": "2026-06-29",
-      "summary": "【Cloudflare 在 hyper HTTP 库发现竞态 bug】生产环境偶发截断响应，根因是 hyper 的 poll_flush 返回被丢弃。\n用户 100ms：hyper 的 reader 慢于 socket 缓冲区填满时，poll_flush 返回 Poll::Pending 但 dispatch loop 直接丢弃，然后认为响应完成关闭连接\n用户 giammbo：从 SRE 角度看这",
+      "summary": "【Cloudflare 披露 hyper HTTP 库的并发 bug】超大规模 HTTP/1 响应截断缺陷。\n用户 100ms：根因是 hyper 的 reader 与 socket buffer 竞态，poll_flush 返回 Pending 被 dispatch loop 丢弃\n用户 giammbo：SRE 视角最有意思——200 OK 截断无错误日志，错误率和延迟全正常，纯靠用户反馈才能发",
       "urls": [
         "https://blog.cloudflare.com/hyper-bug/"
       ]
