@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-30T08:02:23.601414",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 21,406 | Forks: 1,538 | 8,926 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单静态二进制零依赖，平均仓库毫秒级索引、亚毫秒查询、声称省 99% token。跟传统 LSP（gopls/jdtls）比，它走的是语义层而不是 AST 补全，更适合喂给 LLM 做跨文件改动的 context；跟 Aider 的 repo map 比是独立服务进程，多个 agent 可以共享同一份索引，省重复 parse 开销。158 种语言覆盖意味着 polyglot 仓库不用切工具。缺点：知识图谱 schema 写死，定制成本未知，且没有看到 benchmark 数据。",
+      "backend_focus": "拉二进制起一个进程，配到 Claude Code/Cursor 的 MCP config 里，拿团队核心 monorepo（建议 50 万行以上）跑一次索引，对比开/不开 MCP server 时 agent 改跨文件 bug 的成功率与 token 消耗。",
+      "meta": {
+        "language": "C",
+        "stars": 21406,
+        "forks": 1538,
+        "stars_period": "8,926 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 23,189 | Forks: 1,835 | 6,728 stars this week",
+      "chinese_summary": "Google Labs 出的设计规范格式，让 DESIGN.md 成为 agent 持久化的 design system context。跟 Figma Tokens / Style Dictionary 这类传统 design token 工具比，定位完全不同——后者管的是设计师→前端交付，后者管的是「人类写一次样式规则、所有 coding agent 持续遵守」。解决的是「AI 写的页面一会儿像 Material 一会儿像 Tailwind」的漂移问题。TypeScript 实现意味着可以做成 lint 插件或者直接喂给 agent prompt。",
+      "backend_focus": "把团队现有 Tailwind config 和组件库 token 抽成一份 DESIGN.md，放到仓库根目录，下次让 Claude Code 改 UI 时显式引用，对比改出来页面与设计稿的一致度。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23189,
+        "forks": 1835,
+        "stars_period": "6,728 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 4,325 | Forks: 242 | 2,449 stars this week",
+      "chinese_summary": "名字叫 no-mistakes（git push no-mistakes），Go 写的，从描述看不出具体功能，但从命名和星标增速（2.4k/周）推测是个 git pre-push 钩子工具，可能在 push 前做 lint/test/secret scan 之类的拦截。仓库描述严重不足，没有 README 摘要，无法判断具体技术特征。暂不建议在生产环境使用，建议等作者补充文档。",
+      "backend_focus": "先别碰，描述里没给功能说明。等作者补 README 或者翻 issues/PR 确认是 pre-push 钩子还是 wrapper 之后再评估是否能接入团队 git 流程。",
+      "meta": {
+        "language": "Go",
+        "stars": 4325,
+        "forks": 242,
+        "stars_period": "2,449 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "JCodesMore/ai-website-cloner-template",
+      "url": "https://github.com/JCodesMore/ai-website-cloner-template",
+      "published_at": "",
+      "original_summary": "Clone any website with one command using AI coding agents | 语言: TypeScript | Stars: 23,474 | Forks: 3,342 | 5,317 stars this week",
+      "chinese_summary": "TypeScript 写的「一行命令克隆任意网站」模板，把网站爬取 + 视觉还原打包成 AI agent 可调用的流程。跟 HTTrack、Wget 这类传统镜像工具比，差异是走 LLM 理解 DOM 结构，能把 Tailwind class 还原成组件而不是死抠 HTML；跟 v0/Lovable 的截图转代码比，定位是「克隆已有站点」而不是从设计稿生成。Star 数 2.3 万但描述含糊，没有看到反爬绕过或动态渲染的处理说明。",
+      "backend_focus": "clone 下来跑一遍 demo，对自己已知结构的官网（如自家产品页）跑一次克隆，对比输出 HTML 与原站 diff 率。注意版权风险，不要拿去爬别人站点做产品。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23474,
+        "forks": 3342,
+        "stars_period": "5,317 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "",
+      "original_summary": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile. | 语言: TypeScript | Stars: 9,083 | Forks: 621 | 2,769 stars this week",
+      "chinese_summary": "Orca 是并行 agent 编排桌面/移动端 ADE（Agentic Development Environment），TypeScript 写的，可以拿自己的 LLM 订阅跑多个并发 coding agent。跟 LangGraph 这类 agent 框架比，定位是「GUI+调度器」而不是 SDK；跟 Cursor 比，差异是「fleet 管理」——同时跑多个 agent 处理不同任务。看描述没有提到 sandbox 隔离机制，多个 agent 并行写代码如果没有 workspace 隔离，文件冲突会很难处理。",
+      "backend_focus": "clone 桌面端跑一次，把团队 issue 列表里 3-5 个独立小任务并行丢进去，验证 workspace 隔离和并发安全后再考虑给团队引入。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 9083,
+        "forks": 621,
+        "stars_period": "2,769 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 45,715 | Forks: 3,624 | 7,692 stars this week",
+      "chinese_summary": "Agent-Reach 是给 AI agent 加「眼睛」的 CLI 工具，统一封装 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书的读和搜，零 API 费用。跟 SerpAPI/Tavily 这类通用搜索 API 比，差异在「免 key 直连爬虫」而不是聚合搜索引擎；跟自建 scraper 比，省了反爬对抗。Python 实现，单 CLI 集成方便。代价是高频使用容易被各平台 rate limit 或封 IP，且零费用背后可能是不稳定——生产环境慎用。",
+      "backend_focus": "pip install 后给团队 Claude Code 配一条 system prompt：「需要查社区反馈时调 Agent-Reach」，跑一次 X/Reddit 抓取验证延迟和成功率，评估是否能替换部分 SerpAPI 调用以省钱。",
+      "meta": {
+        "language": "Python",
+        "stars": 45715,
+        "forks": 3624,
+        "stars_period": "7,692 stars this week"
+      }
+    }
+  ]
+}
