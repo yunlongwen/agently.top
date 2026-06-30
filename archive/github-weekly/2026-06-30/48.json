@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-06-30T20:27:16.477836",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 7,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "simplex-chat/simplex-chat",
+      "url": "https://github.com/simplex-chat/simplex-chat",
+      "published_at": "",
+      "original_summary": "SimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱! | 语言: Haskell | Stars: 17,207 | Forks: 1,000 | 4,847 stars this week",
+      "chinese_summary": "完全去标识的端到端加密消息协议，Haskell 写，没有用户 ID、没有手机号、没有公钥泄露——这是和 Signal/Telegram 最大的区别（Signal 仍依赖手机号）。跨 iOS/Android/桌面三端，部署上客户端直接下载可用，不需自建服务器。适合隐私敏感场景，但代价是群组/发现/生态远不如主流 IM，团队协作别用。",
+      "backend_focus": "用 Haskell 客户端源码做参考：研究它如何用 Noise 协议 + 双 ratchet 在无 ID 体系下做握手，移植思路可套到内部审计/举报系统。在 staging 用两个设备跑一遍群组邀请流程验证可用性。",
+      "meta": {
+        "language": "Haskell",
+        "stars": 17207,
+        "forks": 1000,
+        "stars_period": "4,847 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 23,543 | Forks: 1,854 | 7,104 stars this week",
+      "chinese_summary": "Google Labs 出的设计规范中间层：让 coding agent 读 DESIGN.md 就能理解整套视觉系统，TypeScript 写，可执行。跟 Figma Tokens / Style Dictionary 比，DESIGN.md 是给 LLM 看的结构化描述+校验器，agent 改 UI 时不会破坏品牌一致性；缺点是刚出，规范兼容性、Token 工具链的迁移成本未知。适合设计系统成熟的中大型前端团队。",
+      "backend_focus": "把团队现有 Tailwind config + Storybook 主题导出成 DESIGN.md，跑一遍 google-labs-code 提供的 linter 验证 agent 改组件后是否破坏 token。命令：npx @google-labs/design-md init。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23543,
+        "forks": 1854,
+        "stars_period": "7,104 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 22,211 | Forks: 1,606 | 9,899 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单二进制零依赖，声称毫秒级索引、亚毫秒查询、token 用量比传统补全少 99%。跟 Sourcegraph / LSP 比，它走 MCP 协议直接喂给 Claude/Cursor，不需要 IDE 插件，158 语言覆盖比 ctags 广。适合本地 LLM 工作流和代码评审 Agent，缺点是图谱而非纯文本搜索，反向定位「某行被谁调用」这种 LSP 强项它不一定行。",
+      "backend_focus": "下载预编译二进制，给团队 monorepo 跑一次：./codebase-memory-mcp index . && 接进 Claude Desktop。拿一个常用服务做基准，对比之前用 grep + ripgrep 喂代码给 LLM 的 token 消耗差异。",
+      "meta": {
+        "language": "C",
+        "stars": 22211,
+        "forks": 1606,
+        "stars_period": "9,899 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 4,417 | Forks: 251 | 2,677 stars this week",
+      "chinese_summary": "Go 写的 Git 推送拦截钩子，名字很野但本质是 pre-push 守门员：检测敏感信息、坏提交信息、目标分支保护。本周 2.6k star 增长看着像 meme 项目，但这种工具 CI 拦不住本地 commit 阶段，理论上可以跟 git-secrets、pre-commit 框架配合。判断：写「npm install 后台」「db_password=x」这种低级错误的团队能用，否则作用有限。",
+      "backend_focus": "看仓库源码确认是不是真有 hook 逻辑（目前 251 fork 偏低，可能是 meme），如果是真的就在团队 git 全局模板加：git config --global core.hooksPath $(go env GOPATH)/pkg/no-mistakes。",
+      "meta": {
+        "language": "Go",
+        "stars": 4417,
+        "forks": 251,
+        "stars_period": "2,677 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 52,219 | Forks: 45,293 | 6,297 stars this week",
+      "chinese_summary": "LLM 多市场股票分析系统，Python 写，串行情/新闻/财报后用大模型出决策看板，支持定时推送和零成本（GitHub Actions）部署。52k star 但 fork 45k 异常（接近 1:1）说明多数是 fork 跑自己的策略。跟传统量化回测（backtrader/quantstats）比它重新闻情绪、轻策略回测，适合散户辅助决策，不能直接当交易系统用。",
+      "backend_focus": "在 GitHub Actions 的 secrets 配 OPENAI_API_KEY，fork 后改 .github/workflows/daily.yml 调成你团队作息时区。提醒：散户玩具，生产交易系统别接入。",
+      "meta": {
+        "language": "Python",
+        "stars": 52219,
+        "forks": 45293,
+        "stars_period": "6,297 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "",
+      "original_summary": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile. | 语言: TypeScript | Stars: 9,440 | Forks: 643 | 3,047 stars this week",
+      "chinese_summary": "并行 Agent 调度 IDE（ADE），TypeScript 写，能用你自己的 Claude/Cursor 订阅批量跑多个 Agent 任务，桌面+移动端。跟 LangGraph/AutoGen 这种 SDK 比它是终端用户产品，跟 devin/cursor background agent 比它绕开官方按量计费。适合跑批量重构、迁移、写测试这种可并行的工程任务，但自带订阅规避机制有 ToS 风险。",
+      "backend_focus": "在内部 staging 跑一次：用 5 个 Agent 并行给一个老服务补 unit test，对比单人串行耗时。但要先确认你们用 Claude/Cursor 的 ToS 是否允许多 agent 并发，否则账号可能被封。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 9440,
+        "forks": 643,
+        "stars_period": "3,047 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "alibaba/page-agent",
+      "url": "https://github.com/alibaba/page-agent",
+      "published_at": "",
+      "original_summary": "JavaScript in-page GUI agent. Control web interfaces with natural language. | 语言: TypeScript | Stars: 20,727 | Forks: 1,778 | 1,858 stars this week",
+      "chinese_summary": "Alibaba 出的页面级 GUI Agent，JS 写，注入到网页后用自然语言操控界面——类似 Anthropic Computer Use 但限定在浏览器内。跟 Selenium/Playwright 比它零代码、自然语言驱动；跟 OpenAI Operator 比它是开源的、可自部署、可注入到内部后台。适合内部老旧系统自动化、QA 录脚本，但执行可靠率（没看到具体 benchmark）通常是这类工具的命门。",
+      "backend_focus": "npm i page-agent 接到内部 admin 后台，演示用「把订单状态为 X 的批量改成 Y」这种固定流程，统计 50 次操作的成功率。对比 Playwright 脚本的维护成本决定是否铺开。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 20727,
+        "forks": 1778,
+        "stars_period": "1,858 stars this week"
+      }
+    }
+  ]
+}
