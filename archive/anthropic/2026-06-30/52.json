@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-06-30T21:35:08.573651",
+  "source": {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "label": "Anthropic",
+    "content_source": "Anthropic",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://www.anthropic.com/news",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Statement on the US government directive to suspend access to Fable 5 and Mythos 5",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "published_at": "Jun 12, 2026",
+      "original_summary": "The US government has issued an export control directive to suspend all access to Fable 5 and Mythos 5.",
+      "chinese_summary": "跟进报道：Anthropic 确认因美国政府出口管制指令，全面暂停 Claude Fable 5 与 Mythos 5 的访问，包括已签发的 API key。这是强制性合规中断而非性能/能力变更，所有调用 Fable 5、Mythos 5 端点的服务将立即返回鉴权失败。现有 Claude Opus/Sonnet/Haiku 系列不受影响，但 model id 需立即从调用链路移除。",
+      "backend_focus": "立即行动：1) 检索代码与配置中所有 `claude-fable-5-*` / `claude-mythos-5-*` model id，全部替换为可用的 Claude Opus 4.x/Sonnet 4.x；2) 检查 multi-region failover 配置，移除指向 Fable/Mythos 区域的路由；3) 关注 Anthropic 后续是否开放 export-controlled 客户名单与迁移过渡期。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Tag Claude Tag is a new way for teams to work with Claude.",
+      "url": "https://www.anthropic.com/news/introducing-claude-tag",
+      "published_at": "Jun 23, 2026",
+      "original_summary": "Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America. Announcements  Expanding Project Glasswing We’re extending Project Glas...",
+      "chinese_summary": "Anthropic 发布多条公告合集，包含 Claude Tag（团队协作新方式）、AI 政策提案、Claude Corps 奖学金与 Project Glasswing 扩展。其中 Claude Tag 属于产品功能，其他为治理/品牌项目。除 Claude Tag 外均不涉及 API/SDK 能力变化；Claude Tag 详情需进一步查证是否引入新接口。",
+      "backend_focus": "重点跟进 Claude Tag：登录 Anthropic Console / 文档确认其是 console 协作功能还是有 SDK/Agent SDK 新接口（如 `tag` 参数或新 event type）；其余三条公告无需行动。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Opus 4.8 An upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consi",
+      "url": "https://www.anthropic.com/news/claude-opus-4-8",
+      "published_at": "Jun 23, 2026",
+      "original_summary": "Introducing Claude Tag Claude Tag is a new way for teams to work with Claude. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across Am...",
+      "chinese_summary": "Anthropic 发布 Claude Opus 4.8，作为 Opus 系列升级版本，在 coding、agentic 任务和专业工作负载上性能更强，附带「consequential」类相关说明（原文截断）。相比 Claude Opus 4.5/4.x，model id 升级为 `claude-opus-4-8`，可能伴随新的 max_tokens 与 context window 上限。现有 Opus 调用需做兼容性评估。",
+      "backend_focus": "建议立即评估：1) 在 Claude API / Bedrock / Vertex AI 把 model 字段切到 `claude-opus-4-8` 做灰度，对 coding/agent 场景跑 regression；2) 关注 release notes 中 max_tokens、context window 是否有变动，必要时调整 prompt 缓存与 streaming 客户端；3) 待 GA 稳定后再把线上 Opus 4.x 流量切过去，旧版本关注 deprecation 时间线。",
+      "meta": {
+        "content_type": "Product"
+      }
+    }
+  ]
+}
