@@ -1,0 +1,148 @@
+{
+  "generated_at": "2026-07-01T02:56:45.483600",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 8,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "hasaneyldrm/exercises-dataset",
+      "url": "https://github.com/hasaneyldrm/exercises-dataset",
+      "published_at": "",
+      "original_summary": "A comprehensive dataset of 433 fitness exercises. Each entry includes name, category, target muscle group, equipment, instructions, thumbnail image, and animation video. | 语言: HTML | Stars: 6,102 | Forks: 761 | 1,413 stars today",
+      "chinese_summary": "健身动作结构化数据集，433 条记录覆盖名称/肌群/器械/步骤/缩略图/动画视频。直接 JSON 适合喂给 RAG 或健身 Agent 当知识库；不是模型也不是服务，定位更接近 content corpus。和 ExRx/Wikipedia 抓取相比，它把 GIF+步骤打包成统一 schema，省了清洗。缺点是 433 条对严肃训练 App 太薄，需要再叠自有数据。上手成本：clone 即用，零依赖。",
+      "backend_focus": "拉下来塞进你们 RAG pipeline 的 fitness domain 跑一次召回准确率，看是否能替换现有的 wiki 爬虫源；顺便用 JSON schema 当 contract 写一个 ingestion job 把后续自有动作数据补进去。",
+      "meta": {
+        "language": "HTML",
+        "stars": 6102,
+        "forks": 761,
+        "stars_period": "1,413 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "usestrix/strix",
+      "url": "https://github.com/usestrix/strix",
+      "published_at": "",
+      "original_summary": "Open-source AI penetration testing tool to find and fix your app’s vulnerabilities. | 语言: Python | Stars: 27,954 | Forks: 3,115 | 395 stars today",
+      "chinese_summary": "开源 AI 渗透测试 Agent，能自动跑漏洞扫描+复现+出修复建议。比传统 Burp/ZAP 多了 LLM 驱动的 exploit chain 推理，OWASP Top 10 场景基本能自动闭环；不适合做合规审计报告（缺人审签字），适合 CI 里当安全 gate。Python 部署，需要 LLM API key，模型选 GPT-4/Claude 级别才有效果。",
+      "backend_focus": "在 staging 环境跑一遍：pip install strix 后对你们一个测试用 web app 跑全量扫描，对比 ZAP baseline 的检出率和误报率，再决定是否加进 PR pipeline 做预合并门禁。",
+      "meta": {
+        "language": "Python",
+        "stars": 27954,
+        "forks": 3115,
+        "stars_period": "395 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "msitarzewski/agency-agents",
+      "url": "https://github.com/msitarzewski/agency-agents",
+      "published_at": "",
+      "original_summary": "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with personality, processes, and proven deliverables. | 语言: Shell | Stars: 120,579 | Forks: 19,701 | 1,793 stars today",
+      "chinese_summary": "一堆预设好 system prompt 的 AI Agent 角色集合（前端/Reddit 运营/吐槽官等），Shell 仓库本质是 prompt + 工作流模板。跟 LangGraph/AutoGen 比优势是开箱即用、不写编排代码；劣势是角色耦合 Claude/GPT 行为，换模型要重测。每个 agent 是个 .md，本质是 prompt engineering 教学仓库。",
+      "backend_focus": "挑 2-3 个最贴近你们业务的 agent prompt（建议先看 frontend-wizard 和 reality-checker），复制进你们现有 Claude Code/Cursor workspace 跑一周，看是否能省掉部分需求评审会议。",
+      "meta": {
+        "language": "Shell",
+        "stars": 120579,
+        "forks": 19701,
+        "stars_period": "1,793 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "diegosouzapw/OmniRoute",
+      "url": "https://github.com/diegosouzapw/OmniRoute",
+      "published_at": "",
+      "original_summary": "Never stop coding. Free AI gateway: one endpoint, 160+ providers (50+ free), connect Claude Code, Codex, Cursor, Cline & Copilot to FREE Claude/GPT/Gemini. RTK+Caveman stacked compression saves 15-95% tokens, smart auto-fallback, MCP/A2A, multimodal APIs, Desktop/PWA. | 语言: TypeScript | Stars: 8,348 | Forks: 1,385 | 459 stars today",
+      "chinese_summary": "统一 AI API 网关，单 endpoint 暴露 160+ LLM provider（50+ 免费），主打 token 压缩（RTK+Caveman 双层省 15-95%）+ provider 自动 failover + MCP/A2A 协议。TS 写，对标 OpenRouter/LiteLLM 但多了 token 压缩和 desktop 客户端。比 LiteLLM 强在零代码切换 provider 和内嵌 Claude Code/Cursor 桥接；自部署需要 Postgres + Redis。",
+      "backend_focus": "docker-compose 起一个本地实例，把现有 Claude Code/Cursor 的 base URL 切过去跑一周，重点看 token 计费账单对比和 provider 切换的延迟抖动；高优 action：检查你们付费模型的请求里有多少能被 RTK 压缩成 30% 以下。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 8348,
+        "forks": 1385,
+        "stars_period": "459 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "browser-use/video-use",
+      "url": "https://github.com/browser-use/video-use",
+      "published_at": "",
+      "original_summary": "Edit videos with coding agents | 语言: Python | Stars: 12,479 | Forks: 1,598 | 722 stars today",
+      "chinese_summary": "用 coding agent（Claude/Cursor 类）直接编辑视频的 Python 工具，思路是把视频当成可被自然语言+代码操控的对象。跟 FFmpeg/Descript 比，它把剪辑逻辑写成 Python script 走 LLM 编排；跟 Remotion 比省了前端，适合后端工程师快速出 demo。缺点是 agent 决策有随机性，精细剪辑不如手动。",
+      "backend_focus": "pip install 跑一个 demo：让它自动剪辑一段 5 分钟会议录播成 1 分钟 highlight，对比你们现在用 ffmpeg + 人工剪辑的耗时；重点验证 prompt 可复现性，团队决定是否作为内部视频 summary 流水线。",
+      "meta": {
+        "language": "Python",
+        "stars": 12479,
+        "forks": 1598,
+        "stars_period": "722 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "Mebus/cupp",
+      "url": "https://github.com/Mebus/cupp",
+      "published_at": "",
+      "original_summary": "Common User Passwords Profiler (CUPP) | 语言: Python | Stars: 6,063 | Forks: 2,045 | 61 stars today",
+      "chinese_summary": "基于公开信息生成定制化密码字典的 Python 工具（CUPP），把生日/姓名/宠物/常用词组合输出成 wordlist，渗透测试里做社工字典。和 rockyou.txt/Seclists 比，它针对单个目标生成字典，对社工场景命中率远高于通用字典；Python 3 跑，零外部 API。",
+      "backend_focus": "在你们下一次红队演练里挑 2 个测试账号跑一遍，对比通用 SecLists 字典的命中率；如果你们用 hashcat 做密码审计，可把它接进 john 流水线作为社工字典生成器。",
+      "meta": {
+        "language": "Python",
+        "stars": 6063,
+        "forks": 2045,
+        "stars_period": "61 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ripienaar/free-for-dev",
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "published_at": "",
+      "original_summary": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev | 语言: HTML | Stars: 127,244 | Forks: 13,299 | 740 stars today",
+      "chinese_summary": "维护中的 SaaS/PaaS/IaaS 免费额度清单，覆盖开发运维需要的大部分服务。HTML 静态站 + Markdown 源，本质是社区维护的资源索引。跟自建 wiki 比，它按类别聚合（DB/Email/CI/Monitoring）且每周更新；不适合做采购决策（免费 tier 限制会变），适合新人 onboarding 时按图索骥。",
+      "backend_focus": "Star 后扔给团队新人当 onboarding 第一站；优先级 action：审计你们当前在用的付费 SaaS，挨个在清单里查是否还有免费 tier 可降本，重点看 CI/Monitoring/Email 三类。",
+      "meta": {
+        "language": "HTML",
+        "stars": 127244,
+        "forks": 13299,
+        "stars_period": "740 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "google/agents-cli",
+      "url": "https://github.com/google/agents-cli",
+      "published_at": "",
+      "original_summary": "The CLI and skills that turn any coding assistant into an expert at creating, evaluating, and deploying AI agents on Google Cloud. | 语言: Python | Stars: 4,053 | Forks: 445 | 433 stars today",
+      "chinese_summary": "Google 出的 CLI + skills 集合，把任意 coding assistant（Claude Code/Cursor/Cline 等）变成 Google Cloud 上的 AI agent 专家，覆盖创建/评估/部署全流程。Python，跟 Vertex AI Agent Engine 深度绑定。比 LangChain/LlamaIndex 的 GCP 集成更原汁原味，权限和 IAM 直接打通；缺点是 vendor lock-in，非 GCP 团队意义不大。",
+      "backend_focus": "如果你们在 GCP 上：pip install 后用 `gcloud agents init` 起一个新项目，把现有内部 agent prototype 跑一遍 deploy/eval 流水线；非 GCP 团队可以跳过这条，或用它当模板参考 IAM/auth 的最佳实践。",
+      "meta": {
+        "language": "Python",
+        "stars": 4053,
+        "forks": 445,
+        "stars_period": "433 stars today"
+      }
+    }
+  ]
+}
