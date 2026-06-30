@@ -1,0 +1,164 @@
+{
+  "generated_at": "2026-06-30T23:10:50.282955",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 9,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "simplex-chat/simplex-chat",
+      "url": "https://github.com/simplex-chat/simplex-chat",
+      "published_at": "",
+      "original_summary": "SimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱! | 语言: Haskell | Stars: 17,233 | Forks: 1,001 | 4,847 stars this week",
+      "chinese_summary": "完全无用户标识符的加密通讯协议，Haskell 实现，iOS/Android/桌面端全客户端。没有手机号/邮箱/用户名/公钥这种身份概念，靠一次性临时地址路由。比 Signal 抗元数据能力强但生态小得可怜，没有群聊生态、桥接有限，连机器人账号都没法稳定搞。上手成本：服务端可用官方托管或自部署 SMP 服务器，Haskell 栈对常规运维有点门槛。",
+      "backend_focus": "非业务工具。如果合规/客服场景需要匿名反馈通道，可 docker pull simplexchat/smp-server 起一个本地 relay，给客户端配自定义 server 地址做 PoC。",
+      "meta": {
+        "language": "Haskell",
+        "stars": 17233,
+        "forks": 1001,
+        "stars_period": "4,847 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 23,591 | Forks: 1,861 | 7,104 stars this week",
+      "chinese_summary": "Google Labs 出的 DESIGN.md 规范，给 AI 编码代理写视觉设计系统说明书用的纯文本协议。结构化定义色板/字体/间距/组件 token，让 Cursor/Copilot 生成 UI 时不瞎猜。比散落的 Figma 链接或内联注释更适合多 agent 协作，因为是纯 markdown 可进 git diff；但它是规范不是工具，没自带的校验器，团队得自己写 lint。上手成本：零依赖，仓库里新建一个 DESIGN.md 引用就行。",
+      "backend_focus": "非后端工具。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23591,
+        "forks": 1861,
+        "stars_period": "7,104 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 22,425 | Forks: 1,625 | 9,899 stars this week",
+      "chinese_summary": "C 写的代码智能 MCP server，把代码库索引成持久化知识图谱，平均仓库毫秒级建索引。声称支持 158 种语言、亚毫秒查询、token 用量减少 99%，单文件静态二进制零依赖。比 Sourcegraph / Zoekt 这种需要独立服务的方案更轻，直接走 stdio 接 Cursor/Claude/Cline 就能用；缺点是名字像蹭热度的 fork，看不出原创性，且没公开 benchmark 复现脚本，团队要自己压。上手成本：下载二进制丢 PATH，mcp 配置一行加进去即可。",
+      "backend_focus": "跑一下 npx codebase-memory-mcp@latest（或下载 release 二进制），在 Cursor 的 mcp.json 里加一行 stdio 启动，用本团队 10 万行 mono-repo 实测 index 耗时和 agent 回复延迟，对比现在用的 serena/zed-mcp 是否值得切。",
+      "meta": {
+        "language": "C",
+        "stars": 22425,
+        "forks": 1625,
+        "stars_period": "9,899 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 4,441 | Forks: 254 | 2,677 stars this week",
+      "chinese_summary": "Git pre-push 拦截器，阻止明显错误代码进入 remote，标语就一句话「git push no-mistakes」。Go 单二进制，hook 形式安装。具体拦截规则描述里没说全，得看源码；跟 husky + lint-staged 这种前端 lint 链相比它定位是 push 前最后一道关，不是 commit 前轻量校验，跟 CI 又不一样算是本地红线。上手成本：go install 后配 git pre-push hook，零外部依赖。",
+      "backend_focus": "go install github.com/kunchenguid/no-mistakes@latest 然后在仓库 .git/hooks/pre-push 里追加调用一行，先在沙箱仓库故意塞个明显 bug 验证拦截是否生效，再决定是否全团队 pre-push 推广。",
+      "meta": {
+        "language": "Go",
+        "stars": 4441,
+        "forks": 254,
+        "stars_period": "2,677 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "JCodesMore/ai-website-cloner-template",
+      "url": "https://github.com/JCodesMore/ai-website-cloner-template",
+      "published_at": "",
+      "original_summary": "Clone any website with one command using AI coding agents | 语言: TypeScript | Stars: 23,850 | Forks: 3,388 | 5,937 stars this week",
+      "chinese_summary": "一行命令克隆任意网站的 AI 编码模板，TypeScript 写的，本质是给 Cursor/Claude Code 提供一套截图→DOM→代码的工作流。跟 v0/Lovable/Bolt.new 这种闭源 Web IDE 比它是本地脚本、产物直接落到本地文件系统、可接任意代码代理；问题是克隆出来的代码生产质量参差不齐，法律风险（版权/ToS）也没处理，更像 demo 模板不是生产框架。上手成本：clone 后配一个 API key 就能跑，无需改现有架构。",
+      "backend_focus": "非后端工具。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23850,
+        "forks": 3388,
+        "stars_period": "5,937 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "mauriceboe/TREK",
+      "url": "https://github.com/mauriceboe/TREK",
+      "published_at": "",
+      "original_summary": "A self-hosted travel/trip planner with real-time collaboration, interactive maps, PWA support, SSO, budgets, packing lists, and more. | 语言: TypeScript | Stars: 8,506 | Forks: 711 | 2,672 stars this week",
+      "chinese_summary": "自部署的旅行/行程规划器，TypeScript 全栈，支持实时协作、交互地图、PWA、SSO、预算、打包清单。比 TripIt 这种闭源 SaaS 数据完全在自己手里，可接 Postgres/PostGIS 自定义地点库；问题是它面向 C 端场景，后端只有 CRUD 和协作逻辑，跟企业开发关系不大，复用价值有限。上手成本：docker-compose 一键起，需要 Postgres + Redis。",
+      "backend_focus": "非业务工具。如确实需要内部团建/差旅系统，可 docker compose up 跑起来对照其 Next.js + Postgres 协作层（Yjs/Liveblocks 那一套）拿来做内部知识，但与日常业务开发无关。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 8506,
+        "forks": 711,
+        "stars_period": "2,672 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 52,332 | Forks: 45,408 | 6,297 stars this week",
+      "chinese_summary": "LLM 驱动的多市场股票分析系统，Python 实现，行情/新闻/看板/定时推送一把梭，支持零成本定时跑。A 股/港股/美股多源接入，对个人投资者开箱即用，比 akshare + 自写脚本省事；缺点是 45k fork 数说明大量二次魔改，主分支策略面变化快，且没有策略回测引擎，企业决策场景别指望它。上手成本：pip install + 配 API key（行情源/LLM），Docker 也提供。",
+      "backend_focus": "非后端开发工具。可作为内部投研 demo 跑一下 docker run，跑通后看其数据源抽象层（akshare/yfinance 解耦设计）能否借鉴到团队行情网关，但与日常业务迭代无关。",
+      "meta": {
+        "language": "Python",
+        "stars": 52332,
+        "forks": 45408,
+        "stars_period": "6,297 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "",
+      "original_summary": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile. | 语言: TypeScript | Stars: 9,500 | Forks: 647 | 3,047 stars this week",
+      "chinese_summary": "桌面/移动端的 Agent Development Environment，并行调度多个 coding agent 跑任务，支持自带订阅 key（Claude/Codex 等）。TypeScript 全栈，本质是 Claude Code/Cursor 的多 agent 编排外壳。比直接开多个 Cursor 窗口强在统一队列、上下文隔离、token 用量统计；但功能上仍是 UI 包装，核心竞争力薄，订阅费 + agent 费用双重成本。上手成本：下载桌面端，登录各 provider 即可。",
+      "backend_focus": "非后端开发基础设施。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 9500,
+        "forks": 647,
+        "stars_period": "3,047 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "alibaba/page-agent",
+      "url": "https://github.com/alibaba/page-agent",
+      "published_at": "",
+      "original_summary": "JavaScript in-page GUI agent. Control web interfaces with natural language. | 语言: TypeScript | Stars: 20,745 | Forks: 1,778 | 1,858 stars this week",
+      "chinese_summary": "阿里巴巴开源的网页 GUI agent，纯 JS 注入页面后用自然语言操控网页元素，免去后端 API 对接。TypeScript 实现，可作为浏览器插件/SDK 嵌入任意前端。比 Browser-Use/Playwright+LLM 路线更轻、不依赖独立 browser 实例；但能力天花板受限于 DOM 操作，不能跨域、不能处理 captcha，企业级 RPA 场景不够用。上手成本：npm install + 在页面 inject 几行脚本即可。",
+      "backend_focus": "非后端工具。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 20745,
+        "forks": 1778,
+        "stars_period": "1,858 stars this week"
+      }
+    }
+  ]
+}
