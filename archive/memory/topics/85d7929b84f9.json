@@ -6,7 +6,7 @@
     "no",
     "mistakes",
     "Git",
-    "钩子"
+    "pre"
   ],
   "first_seen": "2026-07-01",
   "last_seen": "2026-07-01",
@@ -16,7 +16,7 @@
   "evolution": [
     {
       "date": "2026-07-01",
-      "summary": "Git 钩子拦截器，commit 前自动调用 LLM 检查代码/文档里的低级错误。痛点是 husky+ESLint 只能查语法，commit-msg lint 又管不了代码本身。比起 pre-commit 的传统 linter，它把「拼错变量名、把内部地址写进 README」这类靠人眼审的事自动化；劣势是每次 commit 多一次 LLM 调用，免费 tier 很快耗尽，得接自部署 Ollama。",
+      "summary": "Git pre-push 拦截器，Go 写的单二进制，在 push 前自动跑一系列\"防呆\"检查。比起 husky + lint-staged 这类前端钩子方案，它不限定语言生态，Go 实现可独立分发无 Node 依赖；但功能边界比 pre-commit 框架窄——只管 push 阶段不接管 commit 阶段。上手成本：go install 后配 .no-mistakes.yaml，5 分钟接入。",
       "urls": [
         "https://github.com/kunchenguid/no-mistakes"
       ]
