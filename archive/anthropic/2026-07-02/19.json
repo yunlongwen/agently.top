@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-07-02T07:54:09.022474",
+  "source": {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "label": "Anthropic",
+    "content_source": "Anthropic",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://www.anthropic.com/news",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Redeploying Fable 5",
+      "url": "https://www.anthropic.com/news/redeploying-fable-5",
+      "published_at": "Jun 30, 2026",
+      "original_summary": "Fable 5 returns globally July 1. We're also proposing an industry-wide framework for scoring jailbreak severity, together with Amazon, Microsoft, Google, and other Glasswing partners.",
+      "chinese_summary": "Anthropic 宣布 Fable 5 将于 7 月 1 日在全球重新上线，并联合 Amazon、Microsoft、Google 等 Glasswing 伙伴提出业内首个越狱严重度评分框架。这是模型可用性 + 行业标准的复合公告，但对开发者最关键的是 Fable 5 区域限制的解除——此前被屏蔽 region 的 API 账号将从 7 月 1 日起恢复 claude-fable-5 调用。SDK、API 协议、参数（response_format、tool use、MCP）保持兼容，无需迁移。",
+      "backend_focus": "立即行动：在 7 月 1 日后对所有走 claude-fable-5 的 API 客户端重试区域路由；如代码里有 region fallback 绕开被禁区域的逻辑，可以下线或简化。评分框架属行业标准提案，不影响 SDK。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Sonnet 5 Sonnet 5 delivers frontier performance across coding, agents, and professional work at scale.",
+      "url": "https://www.anthropic.com/news/claude-sonnet-5",
+      "published_at": "Jun 30, 2026",
+      "original_summary": "Announcements  Claude Science, an AI workbench for scientists, is now available Claude Science is a customizable app that integrates the tools and packages researchers most often use, produces auditable artifacts, and provides flexible access to computing resources. Product  Introducing Claude Tag Claude Tag is a new way for teams to work with Claude. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharin...",
+      "chinese_summary": "Anthropic 正式发布 Claude Sonnet 5，主打编码、agent 与企业级专业工作负载下的 frontier 级性能。这是 Sonnet 系列的新一代主模型，对应新的 model id（claude-sonnet-5），相对 Sonnet 4.5 在 agent 长链路任务和大规模企业场景上明显增强。旧 Sonnet 4/4.5 不会即刻下线但建议优先切到 Sonnet 5。原生支持现有 tool use、MCP、prompt caching、context window，调用协议无需迁移。",
+      "backend_focus": "立即行动：在 messages API 或 Anthropic SDK 中把 model 改为 claude-sonnet-5，重点压测 coding 子任务与 agent tool-use 链路；旧 claude-sonnet-4-5 调用暂保留，关注后续 Sonnet 4 系列 deprecation 公告。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Statement on the US government directive to suspend access to Fable 5 and Mythos 5",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "published_at": "Jun 12, 2026",
+      "original_summary": "Announcements",
+      "chinese_summary": "Anthropic 发布关于美国政府指令暂停 Fable 5 与 Mythos 5 访问的声明，按 hard-stop 切断这两个模型对受影响账号的访问权限。这是政策合规层面的 hard-stop，相对此前可正常调用是巨大差异：被覆盖区域的 claude-fable-5 / claude-mythos-5 请求会直接失败。已有迁移方案的团队需立即把依赖这两个模型的工作流切换到 Sonnet 5 或 Opus 5。",
+      "backend_focus": "立即行动：在 Anthropic SDK / API 网关层把所有指向 claude-fable-5 和 claude-mythos-5 的流量重定向到替代模型（claude-sonnet-5 / claude-opus-5），并加 fail-open 兜底；后续若政策松动需同步撤回迁移。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    }
+  ]
+}
