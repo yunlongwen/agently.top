@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-07-01T17:10:59.938548",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 30,326 | Forks: 3,432 | 15,353 stars this week",
+      "chinese_summary": "AI 视频剪辑编排器，把 Claude/Cursor 等编码 Agent 变成剪辑师。自带 12 条 pipeline 和 52 个 FFmpeg 工具调用，比纯 prompt 写剪辑脚本稳定，但本质还是把 Agent 当胶水，底层依赖 ffmpeg + 各类模型 API。适合做短视频流水线 demo，不适合需要帧级精度的影视后期。上手成本：装好 ffmpeg、配 API key 就能跑。",
+      "backend_focus": "本机先验证：brew install ffmpeg && pip install openmontage，用一段 60 秒测试片跑通 pipeline，对比直接调 ffmpeg 子进程的 token 成本和耗时，确认是否值得塞进现有 CI 视频流水线。",
+      "meta": {
+        "language": "Python",
+        "stars": 30326,
+        "forks": 3432,
+        "stars_period": "15,353 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 23,856 | Forks: 1,875 | 7,524 stars this week",
+      "chinese_summary": "给 AI Agent 读的 DESIGN.md 规范，把 Figma token 转成机器可解析的设计系统上下文。跟直接喂 Tailwind config 比，它解决的是「Agent 改 UI 不跑偏」的问题，但产出质量高度依赖你设计系统本身是否规范，土味风项目用了反而误导 Agent。上手成本：仓库就一个 spec 文档，照抄一份到项目根目录即可。",
+      "backend_focus": "挑一个内部组件库，导出 design token 跑 npx design-md validate 生成 design.md，挂到 Claude/Cursor 的 system prompt 里，对比 10 个 UI 改动的合规率。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23856,
+        "forks": 1875,
+        "stars_period": "7,524 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 23,225 | Forks: 1,696 | 10,031 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单二进制、零依赖、158 种语言、查询亚毫秒。比传统 ctags/LSP 索引快一个数量级，劣势是语义层不如 LSP 深（没有类型推断、跳转定义靠正则）。适合给 Claude/Cursor 喂大型 monorepo 上下文，但 IDE 内日常跳转还是 LSP 体验更好。上手成本：下载二进制 + 在 MCP config 加一段 JSON。",
+      "backend_focus": "下载二进制，在 ~/.config/claude/mcp.json 加 codebase-memory 的 stdio 配置，拿本团队最大 monorepo（≥1M LoC）跑一次 index 测冷启动时间，对比现状 context 加载 token 数。",
+      "meta": {
+        "language": "C",
+        "stars": 23225,
+        "forks": 1696,
+        "stars_period": "10,031 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 4,613 | Forks: 261 | 2,783 stars this week",
+      "chinese_summary": "Go 写的 git push 拦截 hook，本质是一个 pre-push 守护脚本：拦截危险操作（force push 到 main、误推大文件、secrets 扫描）。比 Husky + lint-staged 这套前端 hook 栈更偏后端/通用 git 场景，单二进制 + git config alias 就能用。劣势是规则需要团队自己写，没现成策略集。上手成本：go install 后加一条 git alias。",
+      "backend_focus": "go install 然后在仓库跑一次 no-mistakes init，针对 team git policy 加 force-push-to-main 和 secrets-scan 两条规则，CI 阶段跑 no-mistakes check 当 gate。",
+      "meta": {
+        "language": "Go",
+        "stars": 4613,
+        "forks": 261,
+        "stars_period": "2,783 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "mauriceboe/TREK",
+      "url": "https://github.com/mauriceboe/TREK",
+      "published_at": "",
+      "original_summary": "A self-hosted travel/trip planner with real-time collaboration, interactive maps, PWA support, SSO, budgets, packing lists, and more. | 语言: TypeScript | Stars: 8,667 | Forks: 722 | 2,744 stars this week",
+      "chinese_summary": "自托管旅行规划器，PWA + 实时协作 + SSO + 预算管理一锅端。跟现有 SaaS（Wanderlog、TripIt）比，胜在数据自主 + 可接公司 SSO；输在只有单人维护，post-MVP 功能（多币种、AI 行程推荐）要自己写。适合内部团建/家庭出行场景，不适合要做 C 端产品的团队。上手成本：docker compose up，但 SSO 要自己接 Keycloak。",
+      "backend_focus": "docker compose up -d 跑起来，接公司 Keycloak OIDC，导一次 CSV 行程数据测导入，再决定要不要 fork 改路线规划模块。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 8667,
+        "forks": 722,
+        "stars_period": "2,744 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "alibaba/page-agent",
+      "url": "https://github.com/alibaba/page-agent",
+      "published_at": "",
+      "original_summary": "JavaScript in-page GUI agent. Control web interfaces with natural language. | 语言: TypeScript | Stars: 20,858 | Forks: 1,783 | 1,591 stars this week",
+      "chinese_summary": "阿里开源的页面内 JS GUI Agent，用自然语言驱动浏览器自动化。比 Anthropic Computer Use/OpenAI Operator 轻：纯前端 + DOM 操作，不发截图上云，延迟低几个数量级；劣势是只能动 DOM、没法处理 canvas/WebGL，纯视觉站点不行。适合做内部系统 RPA、爬虫替代，公开站点反爬严的会直接挂。上手成本：npm i page-agent，注入 5 行 SDK。",
+      "backend_focus": "挑一个内部后台（如工单系统）npm i page-agent，写 5 行 SDK 初始化 + 一条「把状态为 pending 的工单导出 CSV」指令跑通，对比现有 Playwright 脚本的代码量和维护成本。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 20858,
+        "forks": 1783,
+        "stars_period": "1,591 stars this week"
+      }
+    }
+  ]
+}
