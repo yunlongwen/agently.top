@@ -1,0 +1,294 @@
+{
+  "generated_at": "2026-07-02T07:20:21.340334",
+  "source": {
+    "id": "linux-do",
+    "name": "Linux.do",
+    "label": "Linux.do 技术日报",
+    "content_source": "Linux.do",
+    "category": "社区讨论",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.linux_do_news",
+    "config": {
+      "news_url": "https://news.linuxe.top/",
+      "max_items": 0,
+      "max_retries": 5
+    },
+    "kind": "builtin"
+  },
+  "item_count": 16,
+  "items": [
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "我们单位已经开始推进全面禁止使用互联网和AI了",
+      "url": "https://linux.do/t/topic/2499461",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 开发接入与工程实操 | 回复数: 123 | 开发调优相关内容更偏向可执行经验，包括接入方式、部署路径、工具链兼容和具体排障，讨论通常带着很强的场景感。 这条线索下聚合了 49 个高互动话题，代表性讨论包括 我们单位已经开始推进全面禁止使...、codex又重置（已经重置）、新版本Claude Code会...。",
+      "chinese_summary": "讨论某单位推进全面禁止员工使用互联网和 AI 工具的合规管控话题。帖子聚焦国企/政企场景下 AI 与互联网访问被一刀切禁用带来的实际影响，涉及审批通道、研发效率、合规边界等细节。对于依赖外部 AI 工具编码或调研的工程团队，这是判断内部 AI 使用策略即将收紧的信号。原帖 123 条回复适合想了解政企 AI 管控风向的读者参考。",
+      "backend_focus": "梳理当前团队对外部 AI 服务（ChatGPT、Claude、Cursor）的依赖度，提前准备内网化或私有化替代方案（如本地 Ollama + Llama、vLLM 部署），并把 AI 工具访问纳入合规审计清单，避免政策落地后被动切换。",
+      "meta": {
+        "reply_count": 123,
+        "section_title": "开发接入与工程实操",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "codex又重置（已经重置）",
+      "url": "https://linux.do/t/topic/2498561",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 开发接入与工程实操 | 回复数: 84 | 开发调优相关内容更偏向可执行经验，包括接入方式、部署路径、工具链兼容和具体排障，讨论通常带着很强的场景感。 这条线索下聚合了 49 个高互动话题，代表性讨论包括 我们单位已经开始推进全面禁止使...、codex又重置（已经重置）、新版本Claude Code会...。",
+      "chinese_summary": "讨论 OpenAI Codex CLI 订阅账号频繁被重置的问题，标题已注明「已经重置」。重点是 Codex 这类编程 Agent 工具的账号风控策略趋严，会无预警清空用户的额度或会话状态。对于把 Codex 接入日常开发流的工程师，这是评估工具稳定性的关键信号。原帖 84 条回复里大概率有规避或申诉经验可参考。",
+      "backend_focus": "检查本地 Codex CLI 登录态与配额（codex --quota 或 ~/.codex 目录），重要工程任务避免单点依赖 Codex，建议在 CI 与本地并行跑 Claude Code 或 Cursor 作为降级路径，并对长任务加 checkpoint 防止被强制重置打断。",
+      "meta": {
+        "reply_count": 84,
+        "section_title": "开发接入与工程实操",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "新版本Claude Code会对用户时区等指纹进行检测并修改消息",
+      "url": "https://linux.do/t/topic/2502628",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 开发接入与工程实操 | 回复数: 68 | 开发调优相关内容更偏向可执行经验，包括接入方式、部署路径、工具链兼容和具体排障，讨论通常带着很强的场景感。 这条线索下聚合了 49 个高互动话题，代表性讨论包括 我们单位已经开始推进全面禁止使...、codex又重置（已经重置）、新版本Claude Code会...。",
+      "chinese_summary": "讨论新版 Claude Code 客户端会读取用户系统时区等指纹信息，并对发出的请求消息做隐式修改。重点在于 Anthropic 在客户端侧新增了设备指纹采集与消息预处理逻辑，可能影响请求一致性与可复现性。对于在 CI 或服务端调用 Claude API 的工程团队，这是理解客户端行为的入口。原帖 68 条回复里可能有具体被改字段的对比。",
+      "backend_focus": "在用 Claude Code 做 prompt 调试时固定 TZ 与 locale 环境变量（export TZ=UTC），并在请求前后对 prompt 做 diff 校验；如果走 API 而非 CLI 则不受此影响，可在生产链路优先用 Anthropic Messages API 而非桌面端 CLI。",
+      "meta": {
+        "reply_count": 68,
+        "section_title": "开发接入与工程实操",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "又又又又又又又又重置了，根本蹬不完",
+      "url": "https://linux.do/t/topic/2498215",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 开发接入与工程实操 | 回复数: 46 | 开发调优相关内容更偏向可执行经验，包括接入方式、部署路径、工具链兼容和具体排障，讨论通常带着很强的场景感。 这条线索下聚合了 49 个高互动话题，代表性讨论包括 我们单位已经开始推进全面禁止使...、codex又重置（已经重置）、新版本Claude Code会...。",
+      "chinese_summary": "吐槽 Codex 账号在短期内被多次强制重置，用户直言「根本蹬不完」。本质上和第 2 条是同一类问题的情绪化续帖，进一步印证 Codex 的账号风控频率和强度。对重度 Codex 用户来说，这是评估是否要把核心编码流程迁出的临界信号。点进原帖可以看有没有成功的申诉话术或规避手法。",
+      "backend_focus": "把 Codex 相关任务拆分成短会话，每个会话结束前手动 git commit 留底，避免被重置后丢失上下文；同时给关键仓库配置 fallback agent（如 Aider + Claude API、Cline）作为热备，验证多工具串联跑通。",
+      "meta": {
+        "reply_count": 46,
+        "section_title": "开发接入与工程实操",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "[富可敌国] 星域互联DKBY稳定大模型中转站入驻！大型充值福利预告！",
+      "url": "https://linux.do/t/topic/2500342",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 模型发布与能力变化 | 回复数: 81 | 大家最关注的仍然是新模型、新版本和实际体验差异，讨论重点不只是谁发布了什么，而是能力有没有真实变化、值不值得切换。 这条线索下聚合了 34 个高互动话题，代表性讨论包括 [富可敌国] 星域互联DKBY...、［转载］A÷为了收集用户位置信...、GLM5.2 Codex5.5...。",
+      "chinese_summary": "推广「星域互联 DKBY」大模型 API 中转站，主打充值福利。属于典型的第三方代理中转服务广告帖，重点是价格优惠和稳定性宣传，可能涉及账号池来源合规问题。对工程读者来说，关注点在第三方中转的可用性与潜在封号风险。点进去主要是看活动规则和价格梯度。",
+      "backend_focus": "无（第三方中转站推广帖，工程可借鉴价值低）",
+      "meta": {
+        "reply_count": 81,
+        "section_title": "模型发布与能力变化",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "［转载］A÷为了收集用户位置信息偷偷安装后门",
+      "url": "https://linux.do/t/topic/2502552",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 模型发布与能力变化 | 回复数: 58 | 大家最关注的仍然是新模型、新版本和实际体验差异，讨论重点不只是谁发布了什么，而是能力有没有真实变化、值不值得切换。 这条线索下聚合了 34 个高互动话题，代表性讨论包括 [富可敌国] 星域互联DKBY...、［转载］A÷为了收集用户位置信...、GLM5.2 Codex5.5...。",
+      "chinese_summary": "转载爆料某 AI 产品（标题缩写为 A÷）为了收集用户位置信息在客户端偷偷植入后门。这类帖子属于安全风向预警，核心点是端侧 AI 工具有可能引入未声明的位置上报逻辑。对于把 AI 客户端装在开发机或带敏感数据的设备上的工程师，这是必须跟进的隐私风险。原帖 58 条回复里大概率有抓包证据。",
+      "backend_focus": "对所有 AI 桌面客户端（Claude Code、Cursor、Codex 等）跑一次抓包审计（mitmproxy 或 Wireshark），重点过滤非业务域名的出站连接；同时在防火墙层用 Little Snitch / iptables 白名单出站，阻断未声明的遥测 IP。",
+      "meta": {
+        "reply_count": 58,
+        "section_title": "模型发布与能力变化",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "GLM5.2 Codex5.5 极限二选一，预算1000块/月",
+      "url": "https://linux.do/t/topic/2502611",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 模型发布与能力变化 | 回复数: 63 | 大家最关注的仍然是新模型、新版本和实际体验差异，讨论重点不只是谁发布了什么，而是能力有没有真实变化、值不值得切换。 这条线索下聚合了 34 个高互动话题，代表性讨论包括 [富可敌国] 星域互联DKBY...、［转载］A÷为了收集用户位置信...、GLM5.2 Codex5.5...。",
+      "chinese_summary": "用户预算 1000 元/月，在 GLM 5.2（智谱）与 Codex 5.5 之间做选型求助。本质是国产大模型 vs OpenAI 编程 Agent 在中等预算下的性价比对比，涉及中文任务、代码能力、额度和稳定性等维度。对于月度 AI 支出在百元到千元区间的个人开发者或小团队，这是直接可参照的决策样本。原帖 63 条回复里大概率有真实使用对比。",
+      "backend_focus": "拿同样的中等复杂度任务（重构、单元测试生成、bug 定位）分别在 GLM 5.2 API 和 Codex 5.5 上跑一轮，统计 token 消耗、一次成功率、人工修改行数，按每千 token 有效代码行换算真实单价，再决定主力工具。",
+      "meta": {
+        "reply_count": 63,
+        "section_title": "模型发布与能力变化",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "gpt佬们真的忍受得了吗？",
+      "url": "https://linux.do/t/topic/2499834",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 模型发布与能力变化 | 回复数: 46 | 大家最关注的仍然是新模型、新版本和实际体验差异，讨论重点不只是谁发布了什么，而是能力有没有真实变化、值不值得切换。 这条线索下聚合了 34 个高互动话题，代表性讨论包括 [富可敌国] 星域互联DKBY...、［转载］A÷为了收集用户位置信...、GLM5.2 Codex5.5...。",
+      "chinese_summary": "吐槽 GPT 系列模型在使用体验上让重度用户难以忍受的痛点。属于情绪向讨论帖，重点通常围绕降智、限速、回复质量波动、上下文丢失等常见抱怨。对工程读者来说，可借此判断 GPT 生态在专业用户群中的口碑拐点。原帖 46 条回复适合快速浏览社区情绪，不一定需要深读。",
+      "backend_focus": "在主力编码链路里加一个「模型健康度抽检」脚本，定期用固定 benchmark prompt（如 LeetCode 中等题 + 重构任务）打 GPT-4/4o/5 的 API，记录通过率和首 token 延迟，发现持续下滑就触发切模型。",
+      "meta": {
+        "reply_count": 46,
+        "section_title": "模型发布与能力变化",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "韩红：即日起退出公益行业",
+      "url": "https://linux.do/t/topic/2500997",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 前沿快讯与行业动向 | 回复数: 145 | 前沿快讯更多承接行业层面的事件更新，社区会在第一时间补充背景、风险判断和可能的后续影响。 这条线索下聚合了 19 个高互动话题，代表性讨论包括 韩红：即日起退出公益行业、惊天冷门，德国点球大战淘汰回家、据传：Anthropic在用户...。",
+      "chinese_summary": "公益人物韩红宣布即日起退出公益行业的社会新闻。属于社区热点聚合帖，与技术无关，重点在舆论事件本身。技术读者点进去主要是看社区对公益行业信任危机的讨论，几乎没有可借鉴的工程做法。适合作为当日社区情绪温度计，不建议用于工程决策。",
+      "backend_focus": "无（社会新闻帖，与工程无关）",
+      "meta": {
+        "reply_count": 145,
+        "section_title": "前沿快讯与行业动向",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "惊天冷门，德国点球大战淘汰回家",
+      "url": "https://linux.do/t/topic/2498161",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 前沿快讯与行业动向 | 回复数: 37 | 前沿快讯更多承接行业层面的事件更新，社区会在第一时间补充背景、风险判断和可能的后续影响。 这条线索下聚合了 19 个高互动话题，代表性讨论包括 韩红：即日起退出公益行业、惊天冷门，德国点球大战淘汰回家、据传：Anthropic在用户...。",
+      "chinese_summary": "讨论世界杯/欧洲杯等赛事中德国队在点球大战被淘汰的冷门结果。属于体育话题聚合帖，与技术无关，纯属社区闲聊。对工程读者来说没有技术信息密度，点进去基本是看球。",
+      "backend_focus": "无（体育话题帖，与工程无关）",
+      "meta": {
+        "reply_count": 37,
+        "section_title": "前沿快讯与行业动向",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "据传：Anthropic在用户邮件中添加追踪器，以确认用户位置（请谨慎打开Anthropic的邮件！！！）",
+      "url": "https://linux.do/t/topic/2502248",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 前沿快讯与行业动向 | 回复数: 24 | 前沿快讯更多承接行业层面的事件更新，社区会在第一时间补充背景、风险判断和可能的后续影响。 这条线索下聚合了 19 个高互动话题，代表性讨论包括 韩红：即日起退出公益行业、惊天冷门，德国点球大战淘汰回家、据传：Anthropic在用户...。",
+      "chinese_summary": "爆料 Anthropic 在发给用户的邮件里嵌入了追踪像素或链接，用于反向确认用户 IP 位置。属于安全隐私预警帖，重点是即使是官方邮件也可能携带追踪元素，点击存在泄露真实 IP 的风险。对于注册了 Claude/Claude Code 账户的工程读者，这是必须立刻重视的隐私提示。原帖标题已用三个感叹号警告。",
+      "backend_focus": "近期不要直接在生产开发机或带真实 IP 的网络环境下点开 Anthropic 官方邮件，先用 web 邮箱（隐藏真实 IP）预览；如果需要看链接里的内容，用 tor 或境外 VPN 中转后再访问，避免邮件里的追踪像素回传真实出口 IP。",
+      "meta": {
+        "reply_count": 24,
+        "section_title": "前沿快讯与行业动向",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "豆包公关负责人刘星：发现近百个相同 IP 属地的账号集体伪装成考生，批量发布不实内容吹捧某 AI",
+      "url": "https://linux.do/t/topic/2501286",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 前沿快讯与行业动向 | 回复数: 22 | 前沿快讯更多承接行业层面的事件更新，社区会在第一时间补充背景、风险判断和可能的后续影响。 这条线索下聚合了 19 个高互动话题，代表性讨论包括 韩红：即日起退出公益行业、惊天冷门，德国点球大战淘汰回家、据传：Anthropic在用户...。",
+      "chinese_summary": "豆包公关负责人刘星披露有近百个相同 IP 属地的账号集体伪装考生，批量发布吹捧某 AI 的水军内容。属于 AI 营销公关与水军治理话题，核心是用 IP 聚类识别有组织的口碑造假。对做 AI 产品评测或市场调研的工程师，这是理解当前中文 AI 口碑场噪音的方法论。点进去可看具体的 IP 识别手法。",
+      "backend_focus": "在做 AI 产品口碑分析时，不要直接采信单一平台评论，先对样本账号做 IP/设备指纹聚类（同 IP、相同 UA、相似发文间隔），过滤掉水军簇后再算 NPS；可以用 Python + pandas + ip2region 快速搭一个去噪 pipeline。",
+      "meta": {
+        "reply_count": 22,
+        "section_title": "前沿快讯与行业动向",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "行，A 畜封号彻底惹众怒了这下算是。",
+      "url": "https://linux.do/t/topic/2502267",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 产品策略与使用成本 | 回复数: 142 | 不少帖子都在比较订阅方案、额度、稳定性和平台策略，反映出大家对成本、可用性和长期可替代性的敏感。 这条线索下聚合了 10 个高互动话题，代表性讨论包括 行，A 畜封号彻底惹众怒了这下算是。、GLM5.2又有便宜的渠道了、避免重演[法国拉闸]悲剧，基于...。",
+      "chinese_summary": "讨论某 AI 平台（标题用「A 畜」指代）大规模封号引发用户集体不满的事件。属于平台风控策略与用户体验冲突的典型案例，重点是封号触发条件、申诉路径和社区应对方式。对重度依赖该平台的工程用户，这是评估是否要分散风险的信号。原帖 142 条回复里有大量真实被封场景值得看。",
+      "backend_focus": "给主力 AI 平台账号做「鸡蛋不放一个篮子」隔离：主账号只用于日常 coding，重要工程任务迁到备用账号或 API key；定期 export 对话历史和自定义指令集（Claude 的 /memory、Cursor 的 rules），避免被封后白板重启。",
+      "meta": {
+        "reply_count": 142,
+        "section_title": "产品策略与使用成本",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "GLM5.2又有便宜的渠道了",
+      "url": "https://linux.do/t/topic/2499029",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 产品策略与使用成本 | 回复数: 76 | 不少帖子都在比较订阅方案、额度、稳定性和平台策略，反映出大家对成本、可用性和长期可替代性的敏感。 这条线索下聚合了 10 个高互动话题，代表性讨论包括 行，A 畜封号彻底惹众怒了这下算是。、GLM5.2又有便宜的渠道了、避免重演[法国拉闸]悲剧，基于...。",
+      "chinese_summary": "分享 GLM 5.2（智谱）新的低价渠道来源，属于 API 成本优化情报帖。重点是有比官方更便宜的接入路径，对预算敏感的开发者有直接参考价值。需要警惕低价渠道的稳定性和合规风险，但作为成本对标很有意义。原帖 76 条回复里大概率有渠道测评。",
+      "backend_focus": "把当前 GLM 调用全部从官方 endpoint 切到候选低价渠道做 A/B 测试，对比 24 小时内的 P99 延迟、错误率、token 计费一致性三项指标；测试通过后再切 10% 流量灰度，避免一次性全量切换导致生产事故。",
+      "meta": {
+        "reply_count": 76,
+        "section_title": "产品策略与使用成本",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "避免重演[法国拉闸]悲剧，基于[0629-48个月Team 20刀美区优惠码]分析",
+      "url": "https://linux.do/t/topic/2498137",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 产品策略与使用成本 | 回复数: 31 | 不少帖子都在比较订阅方案、额度、稳定性和平台策略，反映出大家对成本、可用性和长期可替代性的敏感。 这条线索下聚合了 10 个高互动话题，代表性讨论包括 行，A 畜封号彻底惹众怒了这下算是。、GLM5.2又有便宜的渠道了、避免重演[法国拉闸]悲剧，基于...。",
+      "chinese_summary": "分析一个 0629 到期、共 48 个月的 ChatGPT Team 美区优惠码（20 美元/月），并讨论如何避免「法国拉闸」式（区域封控导致订阅失效）的悲剧。重点是长周期订阅的区域合规风险与避坑策略，思路对所有跨国 AI 订阅都有参考价值。适合订阅了 ChatGPT Team 的工程读者研究。",
+      "backend_focus": "在订阅 ChatGPT Team/Plus 前先用 ipinfo.io 查优惠码注册地的风控评级，优先选美区且 IP 干净的家庭宽带出口；订阅后保持登录 IP 与注册地区一致，避免突然切到被标记区域（如部分法国/印度出口 IP）触发风控。",
+      "meta": {
+        "reply_count": 31,
+        "section_title": "产品策略与使用成本",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    },
+    {
+      "source": "Linux.do",
+      "category": "社区讨论",
+      "title": "Google Play 订阅 ChatGPT Pro 被封号后退款成功方法",
+      "url": "https://linux.do/t/topic/2502276",
+      "published_at": "2026-06-30",
+      "original_summary": "分组: 产品策略与使用成本 | 回复数: 29 | 不少帖子都在比较订阅方案、额度、稳定性和平台策略，反映出大家对成本、可用性和长期可替代性的敏感。 这条线索下聚合了 10 个高互动话题，代表性讨论包括 行，A 畜封号彻底惹众怒了这下算是。、GLM5.2又有便宜的渠道了、避免重演[法国拉闸]悲剧，基于...。",
+      "chinese_summary": "分享通过 Google Play 订阅 ChatGPT Pro 后被封号，成功走 Google Play 退款流程挽回损失的经验。属于海外订阅踩坑+维权教程帖，重点是走应用商店支付通道可以利用 Google 的退款政策反向解套。对用 Google Play 订阅海外 AI 服务的工程读者有直接借鉴意义。",
+      "backend_focus": "把 ChatGPT Pro 这类高风险订阅统一走 Google Play 或 App Store 而非信用卡直充，这样被封号后可以在 48 小时内通过 Google Play 退款表单（support.google.com/googleplay）申请退款，比直接联系厂商客服成功率高一档。",
+      "meta": {
+        "reply_count": 29,
+        "section_title": "产品策略与使用成本",
+        "daily_url": "https://news.linuxe.top/",
+        "daily_title": "linux.do 技术聚合日报",
+        "daily_headline": "开发接入与工程实操，模型发布与能力变化成为当天主线"
+      }
+    }
+  ]
+}
