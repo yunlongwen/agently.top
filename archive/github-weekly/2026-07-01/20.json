@@ -1,0 +1,148 @@
+{
+  "generated_at": "2026-07-01T08:02:02.392503",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 8,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 29,842 | Forks: 3,367 | 17,483 stars this week",
+      "chinese_summary": "把 AI 编程助手变成视频剪辑工作流编排器。OpenMontage 提供 12 条 pipeline、52 个工具、500+ agent skill 包装 ffmpeg / Whisper / SD / LLM 等组件，让 Claude/Cursor 这类 agent 自动完成剪辑、配音、字幕、特效。跟 n8n 这类通用工作流比，它专门针对视频生产管线做了 skill 抽象，省去自己拼 FFmpeg 命令的成本；跟 CapCut API 比，胜在开源可改可私有部署。适合做短视频矩阵、播客转视频的团队批量产出；不适合做专业级调色或长片后期这种需要人工审片的场景。上手成本：pip 装后挂载到 Claude/Cursor 的 MCP 配置里，30 分钟能跑通第一条 pipeline。",
+      "backend_focus": "clone 下来后跑 README 的 quickstart，把本团队常做的「长文转短视频」素材丢 3 条进去看效果；评估是否替换现有 ffmpeg shell 脚本流水线，并关注 52 个 tools 里有没有覆盖你目前手写的那几步。",
+      "meta": {
+        "language": "Python",
+        "stars": 29842,
+        "forks": 3367,
+        "stars_period": "17,483 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 23,690 | Forks: 1,868 | 7,104 stars this week",
+      "chinese_summary": "Google 实验室出的 DESIGN.md 规范：一份结构化 Markdown 描述视觉系统（色板、字号、间距、组件 token），让 Cursor/Claude/Cline 这类 coding agent 在生成 UI 时有持久化的设计上下文。比直接往 system prompt 塞一段设计说明强在：token 是机器可解析的、能 diff、能版本化，避免每次会话重新描述一遍。跟 Figma Tokens / Style Dictionary 生态比，它定位是「喂给 agent 的设计真相源」，不是给设计师用的同步工具。跟 shadcn/ui registry 比，补的是「为什么用这套 token」的设计意图层。适合视觉资产统一的中后台团队；不适合还没定 design system 的小项目——没东西可写等于零。上手成本：写一份 DESIGN.md 不需要装任何东西，但要让 IDE 真正读到需要挂进 agent 的 system prompt 或 MCP context。",
+      "backend_focus": "选团队最常用的一个中后台项目，从 Figma 或 Tailwind config 里导出主色板、字号梯度、间距 token 写成 DESIGN.md v0.1，挂到 Cursor 的 .cursorrules 或 Claude Code 的 CLAUDE.md 里，下个迭代看生成的组件是否还和设计稿有肉眼可见的偏差。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23690,
+        "forks": 1868,
+        "stars_period": "7,104 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 22,824 | Forks: 1,655 | 9,899 stars this week",
+      "chinese_summary": "单二进制静态链接的代码知识图谱 MCP server，索引 158 种语言，描述宣称毫秒级构建、子毫秒查询、token 消耗砍 99%。对比 Sourcegraph / Zoekt 这类传统代码检索：它走的是「预先构建成图」路线而非每次 grep，agent 取上下文时不用把整个文件塞进 window。跟相对轻量的 ctags / LSP workspace symbol 比，它语义关联更强但首次索引会消耗 CPU/IO。单二进制零依赖这点对容器化交付很友好，CI 里塞进 agent 的 MCP 工具链几乎零运维。缺点是底层是 C 实现，官方没给水平扩展方案，索引超大 monorepo 的内存占用描述里没披露。上手成本：下载二进制 → 配一行 MCP 客户端 JSON，5 分钟接入 Claude Code / Cursor。",
+      "backend_focus": "下载 release 二进制，对你们最大的 monorepo 跑一遍 index，看内存峰值和首次索引时长；接入 Claude Code/Cursor 的 MCP 配置后挑一个跨服务重构任务对比接入前后的 token 账单和回答准确率。",
+      "meta": {
+        "language": "C",
+        "stars": 22824,
+        "forks": 1655,
+        "stars_period": "9,899 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 4,522 | Forks: 258 | 2,677 stars this week",
+      "chinese_summary": "Go 写的 Git hook 守护进程：拦截 `git push`，对照自定义规则清单扫描本次 diff，发现潜在问题（凭据、误提交文件、违规模式）直接拒推。跟 pre-commit / lefthook 比：那两个跑在 commit 阶段，这个专盯 push，针对的是「已经在本地 commit 但马上要推到共享仓库」的最后一公里；跟 gitleaks / truffleHog 比，它不是单纯密钥扫描，是可扩展规则引擎，你可以加自己的团队规范。定位上接近「服务端策略即代码」的轻量替代品，省得在 CI 里跑一轮才发现。适合对推分支有合规要求的金融/政企团队；不适合纯个人项目——commit 阶段卡住就够了。上手成本：装一个 Go 单二进制 + 写 YAML 规则文件，5 分钟能跑。",
+      "backend_focus": "go install 后初始化规则文件，先用默认规则在 staging repo 试推 3 次看拦截命中情况；把团队最常踩的 2-3 个坑（误提交 .env、调试 print、大文件）写成自定义规则，纳入新人 onboarding 文档。",
+      "meta": {
+        "language": "Go",
+        "stars": 4522,
+        "forks": 258,
+        "stars_period": "2,677 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "mauriceboe/TREK",
+      "url": "https://github.com/mauriceboe/TREK",
+      "published_at": "",
+      "original_summary": "A self-hosted travel/trip planner with real-time collaboration, interactive maps, PWA support, SSO, budgets, packing lists, and more. | 语言: TypeScript | Stars: 8,579 | Forks: 717 | 2,672 stars this week",
+      "chinese_summary": "TypeScript 写的自托管旅行规划协作平台：实时协同编辑、交互式地图、PWA、SSO、预算与行李清单。技术栈是 Next.js + Leaflet + WebSocket 这套常规组合，亮点是「全家出行规划」这个细分场景的功能密度。跟 Wanderlog / TripIt 这类 SaaS 比：胜在数据完全自托管、可加自定义模块；跟开源的 Planka / Focalboard 比：它们是通用看板，TREK 是垂直场景开箱即用，省去自建地图、预算、多人行程编辑这层。SSO 支持意味着能挂进企业内网，但运维成本不低——Next.js + 实时协同 + 地图瓦片 + 数据库全要自己盯。适合旅行社/企业差旅/小团队内部出行；不适合个人偶尔用。上手成本：docker compose 一键起，但 PWA 推送和地图瓦片服务需要额外配置。",
+      "backend_focus": "docker compose up 前先把 Leaflet 的 tile provider 换成自托管或带 auth 的商业源（OSM 公共瓦片有 rate limit），再核对 SSO_OIDC 环境变量；生产部署建议把 WebSocket 层换成独立 Redis pub/sub，避免 Next.js 实例扩容时协同状态丢失。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 8579,
+        "forks": 717,
+        "stars_period": "2,672 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 52,460 | Forks: 45,494 | 6,297 stars this week",
+      "chinese_summary": "Python 写的 LLM 驱动多市场股票分析流水线：抓多源行情、聚合实时新闻、跑 LLM 出决策看板、定时推送。架构是 cron + 数据采集 + LLM 推理 + 通知渠道全打通。跟传统量化平台 backtrader / zipline 比：它不做回测和策略回放，定位是「日报型辅助决策」；跟 finchat / stocknear 这类 AI 投顾 SaaS 比，胜在可换 prompt、可接私有数据源、可接任意 LLM（含本地 Ollama）跑零成本。痛点是：数据源稳定性、推送渠道限流、LLM 幻觉导致「建议」误导都得自己处理，不能直接当交易信号。适合个人投资者和自媒体做内容素材；不适合做合规投顾——决策看板输出需要明确 disclaimer。上手成本：clone + 配 LLM API key + 配 push channel，1 小时能跑通。",
+      "backend_focus": "不要直接用于交易决策。先在 README 配好本地 Ollama + Qwen2.5 跑一遍零成本 demo，验证数据源在你目标市场（A股/美股/港股）的稳定性，再决定是否替换你目前手写的「爬数据 + 丢 GPT」脚本。",
+      "meta": {
+        "language": "Python",
+        "stars": 52460,
+        "forks": 45494,
+        "stars_period": "6,297 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "",
+      "original_summary": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile. | 语言: TypeScript | Stars: 9,657 | Forks: 657 | 3,047 stars this week",
+      "chinese_summary": "TypeScript 写的 Agent IDE：同时编排多个 coding agent 并行干活，每个 agent 跑你已有的订阅账号（Claude/Cursor 等），桌面 + 移动端可用。跟 LangGraph / CrewAI 比：那些是 SDK 级多 agent 框架，Orca 是 GUI 级调度器，不需要写编排代码；跟 aider / Continue 这类单 agent 工具比，它显式吃「fleet」场景——多 repo、多任务、多订阅账户分配。核心卖点是「用我自己买的订阅额度跑并行」，对订阅了多个 AI 工具的独立开发者/小团队是真省钱点。缺点是厂商没披露调度公平性和上下文隔离机制，并发跑高 token 任务时账号风控风险自担。适合手里握着 2+ AI 编码订阅的 power user；不适合就一个账号的个人开发者。上手成本：装桌面端 + 登录账号 + 建 fleet，10 分钟起步。",
+      "backend_focus": "桌面端装好后先配 1 个 Claude + 1 个 Cursor 账号，拿仓库里的 3 个独立小任务跑一轮 fleet，对比单 agent 串行的总时长和单 token 成本；观察调度器在并发跑任务时是否触发任何账号限速警告。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 9657,
+        "forks": 657,
+        "stars_period": "3,047 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "alibaba/page-agent",
+      "url": "https://github.com/alibaba/page-agent",
+      "published_at": "",
+      "original_summary": "JavaScript in-page GUI agent. Control web interfaces with natural language. | 语言: TypeScript | Stars: 20,789 | Forks: 1,778 | 1,858 stars this week",
+      "chinese_summary": "阿里巴巴出的「页面内 JS GUI agent」：用自然语言操控浏览器里渲染好的网页 UI，底层是 DOM 操作 + LLM 规划，不依赖后端 API。跟 Anthropic Computer Use / OpenAI Operator 比：那两个走的是视觉+系统级操控，需要桌面环境；page-agent 是纯 in-page 注入 JS，能跑在普通浏览器里、对接成本低，对已有 web 产品的「AI 副驾」场景更友好。跟传统 RPA（Selenium/Playwright + 录脚本）比：胜在零脚本、自然语言描述流程；劣势是首次执行的 LLM 成本和稳定性都不如预编译脚本。痛点是：复杂 DOM 嵌套、长流程跨页时上下文会爆，官网没给 token/成功率基准。适合做 B 端产品内置的「AI 操作助手」PoC；不适合替代生产级自动化测试。上手成本：npm 装包 + 一段 init 代码，半天能跑通 demo。",
+      "backend_focus": "npm install @alibaba/page-agent 后，先拿你们产品最常被客服问的 3 个操作路径（比如「导出上个月报表」），跑通端到端 demo；用 Playwright 录同一路径做基线，对比成功率和端到端耗时，评估是否可以作为灰度功能塞进 Help Center。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 20789,
+        "forks": 1778,
+        "stars_period": "1,858 stars this week"
+      }
+    }
+  ]
+}
