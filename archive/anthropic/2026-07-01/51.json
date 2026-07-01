@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-07-01T20:33:11.484858",
+  "source": {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "label": "Anthropic",
+    "content_source": "Anthropic",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://www.anthropic.com/news",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 2,
+  "items": [
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Redeploying Fable 5",
+      "url": "https://www.anthropic.com/news/redeploying-fable-5",
+      "published_at": "Jun 30, 2026",
+      "original_summary": "Fable 5 returns globally July 1. We're also proposing an industry-wide framework for scoring jailbreak severity, together with Amazon, Microsoft, Google, and other Glasswing partners.",
+      "chinese_summary": "Anthropic 宣布 Fable 5 模型将于 7 月 1 日全球重新上线（redeployed），并联合 Amazon、Microsoft、Google 等 Glasswing 伙伴提出行业级 jailbreak 严重度评分框架。相对此前的可访问性中断属于能力恢复，没有公开新的 API 字段或工具变更。开发者需要确认 Fable 5 在自己区域是否已重新可调用，避免仍在走的 fallback 分支残留。",
+      "backend_focus": "验证你所在 region 的 Fable 5 API endpoint 在 7/1 后是否恢复 200，移除临时的降级到旧 Sonnet 的 fallback 代码；关注 anthropic-sdk-python/typescript 新版本是否仍把 Fable 5 列为 available。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Statement on the US government directive to suspend access to Fable 5 and Mythos 5",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "published_at": "Jun 12, 2026",
+      "original_summary": "Announcements",
+      "chinese_summary": "跟进报道：Anthropic 就美国政府指令暂停 Fable 5 与 Mythos 5 访问发布声明，属合规层面的 hard-stop 事件。相对此前的常规模型发布，本次是访问受限而非能力升级，需立即在服务端移除相关 model id 路由。",
+      "backend_focus": "立即把生产中 model=fable-5 / model=mythos-5 的调用切走，移除路由配置中的对应条目，告警加上对这两个 model id 的 4xx 监控，避免再次被合规指令命中。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    }
+  ]
+}
