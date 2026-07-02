@@ -1,0 +1,173 @@
+{
+  "generated_at": "2026-06-19T07:59:38.963033",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势"
+  },
+  "item_count": 10,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 7,929 | Forks: 595 | 5,257 stars this week",
+      "chinese_summary": "AI Agent 技能安全扫描器，专治 MCP/Agent Skills 里夹带恶意 payload。Python 实现，支持检测提示词注入、危险权限声明、可疑网络外联等模式。跟传统 SAST（如 Semgrep、Trivy）比，它专门针对 agent 技能声明文件做规则匹配，规则集跟着 GitHub 漏洞仓库走，比手审 SKILL.md 快几十倍；短板是不扫运行时行为，权限提升类的恶意逻辑识别弱。上手成本：pip 装完直接扫本地 skills 目录，CI 里加一行就能拦。",
+      "backend_focus": "在 CI 加一步：pip install skillspector，对团队 agent-platform 仓库里所有 SKILL.md / mcp.json 跑一遍扫描，把 high/critical 级别直接 fail pipeline；同时把 SKILL.md 提交规范补到 repo PR template 里。",
+      "meta": {
+        "language": "Python",
+        "stars": 7929,
+        "forks": 595,
+        "stars_period": "5,257 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "addyosmani/agent-skills",
+      "url": "https://github.com/addyosmani/agent-skills",
+      "published_at": "",
+      "original_summary": "Production-grade engineering skills for AI coding agents. | 语言: Shell | Stars: 62,888 | Forks: 6,824 | 11,684 stars this week",
+      "chinese_summary": "Google 工程师维护的 AI 编码 Agent 技能包合集，覆盖前端、后端、测试、性能等 30+ 工程场景。Shell + Markdown 写成，纯声明式技能描述文件，可直接挂到 Claude Code、Cursor、Aider 等 agent 上。跟 Anthropic 官方的 skills 比，更偏生产工程实践（有 SRE、性能预算、可观测性等真实场景技能）；但要注意是个人维护仓库，技能质量参差，需要自己 review。上手成本：clone 后把 skills/ 目录软链到 agent 配置目录即可，零代码改动。",
+      "backend_focus": "挑 3 个最痛的场景（比如 k8s 排障、API 性能 review、SQL 慢查询分析）的 skill 复制到团队 ~/.claude/skills/，让团队跑两周收集反馈再决定是否批量采纳。",
+      "meta": {
+        "language": "Shell",
+        "stars": 62888,
+        "forks": 6824,
+        "stars_period": "11,684 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "iptv-org/iptv",
+      "url": "https://github.com/iptv-org/iptv",
+      "published_at": "",
+      "original_summary": "Collection of publicly available IPTV channels from all over the world | 语言: TypeScript | Stars: 125,485 | Forks: 6,851 | 7,355 stars this week",
+      "chinese_summary": "全球公开 IPTV 频道清单聚合仓库，125k star 的老牌项目，TypeScript 维护 M3U 播放列表和频道元数据。跟 Plex/Jellyfin 这种自建媒体中心比，它只提供 EPG 和播放源聚合，不做转码存储；适合做 IPTV 盒子底层数据源、做直播聚合 App 的抓取起点。短板是频道稳定性靠社区维护，断流是常态，生产环境得自己加重试和健康检查。上手成本：直接 curl 拉 playlists 目录下的 m3u 文件即可解析。",
+      "backend_focus": "与后端服务无关（纯媒体播放列表聚合，没有 API 服务化形态）。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 125485,
+        "forks": 6851,
+        "stars_period": "7,355 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "apple/container",
+      "url": "https://github.com/apple/container",
+      "published_at": "",
+      "original_summary": "A tool for creating and running Linux containers using lightweight virtual machines on a Mac. It is written in Swift, and optimized for Apple silicon. | 语言: Swift | Stars: 38,578 | Forks: 1,110 | 9,735 stars this week",
+      "chinese_summary": "Apple 出品的 macOS 容器运行时，Swift 写，底层用轻量 VM（Virtualization.framework）跑 Linux，每个容器一个独立内核。跟 Docker Desktop 比，隔离性是真 VM 级（无共享内核），冷启动 <1s，内存按需分配而不是固定占 512MB；Apple Silicon 原生优化，x86 镜像需 Rosetta 翻译有性能损耗。局限是只支持 Mac、不支持 Windows/Linux，生产环境如果团队是混合系统就不行。上手成本：brew install 完直接 container run，CLI 兼容 OCI 镜像。",
+      "backend_focus": "在团队 M2/M3 Mac 上跑：brew install --cask container，把现有 docker-compose.yml 里网络卷配置迁过来对比启动延迟和内存占用；Linux 服务暂时不要换，等官方出 Linux host 支持再看。",
+      "meta": {
+        "language": "Swift",
+        "stars": 38578,
+        "forks": 1110,
+        "stars_period": "9,735 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "phuryn/pm-skills",
+      "url": "https://github.com/phuryn/pm-skills",
+      "published_at": "",
+      "original_summary": "PM Skills Marketplace: 100+ agentic skills, commands, and plugins — from discovery to strategy, execution, launch, and growth. | 语言: N/A | Stars: 19,583 | Forks: 2,001 | 5,333 stars this week",
+      "chinese_summary": "PM 视角的 Agent 技能市场，100+ 插件覆盖需求发现、策略、执行、上线全流程。不是给后端用的——目标用户是 PM，技能描述文件用自然语言写。跟 addyosmani/agent-skills（工程师视角）形成互补，但本仓库是 PM 工作流编排，不是技术工具。star 数水分大（fork:star 比 1:10），实际可用技能估计 20% 左右。上手成本：本质是文档和模板仓库，需要配合 Claude Code 或类似 agent 框架使用。",
+      "backend_focus": "与后端服务无关（PM 工作流技能包，后端工程师不需要直接接入，转给产品同学评估即可）。",
+      "meta": {
+        "language": "",
+        "stars": 19583,
+        "forks": 2001,
+        "stars_period": "5,333 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 34,349 | Forks: 2,744 | 6,855 stars this week",
+      "chinese_summary": "给 AI Agent 用的网页阅读/搜索 CLI，Python 实现，覆盖 Twitter、Reddit、YouTube、GitHub、B 站、小红书等平台，零 API 费用（直接抓页面或用 RSS）。跟 firecrawl/exa 等付费搜索 API 比，省钱是核心卖点，但稳定性差（平台改前端就崩），合规风险自己背（ToS 灰色地带）。适合内部 agent 工具，不适合给 C 端用户用。上手成本：pip install 后配 cookie 文件即可，建议跑在独立小号上避免封号。",
+      "backend_focus": "隔离环境跑：docker run 起来，用副账号 cookie，限定只读自己团队的 reddit/github 子版块做舆情监控 demo，两周后评估是否比现成 firecrawl 划算再决定接入。",
+      "meta": {
+        "language": "Python",
+        "stars": 34349,
+        "forks": 2744,
+        "stars_period": "6,855 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kenn-io/agentsview",
+      "url": "https://github.com/kenn-io/agentsview",
+      "published_at": "",
+      "original_summary": "Local-first session search, analytics, insights, and token use statistics for coding agents, supporting Claude Code, Codex, and more than 20 other agents. | 语言: Go | Stars: 2,863 | Forks: 246 | 1,445 stars this week",
+      "chinese_summary": "本地优先的 AI 编码 Agent 会话搜索分析工具，Go 写，单二进制，支持 Claude Code/Codex 等 20+ agent 的 JSONL 日志聚合。本质是把散落在 ~/.claude、~/.codex 里的会话文件捞起来建索引做全文搜索。跟 LangSmith/Helicone 这种 SaaS 比，数据不出本地，合规友好；功能上只有搜索+统计，没有 trace/eval。上手成本：go install 后启动一个本地 web 端口，团队可以共享读但不能共享写。",
+      "backend_focus": "在团队 leader 机器上：go install 起来跑一周，看团队 Claude Code 使用习惯、token 浪费点；不接入生产 CI，只是给工程效率优化做数据支撑。",
+      "meta": {
+        "language": "Go",
+        "stars": 2863,
+        "forks": 246,
+        "stars_period": "1,445 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "chopratejas/headroom",
+      "url": "https://github.com/chopratejas/headroom",
+      "published_at": "",
+      "original_summary": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 60-95% fewer tokens, same answers. Library, proxy, MCP server. | 语言: Python | Stars: 34,444 | Forks: 2,323 | 9,475 stars this week",
+      "chinese_summary": "LLM 上下文压缩库+代理+MCP server，Python 实现，可在工具输出/日志/RAG chunk 进 LLM 前压掉 60-95% token。跟单纯截断（truncation）比，保留语义结构不丢关键信息；跟 llmlingua 比，速度更快（本地规则压缩不走 LLM）。支持三种部署形态：库函数、HTTP 代理（替换 OpenAI base_url）、MCP server 接入 Claude Desktop。短板是对结构化日志（日志级别、trace_id）压缩激进可能丢排障关键字段，需要白名单配置。上手成本：proxy 模式 5 行 docker-compose 就能起。",
+      "backend_focus": "proxy 模式起一个 sidecar：docker run chopratejas/headroom proxy --listen :8080，把团队 agent 网关 OpenAI 调用 base_url 指过去，对比一周账单 token 消耗和回答质量回归。",
+      "meta": {
+        "language": "Python",
+        "stars": 34444,
+        "forks": 2323,
+        "stars_period": "9,475 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 6,993 | Forks: 563 | 1,097 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单静态二进制零依赖，平均仓库索引毫秒级，支持 158 种语言、sub-ms 查询、号称 99% token 节省。本质是给 IDE agent 提供代码语义检索，比 ripgrep+grep 强在理解符号引用和定义跳转；比 Sourcegraph 轻量（单进程无 ES 依赖）。局限是暂未披露在大仓（>10M LOC）上的表现，CI 里跑需评估冷启动时间。上手成本：下载二进制直接跑，stdio 模式接 Claude Desktop/Cursor。",
+      "backend_focus": "在团队最大 mono-repo 上跑一次：./codebase-memory-mcp index ./src，测从冷启动到首次查询的延迟，对比现有 ripgrep+cTags 方案在「找某函数所有调用方」场景下的准确率和 token 消耗。",
+      "meta": {
+        "language": "C",
+        "stars": 6993,
+        "forks": 563,
+        "stars_period": "1,097 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "meshery/meshery",
+      "url": "https://github.com/meshery/meshery",
+      "published_at": "",
+      "original_summary": "Meshery, the cloud native manager | 语言: TypeScript | Stars: 11,119 | Forks: 3,466 | 683 stars this week",
+      "chinese_summary": "CNCF 的云原生服务网格管理平面，TypeScript+Go，11k star 老牌项目。支持 Istio/Linkerd/Consul/NGINX 等多 mesh 后端统一纳管，有自带的负载生成器和 perf benchmark。跟单独装 Istio 比，它解决的是多 mesh 共存+可视化+持续验证问题，不是 mesh 本身。短板是部署本身吃资源（控制平面+UI+broker），小团队 3 个微服务用不上，杀鸡用牛刀。上手成本：mesheryctl install 拉一堆 CRD，K8s 集群至少 4C8G 才跑得顺。",
+      "backend_focus": "如果团队已经用 Istio：在 staging 跑 mesheryctl perf benchmark 对比当前 mesh 开销，决策是否切到 Linkerd 或保持现状；没上 service mesh 的项目先忽略，复杂度成本不划算。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 11119,
+        "forks": 3466,
+        "stars_period": "683 stars this week"
+      }
+    }
+  ]
+}

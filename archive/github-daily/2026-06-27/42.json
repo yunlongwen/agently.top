@@ -1,0 +1,164 @@
+{
+  "generated_at": "2026-06-27T19:51:14.431817",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 9,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "simplex-chat/simplex-chat",
+      "url": "https://github.com/simplex-chat/simplex-chat",
+      "published_at": "",
+      "original_summary": "SimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱! | 语言: Haskell | Stars: 12,985 | Forks: 748 | 432 stars today",
+      "chinese_summary": "无用户标识符的去中心化聊天协议。基于自研 SMP 协议（双盲握手），服务端既看不到消息也看不到元数据，理论上比 Signal/Session 更彻底；现成客户端覆盖 iOS/Android/桌面。缺点是 Haskell 生态导致自托管门槛偏高，消息延迟高于主流 IM，分组/频道功能目前还在补。适合做隐私优先的内部沟通或匿名场景，不适合需要大群广播、多端实时同步的客服/营销业务。",
+      "backend_focus": "在 staging 起一组自托管 SMP relay（官方 Docker compose），先压 1000 并发连接下的消息延迟与内存占用；再把内部小范围沟通迁过去做 2 周灰度，验证密钥恢复流程是否扛得住员工离职场景。",
+      "meta": {
+        "language": "Haskell",
+        "stars": 12985,
+        "forks": 748,
+        "stars_period": "432 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 21,759 | Forks: 1,748 | 2,407 stars today",
+      "chinese_summary": "给 Coding Agent 用的设计规范格式规范。DESIGN.md 用结构化 markdown 让 Claude/Cursor/Copilot 等 Agent 持久化理解产品视觉系统（色板、组件 token、间距规则），比单纯喂 Figma 截图或零散 design token JSON 更可校验。跟现有 Storybook/MDX 文档不冲突，可作为 Agent 上下文层叠加。对小项目意义不大，组件库成熟、有专职 design system 团队的企业收益更明显。",
+      "backend_focus": "把现有 design token JSON 转写一份 DESIGN.md，纳入 repo 的 /docs/design/，并在 Cursor/Claude Code 的 system prompt 里加上读取路径；跑一周看生成 UI 代码的颜色/间距错误率是否下降。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 21759,
+        "forks": 1748,
+        "stars_period": "2,407 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "commaai/openpilot",
+      "url": "https://github.com/commaai/openpilot",
+      "published_at": "",
+      "original_summary": "openpilot is an operating system for robotics. Currently, it upgrades the driver assistance system on 300+ supported cars. | 语言: Python | Stars: 61,894 | Forks: 11,056 | 80 stars today",
+      "chinese_summary": "开源驾驶辅助/机器人 OS，已在 300+ 车型实车运行。C++/Python 混合，控制器实时性靠 cereal + msgq + 基于 Panda 的 OBD-II CAN 注入实现，端到端模型 on-device 推理。比 Apollo/Autoware 轻量、上车快，但定位是 L2 辅助而非 L4 全栈，仿真和地图生态弱于百度 Apollo。适合做算法验证和小批量车队，不适合直接拿来做 Robotaxi。",
+      "backend_focus": "用 commaai 的 cabana CAN 工具回放团队现有路采数据，先把 comma 第二代模型在 PC 上 replay 一遍，对比你方现有 ADAS pipeline 的接管率；硬件侧采购一只 Panda 适配器即可上车测试。",
+      "meta": {
+        "language": "Python",
+        "stars": 61894,
+        "forks": 11056,
+        "stars_period": "80 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 3,612 | Forks: 211 | 398 stars today",
+      "chinese_summary": "Go 写的 git pre-receive 拦截工具，把\"别在主分支乱提\"做成一句 `git push no-mistakes`。比直接写 server-side hook 轻量，不依赖 GitHub/GitLab 的 protected branch 配置，纯裸仓库前一层拦截即可生效。支持自定义规则集（分支名规范、commit message 检查、敏感文件黑名单），但和 CI 一样拦不住 force-push 已推送后的历史，不适合需要完整审计追溯的合规场景。",
+      "backend_focus": "在团队最常用的那个 bare 仓库 hook 目录里装上：`go install` 后挂到 post-receive，配置 .nomistakes.yaml 禁掉直推 main；同步给所有 clone 仓库的客户端写一段 alias 包装 push 命令。",
+      "meta": {
+        "language": "Go",
+        "stars": 3612,
+        "forks": 211,
+        "stars_period": "398 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "grafana/grafana",
+      "url": "https://github.com/grafana/grafana",
+      "published_at": "",
+      "original_summary": "The open and composable observability and data visualization platform. Visualize metrics, logs, and traces from multiple sources like Prometheus, Loki, Elasticsearch, InfluxDB, Postgres and many more. | 语言: TypeScript | Stars: 75,022 | Forks: 14,135 | 32 stars today",
+      "chinese_summary": "老牌可视化平台，单二进制 Go 后端 + React 前端。10.x 引入 Grafana Loki/Tempo/Mimir 全家桶，支持 Prometheus/ES/Influx/PG 等 30+ 数据源直连。比 Kibana 轻、比 Datadog 便宜，仪表盘 JSON 可版本控制进 Git。缺点是告警引擎表达式不如 Datadog 灵活，多租户/计费需要自己叠一层。适合自建可观测性栈的中小团队，大规模集群 Mimir 运维成本会上升。",
+      "backend_focus": "本周升级到 Grafana 11.x，把现有 Prometheus 数据源接入新引入的 Explore Metrics，跑一遍 Recording Rule 兼容性检查；同步评估是否把 Loki 日志告警迁到 Grafana Alerting 以统一规则存储。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 75022,
+        "forks": 14135,
+        "stars_period": "32 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ripienaar/free-for-dev",
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "published_at": "",
+      "original_summary": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev | 语言: HTML | Stars: 123,889 | Forks: 13,059 | 90 stars today",
+      "chinese_summary": "DevOps/SRE 资源清单，整理了 SaaS/PaaS/IaaS 带免费额度的服务。覆盖云函数、数据库、CI/CD、监控、邮件、对象存储等几十类，每条注明额度上限和限制条件。不是工具而是 cheat sheet，可作为团队选型时的省钱对照表。注意部分条目过期或额度缩水，上线前必须自己核一遍官网最新政策。适合初创团队和 PoC 阶段，规模化生产不适用。",
+      "backend_focus": "拉一份 README 到团队 wiki 置顶，本周选 3 个本季度新采购的 SaaS（建议优先级：CI/CD runner、对象存储、邮件服务）逐条对照清单里的免费额度；评估能切的切掉，预计季度成本节省数据交给财务。",
+      "meta": {
+        "language": "HTML",
+        "stars": 123889,
+        "forks": 13059,
+        "stars_period": "90 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "opendatalab/MinerU",
+      "url": "https://github.com/opendatalab/MinerU",
+      "published_at": "",
+      "original_summary": "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows. | 语言: Python | Stars: 70,727 | Forks: 5,954 | 960 stars today",
+      "chinese_summary": "PDF/Office 文档转 LLM-ready Markdown/JSON 的预处理工具链。基于 PaddleOCR + 自研布局分析，支持表格/公式/图片 caption，比 unstructured.io 中文场景准，比 Marker 快（GPU 模式）。适合 RAG 前的文档清洗环节，能把扫描件和复杂排版还原成结构化文本。缺点是对超大 PDF（>500 页）内存占用偏高，需要按页批处理。",
+      "backend_focus": "用团队最棘手的一份 100 页带表格/公式的 PDF 跑一次 mineru --output markdown，对比当前 RAG 用的 unstructured.io 切块质量；在 staging GPU 节点测 throughput，决定是否替换现有文档摄取管道。",
+      "meta": {
+        "language": "Python",
+        "stars": 70727,
+        "forks": 5954,
+        "stars_period": "960 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "mauriceboe/TREK",
+      "url": "https://github.com/mauriceboe/TREK",
+      "published_at": "",
+      "original_summary": "A self-hosted travel/trip planner with real-time collaboration, interactive maps, PWA support, SSO, budgets, packing lists, and more. | 语言: TypeScript | Stars: 7,875 | Forks: 664 | 1,060 stars today",
+      "chinese_summary": "自托管旅行规划工具，TypeScript 全栈 + Postgres + Leaflet 地图。支持实时协作、PWA、SSO、预算/打包清单，比 Wanderlog/TripIt 多一项\"数据在自己手上\"。适合团队/小公司团建或户外俱乐部内部用，缺点是没有移动端 native app，PWA 离线体验弱于原生，地图底图依赖自配 OSM tile server。",
+      "backend_focus": "用 docker compose 在内网起一套，导入一次部门团建数据验证 SSO（OIDC）+ 多人实时编辑；同步评估能否把 OSM tile 换成自托管以避免出口流量。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 7875,
+        "forks": 664,
+        "stars_period": "1,060 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "xbtlin/ai-berkshire",
+      "url": "https://github.com/xbtlin/ai-berkshire",
+      "published_at": "",
+      "original_summary": "AI 时代的伯克希尔：基于 Claude Code 的价值投资研究框架。巴菲特·芒格·段永平·李录四大师方法论 + 多Agent并行研究。| AI-era Berkshire: a value investing research framework built on Claude Code. 4 masters' methodologies + multi-agent adversarial analysis. | 语言: Python | Stars: 3,354 | Forks: 507 | 1,274 stars today",
+      "chinese_summary": "基于 Claude Code 的多 Agent 价值投资研究框架，把巴菲特/芒格/段永平/李录四家方法论拆成对抗式 Agent 并行出研报。本质是 prompt 编排模板和 agent 调用脚手架，跟我们做的多 Agent 编排框架思路类似；可借鉴的是它把\"投资观点博弈\"拆成多 Agent 投票的结构。生产可用度取决于底座 Claude Code 的稳定性，结论仍需人工校验。",
+      "backend_focus": "抽出其 multi-agent 对抗评审的 prompt 模板，套到团队现有 code review 多 Agent 实验里：让\"安全 Agent\"和\"性能 Agent\"对同一份 PR 互评；观察是否能降低人工 review 漏报率。",
+      "meta": {
+        "language": "Python",
+        "stars": 3354,
+        "forks": 507,
+        "stars_period": "1,274 stars today"
+      }
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "generated_at": "2026-06-21T23:36:27.807912",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 5,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 36,578 | Forks: 2,907 | 8,483 stars this week",
+      "chinese_summary": "CLI 形态的 agent 网关，统一读 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书，零 API key。用浏览器渲染 + 反爬绕过绕开官方 API 限制。对比官方 API 方案（如 Twitter API Basic $100/月），它免费但依赖第三方抓取稳定性，限流和 IP 风控不可控，SLA 不保证；和 Apify 这种 web-scraping 服务比轻量但缺调度。上手成本：pip install + 配置一次 cookie 即可，适合个人 agent 跑批。",
+      "backend_focus": "不适合接入生产服务。先在本地 agent dev 试：pip install agent-reach，配置 Reddit/Twitter cookie，跑 search + read 流程，对比直接调官方 API 的成功率差异，评估能否替代内部已有的第三方抓取脚本。",
+      "meta": {
+        "language": "Python",
+        "stars": 36578,
+        "forks": 2907,
+        "stars_period": "8,483 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,418 | Forks: 472 | 1,621 stars this week",
+      "chinese_summary": "Rust 写的模块化 P2P 网络栈，用「dial keys」替代 IP 地址。对比 libp2p（Go/Rust，IPFS 生态）iroh 更轻且面向 NAT 穿透和移动网络优化，对端地址变更不重连；和 tailscale/ZeroTier 这种 VPN 方案比，iroh 是给应用层嵌入的库不是现成 VPN，更像网络中间件。1 万 star、1621 周增量说明还偏早期，生产慎用但值得 star 跟架构。上手成本：cargo add iroh，替换 std::net 调用点即可，无独立服务。",
+      "backend_focus": "暂不接入生产。新建 spike 分支：cargo new iroh-poc，写两端 demo 验证 NAT 后直连成功率，对比现有基于 libp2p 的服务发现模块；如团队有 IoT/移动端 mesh 需求再深入评估。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10418,
+        "forks": 472,
+        "stars_period": "1,621 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 24,781 | Forks: 2,352 | 3,655 stars this week",
+      "chinese_summary": "Google 出的时间序列基础模型，零样本预测。和 statsforecast/AutoGluon 这种传统 ML 比不用训练直接 forecast；和 Chronos（Amazon 同赛道 TSFM）比 TimesFM 在长 horizon 上更稳，但消费级 GPU 推理仍需 ~2GB 显存。适合销售/流量/IoT 指标预测，但不能解释因果，业务上不能完全替代 Prophet+XGBoost 的特征工程路线。上手成本：pip install timesfm，几行代码跑 inference，不用训。",
+      "backend_focus": "拉近一周 metrics（CPU/订单量），跑 timesfm.predict() 对比现有 Prophet baseline，看 MAPE/WAPE；如团队已在用 InfluxDB/M3 监控，可把它作为 fallback forecaster 加到告警链路里。",
+      "meta": {
+        "language": "Python",
+        "stars": 24781,
+        "forks": 2352,
+        "stars_period": "3,655 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 8,923 | Forks: 696 | 4,631 stars this week",
+      "chinese_summary": "NVIDIA 出的 AI agent skill 安全扫描器，检测 prompt injection/恶意 skill/权限滥用。和传统 SAST（Semgrep/CodeQL）比它理解 skill 语义，能识别间接 prompt injection 和 tool 滥用链；和 Microsoft PyRIT 比 SkillSpector 更偏事前静态扫描而非红队动态测试，适合 CI 卡点。star 还在爬坡（4631/周）说明工具成熟度待验证。上手成本：pip 装好后塞进 GitHub Action 扫 PR 即可。",
+      "backend_focus": "接入现有 agent skill 仓库的 CI：pip install skillspector，写一条 GitHub Action 在 PR 时 scan ./skills 目录，对照一次内部发布的可疑 skill 看是否命中，重点验证是否能拦下含外发 HTTP 的恶意 skill。",
+      "meta": {
+        "language": "Python",
+        "stars": 8923,
+        "forks": 696,
+        "stars_period": "4,631 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,239 | Forks: 354 | 1,012 stars this week",
+      "chinese_summary": "Astro 团队出的 sandbox agent 框架，TS 写，定位类似 Daytona/E2B 但更贴前端场景。对比 E2B（云端 microVM）flue 偏进程级沙箱，启动更快但隔离弱；和 Anthropic 的 sandbox-runtime 比同为开源，但 flue 框架化封装更好。1 万 star、1012 周增量说明还偏早期，适合给 agent 跑不可信代码时隔离文件系统/网络。上手成本：npm install 即可，需 Node 20+。",
+      "backend_focus": "在 agent eval 链路试跑：npm install @withastro/flue，把现有跑 untrusted code 的 subprocess 调用包到 flue sandbox，对比默认 Node 子进程在网络隔离下的行为差异；重点验证 file-write 白名单和 e2e 测试隔离场景。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6239,
+        "forks": 354,
+        "stars_period": "1,012 stars this week"
+      }
+    }
+  ]
+}

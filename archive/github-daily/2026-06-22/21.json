@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-22T08:03:36.081186",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 8,628 | Forks: 1,286 | 993 stars today",
+      "chinese_summary": "把 Claude/Cursor/Codex 等 coding agent 升级成视频制作工作站的 Python 框架。内置 12 条 pipeline、52 个工具、500+ agent skill，覆盖剪辑、配音、分镜、合成全流程。跟 n8n+FFmpeg 拼凑方案比，它把视频制作沉淀成可复用的 skill 库，agent 之间能串行调度；跟 ComfyUI 比，它是文本/代码驱动而非节点拖拽，更适合放进 CI。痛点是本地需要 GPU/FFmpeg/各类模型权重，纯 CPU 跑不动生产级渲染。上手成本：克隆仓库后按 skill 文档配置 model key，需要至少一块 12GB 显存的 GPU。",
+      "backend_focus": "克隆仓库后先跑 README 里的 demo pipeline 看一遍 skill 注册机制，然后把团队现有的「AI 生视频+人工剪辑」流程里可自动化的部分（如批量加水印、字幕转写、多语言配音）映射到对应 skill，评估接入 CI 后能否节省剪辑时长。",
+      "meta": {
+        "language": "Python",
+        "stars": 8628,
+        "forks": 1286,
+        "stars_period": "993 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "chopratejas/headroom",
+      "url": "https://github.com/chopratejas/headroom",
+      "published_at": "",
+      "original_summary": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 60-95% fewer tokens, same answers. Library, proxy, MCP server. | 语言: Python | Stars: 44,260 | Forks: 3,084 | 2,617 stars today",
+      "chinese_summary": "LLM token 压缩代理，Python 实现。给所有「喂上下文给大模型」的场景用：在 tool output、RAG chunk、日志、文件传给 LLM 之前先做有损压缩，号称砍掉 60-95% token、答案质量不变。提供三种接入形态——库、HTTP 代理、MCP server，比 LangChain 的 text splitter 激进得多，它直接做语义压缩而非简单截断；跟 LLMLingua 比，headroom 是把压缩做成透明代理层，应用代码几乎零改动。坑点是有损压缩对结构化数据（JSON/YAML/code）可能破坏语义，关键业务字段需白名单跳过。上手成本：pip install 后改一行 base_url 指向代理即可，无需改业务代码。",
+      "backend_focus": "先 pip install headroom 起本地代理，把团队 RAG 服务的 query 流量切 10% 走 headroom proxy，对比压缩前后的答案准确率和 token 计费，跑一周看 ROI 再全量切换；同时给 Anthropic/OpenAI SDK 的 base_url 配环境变量实现灰度。",
+      "meta": {
+        "language": "Python",
+        "stars": 44260,
+        "forks": 3084,
+        "stars_period": "2,617 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "tursodatabase/turso",
+      "url": "https://github.com/tursodatabase/turso",
+      "published_at": "",
+      "original_summary": "Turso is an in-process SQL database, compatible with SQLite. | 语言: Rust | Stars: 20,782 | Forks: 1,061 | 543 stars today",
+      "chinese_summary": "Rust 写的 in-process SQLite 兼容数据库，Turso 出品。给不想起独立 DB 服务、又嫌 SQLite 性能不够的场景用——嵌入式同步、async I/O、原生多线程。和原版 SQLite 比，它把连接池、wal 模式、MVCC 全部重写，单进程内多线程写入不再需要加锁；跟 libSQL（他们自己的另一条线）关系是 libSQL 是 fork + 远程同步，turso 本体是本地内嵌库。亮点是 C ABI 兼容，理论上能直接 link 替换。坑点目前是 alpha，跨平台 binary 发布还不够稳，生产建议先 staging 压测。上手成本：cargo add turso，几行代码起库。",
+      "backend_focus": "在 staging 环境把当前用 SQLite 的某个写密集服务（如审计日志、feature flag 存储）换 turso，对比同样 schema 下的写入吞吐和 P99 延迟；如果是 Node/Python 服务，注意目前 bindings 还在快速迭代，固定版本号再上生产。",
+      "meta": {
+        "language": "Rust",
+        "stars": 20782,
+        "forks": 1061,
+        "stars_period": "543 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "bytedance/deer-flow",
+      "url": "https://github.com/bytedance/deer-flow",
+      "published_at": "",
+      "original_summary": "An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours. | 语言: Python | Stars: 72,547 | Forks: 9,827 | 415 stars today",
+      "chinese_summary": "字节开源的 long-horizon SuperAgent harness，Python 写。给需要让 AI 干「分钟到小时级」长任务的团队用，研究、coding、内容创作都覆盖，核心是 sandbox+memory+tools+subagent+message gateway。和 LangGraph 比，DeerFlow 是「产品化」的完整工作流而非编排框架，开箱即用；跟 AutoGPT 早期版本比，它把沙箱隔离、消息网关、子 agent 调度都工程化了。亮点是支持多 agent 协作和持久化记忆；坑点是依赖外部沙箱（Docker/E2B）和多种 model key，部署比单 agent 方案重。上手成本：克隆仓库配 API key 和沙箱 provider，本地起需要 Docker。",
+      "backend_focus": "克隆仓库后先跑 quickstart 看 subagent 调度链路，把团队现有「研究→写代码→跑测试」这类长任务对接到 deer-flow 的 message gateway，对比单 agent 直跑 Claude/GPT 的完成率和耗时；生产部署建议先选 E2B 沙箱避免污染本地环境。",
+      "meta": {
+        "language": "Python",
+        "stars": 72547,
+        "forks": 9827,
+        "stars_period": "415 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 10,226 | Forks: 774 | 1,029 stars today",
+      "chinese_summary": "代码智能 MCP server，C 写的单二进制。给任何接 MCP 的 AI 客户端（Claude Code/Cursor/Cline）用，把 codebase 索引成持久知识图谱，平均仓库毫秒级索引、支持 158 种语言、sub-ms 查询、token 用量砍 99%。和 Aider 的 repo map 比，它是独立服务+持久化，多次会话复用同一张图；跟 Sourcegraph 的代码搜索比，它是本地内嵌+零外部依赖，不上传源码。亮点是单静态二进制、零依赖，适合内网部署；坑点是 C 写的，跨平台 binary 需要看 release 页是否覆盖你的 OS/arch。上手成本：下载二进制→启动→在 MCP client 配一行 command 即可。",
+      "backend_focus": "下载 release 页对应平台的二进制，本地跑 `./codebase-memory-mcp /path/to/your/repo`，然后在 Claude Code 或 Cursor 的 MCP 配置里加一行 stdio command 注册；挑团队最常被 AI 误读的一个 50 万行 monorepo 做索引，对比接入前后的「问代码」准确率和响应延迟。",
+      "meta": {
+        "language": "C",
+        "stars": 10226,
+        "forks": 774,
+        "stars_period": "1,029 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "mukul975/Anthropic-Cybersecurity-Skills",
+      "url": "https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
+      "published_at": "",
+      "original_summary": "754 structured cybersecurity skills for AI agents · Mapped to 5 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND & NIST AI RMF · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI & 20+ platforms · 26 security domains · Apache 2.0 | 语言: Python | Stars: 17,658 | Forks: 2,125 | 445 stars today",
+      "chinese_summary": "754 条结构化网络安全 skill 库，Python 写。给做安全 AI agent 的团队用，按 MITRE ATT&CK / NIST CSF 2.0 / MITRE ATLAS / D3FEND / NIST AI RMF 五大框架组织，兼容 Claude Code、Copilot、Codex、Cursor 等 20+ agent 平台。和 PromptFoo 的 security plugin 比，这是「预制 skill 资产」而非测试框架；跟 Cisco/Chronicle 的威胁情报 feed 比，它是 agent 可消费的格式化 prompt 知识。亮点是 Apache 2.0+对齐主流合规框架，做等保/审计可直接引用；坑点是 skill 质量依赖 prompt 工程，对新型攻击样本需要自己扩。上手成本：克隆仓库→挑所需 skill 复制到对应平台的 skill 目录。",
+      "backend_focus": "克隆仓库后把 security 目录按框架筛选，挑团队当前合规场景（如等保 2.0 对应 NIST CSF）下的 skill 复制到 Claude Code 或 Cursor 的 skills 路径；让安全工程师跑一次红队模拟，对比接入 skill 前后 agent 在告警分诊、攻击链复盘任务上的输出质量。",
+      "meta": {
+        "language": "Python",
+        "stars": 17658,
+        "forks": 2125,
+        "stars_period": "445 stars today"
+      }
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "generated_at": "2026-06-21T21:39:30.620054",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low"
+  },
+  "item_count": 5,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 36,471 | Forks: 2,895 | 8,483 stars this week",
+      "chinese_summary": "Python 写的 agent 联网 CLI，把 Twitter / Reddit / YouTube / GitHub / B 站 / 小红书 6 个平台统一成一个 read+search 接口，免 API key。比 Apify 轻、不烧 scraping 预算，比 ModelScope 的 web 工具覆盖国内平台。痛点：自建 scraper 每个站都得对抗反爬。劣势是依赖第三方未公开的内部接口，站方改版就挂；纯 Python 同步 IO，大并发要自己起池子。上手：pip 装好配 cookie 就能用，集成到 LangChain tool 一行代码。",
+      "backend_focus": "pip install agent-reach，按 README 配 6 个站点的浏览器 cookie，挑 agent 评估集里『需要联网查最新信息』的 20 条 case 实测一遍成功率，对比现有 Tavily/SerpAPI 成本决定是否在 prod agent 切流量。",
+      "meta": {
+        "language": "Python",
+        "stars": 36471,
+        "forks": 2895,
+        "stars_period": "8,483 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,407 | Forks: 472 | 1,621 stars this week",
+      "chinese_summary": "Rust 写的模块化点对点网络栈，核心思路是用内容寻址的 key 代替 IP 拨号，libp2p 的更现代替代品。提供 relay / hole punching / QUIC 传输，能直接在 NAT 后建隧道。比 libp2p 编译快、体积小、API 干净，比 tailscale/zerotier 自建友好。痛点：P2P 设备发现和穿透。劣势是生态远不如 libp2p，IPFS/Substrate 这类大项目还没迁过来。上手：cargo add iroh，写 30 行跑通两个节点互 ping。",
+      "backend_focus": "cargo new 一个 demo，把 iroh 跑通两端 NAT 穿透文件传输场景（不同网络环境各拉一台机器），对延迟和建连成功率做基线测量；若团队在做 IoT 设备管理或边缘计算 P2P 模块，这是一份值得 fork 评估的候选底座。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10407,
+        "forks": 472,
+        "stars_period": "1,621 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 24,753 | Forks: 2,347 | 3,655 stars this week",
+      "chinese_summary": "Google Research 开源的时序基础模型，零样本做时间序列预测，无需训练直接推理。200M 参数，PyTorch + JAX 双实现，支持概率预测给出分位数。比 Chronos（Amazon 同类）开源更早、论文引用更多，比传统 statsforecast / prophet 在长 horizon 和多变量上表现好。痛点：业务侧要快速 baseline 又不想标数据。劣势是消费级 GPU 推理比统计模型慢 100 倍，超高频实时场景（k线、秒级监控）不合适。上手：pip install timesfm，三行代码出预测。",
+      "backend_focus": "pip install timesfm，挑业务里一条有 1 年以上历史的指标（DAU / 销量 / 机房功耗均可）跑 zero-shot 预测 7/30 天，对比 prophet 和团队现用模型的 MAPE；若在可接受范围内，可直接替换 BI 里的预测模块省掉训练链路。",
+      "meta": {
+        "language": "Python",
+        "stars": 24753,
+        "forks": 2347,
+        "stars_period": "3,655 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 8,893 | Forks: 693 | 4,631 stars this week",
+      "chinese_summary": "NVIDIA 出的 AI agent skill 安全扫描器，专门审 agent 调用的 tool 定义、prompt、依赖。检测越权、prompt injection、恶意 payload 模式。跟传统 SAST（Snyk/CodeQL）互补——后者扫代码，它扫 agent 行为面。痛点：ClawdHub / MCP marketplace 上的 skill 良莠不齐，直接挂到生产 agent 有 RCE 风险。劣势是新项目（8k star）规则库不全，对自定义 tool schema 覆盖弱。上手：pip 装好对 skill 目录跑一条扫描。",
+      "backend_focus": "pip install skillspector，先把团队内部维护的 MCP server 和 Claude skill 仓库全量扫一遍，按 critical/high 清单先修；CI 里加一条 skillspector scan gate，后续新 skill 合并前自动过一遍安全。",
+      "meta": {
+        "language": "Python",
+        "stars": 8893,
+        "forks": 693,
+        "stars_period": "4,631 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,228 | Forks: 352 | 1,012 stars this week",
+      "chinese_summary": "Astro 团队出的『sandbox agent 框架』，1k star 新项目。定位是给 AI agent 提供隔离执行环境，比 E2B/Firecracker-based 沙箱更轻，比直接用 Docker 跑 agent 更安全——内置网络隔离、文件配额、syscall 过滤。痛点：agent 生成的代码不能直接跑在主机上。劣势是新项目无 production case，文档薄，Kubernetes operator 也未到位。上手：npm install 后用 SDK 几行代码起一个沙箱。",
+      "backend_focus": "npm install @withastro/flue，把现有 agent 里最危险的『执行用户上传代码』分支切到 flue sandbox 跑一轮 fuzz（喂 100 个恶意 payload），确认网络外联和文件逃逸被拦截后再灰度到 prod。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6228,
+        "forks": 352,
+        "stars_period": "1,012 stars this week"
+      }
+    }
+  ]
+}

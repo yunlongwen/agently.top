@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-07-01T07:53:47.030347",
+  "source": {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "label": "Anthropic",
+    "content_source": "Anthropic",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://www.anthropic.com/news",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Statement on the US government directive to suspend access to Fable 5 and Mythos 5",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "published_at": "Jun 12, 2026",
+      "original_summary": "The US government has issued an export control directive to suspend all access to Fable 5 and Mythos 5.",
+      "chinese_summary": "跟进报道：Anthropic 再次确认美国政府出口管制指令要求立即暂停 Claude Fable 5 与 Mythos 5 的全部访问。本条相较历史声明未新增技术细节，主要重申合规要求。Fable 5 与 Mythos 5 在受影响区域不可用，需在系统侧做访问阻断或模型降级。",
+      "backend_focus": "立即行动：检查集成中是否硬编码 claude-fable-5 / claude-mythos-5 这两个 model ID；对受影响 region/账户的调用逻辑做 fail-fast 或降级到 Sonnet 5/Opus 4.8；监控 Anthropic 后续对未受影响区域的可用性说明。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Tag Claude Tag is a new way for teams to work with Claude.",
+      "url": "https://www.anthropic.com/news/introducing-claude-tag",
+      "published_at": "Jun 30, 2026",
+      "original_summary": "Introducing Claude Sonnet 5 Sonnet 5 delivers frontier performance across coding, agents, and professional work at scale. Announcements  Claude Science, an AI workbench for scientists, is now available Claude Science is a customizable app that integrates the tools and packages researchers most often use, produces auditable artifacts, and provides flexible access to computing resources. Product   Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking proce...",
+      "chinese_summary": "Anthropic 推出 Claude Tag，作为团队与 Claude 协作的新方式。这是产品形态层面的协作功能，公告未披露底层 API/SDK 端的具体协议变化。需要查看后续文档确认是否对 messages API 的 metadata 字段、tool use 调度或 MCP 集成有新约束。",
+      "backend_focus": "关注行动：Claude Tag 属产品侧协作形态，暂不明确对 API 字段的影响；建议先在内部账号里体验其行为变化，重点确认是否影响 tool use 调用链路与 system prompt 结构，再决定是否需要在 SDK 侧做适配。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Opus 4.8 An upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consi",
+      "url": "https://www.anthropic.com/news/claude-opus-4-8",
+      "published_at": "Jun 30, 2026",
+      "original_summary": "Introducing Claude Sonnet 5 Sonnet 5 delivers frontier performance across coding, agents, and professional work at scale. Announcements  Claude Science, an AI workbench for scientists, is now available Claude Science is a customizable app that integrates the tools and packages researchers most often use, produces auditable artifacts, and provides flexible access to computing resources. Product  Introducing Claude Tag Claude Tag is a new way for teams to work with Claude. Policy  Policy on the AI...",
+      "chinese_summary": "Anthropic 发布 Claude Opus 4.8，作为 Opus 系列的升级版本，在 coding、agentic 任务、专业工作负载上更强。相对 Opus 4.x 是同一产品线内的代际增强，未公开 deprecate Opus 4.x。已用 Opus 4.x 的系统可平滑迁移到 Opus 4.8，重点关注 context window、max_tokens、tool use 的差异。",
+      "backend_focus": "建议将高难度 coding/agent 工作负载从 claude-opus-4-x 升级到 claude-opus-4.8，复用现有 tool use/MCP 集成；升级前在 staging 跑一次回归，重点确认 max_tokens、context window、并发限流行为。保留旧 model ID 作为回滚。",
+      "meta": {
+        "content_type": "Product"
+      }
+    }
+  ]
+}

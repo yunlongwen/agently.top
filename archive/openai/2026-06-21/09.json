@@ -1,0 +1,74 @@
+{
+  "generated_at": "2026-06-21T22:14:01.810604",
+  "source": {
+    "id": "openai",
+    "name": "OpenAI",
+    "label": "OpenAI",
+    "content_source": "OpenAI",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://openai.com/news/",
+      "rss_url": "https://openai.com/news/rss.xml",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 4,
+  "items": [
+    {
+      "source": "OpenAI",
+      "category": "Product",
+      "title": "New usage analytics and updated spend controls for enterprises",
+      "url": "https://openai.com/index/chatgpt-enterprise-spend-controls",
+      "published_at": "Thu, 18 Jun 2026 17:00:00 GMT",
+      "original_summary": "OpenAI introduces new spend controls and usage analytics for ChatGPT Enterprise, helping organizations manage costs and scale AI with confidence.",
+      "chinese_summary": "跟进报道：OpenAI 为 ChatGPT Enterprise 上线新版 usage analytics 与更新后的 spend controls，让管理员可按部门/项目维度查看用量并设置预算上限。相对此前的粗粒度后台，差异在于把消费数据细化为可分摊的归因视图，并新增预算阈值告警与硬性熔断能力。已有账单系统无需迁移，可继续接收 API 用量，但建议替换为新版 cost attribution 接口以获得部门维度数据。",
+      "backend_focus": "接入新版 admin/cost-attribution 接口替换旧 usage 接口；在内部 FinOps 看板里加一条按部门/project 聚合的字段，关注硬性 spend cap 触发的 429/硬停服行为。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "OpenAI",
+      "category": "Product",
+      "title": "Improving health intelligence in ChatGPT",
+      "url": "https://openai.com/index/improving-health-intelligence-in-chatgpt",
+      "published_at": "Thu, 18 Jun 2026 11:00:00 GMT",
+      "original_summary": "Learn how GPT-5.5 Instant improves ChatGPT’s health and wellness responses with stronger reasoning, better context, clearer communication, and physician-informed evaluations.",
+      "chinese_summary": "OpenAI 在 ChatGPT 中将 GPT-5.5 Instant 针对健康/医疗咨询场景做定向优化，新增医生参与的评测体系，强化推理深度、上下文理解与表达清晰度。相对此前的通用 Instant 版本，差异点在于专门的健康领域 SFT/RLHF 路径与场景化拒答策略。已有系统无需迁移，旧 GPT-5.5 Instant 接口继续可用，但医疗类应用建议显式声明 health 场景以获得升级后的能力。",
+      "backend_focus": "升级 model 字段到 gpt-5.5-instant-health（或保持通用 Instant 自动路由）；建议在医疗类 prompt 里加 system 声明启用增强推理，并在客户端日志中区分 health 与通用分支做 A/B 评估。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "OpenAI",
+      "category": "Research",
+      "title": "Introducing LifeSciBench",
+      "url": "https://openai.com/index/introducing-life-sci-bench",
+      "published_at": "Wed, 17 Jun 2026 00:00:00 GMT",
+      "original_summary": "Introducing LifeSciBench, an expert-authored, expert-reviewed benchmark for evaluating how AI systems handle real-world life science research tasks and decisions.",
+      "chinese_summary": "OpenAI 发布 LifeSciBench，一套由生命科学领域专家撰写并评审的 benchmark，用于评估 AI 系统在真实生命科学研究任务与决策中的表现。相对此前通用 benchmark，差异点在于覆盖科研工作流而非通用问答，仅作为评测工具发布。已有模型/应用系统无需任何迁移，可选用于内部评测流水线。",
+      "backend_focus": "把 LifeSciBench 加入内部模型选型评估 CI 任务中；eval pipeline 可直接 pip/clone 仓库运行，注意其结果仅覆盖生命科学领域，不能替代通用能力评测。",
+      "meta": {
+        "content_type": "Research"
+      }
+    },
+    {
+      "source": "OpenAI",
+      "category": "Company",
+      "title": "OpenAI to acquire Ona",
+      "url": "https://openai.com/index/openai-to-acquire-ona",
+      "published_at": "Thu, 11 Jun 2026 00:00:00 GMT",
+      "original_summary": "OpenAI plans to acquire Ona to expand Codex with secure, persistent cloud environments, enabling long-running AI agents across enterprise workflows.",
+      "chinese_summary": "OpenAI 宣布计划收购 Ona，将其能力整合进 Codex，用以为 AI agents 提供安全、持久化的云端开发环境，从而支持跨企业工作流的长时运行 agent。这是公司层面的并购公告，短期不改变 Codex CLI 或现有 API 行为，但提示 Codex 方向会向「云端持久 sandbox + 长时 agent」演进。对已有调用方无 breaking change。",
+      "backend_focus": "短期无需行动；建议在路线图层面记录 Codex 即将引入云端持久化 sandbox，关注后续 sandbox API/SDK 的 preview 发布，避免长任务 agent 自建状态机重复造轮子。",
+      "meta": {
+        "content_type": "Company"
+      }
+    }
+  ]
+}

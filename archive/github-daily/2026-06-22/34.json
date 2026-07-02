@@ -1,0 +1,164 @@
+{
+  "generated_at": "2026-06-22T13:11:59.775656",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 9,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 9,297 | Forks: 1,340 | 987 stars today",
+      "chinese_summary": "Python 写的 agentic 视频生产流水线，把 Claude/Cursor 变成剪辑工。核心能力是 12 条 pipeline + 52 个工具 + 500 个 agent skill 覆盖脚本、分镜、剪辑、配音。横向对比：相比单独接 Sora/Runway API 它是 orchestrator 而非模型层，模型仍要自己配 key；适合已经在用 Claude Code 的自媒体团队，不适合不写代码的传统剪辑师。上手成本：clone 后配 LLM API key 即可，需 Python 3.11+。",
+      "backend_focus": "跑 `pip install -r requirements.txt` 后跑 `python -m open_montage demo`，选一条 pipeline 喂一段产品介绍脚本，评估生成的 timeline JSON 是否能直接送进 FFmpeg，验证端到端可用后再考虑接入内部 CMS。",
+      "meta": {
+        "language": "Python",
+        "stars": 9297,
+        "forks": 1340,
+        "stars_period": "987 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "chopratejas/headroom",
+      "url": "https://github.com/chopratejas/headroom",
+      "published_at": "",
+      "original_summary": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 60-95% fewer tokens, same answers. Library, proxy, MCP server. | 语言: Python | Stars: 44,976 | Forks: 3,136 | 2,624 stars today",
+      "chinese_summary": "Python/Rust 写的 LLM 上下文压缩层，给所有走 LLM 的链路用。核心能力是 proxy/library/MCP server 三种形态，在工具输出、日志、RAG chunk 进 LLM 前做无损压缩，token 减少 60-95%。横向对比：相比 LangChain 的 text splitter 它压在 token 数而不是 chunk 数，对超长 tool output（grep/cat/kubectl）和 RAG 召回后的 top-k 都更直接；相比 LiteLLM 它专注压缩而非路由。上手成本：`pip install headroom` 或拉 binary 启 proxy，改 base_url 指向即可，不用动业务代码。",
+      "backend_focus": "明天 staging 起 headroom proxy 指向 OpenAI/Anthropic endpoint，把现有 RAG 召回和 grep/bash tool 的 trace 重放一遍，对比压缩前后的 cost 和 answer 质量（用内部 eval set），确认 95% 准确率不掉后再挂到生产 gateway。",
+      "meta": {
+        "language": "Python",
+        "stars": 44976,
+        "forks": 3136,
+        "stars_period": "2,624 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "tursodatabase/turso",
+      "url": "https://github.com/tursodatabase/turso",
+      "published_at": "",
+      "original_summary": "Turso is an in-process SQL database, compatible with SQLite. | 语言: Rust | Stars: 20,914 | Forks: 1,069 | 548 stars today",
+      "chinese_summary": "Rust 写的进程内 SQLite 兼容数据库，给不想起 server 的嵌入式场景用。核心能力是 100% SQLite 协议兼容，单库 fork 走 libSQL 协议支持 HTTP 同步、partial replication。比标准 sqlite3 多分布式能力，比 libsql-server 又更轻；适合 edge function、单进程 serverless、CLI 工具。上手成本：`cargo install turso` 或用官方 Docker，零迁移成本，原 sqlite3 client 直接连。",
+      "backend_focus": "在内部一个边缘服务（比如 Cloudflare Worker 或 AWS Lambda）里把现有 sqlite3 driver 指向 libSQL endpoint 跑一周，对比冷启动延迟和跨 region 同步延迟，确认 partial replication 能满足读扩展再迁移到 Turso Cloud。",
+      "meta": {
+        "language": "Rust",
+        "stars": 20914,
+        "forks": 1069,
+        "stars_period": "548 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 52,398 | Forks: 3,352 | 1,135 stars today",
+      "chinese_summary": "Clojure 写的开源设计协作平台，给设计+前端协作团队用。核心能力是 SVG 原生、内置 design tokens 和 code export、与 Figma 互通的 import 工具。横向对比：相比 Figma 它是自托管、数据可控、支持私有化部署；缺点是插件生态和实时协同人数不如 Figma。上手成本：Docker 一行起，但性能调优要折腾 backend config。",
+      "backend_focus": "docker compose 起一套 staging，把现有 Figma 文件 .fig 导成 zip 导入测试 design token 同步，确认前端能从 Penpot 直接读 CSS variables 后再考虑全员迁移；非设计/前端岗无需关心。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 52398,
+        "forks": 3352,
+        "stars_period": "1,135 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 44,821 | Forks: 41,547 | 568 stars today",
+      "chinese_summary": "Python 写的多市场 LLM 股票分析系统，给个人投资者或量化小团队用。核心能力是 A 股/港股/美股多源行情聚合 + 实时新闻抓取 + LLM 决策打分 + 自动推送（微信/邮件），强调零成本定时跑（GitHub Actions）。横向对比：相比 akshare+自写脚本它是开箱即用的看板，相比券商研报它是 LLM 驱动无人工观点；不适合做高频交易和合规要求的机构。上手成本：fork 仓库配 LLM key + 推送 webhook 即可，但 LLM 调用本身有费用。",
+      "backend_focus": "fork 后在 GitHub Actions 里配 OPENAI_API_KEY 和 webhook，跑一天看决策打分的稳定性，注意 prompt 注入风险——把它当研究辅助而非交易信号源。",
+      "meta": {
+        "language": "Python",
+        "stars": 44821,
+        "forks": 41547,
+        "stars_period": "568 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "koala73/worldmonitor",
+      "url": "https://github.com/koala73/worldmonitor",
+      "published_at": "",
+      "original_summary": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface | 语言: TypeScript | Stars: 58,234 | Forks: 9,214 | 163 stars today",
+      "chinese_summary": "TypeScript 写的实时全球情报仪表盘，给做宏观/地缘分析的研究团队用。核心能力是 AI 新闻聚合、地缘事件监控、关键基础设施（电网/光缆/港口）追踪。横向对比：相比 GDELT 它多了 AI 摘要和基础设施图层，相比 Palantir Metropolis 它完全开源、可自托管；缺点是不接付费数据源时深度有限。上手成本：`pnpm dev` 即可，但生产部署要走 Postgres + Redis。",
+      "backend_focus": "跑 `pnpm install && pnpm dev`，接一份内部已有新闻流（RSS 或 webhook）评估事件抽取质量，把基础设施追踪图层对到本团队监控的供应商清单上看覆盖度，非情报/风控岗位可跳过。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 58234,
+        "forks": 9214,
+        "stars_period": "163 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "bytedance/deer-flow",
+      "url": "https://github.com/bytedance/deer-flow",
+      "published_at": "",
+      "original_summary": "An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours. | 语言: Python | Stars: 72,725 | Forks: 9,845 | 442 stars today",
+      "chinese_summary": "Python 写的 long-horizon SuperAgent harness，给做复杂多步任务的 AI 团队用。核心能力是沙箱执行、记忆持久化、子 agent 派发、消息网关统一处理分钟到小时级任务。横向对比：相比 LangGraph 它是更高层的「研究→编码→创作」垂直方案，相比 OpenAI Deep Research 它开源可私有部署且支持多模型；适合研究/数据分析团队。上手成本：`pip install deer-flow` 起 demo，需 Docker 跑沙箱。",
+      "backend_focus": "clone 后跑 `make quickstart`，把内部一个真实的研究任务（比如「调研竞品定价策略」）喂进去，对比 LangGraph 现版本的产物完整度和 token 消耗，评估替换研究类 agent 的收益。",
+      "meta": {
+        "language": "Python",
+        "stars": 72725,
+        "forks": 9845,
+        "stars_period": "442 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 10,557 | Forks: 799 | 1,032 stars today",
+      "chinese_summary": "C 写的代码智能 MCP server，给接 Claude/Cursor 的开发团队用。核心能力是把代码库索引成持久 knowledge graph，158 种语言，亚毫秒查询，token 用量比 Read 整个文件少 99%，单二进制零依赖。横向对比：相比 Sourcegraph 它是单 repo/本地级而非全企业索引，相比 cursor 的内置 indexing 它走 MCP 标准可换前端；不适合万星以上 monorepo 的全量检索。上手成本：下载 static binary 加进 MCP config 即可。",
+      "backend_focus": "下载二进制后在 Claude Desktop 的 `claude_desktop_config.json` 里加一段 mcpServers 配置，立刻对一个中等项目（10-50 万行）测查询延迟和 token 节省比例，确认比 grep+ripgrep 链路明显更省 token 再推到团队。",
+      "meta": {
+        "language": "C",
+        "stars": 10557,
+        "forks": 799,
+        "stars_period": "1,032 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "mukul975/Anthropic-Cybersecurity-Skills",
+      "url": "https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
+      "published_at": "",
+      "original_summary": "754 structured cybersecurity skills for AI agents · Mapped to 5 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND & NIST AI RMF · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI & 20+ platforms · 26 security domains · Apache 2.0 | 语言: Python | Stars: 17,855 | Forks: 2,141 | 361 stars today",
+      "chinese_summary": "Python 写的 754 条结构化网络安全 skill 库，给做安全 AI agent 的团队用。核心能力是映射到 MITRE ATT&CK、NIST CSF 2.0、MITRE ATLAS、D3FEND、NIST AI RMF 五大框架，覆盖 26 个安全域，符合 agentskills.io 标准，可被 Claude Code/Copilot/Codex/Cursor 等 20+ 平台消费，Apache 2.0。横向对比：相比直接让 LLM 写规则它有结构化 attack pattern 和 procedure，比商用 SIEM 它是 prompt 层而非数据层；不适合没有 agent 框架的纯合规审计场景。上手成本：clone 后按 agentskills.io 规范放到 `.claude/skills/` 即可。",
+      "backend_focus": "clone 后把 skills 目录 symlink 到团队 Claude Code 的 `.claude/skills/` 下，跑一个内部 SOC 剧本（比如「检测 T1486 数据加密攻击」），对比开/关 skills 的检测步骤完整度和 false positive，验证后纳入安全 agent 模板。",
+      "meta": {
+        "language": "Python",
+        "stars": 17855,
+        "forks": 2141,
+        "stars_period": "361 stars today"
+      }
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "generated_at": "2026-06-22T21:07:26.720395",
+  "source": {
+    "id": "rss-solidot",
+    "name": "Solidot",
+    "url": "https://www.solidot.org/index.rss",
+    "category": "开源科技",
+    "display_priority": "medium",
+    "enabled": true,
+    "max_age_days": 2,
+    "max_items": 10,
+    "kind": "rss",
+    "label": "Solidot",
+    "content_source": "Solidot"
+  },
+  "item_count": 5,
+  "items": [
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Anthropic 对特定功能访问要求身份验证",
+      "url": "https://www.solidot.org/story?sid=84645",
+      "published_at": "2026-06-22T11:02:33+00:00",
+      "original_summary": "Anthropic 更新了其隐私政策，从 2026 年 7 月 8 日起，部分功能将需要身份验证，该验证将由 Persona 公司负责。Persona 是一家第三方身份验证公司，由 Peter Thiel 投资。此前 Discord 因用户强烈反对以及 2026 年 2 月发生的一起数据泄露事件而终止了在年龄验证上与 Persona 的合作。\n<p></p>",
+      "chinese_summary": "Anthropic 更新隐私政策，自 2026 年 7 月 8 日起部分功能将要求身份验证，验证由第三方 Persona 负责。相对此前匿名可用的部分功能（推测涉及敏感内容/未成年相关）将首次引入 KYC，这是访问策略而非模型能力变化。已通过 API Key 调用的开发者通常不受影响，但消费端产品（Claude.ai）的部分功能将需登录验证。",
+      "backend_focus": "行动项：核查产品中嵌入 Claude.ai 网页/插件的入口，确认 7 月 8 日后是否会触发 Persona 验证导致流程中断；API Key 调用的服务端集成不受影响，可继续走 messages API。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84645"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Linux 7.2 内核完全移除 strncpy 函数",
+      "url": "https://www.solidot.org/story?sid=84644",
+      "published_at": "2026-06-22T10:55:05+00:00",
+      "original_summary": "在 6 年 362 个补丁之后，Linux 7.2 内核终于完全移除了 strncpy() 函数。strncpy() 是一个 C 语言字符串复制函数，内核文档将其标记为“极度危险（actively dangerous）”。strncpy()是一类内存错误的主要来源：包含敏感数据的内核缓冲区可能会在未终止字符串边界外泄漏字节，导致内存信息泄露。strncpy()被 5 个不同函数取代：strscpy() 用于 NUL 结尾的目的地址，strscpy_pad() 用于 NUL 结尾零填充的目标地址， strtomem_pad() 用于非 NUL 结尾固定宽度字段，memcpy_and_pad() 用于显式填充的有边界复制，memcpy()用于已知长度的内存复制。\n<p></p>",
+      "chinese_summary": "Linux 7.2 内核在 6 年 362 个补丁后完全移除 strncpy()，原因是其可能从内核缓冲区未终止边界泄漏敏感字节。内核 strncpy 已被 strscpy、strscpy_pad、strtomem_pad、memcpy_and_pad、memcpy 五个函数按场景替代。这是内核层面硬性 API 破坏性变更。维护内核模块/驱动的团队必须迁移；普通用户态应用不受影响。",
+      "backend_focus": "行动项：维护内核模块/驱动/内核态代码的团队立即审计所有 strncpy 调用，按目标是否 NUL 结尾/是否需零填充/是否固定宽度等场景替换为 strscpy/strscpy_pad/strtomem_pad/memcpy_and_pad/memcpy。Linux 7.2 升级时旧调用将无法编译通过。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84644"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "日本宣布新超算理究",
+      "url": "https://www.solidot.org/story?sid=84642",
+      "published_at": "2026-06-22T09:18:41+00:00",
+      "original_summary": "日本理化学研究所 19 日宣布，为利用 AI 进行科学研究而建设的新超级计算机命名为“理究”。该名称寓意利用 AI 探“究”自然现象背后的“理”。该超算将设在神户市中央区的理研神户地区，力争 7 月投入使用。理化所还在同一天宣布了另一台量子计算-高性能计算混合平台超算 ROQUO，两台超算都使用了英伟达的 GB200 NVL4 系统。其中 ROQUO 配备了 135 个计算节点，540 (NVIDIA Blackwell)&nbsp; GPU 以及 270 (NVIDIA Grace) CPU，FP64 峰值逾 21 PFLOPS，FP8 峰值 5 EFLOPS 等。\n<p></p>",
+      "chinese_summary": "日本理化学研究所宣布新建 AI 科研超算“理究”，同时公布量子-超算混合平台 ROQUO，两台均搭载英伟达 GB200 NVL4。其中 ROQUO 配置 135 个节点、540 块 NVIDIA Blackwell GPU、270 块 Grace CPU，FP64 峰值 21 PFLOPS、FP8 峰值 5 EFLOPS。相对此前的富岳超算，本批次算力平台主打 GB200 + 量子混合。理究预计 7 月投入使用。",
+      "backend_focus": "行动项：若有日本地区科学计算/HPC 合作需求，关注理研 7 月开放使用后的申请通道与算力资源配额；普通 AI 推理/训练用户短期内无需关注，可继续使用公有云。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84642"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "美国芯片安全法案将强制性要求位置跟踪 AI 芯片",
+      "url": "https://www.solidot.org/story?sid=84641",
+      "published_at": "2026-06-22T07:53:11+00:00",
+      "original_summary": "美国国会正在审议芯片安全法案（Chip Security Act），该法案将为先进 AI 芯片加入更严格的安全验证功能，将要求芯片出口商通过定制的位置验证硬件或软件追踪先进芯片的流向，确保先进芯片不会进入中国等国家。美国众议院外交事务委员会于 3 月下旬以 42 比 0 的投票结果一致通过了芯片安全法案，将其提交到众议院全体会议审议。参议院的配套立法则尚处于审议的第一个阶段。美国芯片行业组织反对这项法案，认为会阻碍芯片出口。最大的 AI 芯片制造商英伟达去年 12 月宣布它已开发出能满足该法案部分要求的技术。\n<p></p>",
+      "chinese_summary": "美国国会审议 Chip Security Act，拟对出口的高端 AI 芯片强制加入位置验证硬件/软件，防止流入中国等国家。英伟达已于 2024 年 12 月宣布开发部分合规技术。属于美国出口管制立法进展，对已出口芯片无追溯，对供应链与采购合规提出新要求。",
+      "backend_focus": "行动项：使用英伟达 H100/H200/B200/GB200 等受限型号的团队，核查采购合同中是否含位置验证条款与合规承诺；如计划新采购，关注法案表决进展（众议院外交事务委员会已 42-0 通过，等待众议院全体审议）。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84641"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Canonical 将为 Ubuntu 桌面加入语音文本转录 AI 功能",
+      "url": "https://www.solidot.org/story?sid=84638",
+      "published_at": "2026-06-22T06:02:52+00:00",
+      "original_summary": "Canonical 宣布将为 Ubuntu 桌面加入语音文本转录 AI 功能，它正在征询用户对该功能的反馈。预计于今年 10 月发布的 Ubuntu 26.10 将包含被称为 Myna 的 AI 功能的早期版本。在 Myna 中，语音识别在名为 Canonical Inference Snap 的沙盒组件中进行，Speech Orchestrator 负责管理会话，Audio Adapter 处理麦克风拾取的音频，在音频到达模型前对其进行降噪和分块处理。语音识别将在本地进行，一旦安装相应模型后就不再需要连接互联网。音频数据也不会被长期保存，将在会话结束后立即被丢弃。Myna 暂时不会支持语音输入密码、持续监听、翻译等功能。\n<p></p>",
+      "chinese_summary": "Canonical 宣布将在 Ubuntu 26.10（预计 2025 年 10 月发布）加入名为 Myna 的本地语音转录 AI 功能。架构上分三层：Canonical Inference Snap（沙盒推理）、Speech Orchestrator（会话管理）、Audio Adapter（音频降噪与分块），识别完全在本地完成，音频不长期保存。明确不支持语音输入密码、持续监听、翻译。这是 Ubuntu 桌面系统层功能，非 API/SDK 发布。",
+      "backend_focus": "行动项：使用 Ubuntu 桌面 26.10 做开发机的团队可在 10 月 GA 后评估是否在终端/IDE 场景启用 Myna 语音转写；不涉及 API Key、配额、计费，后端服务无需任何改动。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84638"
+      }
+    }
+  ]
+}

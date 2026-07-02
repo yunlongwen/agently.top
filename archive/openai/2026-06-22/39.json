@@ -1,0 +1,61 @@
+{
+  "generated_at": "2026-06-22T16:09:45.392516",
+  "source": {
+    "id": "openai",
+    "name": "OpenAI",
+    "label": "OpenAI",
+    "content_source": "OpenAI",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://openai.com/news/",
+      "rss_url": "https://openai.com/news/rss.xml",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "OpenAI",
+      "category": "Product",
+      "title": "New usage analytics and updated spend controls for enterprises",
+      "url": "https://openai.com/index/chatgpt-enterprise-spend-controls",
+      "published_at": "Thu, 18 Jun 2026 17:00:00 GMT",
+      "original_summary": "OpenAI introduces new spend controls and usage analytics for ChatGPT Enterprise, helping organizations manage costs and scale AI with confidence.",
+      "chinese_summary": "跟进报道：OpenAI 为 ChatGPT Enterprise 管理后台新增「用量分析」与「支出控制」能力，管理员可按部门/项目查看 token 消耗并设置硬性预算上限。相对此前仅在 Admin API 中可粗粒度查用量，这次把分析和硬性限流/封顶做成了 UI 闭环。已有通过 Admin API 自建用量看板的团队可评估是否切换到原生能力。",
+      "backend_focus": "若使用 ChatGPT Enterprise Admin API（/v1/organization/usage）自建看板，关注新发布的 spend controls 配置项；按部门/项目拆分 cost center 的逻辑可与新 UI 对齐，优先复用原生能力再去掉自研聚合层。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "OpenAI",
+      "category": "Product",
+      "title": "Improving health intelligence in ChatGPT",
+      "url": "https://openai.com/index/improving-health-intelligence-in-chatgpt",
+      "published_at": "Thu, 18 Jun 2026 11:00:00 GMT",
+      "original_summary": "Learn how GPT-5.5 Instant improves ChatGPT’s health and wellness responses with stronger reasoning, better context, clearer communication, and physician-informed evaluations.",
+      "chinese_summary": "跟进报道：OpenAI 将 ChatGPT 健康类问答的默认后端切换为 GPT-5.5 Instant，context window 更大、推理链更长、表达更清晰，并通过医师参与评估。相对此前的旧默认模型，开发者如果通过 API 显式指定 gpt-5.5-instant 可获得新能力，未指定则行为取决于具体路由策略。已有健康类系统建议把模型字符串显式锁到目标版本以避免静默切换。",
+      "backend_focus": "健康类业务把 Chat Completions 请求体里的 model 字段显式写为 gpt-5.5-instant（或团队认可的等价字符串），不要依赖默认路由；同步复核 max_tokens 与 system prompt 是否仍适配更长 context window，必要时上调 max_tokens 上限。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "OpenAI",
+      "category": "Research",
+      "title": "Introducing LifeSciBench",
+      "url": "https://openai.com/index/introducing-life-sci-bench",
+      "published_at": "Wed, 17 Jun 2026 00:00:00 GMT",
+      "original_summary": "Introducing LifeSciBench, an expert-authored, expert-reviewed benchmark for evaluating how AI systems handle real-world life science research tasks and decisions.",
+      "chinese_summary": "OpenAI 发布 LifeSciBench，一个由生命科学专家撰写并评审的基准，用于评估 AI 在真实生命科学研究任务与决策上的表现。这是评测基准发布，不涉及 API、SDK、模型权重或定价变化。工程团队可在内部评估流水线中接入该 benchmark。",
+      "backend_focus": "可在自建 LLM 评测流水线中引入 LifeSciBench 作为生命科学垂直维度的回归测试集；不涉及 API/SDK 升级，无需改任何调用代码。",
+      "meta": {
+        "content_type": "Research"
+      }
+    }
+  ]
+}

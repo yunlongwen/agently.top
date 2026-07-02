@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-06-23T05:04:36.963036",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 7,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 11,368 | Forks: 842 | 6,372 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单二进制零依赖，给 AI agent 当代码外挂大脑。158 种语言，亚毫秒查询，号称 99% token 节省。跟传统 LSP+Embedding 方案比，它走的是静态图索引而不是向量化，索引一次成本低但不支持语义模糊查询；适合 CI 里做代码审查喂上下文，不适合需要「这个函数在干嘛」级别的语义搜索。上手成本：下载二进制挂进 Claude/Cursor 的 MCP 配置即可，无需 Docker。",
+      "backend_focus": "下载 release 二进制，配置进 Claude Desktop 或 Cursor 的 mcp.json，用本仓库做测试：观察首次索引耗时和 token 消耗，再压一个 10 万行 mono-repo 看查询延迟是否真的亚毫秒，决定是否接入团队 code review pipeline。",
+      "meta": {
+        "language": "C",
+        "stars": 11368,
+        "forks": 842,
+        "stars_period": "6,372 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 37,749 | Forks: 2,995 | 8,233 stars this week",
+      "chinese_summary": "Python 写的反爬 CLI，给 AI agent 联网读 Twitter/Reddit/YouTube/B站/小红书用，零 API 费。跟官方 API + SerpAPI 路线比，它走的是 headless 抓页面绕过反爬，省钱但合规风险高（ToS 灰色），账号容易被风控；适合个人 agent demo 和 hackathon，不建议生产环境对账号封禁敏感的业务。上手成本：pip install agent-reach 配 cookie 文件即用，需要 Playwright 浏览器。",
+      "backend_focus": "pip install agent-reach && agent-reach login 导入各平台 cookie，先用只读账号跑 search 命令验证返回结构；如果要做生产用，需要单独评估每个平台 ToS 风险并加代理池，优先用官方 API 兜底关键路径。",
+      "meta": {
+        "language": "Python",
+        "stars": 37749,
+        "forks": 2995,
+        "stars_period": "8,233 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,529 | Forks: 479 | 1,712 stars this week",
+      "chinese_summary": "Rust 写的 P2P 网络栈，用内容寻址（content addressing）代替 IP，传统 NAT 穿透全包。跟 libp2p 比 API 简单一档，对小到中规模的自建节点网络够用；但生态比 libp2p 小一个量级，IPFS/Filecoin 那种规模别指望。上手成本：cargo add iroh 写 50 行就能跑通节点发现+直连，已有 libp2p 项目迁移不划算。",
+      "backend_focus": "cargo new iroh-test 跑通官方 examples/connect 例子，测一下在不同 NAT（对称/锥形）下的打洞成功率，对比团队现有 WebRTC/STUN 方案；只有在新建 P2P 项目时考虑接入，已有 libp2p 不必迁移。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10529,
+        "forks": 479,
+        "stars_period": "1,712 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,112 | Forks: 2,391 | 4,114 stars this week",
+      "chinese_summary": "Google 出品的时间序列基础模型，零样本预测，不用训练直接用。跟 Prophet/NeuralForecast 比，它在长 horizon 和跨域迁移上更强（论文级 benchmark），但不如领域微调后的 LSTM/Transformer 准；适合没有标注数据又要快速出预测报表的场景，量化交易/IoT 异常不够用。上手成本：pip install timesfm，加载 200M 参数模型需 ~2GB 显存或纯 CPU 推理。",
+      "backend_focus": "pip install timesfm，用团队过去 2 年的业务指标（DAU/订单量）跑一次零样本预测，MAPE 对比现有 Prophet/ARIMA baseline；GPU 资源紧张时强制 device=cpu 跑通再评估上线。",
+      "meta": {
+        "language": "Python",
+        "stars": 25112,
+        "forks": 2391,
+        "stars_period": "4,114 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 44,973 | Forks: 7,405 | 1,984 stars this week",
+      "chinese_summary": "JavaScript 维护的 LLM 系统提示词泄露集合，Claude/GPT/Gemini 全家桶都有。跟各家官方文档比，它给的是真实生产环境 prompt 原文而非营销话术，对做 prompt 工程的反向参考价值高；缺点是合规边界模糊（Anthropic ToS 禁止爬取和分发），且泄露内容随时可能失效。上手成本：git clone 直接读 markdown。",
+      "backend_focus": "git clone 拉仓库 grep 关键 pattern（如 tool_use、system prompt 结构），逆向研究各厂商 prompt 框架差异；如果要做内部 prompt 模板，直接抄结构 + 用自己业务数据改写，规避版权风险。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 44973,
+        "forks": 7405,
+        "stars_period": "1,984 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,413 | Forks: 361 | 1,272 stars this week",
+      "chinese_summary": "TypeScript 写的沙箱 agent 框架，Astro 团队出品。跟 E2B/Modal/Firecracker 沙箱比，它定位更靠近「在受限环境里跑 LLM agent」而非通用 serverless compute；具体性能指标和隔离级别需要查文档确认。上手成本：npm install + 配置文件，挂进现有 agent 即可。",
+      "backend_focus": "npm install @withastro/flue 跑通 quickstart，对比团队目前用的 Docker-in-Docker 沙箱在冷启动时间和资源占用上的差异；如果做 AI code agent 产品值得评估，纯 CRUD 业务不必接入。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6413,
+        "forks": 361,
+        "stars_period": "1,272 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 9,360 | Forks: 731 | 4,055 stars this week",
+      "chinese_summary": "Python 写的 AI agent skill 安全扫描器，NVIDIA 出品，检测恶意 prompt injection 和供应链攻击。跟 Snyk/Trivy 比，它针对的是 agent skill 而非传统 npm/pip 依赖，扫描规则覆盖 Anthropic MCP/OpenAI function calling 格式；适合装了社区 skill 的 agent 团队做 CI 卡点。上手成本：pip install skillspector 跑 CLI 即可。",
+      "backend_focus": "pip install skillspector，扫描团队目前 agent 用到的所有社区 skill 目录，把扫描命令塞进 CI（GitHub Action），新 skill 引入前必须过这道卡点；定期跑全量审计。",
+      "meta": {
+        "language": "Python",
+        "stars": 9360,
+        "forks": 731,
+        "stars_period": "4,055 stars this week"
+      }
+    }
+  ]
+}

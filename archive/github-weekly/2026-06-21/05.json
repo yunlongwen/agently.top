@@ -1,0 +1,110 @@
+{
+  "generated_at": "2026-06-21T20:51:06.571156",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 36,417 | Forks: 2,892 | 8,483 stars this week",
+      "chinese_summary": "零 API 费的 agent 互联网读取 CLI，覆盖 Twitter/Reddit/YouTube/GitHub/小红书。免 key 直接抓公开数据，agent 装上就有「眼睛」。对比 Tavily/Bing Search API 它完全免费但只能读公开内容、需要登录态的私有数据拿不到；高频抓取容易被平台反爬限流，生产建议加一层缓存和指数退避。上手：pip install agent-reach，CLI 跑一条命令就能搜，集成到 LangChain/CrewAI 只要一个 tool wrapper。",
+      "backend_focus": "下一步：pip install agent-reach，先在本地跑 reach search --platform reddit \"xxx\" 验证你们目标平台的可用性，然后给 agent 加一个 retry + Redis 缓存层（建议 TTL 15 分钟），避免被 Reddit/X 反爬 ban IP；进生产前先压一轮 QPS 看平台容忍度。",
+      "meta": {
+        "language": "Python",
+        "stars": 36417,
+        "forks": 2892,
+        "stars_period": "8,483 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,405 | Forks: 472 | 1,621 stars this week",
+      "chinese_summary": "Rust 写的 P2P 网络栈，用内容寻址 dial key 替代 IP。模块化设计，quic+relay+discovery 各层可单独用。对比 libp2p 它 API 简单得多、单二进制部署友好，但生态比 libp2p 小一个量级，自定义协议得自己撸；适合想快速搭 P2P 节点、文件同步、agent 间通信的团队，不适合需要现成 pubsub/Kademlia DHT 全部 feature 的场景。上手：cargo add iroh，写 50 行就能起一个能穿透 NAT 的点对点通道。",
+      "backend_focus": "下一步：cargo new 一个 demo 用 iroh-net 起两个节点互 ping 验证 NAT 穿透，然后评估你们 agent-to-agent 通信场景能不能用 iroh endpoint 替换掉现有的 WebSocket+STUN 方案，看 latency 和连接成功率是否达标。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10405,
+        "forks": 472,
+        "stars_period": "1,621 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 24,736 | Forks: 2,346 | 3,655 stars this week",
+      "chinese_summary": "Google 出的时间序列基础模型，零样本预测不需微调。给做监控、容量规划、业务指标预测的后端用。和 Chronos / TimeGPT-1 比它是真正开源权重 + 推理代码可商用（Apache 2.0），对长 horizon 和低频数据效果不错；但对领域特有周期（如电商大促）零样本打不过微调过的 Prophet/LSTM，得 fine-tune 才靠谱。上手：pip install timesfm，10 行代码 load 预训练权重直接 predict。",
+      "backend_focus": "下一步：pip install timesfm，先拿你们 Grafana 里 3-6 个月的 CPU/QPS 时序跑一次零样本预测对比 Prophet，误差看 MAPE；如果超 15% 就用 timesfm finetune 流程在自家数据上微调一版，部署成 vLLM 或 Triton 推理服务挂到告警链路。",
+      "meta": {
+        "language": "Python",
+        "stars": 24736,
+        "forks": 2346,
+        "stars_period": "3,655 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 8,873 | Forks: 692 | 4,631 stars this week",
+      "chinese_summary": "NVIDIA 出品的 AI agent skill 安全扫描器。专门扫 agent tool/skill 文件里的漏洞和恶意模式。跟传统 SAST（如 Semgrep、CodeQL）比它理解 agent skill 的语义——能识别 prompt injection、工具权限滥用、隐藏指令这类 agent 特有风险，传统 SAST 看不懂；缺点是覆盖度依赖规则库更新速度，新出现的攻击模式会漏。上手：pip install skillspector，CI 里加一步扫所有待 merge 的 skill 文件。",
+      "backend_focus": "下一步：pip install skillspector 装上，先用自带的 ruleset 跑一遍你们 agent repo 的 skills/ 目录看 baseline 告警，然后在 GitHub Actions 加一步：PR 改 skills/ 目录下任何文件就触发扫描，高危 issue 直接 block merge；同步把扫描结果接入 Slack 安全频道。",
+      "meta": {
+        "language": "Python",
+        "stars": 8873,
+        "forks": 692,
+        "stars_period": "4,631 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 44,026 | Forks: 7,291 | 1,866 stars this week",
+      "chinese_summary": "逆向提取的各家 LLM/AI 产品系统 prompt 集合。给做 prompt 工程、agent 开发的工程师当参考样本库。跟直接读官方文档比它能拿到很多文档里没写的隐式指令、工具描述、行为边界；但内容来源是逆向工程，准确性没法保证、生产里照抄会被模型迭代坑。上手：git clone 直接读 Markdown，按厂商/产品分类浏览。",
+      "backend_focus": "下一步：git clone 下来，重点看 Claude Code 和 Cursor 的 system prompt，提取它们处理 tool calling、上下文压缩、sub-agent 委派的部分对标你们自己的 agent 设计；不要直接复制粘贴，但可以拿来当 prompt 调优的 reference baseline 做 A/B 对照。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 44026,
+        "forks": 7291,
+        "stars_period": "1,866 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,225 | Forks: 351 | 1,012 stars this week",
+      "chinese_summary": "Astro 团队出的 sandbox agent 框架，定位类似隔离执行环境。给需要让 AI agent 安全跑代码、跑命令的团队用。跟 E2B、Modal、Cloudflare Sandbox 比它更轻、TypeScript 原生、和 Astro 生态贴合；但功能成熟度还在早期，跨语言执行、长任务持久化这些能力不如 E2B 全。上手：npm install @withastro/flue，看文档起一个 sandbox 跑命令试试。",
+      "backend_focus": "下一步：npm install @withastro/flue，在你现有 agent 框架里把直接 exec 调用的部分替换成 flue sandbox 跑，对比 CPU 隔离性和恶意命令拦截效果；同步压测一下冷启动延迟，如果超过你们用户可接受阈值（建议 500ms 内）就先不替代高频链路。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6225,
+        "forks": 351,
+        "stars_period": "1,012 stars this week"
+      }
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "generated_at": "2026-06-23T04:23:02.550365",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 9,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 11,359 | Forks: 840 | 6,372 stars this week",
+      "chinese_summary": "代码知识图谱 MCP server，用 C 写索引速度极快，158 种语言毫秒级建图、亚毫秒查询。比起传统 LSP 只能看当前文件，codebase-memory 把整个 repo 抽象成图谱喂给 LLM，token 消耗砍 99%；比 Sourcegraph/ctags 多了「关系级」语义（函数调用链、模块依赖），不只是字符串匹配。适合做 Cursor/Cline 的 codebase QA 后端。缺点是 11k star 但活跃度要看 commit，C 写的也意味着二次开发门槛高。单二进制零依赖，下载即用，Docker 都不用。",
+      "backend_focus": "在 Claude Desktop / Cursor 里配这个 MCP server：克隆二进制 → 编辑 ~/.claude/mcp_servers.json 加一条 stdio 启动项 → 用本团队一个 10 万行级别的真实 repo 跑 build/dependency/explain 三个 query，对比原本 RAG over source 的 token 用量和响应延迟。",
+      "meta": {
+        "language": "C",
+        "stars": 11359,
+        "forks": 840,
+        "stars_period": "6,372 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 37,742 | Forks: 2,995 | 8,233 stars this week",
+      "chinese_summary": "给 AI agent 用的全网只读爬虫 CLI，Twitter/Reddit/YouTube/GitHub/B站/小红书一个命令搞定，零 API 费用。跟 Model Context Protocol 自带的 fetch 工具比，它专门做了反爬绕过和登录态管理；跟 Apify/Bright Data 这类 SaaS 比，它是本地 CLI 无需付费也不用担心被封号。痛点是 37k star 这种规模的项目，过度依赖 cookie/账号的方案随时会因为平台改版失效，稳定性是最大风险。pip install 即用。",
+      "backend_focus": "pip install agent-reach 后配一下 reddit/twitter 的 cookie 路径，给 Cursor agent 写一条 system prompt：研究类任务优先调 agent-reach 而不是 web search；跑一周看哪些平台会触发 CAPTCHA，把不稳定的源加进黑名单。",
+      "meta": {
+        "language": "Python",
+        "stars": 37742,
+        "forks": 2995,
+        "stars_period": "8,233 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,529 | Forks: 479 | 1,712 stars this week",
+      "chinese_summary": "Rust 写的点对点网络栈，核心抽象是「拨号 key 而不是 IP」，IP 变了连接不重连。跟 libp2p 比，iroh 接口更窄、上手更快，没有那么多 transport 组合要选；跟传统 mDNS/Tailscale 比，它面向公网 P2P 不是局域网，NAT 穿透内置。典型场景：边缘设备、IoT、移动端之间传文件/同步状态。缺点是生态还小，没有 go-libp2p 那种成熟度，生产用需要评估 long-tail bug。",
+      "backend_focus": "cargo add iroh 后跑 examples/ 中的 echo server，把手机和笔记本连同一 key 测 NAT 穿透；下一步在内部服务里替换掉 WebRTC/UDP 那一层做 P2P 状态同步，对比 Tailscale Funnel 的延迟和复杂度。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10529,
+        "forks": 479,
+        "stars_period": "1,712 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,108 | Forks: 2,391 | 4,114 stars this week",
+      "chinese_summary": "Google 出品的时间序列基础模型，零样本预测（zero-shot），不用训练直接出 forecast。跟 StatsForecast/Prophet/Nixtla 比，TimesFM 是真正的 foundation model，跨域泛化能力更强；跟 Chronos（Amazon 同类工作）比，TimesFM 论文和 checkpoint 更早、benchmark 覆盖更广。适合 SKU 销量、服务器指标这种样本少、维度多、冷启动场景。缺点是大模型推理比 ARIMA/SARIMA 慢，毫秒级高频实时预测不适用，GPU 上跑才划算。",
+      "backend_focus": "pip install timesfm，load_from_hf_hub 加载 200M checkpoint，用本团队过去 90 天的某个业务指标（订单量/活跃用户）做 holdout 评估 MAE 和 MAPE；对比现有 Prophet/AutoGluon pipeline，如果 zero-shot 就能打平 80% 的场景，就省掉每个序列单独调参的成本。",
+      "meta": {
+        "language": "Python",
+        "stars": 25108,
+        "forks": 2391,
+        "stars_period": "4,114 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "iptv-org/iptv",
+      "url": "https://github.com/iptv-org/iptv",
+      "published_at": "",
+      "original_summary": "Collection of publicly available IPTV channels from all over the world | 语言: TypeScript | Stars: 127,468 | Forks: 6,999 | 7,266 stars this week",
+      "chinese_summary": "全球公开 IPTV 频道合集，纯数据仓库不是播放器，跟同类 tvheadend、m3u-editor 比，iptv-org 数据最全、贡献者最多（127k star）。对软件团队来说主要是当 m3u8 数据源用，做 IPTV 中间件、直播聚合、流媒体分析时直接拉它的 playlist。痛点是频道合法性参差不齐，企业商用需要自己过滤和合规审查。无后端，clone 即用。",
+      "backend_focus": "git clone 后用 jq 过滤出国内/海外分类的 m3u，喂给本团队的播放器 SDK 或 VLC 做联调测试；如果做流媒体 QoS 监控，拿这份列表当探测目标覆盖长尾地区。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 127468,
+        "forks": 6999,
+        "stars_period": "7,266 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 44,964 | Forks: 7,403 | 1,984 stars this week",
+      "chinese_summary": "各家 LLM/IDE 产品的 system prompt 泄露合集，纯参考资料库不是工具。跟直接看各家官方文档比，这份仓库把 prompt 实战模板汇总了，对做 prompt engineering 和 agent 设计有参考价值；跟 LangSmith/Helicone 这类 prompt 调试工具比，它解决的是「别人怎么写 prompt」而不是「我的 prompt 怎么调」。痛点是泄露内容随时会变，prompt 一更新就过时，需要持续同步。",
+      "backend_focus": "clone 到本地后用 ripgrep 抽几个跟你业务最像的 agent（Claude Code/Cursor）的 prompt 片段，丢进 promptfoo 跑一遍对照实验，看是否抄某些 system prompt 的写法能提升你们 agent 的任务完成率。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 44964,
+        "forks": 7403,
+        "stars_period": "1,984 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,411 | Forks: 361 | 1,272 stars this week",
+      "chinese_summary": "Astro 团队出的 sandbox agent framework，定位是「让 agent 在安全沙箱里跑代码」。跟 E2B/CodeSandbox 这类托管 sandbox 比，flue 是自托管优先，数据不出域；跟 Docker + gVisor 比，它给 agent 专门做了 API 层（snapshot/网络隔离/资源配额），不是裸容器。适合金融/医疗这类不能把代码丢第三方云的场景。缺点是 star 才 6k，文档和例子估计还薄，先跑 demo 再决定是否上生产。",
+      "backend_focus": "npm install @withastro/flue 后起本地 sandbox，测一下：跑 untrusted code、超时 kill、文件系统 snapshot 回滚、网络 egress 白名单；下一步把内部「用户上传 notebook 执行」类场景迁移过去，对比当前 Docker 方案的逃逸风险和启动延迟。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6411,
+        "forks": 361,
+        "stars_period": "1,272 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 9,357 | Forks: 730 | 4,055 stars this week",
+      "chinese_summary": "NVIDIA 出的 AI agent skill 安全扫描器，专门查 agent 用的 skill 文件里的漏洞和恶意模式。跟 Snyk/Trivy 这类传统 SCA 比，SkillSpector 理解 agent skill 的语义（tool 定义、prompt injection、权限滥用），不是只扫依赖 CVE；跟 Cisco AI Defense 这类商业方案比，它开源且专注 skill 层。痛点是 agent skill 生态还年轻，规则库覆盖度待验证，建议作为 CI 一道关卡而不是唯一防线。",
+      "backend_focus": "pip install skillspector 后加进 CI 流水线：git clone 你们用到的所有 agent skill 仓库 → skillspector scan --path skills/ → 失败则阻断 merge；第一步先把 cursor/cline 官方 marketplace 里的 top 50 skill 跑一遍，输出 baseline 风险报告。",
+      "meta": {
+        "language": "Python",
+        "stars": 9357,
+        "forks": 730,
+        "stars_period": "4,055 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "teslamate-org/teslamate",
+      "url": "https://github.com/teslamate-org/teslamate",
+      "published_at": "",
+      "original_summary": "A self-hosted data logger for your Tesla 🚘 [main maintainer=@JakobLichterfeld] | 语言: Elixir | Stars: 8,563 | Forks: 966 | 431 stars this week",
+      "chinese_summary": "自托管的特斯拉数据记录器，Elixir/Phoenix 写，Postgres + Grafana 拿数据。跟特斯拉官方 app 比，它能记录更细粒度的数据（电池温度、充电功率、能耗曲线）并支持长期回放；跟 Tessie/Scan My Tesla 这类第三方 SaaS 比，它是 self-host 没有月费，数据完全自有。痛点是 Elixir 栈对很多团队不熟，运维要懂 Phoenix/Postgres/Grafana 三件套，不是 Docker 一键就能跑稳的。",
+      "backend_focus": "docker compose up 起 teslamate，配 Tesla 账号 token；连真实车辆跑一周，把 Grafana dashboard 导出 JSON 存到内部 wiki；如果团队做车队管理/UBI 保险业务，直接 fork 它的 Postgres schema 当基础数据模型，省掉自建 telemetry pipeline 的工作量。",
+      "meta": {
+        "language": "Elixir",
+        "stars": 8563,
+        "forks": 966,
+        "stars_period": "431 stars this week"
+      }
+    }
+  ]
+}

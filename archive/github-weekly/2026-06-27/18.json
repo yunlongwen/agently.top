@@ -1,0 +1,164 @@
+{
+  "generated_at": "2026-06-27T07:29:26.716948",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 9,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 23,553 | Forks: 2,615 | 15,793 stars this week",
+      "chinese_summary": "AI 视频制作 agent 框架：把 Claude/Cursor 这类编码助手变成视频工作室。12 条流水线、52 个工具、500+ 技能覆盖剪辑/字幕/转场/合成。和 FFmpeg 脚本流相比差异在「agent 编排」而非底层处理——干粗活还得靠 ffmpeg，它负责的是让 LLM 拆解意图并调度工具链。生产里更适合做短视频批量化、营销素材流水线，不适合替代专业剪辑师做长片叙事。",
+      "backend_focus": "跑 git clone 后用 Claude Code 接进去，选一条短视频流水线试跑 5 条素材，看 agent 拆解 prompt 和调用工具的稳定性；不行就在 Dockerfile 里固定 Python+ffmpeg 版本再压一周。",
+      "meta": {
+        "language": "Python",
+        "stars": 23553,
+        "forks": 2615,
+        "stars_period": "15,793 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 15,586 | Forks: 1,142 | 8,024 stars this week",
+      "chinese_summary": "代码库 MCP server，单二进制 + 持久知识图谱，给 LLM agent 用。158 种语言、毫秒级索引、子毫秒查询、号称比常规 RAG 少 99% token。vs Sourcegraph/Cody 这类 SaaS：它直接本地跑、不上传代码，审计合规场景必看；vs tree-sitter + 向量库自建：省掉维护 embedding pipeline 的成本。单体仓库级可用，跨 monorepo 跨联邦组织场景需要自测。",
+      "backend_focus": "curl 拉 release 二进制，配进 Claude Desktop 或 Cursor 的 MCP config，先用本团队主仓库跑一次 mcp__memory__search，对比之前塞全文的 token 用量，确认索引覆盖率和首次冷启动时间。",
+      "meta": {
+        "language": "C",
+        "stars": 15586,
+        "forks": 1142,
+        "stars_period": "8,024 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "BuilderIO/agent-native",
+      "url": "https://github.com/BuilderIO/agent-native",
+      "published_at": "",
+      "original_summary": "A framework for building agent-native applications. | 语言: TypeScript | Stars: 2,531 | Forks: 249 | 1,588 stars this week",
+      "chinese_summary": "构建 agent-native 应用的 TypeScript 框架。跟 LangChain/LlamaIndex 比差异点在「应用层抽象」而非纯 agent 调用——目标是把 agent 当成一等公民嵌入到 UI 状态/路由/权限里，避免业务侧再写一层胶水。适合前端团队做带 agent 的 SaaS 后台，不适合只想要一个 chat completion 包装的纯后端场景。",
+      "backend_focus": "npm i agent-native 后在一个 Next.js 后台挑一个列表页改成 agent 驱动（比如让 agent 自己查表+改筛选条件），看状态管理、撤销、权限校验有没有现成 hook 可以接。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 2531,
+        "forks": 249,
+        "stars_period": "1,588 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 53,952 | Forks: 3,489 | 3,379 stars this week",
+      "chinese_summary": "Clojure 写的开源设计协作平台，自托管，CSS/SVG 导出可用。比 Figma：不用付席位费、可导出可读源码、能接私有 CI 做 design token 同步；比 Sketch+Zeplin：实时多人协作不收费。生产场景适合对代码可控性/数据合规有要求的设计团队，不适合纯视觉设计师个人使用——性能/插件生态还是 Figma 强。自托管需要 Postgres + 后端服务，K8s/Docker 部署都有。",
+      "backend_focus": "docker compose 起一套 penpot（官方有现成 compose），把现有 Figma 文件导一份 .fig 进去看 token/组件还原度，评估能否把内部 design system 迁过来；前端同时验 CSS 导出是否覆盖 design tokens。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 53952,
+        "forks": 3489,
+        "stars_period": "3,379 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 50,096 | Forks: 43,798 | 6,383 stars this week",
+      "chinese_summary": "LLM 驱动的多市场股票分析系统，Python 实现，支持多源行情/实时新闻/决策看板/自动推送，主打零成本定时跑。和同花顺/东方财富这类客户端比，差异在「完全本地+可二次开发」——你能在 prompt 里塞自己的因子；和 quantconnect/zipline 比，它不是回测框架，是日级分析+推送。生产适合个人/小团队决策辅助，券商实盘接入需自己加一层合规审计。",
+      "backend_focus": "git clone 后配 LLM API key 和东方财富/AkShare 数据源，先用持仓的 5 只票跑一周看推送准确率，重点看夜盘美股数据和 A 股次日开盘前的报告时效是否够用。",
+      "meta": {
+        "language": "Python",
+        "stars": 50096,
+        "forks": 43798,
+        "stars_period": "6,383 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "jamiepine/voicebox",
+      "url": "https://github.com/jamiepine/voicebox",
+      "published_at": "",
+      "original_summary": "The open-source AI voice studio. Clone, dictate, create. | 语言: TypeScript | Stars: 34,487 | Forks: 4,143 | 3,688 stars this week",
+      "chinese_summary": "开源 AI 语音工作室，TS 写，覆盖声音克隆/听写/语音生成。vs ElevenLabs：API 价格便宜很多、自托管可选、模型权重可下；vs Coqui TTS：多了完整 Studio UI 和 API 服务，少了学术研究的灵活性。生产适合做有声书/播客/客服语音中转，不适合实时语音对话——延迟和 VAD 还差点意思。部署要 GPU，建议先 docker run 试。",
+      "backend_focus": "docker pull voicebox 起服务，用团队一段 30 秒播客样本克隆音色，跑一次 TTS 和 STT 看延迟/WER，再决定要不要把内部客服 IVR 的 TTS 段切过来。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 34487,
+        "forks": 4143,
+        "stars_period": "3,688 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 42,298 | Forks: 3,356 | 6,830 stars this week",
+      "chinese_summary": "给 AI agent 的多平台阅读/搜索 CLI：Twitter/Reddit/YouTube/GitHub/B站/小红书一套命令搞定，零 API 费。vs 各家官方 API：免费、免 key、免审核，但稳定性靠爬虫前端风控；vs Tavily/Exa 这类搜索 API：它专攻社媒长尾内容，通用网页检索还是 Tavily 强。生产里适合做舆情/竞品监控的 agent 后端，注意 rate limit 和 IP 池。",
+      "backend_focus": "pip install agent-reach 后用 agent-reach search \"xxx\" 试各大平台连通性，重点测小红书和 B 站（反爬重灾区）；在自家 agent 里加一层 429 重试和代理池再上生产。",
+      "meta": {
+        "language": "Python",
+        "stars": 42298,
+        "forks": 3356,
+        "stars_period": "6,830 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "koala73/worldmonitor",
+      "url": "https://github.com/koala73/worldmonitor",
+      "published_at": "",
+      "original_summary": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface | 语言: TypeScript | Stars: 60,107 | Forks: 9,365 | 3,059 stars this week",
+      "chinese_summary": "实时全球情报仪表盘，TS 写，AI 新闻聚合+地缘政治+基建追踪。vs 同类 GDELT/Recorded Future：开源免费、可改前端、能在内部网络跑；vs Reuters/Dataminr：时效和准确性差一截，但胜在可接入内部知识库做二次加工。生产适合做内部 briefing 大屏或行业研究辅助，不适合直接做交易/告警决策源——延迟和信源可靠性不够。",
+      "backend_focus": "git clone && pnpm install && pnpm dev 起本地，重点改 NEWS_SOURCES 配置加自家行业媒体 RSS，再用 team 的 LLM API key 跑一次 morning brief 看摘要质量，决定是否替换现有日报流程。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 60107,
+        "forks": 9365,
+        "stars_period": "3,059 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "",
+      "original_summary": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile. | 语言: TypeScript | Stars: 7,909 | Forks: 557 | 1,949 stars this week",
+      "chinese_summary": "并行 agent 编排桌面端 (ADE)，TS 写，能拿自己的 Claude/ChatGPT 订阅同时跑多个 coding agent。vs Cursor/Cline：核心差异是「fleet 管理」+ 移动端操控，单 agent 能力不占优；vs Devin/Cognition 这类云 agent：省订阅费、模型走自己账号，缺点是要自己管并发和上下文。生产里适合个人/小团队放大 coding 产能，不适合企业级合规审计场景。",
+      "backend_focus": "下载 desktop 包接上 Claude Pro 账号，挑一个中型 PR 重构任务开 3-4 个并行 agent 跑，对比单 agent 的 token 消耗和最终 diff 质量，确认是否值得给团队配订阅。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 7909,
+        "forks": 557,
+        "stars_period": "1,949 stars this week"
+      }
+    }
+  ]
+}

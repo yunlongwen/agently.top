@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-26T18:08:50.983762",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 15,057 | Forks: 1,106 | 8,024 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单二进制零依赖，平均 repo 毫秒级建索引，支持 158 种语言，子毫秒查询、token 消耗比传统方案少 99%。vs Sourcegraph / Zoekt 这种重组件：它走 MCP 协议、可以直接塞进 Claude/Cursor 工作流，不用单独搭搜索后端；vs ctags/LSP 这种轻方案：它是知识图谱，跨文件依赖、调用链都能查。适合代码量 100GB 以内团队想给 agent 接上下文。",
+      "backend_focus": "下载预编译二进制，按 README 起 MCP server，在 Cursor 里配 mcp.json 连上，用本团队 mono-repo 跑一次 query，统计 session 里上下文 token 下降幅度，评估是否纳入 agent 工具链。",
+      "meta": {
+        "language": "C",
+        "stars": 15057,
+        "forks": 1106,
+        "stars_period": "8,024 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,614 | Forks: 2,432 | 3,040 stars this week",
+      "chinese_summary": "Google Research 的时序预测 foundation model，预训练 zero-shot 即可预测。vs Chronos / TimeGPT：背靠 Google 学术线、checkpoint 公开商用，论文指标在 M3/M4 数据集领先；vs ARIMA/Prophet：zero-shot、无需训练，季节性和长序列建模交给模型。缺点是 GPU 推理，CPU 上 latency 不友好，单变量效果强、多变量协变量支持看版本。上手成本：pip install + 下载权重即可，对 Python 时序团队零迁移成本。",
+      "backend_focus": "本团队时序任务（QPS/销量/指标预测）挑一条跑 timesfm inference，对比 Chronos-Bolt 和现有 Prophet baseline，跑 7 天滑动窗口的 MAPE，权衡是否替换线上预测链路。",
+      "meta": {
+        "language": "Python",
+        "stars": 25614,
+        "forks": 2432,
+        "stars_period": "3,040 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 53,844 | Forks: 3,478 | 3,379 stars this week",
+      "chinese_summary": "开源设计 + 代码协作平台，对标 Figma。vs Figma：自托管、SVG 原生、跟代码组件库打通是亮点；vs Figma 的插件生态：插件数量、团队协作成熟度还差一截，企业 SSO/审计能力需付费版。技术栈 Clojure + ClojureScript 全栈，后端 Postgresql + Redis。上手成本：Docker compose 即可起，但生产部署要看团队规模，备份/S3 迁移工具要自己写。",
+      "backend_focus": "本团队如果想摆脱 Figma 月费，先 docker compose up penpot 起一个 staging，用内部 5 个项目从 Figma 导 SVG 导入测试迁移路径，评估设计师接受度再决定全量切换。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 53844,
+        "forks": 3478,
+        "stars_period": "3,379 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "jamiepine/voicebox",
+      "url": "https://github.com/jamiepine/voicebox",
+      "published_at": "",
+      "original_summary": "The open-source AI voice studio. Clone, dictate, create. | 语言: TypeScript | Stars: 34,344 | Forks: 4,132 | 3,688 stars this week",
+      "chinese_summary": "开源 AI 语音工作室：克隆、听写、创作三合一。vs ElevenLabs / PlayHT：本地可跑、克隆模型开源、API 不限速不按字符收费；vs Coqui TTS：多了一层产品化 UI 和听写工作流。TypeScript 全栈，模型层走自托管推理。痛点是中文/小语种克隆质量看具体模型版本，长音频克隆的 VRAM 占用没在描述里写明。上手成本：clone 仓库 + 配 GPU/CPU 推理环境，prod 部署要自己接对象存储。",
+      "backend_focus": "本团队如果做客服/播客/有声化场景，先 clone 仓库按 README 跑 inference，用 3 分钟样本测克隆相似度，对比 ElevenLabs API 单价决定是否自托管节省成本。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 34344,
+        "forks": 4132,
+        "stars_period": "3,688 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 46,184 | Forks: 7,574 | 2,720 stars this week",
+      "chinese_summary": "泄露的各家 LLM system prompt 合集，覆盖 Claude/GPT/Gemini/Grok/Cursor/Copilot 等主流模型与产品，定期更新。性质是数据集而非工具。vs 自己手动从 API doc 抠：信息更新快、覆盖面广、节省调研时间；vs LangSmith 这种 tracing 平台：它反向给的是厂商侧意图，不是用户行为。痛点是合规风险，prompt 拿来直接当生产 prompt 会被检测、对抗性使用需谨慎。上手成本：clone 即用，纳入 agent prompt 设计的参考库即可。",
+      "backend_focus": "把这份合集拉下来当 reference doc，团队 prompt 工程师从中找 Claude Code / Cursor / Copilot 的工具调用 prompt 范式，下周 sprint 里评审现有 agent system prompt 是否踩厂商反模式。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 46184,
+        "forks": 7574,
+        "stars_period": "2,720 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 41,753 | Forks: 3,321 | 6,830 stars this week",
+      "chinese_summary": "给 AI agent 一套 CLI 工具去读 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书，免 API 费用。vs 官方 API 爬：免 key、免 quota、一次接入多平台；vs ScrapeGraphAI / Firecrawl：偏社媒场景，结构化抽取已封装。Python 实现，依赖各站点页面结构稳定性，频繁改版会失效。痛点是反爬对抗升级后维护成本转嫁到自己，ToS 风险需自行评估。上手成本：pip install + 命令行直接跑，进 agent 工作流需封装 MCP server。",
+      "backend_focus": "pip install agent-reach，先用 tw 和 gh 子命令拉本团队开源项目的 issue/discussion 列表，对比之前用的官方 GitHub API 看字段覆盖度，决定是否把竞品监控脚本迁移过来。",
+      "meta": {
+        "language": "Python",
+        "stars": 41753,
+        "forks": 3321,
+        "stars_period": "6,830 stars this week"
+      }
+    }
+  ]
+}

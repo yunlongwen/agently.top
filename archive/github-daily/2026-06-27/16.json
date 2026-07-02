@@ -1,0 +1,148 @@
+{
+  "generated_at": "2026-06-27T06:15:56.586781",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 8,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "simplex-chat/simplex-chat",
+      "url": "https://github.com/simplex-chat/simplex-chat",
+      "published_at": "",
+      "original_summary": "SimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱! | 语言: Haskell | Stars: 12,452 | Forks: 705 | 191 stars today",
+      "chinese_summary": "无用户ID的端端加密聊天协议，纯Haskell写的服务端+多端客户端。比Signal牛在连元数据都不留（没有手机号/用户名/全局ID），双盲ratchet抗量子；适合做隐私优先的内部通讯或匿名社区工具。代价是发现联系人必须靠一次性链接/二维码/二维码面对面扫描，不能像微信那样搜手机号就加。上手成本：服务端可直接跑Docker镜像，客户端App商店装即可，业务接入得自己fork Haskell服务做协议封装。",
+      "backend_focus": "用docker compose拉起simplex-chat服务端测试集群，配两台客户端走e2e消息确认；如要嵌进自家IM，把haskell/server库抽出来跑grpc shim，重点验证联系人发现流程能不能承载你们目前的加好友场景。",
+      "meta": {
+        "language": "Haskell",
+        "stars": 12452,
+        "forks": 705,
+        "stars_period": "191 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 21,112 | Forks: 1,715 | 2,319 stars today",
+      "chinese_summary": "Google Labs出的设计系统描述规范，让Claude/Cursor等coding agent能持久理解视觉风格。一个DESIGN.md + 结构化token喂给agent就解决\"每次生成UI都跑偏\"的痛点；跟Figma Dev Mode/MCP server比，它不绑Figma生态，agent拿Markdown就能消费token/组件/间距。适合团队内部UI库要批量灌给agent的场景，前提是你们已经沉淀了design token。上手成本：写一份DESIGN.md并配到Cursor rules或Claude system prompt里，零运行时依赖。",
+      "backend_focus": "今天就让前端leader产出一份DESIGN.md（token+组件+spacing），丢进.claude/rules或.cursor/rules跑两轮UI生成任务对比改造前后的视觉一致性，把验证结果写进团队docs。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 21112,
+        "forks": 1715,
+        "stars_period": "2,319 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 3,374 | Forks: 204 | 412 stars today",
+      "chinese_summary": "Go写的git pre-push防呆钩子，专门拦\"低质量代码别推到main\"的提交。比纯lint钩子聪明一点，能基于commit message、分支名、diff规模做策略。比husky+lint-staged轻，单二进制扔进PATH配一行git config就能用，不依赖Node生态。适合中小团队想给新人生成提交规范又不想引前端工具链的场景。代价是策略写死在YAML里，复杂规则得fork改Go代码。上手成本：go install后写一份.yaml配进.gitconfig，10分钟搞定。",
+      "backend_focus": "今天就跑：go install github.com/kunchenguid/no-mistakes@latest，在你们主repo写.no-mistakes.yaml定义branch命名+commit前缀+diff行数阈值，配进pre-push测一次故意写错commit message的拦截效果。",
+      "meta": {
+        "language": "Go",
+        "stars": 3374,
+        "forks": 204,
+        "stars_period": "412 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "grafana/grafana",
+      "url": "https://github.com/grafana/grafana",
+      "published_at": "",
+      "original_summary": "The open and composable observability and data visualization platform. Visualize metrics, logs, and traces from multiple sources like Prometheus, Loki, Elasticsearch, InfluxDB, Postgres and many more. | 语言: TypeScript | Stars: 74,860 | Forks: 14,124 | 17 stars today",
+      "chinese_summary": "经典可组合观测平台，TS+Go双栈，聚合Prometheus/Loki/Tempo/ES/Influx多数据源。新版本重点在Application/Observability as Code——用yaml定义dashboard和alert，可纳入GitOps。比Datadog轻量免费，比Signoz强在插件生态和告警路由成熟度，但自建得运维一套Grafana+Prometheus+对象存储三件套，存储成本和Prometheus一样要单独算。适合多数据源混用、已经在用Prometheus不想迁移到SaaS的团队。上手成本：Helm装十分钟跑起来，迁移现有Grafana直接导JSON。",
+      "backend_focus": "把你们现有Grafana里高频使用的3个dashboard导出JSON，再用新版的Application模型重建一份走GitOps流水线，比对两种模式在PR review和回滚场景的体验，决定是否升级。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 74860,
+        "forks": 14124,
+        "stars_period": "17 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ripienaar/free-for-dev",
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "published_at": "",
+      "original_summary": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev | 语言: HTML | Stars: 123,696 | Forks: 13,050 | 137 stars today",
+      "chinese_summary": "DevOps免费资源汇总清单，HTML纯静态，分类整理SaaS/PaaS/IaaS免费档。不是工具而是\"工具目录\"，跟Alternativeto比它只收有可信免费层的服务，每条带具体限额数据（如S3替代的5GB免费）。适合新项目选型或想降云成本时快速过一遍可选项，不适合作为决策唯一依据——免费档经常变，得盯PR。上手成本：零，Gitbook式目录直接读，建议加到浏览器书签夹按月扫一遍。",
+      "backend_focus": "今天让SRE花30分钟扫一遍Database/IaaS/Monitoring章节，把你们当前在用的服务对比有没有更便宜的免费平替（比如把某项从RDS迁到免费档Postgres），产出一份\"降本候选清单\"丢到团队周会。",
+      "meta": {
+        "language": "HTML",
+        "stars": 123696,
+        "forks": 13050,
+        "stars_period": "137 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "opendatalab/MinerU",
+      "url": "https://github.com/opendatalab/MinerU",
+      "published_at": "",
+      "original_summary": "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows. | 语言: Python | Stars: 70,355 | Forks: 5,936 | 944 stars today",
+      "chinese_summary": "OpenDataLab出的PDF/Office文档结构化解析器，输出LLM-ready的Markdown/JSON，Python为主+部分Rust加速。专攻\"复杂版面\"——表格、公式、多栏、扫描件OCR都能还原顺序，比Unstructured/PyMuPDF强在中文版面和公式识别，benchmark上对学术论文和财报结构保留率更高。适合做RAG知识库预处理、Agent文档摄入环节。代价是模型权重1GB+，首次跑要下模型，纯CPU推理PDF一页约1-3秒。上手成本：pip install magic-pdf下模型即可跑，对接现有RAG管一个wrapper。",
+      "backend_focus": "今天用你们最难搞的50份财报/论文跑一次magic-pdf --output json，对比现在用的PyMuPDF或Unstructured pipeline的chunk召回率；如果中文版面准确率高过10个百分点就考虑替换文档解析环节。",
+      "meta": {
+        "language": "Python",
+        "stars": 70355,
+        "forks": 5936,
+        "stars_period": "944 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "mauriceboe/TREK",
+      "url": "https://github.com/mauriceboe/TREK",
+      "published_at": "",
+      "original_summary": "A self-hosted travel/trip planner with real-time collaboration, interactive maps, PWA support, SSO, budgets, packing lists, and more. | 语言: TypeScript | Stars: 7,593 | Forks: 646 | 1,063 stars today",
+      "chinese_summary": "自托管旅行规划器，TypeScript+Next.js全家桶，含实时协作、地图、PWA、SSO、预算和打包清单。比Wanderlog/Roadtrippers的自托管替代省月费，但单用户自部署对比Notion模板没显著优势——它的价值在\"团队协作+完全数据自主\"。适合公司团建、户外俱乐部、跨国差旅这类需要共享行程+预算管控的场景。代价是得自己运维Postgres+Next.js，得懂Vercel自部署或Docker。上手成本：docker compose up即可，但SSO接入得改env。",
+      "backend_focus": "今天docker compose up跑起来体验一遍，重点测实时协作的conflict处理（多个tab同时改行程）和SSO对接OIDC的配置复杂度；如果你们有团建工具需求，可作为Notion替代评估候选。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 7593,
+        "forks": 646,
+        "stars_period": "1,063 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "xbtlin/ai-berkshire",
+      "url": "https://github.com/xbtlin/ai-berkshire",
+      "published_at": "",
+      "original_summary": "AI 时代的伯克希尔：基于 Claude Code 的价值投资研究框架。巴菲特·芒格·段永平·李录四大师方法论 + 多Agent并行研究。| AI-era Berkshire: a value investing research framework built on Claude Code. 4 masters' methodologies + multi-agent adversarial analysis. | 语言: Python | Stars: 3,065 | Forks: 450 | 1,270 stars today",
+      "chinese_summary": "基于Claude Code的价值投资研究框架，把巴菲特/芒格/段永平/李录四家方法论编码进多Agent对抗分析，Python为主。跟纯prompt的投研Agent比，它显式建模\"多方观点对抗+独立尽调Agent\"，避免单一LLM偏见；适合个人投资者或小型私募做研究提速，不是生产交易系统——没有实时行情接入、没有回测引擎。代价是高度依赖Claude Code订阅，单次研究跑下来token消耗不小。上手成本：clone后跑setup.sh配置ANTHROPIC_API_KEY，准备一支票池CSV就能跑。",
+      "backend_focus": "今天用你们关注的一支标的跑一轮完整研究（setup.sh + 提交10-K），重点看多方对抗agent输出的分歧点质量；如果想做内部投研demo，这是最快的多Agent参考实现。",
+      "meta": {
+        "language": "Python",
+        "stars": 3065,
+        "forks": 450,
+        "stars_period": "1,270 stars today"
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-06-24T22:39:10.116199",
+  "source": {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "label": "Anthropic",
+    "content_source": "Anthropic",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://www.anthropic.com/news",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Statement on the US government directive to suspend access to Fable 5 and Mythos 5",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "published_at": "Jun 12, 2026",
+      "original_summary": "The US government has issued an export control directive to suspend all access to Fable 5 and Mythos 5.",
+      "chinese_summary": "Anthropic 发布官方声明，确认收到美国政府出口管制指令，暂停 Claude Fable 5 与 Claude Mythos 5 的全部访问。相对此前 Fable 5 / Mythos 5 已可正常调用，本次直接关闭访问权限。属于强制可用性事件，所有正在使用这两个模型名（包括通过 API model 字段、Claude Code、AWS Bedrock / Google Vertex AI 上的别名）的服务必须立刻下线或回退。",
+      "backend_focus": "立刻在 Anthropic SDK、Claude Code 配置、AWS Bedrock model ID、Vertex AI model ID 中移除 claude-fable-5 / claude-mythos-5 引用，回退到 claude-opus-4.8（详见第 15 条）或 claude-sonnet 4.x；同时审计生产环境是否有自动 fallback 到这两个 model 的逻辑，避免政府限制扩散时再次触发宕机。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Tag Claude Tag is a new way for teams to work with Claude.",
+      "url": "https://www.anthropic.com/news/introducing-claude-tag",
+      "published_at": "Jun 23, 2026",
+      "original_summary": "Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America. Announcements  Expanding Project Glasswing We’re extending Project Glas...",
+      "chinese_summary": "Anthropic 发布 Claude Tag，定位为团队与 Claude 协作的新方式，属于产品形态层面公告而非 API 改动。相对此前的纯对话/工具调用，新增 Tag 这层组织单元。具体接口字段、tool use、context window 等技术细节摘要中未给出，需进一步阅读官方文档。",
+      "backend_focus": "暂缓行动。Claude Tag 摘要中未给出 API 字段、SDK 接入方式或 model 名称，建议先访问 anthropic.com/news/introducing-claude-tag 与 docs.anthropic.com 对应页面确认是消费端功能还是有 Anthropic SDK / Messages API 字段支持，再决定是否纳入集成规划。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Opus 4.8 An upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consi",
+      "url": "https://www.anthropic.com/news/claude-opus-4-8",
+      "published_at": "Jun 23, 2026",
+      "original_summary": "Introducing Claude Tag Claude Tag is a new way for teams to work with Claude. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across Am...",
+      "chinese_summary": "Anthropic 正式发布 Claude Opus 4.8，Opus 系列升级版本，在编码、agent 任务、专业工作负载上表现更强，并配套新的成本/速度权衡设定。相对此前的 Claude Opus 4.5，是同系列内的新一代旗舰，旧 Opus 4.5 仍在但应规划替换。属于 API model 字段直连的新模型发布，旧 Anthropic SDK 与 Messages API 调用代码可平滑迁移。",
+      "backend_focus": "将 Anthropic SDK 与 Messages API 调用中 model 字段从 claude-opus-4-5 升级到 claude-opus-4-8；注意新版在 tool_use、MCP、extended thinking 上的参数默认值与 max_tokens 上限可能调整，复核 prompt cache、batch API 定价，并删除仅针对 Opus 4.5 的 workaround；同时由于 Fable 5 / Mythos 5 被政府停用（见第 11 条），Opus 4.8 是当前可用的最高级替代。",
+      "meta": {
+        "content_type": "Product"
+      }
+    }
+  ]
+}

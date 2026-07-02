@@ -1,0 +1,61 @@
+{
+  "generated_at": "2026-06-22T14:00:06.627180",
+  "source": {
+    "id": "openai",
+    "name": "OpenAI",
+    "label": "OpenAI",
+    "content_source": "OpenAI",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://openai.com/news/",
+      "rss_url": "https://openai.com/news/rss.xml",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "OpenAI",
+      "category": "Product",
+      "title": "New usage analytics and updated spend controls for enterprises",
+      "url": "https://openai.com/index/chatgpt-enterprise-spend-controls",
+      "published_at": "Thu, 18 Jun 2026 17:00:00 GMT",
+      "original_summary": "OpenAI introduces new spend controls and usage analytics for ChatGPT Enterprise, helping organizations manage costs and scale AI with confidence.",
+      "chinese_summary": "跟进报道：OpenAI 为 ChatGPT Enterprise 管理后台新增「用量分析」与「支出控制」能力，管理员可按部门/项目维度查看 token 消耗并设置预算硬上限。这是面向 Enterprise 管理员的 FinOps 工具更新，未改变 Chat Completions/Assistants API 的请求/响应字段。已在用 OpenAI 的应用调用方不受影响，但企业采购方需要在 admin console 重新配置预算策略。",
+      "backend_focus": "若团队隶属 Enterprise 账号：登录 admin console 配置 budget 与 alert 阈值；调用方代码无需改动。关注是否同步暴露 budget-exceeded 的 API 错误码以便应用层降级。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "OpenAI",
+      "category": "Product",
+      "title": "Improving health intelligence in ChatGPT",
+      "url": "https://openai.com/index/improving-health-intelligence-in-chatgpt",
+      "published_at": "Thu, 18 Jun 2026 11:00:00 GMT",
+      "original_summary": "Learn how GPT-5.5 Instant improves ChatGPT’s health and wellness responses with stronger reasoning, better context, clearer communication, and physician-informed evaluations.",
+      "chinese_summary": "跟进报道：OpenAI 将 ChatGPT 健康类问答的默认后端从旧模型切换为 GPT-5.5 Instant，在推理链、context window 与表达清晰度上有提升，并引入医师参与的人工评估机制。这是面向 ChatGPT 健康场景的模型替换，不是新 API；开发者若通过 Chat Completions 调用 health 类 prompt，底层模型 ID 可能随之变化。已有调用方需留意 responses 中医学相关的事实性变化。",
+      "backend_focus": "若应用路由 health 类请求到「default」或 gpt-4 系列，建议显式指定 model=gpt-5.5-instant 以锁定行为，并回归测试医学/健康场景的 prompt，防止底层模型漂移影响输出。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "OpenAI",
+      "category": "Research",
+      "title": "Introducing LifeSciBench",
+      "url": "https://openai.com/index/introducing-life-sci-bench",
+      "published_at": "Wed, 17 Jun 2026 00:00:00 GMT",
+      "original_summary": "Introducing LifeSciBench, an expert-authored, expert-reviewed benchmark for evaluating how AI systems handle real-world life science research tasks and decisions.",
+      "chinese_summary": "OpenAI 发布 LifeSciBench，这是一个由领域专家撰写并评审的生命科学基准，用于评估 AI 在真实科研任务与决策上的表现。这是评估工具发布，不新增 API、不改变模型权重、不影响现有 prompt 工程。开发者可在自建评测流水线中引用此 benchmark，但生产系统无兼容性影响。",
+      "backend_focus": "若团队在自建 LLM 评测流水线，可在 CI 中加入 LifeSciBench 作为生命科学场景的回归测试集。生产环境无任何 API/SDK 变更需要处理。",
+      "meta": {
+        "content_type": "Research"
+      }
+    }
+  ]
+}

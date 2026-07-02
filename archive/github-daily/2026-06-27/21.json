@@ -1,0 +1,148 @@
+{
+  "generated_at": "2026-06-27T08:01:52.869568",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 8,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "simplex-chat/simplex-chat",
+      "url": "https://github.com/simplex-chat/simplex-chat",
+      "published_at": "",
+      "original_summary": "SimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱! | 语言: Haskell | Stars: 12,518 | Forks: 709 | 191 stars today",
+      "chinese_summary": "无身份标识的端端加密聊天协议，Haskell 实现，配套 iOS/Android/桌面客户端。跟 Signal 比：连手机号/邮箱都不要，双向队列隔离收发，连流量关联分析都做不了，metadata 泄露面更小；代价是联系人发现必须靠一次性链接/二维码，没法靠用户名搜人。上手成本：服务端 relay 用 docker-compose 一键起，客户端多端同步要靠手动扫码迁移，老用户迁移成本高。",
+      "backend_focus": "docker compose up 起一组自托管 relay 跑一周，评估 NAT 打洞成功率与离线消息延迟；如团队需要审计/合规留痕就别用——它设计上就对抗审计。",
+      "meta": {
+        "language": "Haskell",
+        "stars": 12518,
+        "forks": 709,
+        "stars_period": "191 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 21,208 | Forks: 1,719 | 2,319 stars today",
+      "chinese_summary": "Google 出的 DESIGN.md 规范，给 coding agent 喂视觉/设计 token 的结构化描述。跟手写 CSS variables + 设计稿截图喂 GPT 比：把 spacing/typography/component contract 写成机器可校验的 schema，agent 改 UI 时不再每次靠 prompt 描述。适合 Cursor/Copilot/Cline 工作流里需要规模化产出的前端团队；纯 API/后端项目用不到。上手成本：仓库里有 schema 模板，复制一份填自家 design tokens 即可，不用改构建链。",
+      "backend_focus": "把团队 Figma 里的 design token 导出一份 DESIGN.md 喂给 Cursor/Cline 跑两个真实 PR，对比前后端样式一致性 bug 数；如团队不用 AI coding agent 可跳过。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 21208,
+        "forks": 1719,
+        "stars_period": "2,319 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 3,410 | Forks: 205 | 412 stars today",
+      "chinese_summary": "Go 写的 git pre-push hook 工具，拦截高危操作。跟 husky/simple-git-hooks 比：no-mistakes 是单文件二进制、零依赖，专注于 push 前的防呆（force push、主分支直推、误带 secret）。比 git 自身 hooks 省去团队成员手动配 .git/hooks 的麻烦。适合团队强制规范保护主分支和敏感信息；自由度低的项目就别用了——它故意把规则收紧。上手成本：go install 后改一条 .gitconfig 就行。",
+      "backend_focus": "本机跑 go install，然后选 2-3 个真实 repo 试 push，验证 force-with-lease 拦截和大文件告警能否触发；确认有效后写进团队 onboarding 文档。",
+      "meta": {
+        "language": "Go",
+        "stars": 3410,
+        "forks": 205,
+        "stars_period": "412 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "grafana/grafana",
+      "url": "https://github.com/grafana/grafana",
+      "published_at": "",
+      "original_summary": "The open and composable observability and data visualization platform. Visualize metrics, logs, and traces from multiple sources like Prometheus, Loki, Elasticsearch, InfluxDB, Postgres and many more. | 语言: TypeScript | Stars: 74,884 | Forks: 14,125 | 17 stars today",
+      "chinese_summary": "可组合的可观测性平台，前端 TypeScript + 后端 Go。跟 Datadog/New Relic 比：Grafana OSS 完全自托管、插件生态最广（Prometheus/Loki/Tempo/PG/ES 都能接），但 APM/profiling 的开箱即用度不如商业 SaaS；适合成本敏感、已经用 Prom 栈的团队，UI 二次定制能力强。10 万 metric/秒以下规模用 OSS 完全够，再大要上 Grafana Enterprise 或 Mimir。上手成本：Helm chart 装一套 + 接一个数据源验证 dashboard 渲染需要 1-2 人天。",
+      "backend_focus": "helm install grafana/k8s-monitoring 起一套，集成本团队 Prometheus，把最关键的 3 个服务 SLO panel 配出来；同步评估 alerting rule 是否要迁移到 Grafana Alerting。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 74884,
+        "forks": 14125,
+        "stars_period": "17 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ripienaar/free-for-dev",
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "published_at": "",
+      "original_summary": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev | 语言: HTML | Stars: 123,718 | Forks: 13,051 | 137 stars today",
+      "chinese_summary": "DevOps 免费的 SaaS/PaaS/IaaS 清单，HTML 单页静态站。跟各厂商 pricing page 比：聚合了主流云服务的免费额度边界（Vercel/Neon/Upstash/Cloudflare 等），按类别（DB/CI/Monitoring）分组，PR 接受门槛低所以更新快。适合个人项目和早期初创控制云成本；中大规模生产环境别依赖免费层，SLA 不够。上手成本：浏览器打开就行，无需部署。",
+      "backend_focus": "本季度回顾一次团队账单，把数据库/对象存储/邮件这三块对照这份清单看能不能迁到免费层（如 Neon/Upstash/R2），省下来的钱写进 infra cost report。",
+      "meta": {
+        "language": "HTML",
+        "stars": 123718,
+        "forks": 13051,
+        "stars_period": "137 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "opendatalab/MinerU",
+      "url": "https://github.com/opendatalab/MinerU",
+      "published_at": "",
+      "original_summary": "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows. | 语言: Python | Stars: 70,401 | Forks: 5,938 | 944 stars today",
+      "chinese_summary": "PDF/Office 转 LLM-ready markdown/JSON 的文档解析工具，Python 实现，专为 Agentic workflow 设计。跟 unstructured.io/Tika 比：MinerU 对扫描版 PDF、复杂表格、数学公式识别明显更强（自研 layout analysis + OCR），输出结构稳定更适合 RAG；纯文本 docx 用 unstructured 更轻。百万页 PDF 批处理场景下考虑，10 页小文档用 GPT-4o 直接读图更省事。上手成本：pip install 一行，自带 docker，GPU 可选加速。",
+      "backend_focus": "pip install magic-pdf 跑仓库自带 demo，用本团队最脏的 20 份扫描 PDF/带表格财报压一遍，对比原 unstructured 管线评估 RAG 检索 hit rate 提升。",
+      "meta": {
+        "language": "Python",
+        "stars": 70401,
+        "forks": 5938,
+        "stars_period": "944 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "mauriceboe/TREK",
+      "url": "https://github.com/mauriceboe/TREK",
+      "published_at": "",
+      "original_summary": "A self-hosted travel/trip planner with real-time collaboration, interactive maps, PWA support, SSO, budgets, packing lists, and more. | 语言: TypeScript | Stars: 7,644 | Forks: 647 | 1,063 stars today",
+      "chinese_summary": "自托管的旅行/行程规划器，TypeScript 全栈，PWA + 实时协作 + SSO。跟 Wanderlog/TripIt 比：完全自托管、数据自主、可加自定义字段和 SSO；缺点是没移动端原生 APP，PWA 在 iOS 上的离线体验一般。需要团队/家庭多人协作规划行程且在意数据隐私的场景适用；单人出行用 Google Docs 就够了。上手成本：docker-compose 起服务，要 Postgres + Redis，10 分钟跑起来。",
+      "backend_focus": "docker compose up -d 跑起来，导入一份本季度团队 outing 候选 3 个行程测实时协作和地图加载延迟；评估是否值得替换 Wanderlog 付费版。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 7644,
+        "forks": 647,
+        "stars_period": "1,063 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "xbtlin/ai-berkshire",
+      "url": "https://github.com/xbtlin/ai-berkshire",
+      "published_at": "",
+      "original_summary": "AI 时代的伯克希尔：基于 Claude Code 的价值投资研究框架。巴菲特·芒格·段永平·李录四大师方法论 + 多Agent并行研究。| AI-era Berkshire: a value investing research framework built on Claude Code. 4 masters' methodologies + multi-agent adversarial analysis. | 语言: Python | Stars: 3,095 | Forks: 456 | 1,270 stars today",
+      "chinese_summary": "基于 Claude Code 的价值投资研究框架，Python，把巴菲特/芒格/段永平/李录方法论固化为多 Agent 对抗分析 pipeline。跟 Bloomberg/Capital IQ 比：开源、可定制、Claude 推理能力兜底；但数据源依赖公开披露，没有实时行情和合规审计。适合个人投资者和小团队做研究辅助，不适合持牌机构生产环境。上手成本：clone 后配 ANTHROPIC_API_KEY，按 README 选股票运行。",
+      "backend_focus": "git clone 后 export ANTHROPIC_API_KEY，选本团队持仓的 1 支股票跑一次 4-master 对抗分析报告，对比人工研究结论验证 ROI，再决定是否集成进投研流程。",
+      "meta": {
+        "language": "Python",
+        "stars": 3095,
+        "forks": 456,
+        "stars_period": "1,270 stars today"
+      }
+    }
+  ]
+}

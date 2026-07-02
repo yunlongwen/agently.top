@@ -1,0 +1,148 @@
+{
+  "generated_at": "2026-06-23T14:43:14.237795",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 8,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 11,929 | Forks: 877 | 7,560 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server。静态二进制零依赖，平均仓库索引毫秒级，支持 158 种语言，查询亚毫秒返回。比传统 LSP + tree-sitter 方案省 99% token，适合给 Claude/Cursor 这类 coding agent 喂上下文；缺点是只能作为 MCP 端点接入，不支持嵌入到 IDE 内部进程。想给现有 agent 加 codebase 检索的直接 stdio 启动就行，无需 DB。",
+      "backend_focus": "下载预编译二进制，stdin 启 MCP server 接进 Claude Desktop 或自家 agent runtime，拿一个 10 万行 monorepo 测端到端索引耗时和单次 query token 数，对比当前 tree-sitter + embedding 方案是否值得换。",
+      "meta": {
+        "language": "C",
+        "stars": 11929,
+        "forks": 877,
+        "stars_period": "7,560 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 38,044 | Forks: 3,014 | 8,108 stars this week",
+      "chinese_summary": "Python 写的 agent 联网 CLI。统一封装 Twitter/Reddit/YouTube/GitHub/小红书等平台的 read & search 接口，免 API key 走网页抓取。单条命令就能让 Claude/Cursor 这类 agent 拉到实时社媒数据；跟官方 API 套件比省 quota 费用，但稳定性依赖各平台前端改版频率。建议用作非关键路径的信息搜集层，生产决策仍走官方 API。",
+      "backend_focus": "pip install 后先跑 agent-reach search 命令对每个平台做一次烟测，记录各平台最近一次抓失败时间，再挑 1-2 个非核心业务场景（比如竞品舆情监控）灰度接入到现有 agent pipeline。",
+      "meta": {
+        "language": "Python",
+        "stars": 38044,
+        "forks": 3014,
+        "stars_period": "8,108 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,564 | Forks: 481 | 1,806 stars this week",
+      "chinese_summary": "Rust 写的 P2P 网络栈，用 dialing key 替代 IP 寻址，节点迁移/NAT 穿透都按 key 路由。比 libp2p 更聚焦在「连接持久化 + 端到端加密」这一层抽象，API 更收敛；比直接用 QUIC/Cage 少写一堆重连/中继逻辑。适合做边缘节点 mesh、IoT 设备寻址、agent 之间的 P2P 通信；不适合做传统 client-server。上手需熟悉 tokio 生态，单 binary 部署。",
+      "backend_focus": "cargo new 一个 demo 跑通 docs 里 two-node 例子测 NAT 穿透成功率，再评估是否替换现有自研 WebSocket 长连接层做边车间通信。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10564,
+        "forks": 481,
+        "stars_period": "1,806 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,184 | Forks: 2,398 | 4,259 stars this week",
+      "chinese_summary": "Google Research 开源的时间序列基础模型。零样本预测（zero-shot）能力是最大卖点，不需训练直接拿历史窗口外推，比传统 Prophet/statsforecast 精度高 1 个量级（来自论文 benchmark），又比 S/D/LSTM 类 deep model 省掉训练 pipeline。适合做容量规划、监控指标外推、A/B 实验前置预估；超长序列或在线学习场景仍建议继续用在线训练方案。模型权重需从 HF 拉，推理用 PyTorch/JAX。",
+      "backend_focus": "clone 后跑 notebooks 里 zero-shot 例子，喂一组自己业务指标（比如 QPS、订单量）做 7 天外推，对照当前在用的 Prophet 算 MAE，再决定是否在 BI 报表层接入替代。",
+      "meta": {
+        "language": "Python",
+        "stars": 25184,
+        "forks": 2398,
+        "stars_period": "4,259 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 45,121 | Forks: 7,431 | 2,612 stars this week",
+      "chinese_summary": "JavaScript 仓库，持续抓取并整理 Claude/GPT/Gemini/Cursor/Copilot 等主流 AI 产品的 system prompt 泄露样本。纯情报型仓库，结构是 Markdown 分文件归档。与 LangSmith/Helicone 这类 prompt 调试平台不同，它只暴露『别人怎么写 prompt』，不提供自己跑的 harness。适合做 prompt 工程的反向研究、red team 测试素材；不适合直接抄进生产 prompt（各家会动态变更）。",
+      "backend_focus": "grep 仓库找自己产品竞品（Anthropic/OpenAI 主流模型）的 system prompt 关键词，提取指令层级结构作为内部 prompt 评审基准；用 git pull 拉到本地定期 diff 跟踪变更。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 45121,
+        "forks": 7431,
+        "stars_period": "2,612 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,449 | Forks: 363 | 1,413 stars this week",
+      "chinese_summary": "Astro 团队出的 sandbox agent 框架，TypeScript 写，定位是「让 AI agent 安全跑代码」。比 E2B/Firecracker 这类底层 microVM 方案更轻（基于进程级隔离），又比 LangChain 的 Python REPL 多了网络/文件系统的细粒度权限控制。适合在自建 agent 平台里跑 untrusted code、CI 自动化、用户提交脚本场景；不适合需要完整 OS 隔离的高危场景。上手 npm install 即可。",
+      "backend_focus": "pnpm install 后跑 examples/ 里 basic-sandbox 例子，对比当前用 Docker --read-only 跑 user code 的启动延迟和内存占用，评估能否在 agent 网关层替换掉容器沙箱。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6449,
+        "forks": 363,
+        "stars_period": "1,413 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 9,475 | Forks: 744 | 3,302 stars this week",
+      "chinese_summary": "NVIDIA 开源的 AI agent skill 安全扫描器，Python 写，静态分析 skill 描述/工具定义里的注入、提权、恶意调用模式。跟传统 SAST（Semgrep/CodeQL）比，它懂 agent 语义（比如 tool 调用链、prompt 注入面），不只查代码语法。适合做 MCP/Claude Skill 这类新形态资产的接入闸；和运行时 sandbox 方案互补，建议一起用。模型本身是规则+启发式，误报需人工复核。",
+      "backend_focus": "pip install 后对着自己 agent 注册的 skill 仓库跑一次 skillspector scan，把高危项 gate 进 CI；再把它加到 MCP server 接入前的预检流水线里。",
+      "meta": {
+        "language": "Python",
+        "stars": 9475,
+        "forks": 744,
+        "stars_period": "3,302 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "teslamate-org/teslamate",
+      "url": "https://github.com/teslamate-org/teslamate",
+      "published_at": "",
+      "original_summary": "A self-hosted data logger for your Tesla 🚘 [main maintainer=@JakobLichterfeld] | 语言: Elixir | Stars: 8,575 | Forks: 967 | 401 stars this week",
+      "chinese_summary": "Elixir/Phoenix 写的特斯拉自托管数据记录器，吸车辆 telemetry、充电、行程数据到本地 Postgres + Grafana。跟 TeslaFi/SmartCar 这类 SaaS 比，数据完全自管、可定制 dashboard；跟直接调 Tesla API 脚本比，开箱就有长期存储、地图轨迹可视化。Elixir 生态上手门槛略高，需要熟悉 OTP 部署，docker-compose 起步。适合电动车玩家/小车队管理；商业车队场景建议上专业 TMS。",
+      "backend_focus": "docker compose up -d 拉起 stack，把 Tesla 账号配进去观察一周数据写入量，评估 Grafana 仪表盘是否满足内部车队 demo 需求；如只玩一下直接 reset 即可。",
+      "meta": {
+        "language": "Elixir",
+        "stars": 8575,
+        "forks": 967,
+        "stars_period": "401 stars this week"
+      }
+    }
+  ]
+}

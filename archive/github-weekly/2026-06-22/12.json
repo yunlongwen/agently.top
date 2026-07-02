@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-22T05:22:18.161186",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 36,756 | Forks: 2,923 | 8,483 stars this week",
+      "chinese_summary": "Python 写的 CLI 工具，让 AI agent 直接读 Twitter/Reddit/YouTube/GitHub/B站/小红书等平台，无需 API key 和付费配额。跟官方 API 比它走网页解析/反爬通道，省掉注册开发者账号和按调用计费；跟 Browser Use / Skyvern 这类通用浏览器 agent 比它是专用爬虫+统一 CLI，不会让 LLM 自己操作浏览器不可控。缺点是依赖各平台前端改版，平台风控收紧时易挂，输出是文本不带结构化字段。上手成本：pip install 后一条命令 agent-reach reddit <query> 就能用。",
+      "backend_focus": "pip install agent-reach 后跑 agent-reach reddit <keyword> 和 agent-reach github <keyword> 验证能不能拿到想要的数据，能用就接到内部 research agent 的 tool list 里替代付费的 Twitter API。",
+      "meta": {
+        "language": "Python",
+        "stars": 36756,
+        "forks": 2923,
+        "stars_period": "8,483 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,435 | Forks: 472 | 1,621 stars this week",
+      "chinese_summary": "Rust 写的模块化点对点网络栈，用 dialable key 取代 IP 地址。跟 libp2p 比它 API 更窄且专注 dial-by-public-key 场景，内置 QUIC/relay/Blob 传输；比传统 TCP/IP over WireGuard 友好，节点迁移不需要改配置。适合做 agent-to-agent 直连、跨 NAT 的小数据传输、边缘节点发现；不适合需要大文件高吞吐或强一致集群的场景。上手成本：cargo add iroh 后写 50 行 endpoint 代码就能跑通点对点。",
+      "backend_focus": "cargo new 一个 demo，照着 examples/chat 跑通两个 endpoint 互发消息，确认 NAT 穿透在团队办公网下可用，OK 就把内部 agent mesh 的 mTLS 直连方案换成 iroh 评估跨地域延迟。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10435,
+        "forks": 472,
+        "stars_period": "1,621 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 24,851 | Forks: 2,360 | 3,655 stars this week",
+      "chinese_summary": "Google Research 开源的时序预测基础模型，零样本 forecasting。与 Chronos / TimeGPT 等同类 foundation model 比它由 Google 官方维护且权重公开，支持中长 horizon univariate 预测；跟传统 Prophet/statsforecast 比它不用手工选季节性和趋势，prompt 风格调用更省特征工程。劣势是单变量为主，多变量协变和 exogenous regressor 支持弱，且推理要 GPU/大内存不适合 IoT 边缘。上手成本：pip install 后喂一段 pandas Series 即可出预测。",
+      "backend_focus": "pip install timesfm 后用团队最近 90 天的某条业务指标跑 zero-shot forecast，跟线上在用的 Prophet/AutoGluon 对照 MAPE 和 sMAPE，差距 <10% 就准备替换为默认 baseline。",
+      "meta": {
+        "language": "Python",
+        "stars": 24851,
+        "forks": 2360,
+        "stars_period": "3,655 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 8,992 | Forks: 705 | 4,631 stars this week",
+      "chinese_summary": "NVIDIA 开源的 AI agent skill 安全扫描器，检测 skill 文件里的漏洞、恶意 pattern 和安全风险。跟传统 SAST（如 Semgrep/CodeQL）比它专门针对 agent skill（通常是 markdown+frontmatter+tool 声明）的攻击面，而不是通用代码；比人工审计社区 marketplace skill 可靠且快。适合所有用 Claude/Cursor/自定义 agent 框架加载第三方 skill 的团队；缺点是规则集新，对未知 attack vector 覆盖率有限。上手成本：pip install 后跑 skillspector scan ./skills 即可。",
+      "backend_focus": "pip install skillspector 后立刻跑一遍 skillspector scan ~/.claude/skills 和 ~/.cursor/skills，把报告里 High/Critical 项先下架，再在 CI 里加一步 skillspector scan 拦新加进来的 skill。",
+      "meta": {
+        "language": "Python",
+        "stars": 8992,
+        "forks": 705,
+        "stars_period": "4,631 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 44,298 | Forks: 7,323 | 1,866 stars this week",
+      "chinese_summary": "JavaScript 项目，汇总各厂商 LLM 产品被泄露/公开提取的 system prompt（Claude、GPT、Gemini、Grok、Cursor、Copilot 等）。不是工具而是情报合集，定期更新。跟厂商官方文档比它能看到真实生效的 prompt 全文（包含隐藏约束和工具描述顺序），对做 prompt 攻防、红队测试和复现竞品行为很有价值。没有任何运行时，纯文本仓库。上手成本：直接 clone 用 grep 检索就行。",
+      "backend_focus": "git clone 后用 ripgrep 在仓库里搜团队在用的产品关键词（如 claude code / cursor / copilot），把相关 system prompt 片段对到自己的 system prompt 里做 gap 分析，调整指令层级和工具描述顺序。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 44298,
+        "forks": 7323,
+        "stars_period": "1,866 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,274 | Forks: 354 | 1,012 stars this week",
+      "chinese_summary": "Astro 团队出的 TypeScript 沙箱 agent 框架，给 AI agent 一个安全的执行环境。具体沙箱机制（基于 VM/WASM/容器未在描述中展开）。跟 E2B / Fly Machines / Modal 比它是框架层而不是 infra 提供商，可以跑在自有 K8s 上；与 Docker 隔离比它对 agent 短生命周期任务的启动开销更低。适合需要让 agent 跑不可信代码、又不想为每次执行开容器的场景；不适合需要长时间运行重型计算的任务。上手成本：npm install 后写一个 sandbox.run 代码块。",
+      "backend_focus": "npm install @withastro/flue 后照 quickstart 起一个 sandbox 执行 echo + curl 一个内部域名，验证网络隔离和资源限制符合预期，OK 就把它包到团队 agent runtime 里替代当前裸 child_process 跑用户代码的方案。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6274,
+        "forks": 354,
+        "stars_period": "1,012 stars this week"
+      }
+    }
+  ]
+}

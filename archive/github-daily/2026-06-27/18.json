@@ -1,0 +1,148 @@
+{
+  "generated_at": "2026-06-27T07:29:26.716948",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 8,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "simplex-chat/simplex-chat",
+      "url": "https://github.com/simplex-chat/simplex-chat",
+      "published_at": "",
+      "original_summary": "SimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱! | 语言: Haskell | Stars: 12,490 | Forks: 706 | 191 stars today",
+      "chinese_summary": "无用户ID的端到端加密聊天协议。基于SMP双队列+临时X25519密钥，每次连接生成全新ratchet密钥，无手机号/邮箱/全局ID，规避元数据关联。跟Signal比，服务器不存用户身份映射，运维方无法被法院令要求交出\"谁和谁聊天\"；跟Matrix比，房间/账号概念彻底取消，API更接近纯消息总线。缺点是Haskell服务端体积大、群聊体验仍在迭代，团队自建需评估运维成本。上手：docker-compose起relay server，移动端直接装包即可。",
+      "backend_focus": "clone 仓库跑 scripts/docker-compose.yml 起一个本地 SMP relay，再用 cli 工具发送跨设备测试消息验证双队列转发；接着把 relay 部署到 staging 域名，给敏感客户对接评估是否能替换现有 Signal Gateway。",
+      "meta": {
+        "language": "Haskell",
+        "stars": 12490,
+        "forks": 706,
+        "stars_period": "191 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "commaai/openpilot",
+      "url": "https://github.com/commaai/openpilot",
+      "published_at": "",
+      "original_summary": "openpilot is an operating system for robotics. Currently, it upgrades the driver assistance system on 300+ supported cars. | 语言: Python | Stars: 61,770 | Forks: 11,047 | 67 stars today",
+      "chinese_summary": "开源自动驾驶OS，已在300+车型实车量产跑。核心是C++写的driver monitoring + longitudinal/lateral控制桥接层，Python上层跑模型；跟Tesla FSD比不绑定单一硬件，适配comma two/three + 兼容车机CAN总线。痛点场景：做ADAS算法迭代的团队可省掉车辆适配层直接跑shadow mode；缺点是依赖特定硬件（comma设备），纯算法研究价值有限。上手：需购买comma硬件+刷机，云端开发环境不完全。",
+      "backend_focus": "无 comma 硬件的团队直接跳过；做 ADAS/车控算法评估：clone openpilot 后跑 tools/replay 把本团队 rosbag 喂进去，对比自研 planner 输出与 openpilot planner 在相同片段下的轨迹偏差。",
+      "meta": {
+        "language": "Python",
+        "stars": 61770,
+        "forks": 11047,
+        "stars_period": "67 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 3,401 | Forks: 205 | 412 stars today",
+      "chinese_summary": "Go写的git pre-push拦截图层，把\"提PR前请跑测试\"这种容易忘的卡点做成强制检查。核心机制是读.go后缀技能文件链式调用本地命令，缺测试/lint/coverage阈值不达标直接拒绝push。跟单纯husky+lint-staged比，它是LLM-friendly的markdown技能描述而不是固定shell脚本，非程序员也能配置；跟lefthook比更轻，单二进制零依赖。痛点：新手代码review常漏跑测试→CI挂红→浪费时间。上手：go install后git push自动生效。",
+      "backend_focus": "go install github.com/kunchenguid/no-mistakes@latest，在本仓库跑一次 git push 验证拦截行为；接着把团队 .cursor-rules 或 CI 必跑命令写成一个 skill 链，纳入 onboarding 文档评估替代现有 pre-commit 配置。",
+      "meta": {
+        "language": "Go",
+        "stars": 3401,
+        "forks": 205,
+        "stars_period": "412 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "grafana/grafana",
+      "url": "https://github.com/grafana/grafana",
+      "published_at": "",
+      "original_summary": "The open and composable observability and data visualization platform. Visualize metrics, logs, and traces from multiple sources like Prometheus, Loki, Elasticsearch, InfluxDB, Postgres and many more. | 语言: TypeScript | Stars: 74,880 | Forks: 14,125 | 17 stars today",
+      "chinese_summary": "老牌可观测性平台，TS+Go双端。今天热度不高但仍是开源dashboard默认选项。支持PromQL/LogQL/TraceQL统一查询，把Metrics/Logs/Traces三件套聚到一张图；跟Datadog比是纯自托管无agent license费，集群规模上50TB日志/天后Loki查询延迟会明显劣化。AI场景里常用它接OpenTelemetry把LangChain/LlamaIndex trace可视化。上手：Helm chart装mimir+loki+tempo+grafana四件套，资源至少准备8C32G×3节点。",
+      "backend_focus": "本团队还没接 OTEL 的：helm repo add grafana 后用 values.yaml 起 mimir+loki+tempo+grafana，把一个内部API服务加 otel-collector sidecar，看 trace 里 LLM 调用 latency 分布是否能定位到 prompt 解析瓶颈。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 74880,
+        "forks": 14125,
+        "stars_period": "17 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ripienaar/free-for-dev",
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "published_at": "",
+      "original_summary": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev | 语言: HTML | Stars: 123,712 | Forks: 13,050 | 137 stars today",
+      "chinese_summary": "维护型清单项目，聚合各厂商对开发者免费额度（SaaS/PaaS/IaaS）。内容是社区PR驱动，每周更新；不是技术库不能直接import，但做选型/降本评审时是事实上的\"免费额度wiki\"。痛点：要给客户方案里选云时省得一个一个翻pricing页；纯工程库价值为零。上手：直接浏览器打开，按类别grep即可，建议作为内部wiki书签保留。",
+      "backend_focus": "把 https://github.com/ripienaar/free-for-dev 收藏到团队内部 wiki \"采购参考\" 栏目，下季度云成本评审时直接 ctrl+F 查当前在用的厂商有没有替代免费档；不要拿来当代码依赖。",
+      "meta": {
+        "language": "HTML",
+        "stars": 123712,
+        "forks": 13050,
+        "stars_period": "137 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "opendatalab/MinerU",
+      "url": "https://github.com/opendatalab/MinerU",
+      "published_at": "",
+      "original_summary": "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows. | 语言: Python | Stars: 70,381 | Forks: 5,937 | 944 stars today",
+      "chinese_summary": "PDF/Word/PPT转LLM友好Markdown/JSON的文档解析工具。今天日涨近千星，定位RAG/Agent数据预处理核心环节。基于layout-detect+YOLO+OCR+表格结构识别多模型pipeline，支持公式、图表、扫描件；跟Unstructured比中文PDF识别明显更强，跟marker比在复杂表格还原准确率上口碑更好。痛点：企业合同/论文/财报入库RAG前清洗。上手：pip install magic-pdf+本地模型权重下载，CPU能跑但GPU快10倍。",
+      "backend_focus": "pip install magic-pdf[full] 后跑 mineru -p input.pdf 抽 50 页中文研报，对比现有 Unstructured 流水线的表格/公式还原率；如果提升明显就接到 RAG ingest pipeline 替换 unstructured.io。",
+      "meta": {
+        "language": "Python",
+        "stars": 70381,
+        "forks": 5937,
+        "stars_period": "944 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "mauriceboe/TREK",
+      "url": "https://github.com/mauriceboe/TREK",
+      "published_at": "",
+      "original_summary": "A self-hosted travel/trip planner with real-time collaboration, interactive maps, PWA support, SSO, budgets, packing lists, and more. | 语言: TypeScript | Stars: 7,626 | Forks: 647 | 1,063 stars today",
+      "chinese_summary": "自托管旅行规划器，TS+Next.js栈，主打实时协作和PWA离线。核心能力：多人协同编辑行程、Mapbox交互地图、SSO（OIDC/SAML）、预算/装备清单模块；跟Wanderlog这类SaaS比是数据完全自托管、可加SSO接企业LDAP；跟TravelPeri这类纯前端App比有PWA支持，断网可读已缓存行程。痛点：差旅团队想统一管理团建/出差行程且不想数据上SaaS。上手：docker compose一把起，但Mapbox需自备token。",
+      "backend_focus": "docker compose up -d 起本地实例，配置 Mapbox token + 公司 OIDC，跑通一次三人协同编辑同一行程验证 CRDT 同步延迟；如果通过就部署到内网替换差旅组的现有 Notion 行程模板。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 7626,
+        "forks": 647,
+        "stars_period": "1,063 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "xbtlin/ai-berkshire",
+      "url": "https://github.com/xbtlin/ai-berkshire",
+      "published_at": "",
+      "original_summary": "AI 时代的伯克希尔：基于 Claude Code 的价值投资研究框架。巴菲特·芒格·段永平·李录四大师方法论 + 多Agent并行研究。| AI-era Berkshire: a value investing research framework built on Claude Code. 4 masters' methodologies + multi-agent adversarial analysis. | 语言: Python | Stars: 3,085 | Forks: 454 | 1,270 stars today",
+      "chinese_summary": "Claude Code驱动的价值投资研究框架，把巴菲特/芒格/段永平/李录四派方法论拆成多Agent对抗分析。Python+prompt编排层，Agent之间辩论估值假设最后出研报；跟直接问ChatGPT比是结构化角色扮演+记忆库+估值模型校验，非一次性问答。痛点：投资团队想用LLM做初筛但担心单模型幻觉。上手：克隆后配ANTHROPIC_API_KEY+本地估值数据CSV，claude code CLI跑 main 入口。",
+      "backend_focus": "git clone 后配 ANTHROPIC_API_KEY，拿一份本团队最近调研过的上市公司年报跑一遍 --ticker 600519，看多 Agent 输出与人工研报的偏差维度；如果覆盖度够，下一步接 Wind/Bloomberg API 替换本地 CSV 做增量。",
+      "meta": {
+        "language": "Python",
+        "stars": 3085,
+        "forks": 454,
+        "stars_period": "1,270 stars today"
+      }
+    }
+  ]
+}

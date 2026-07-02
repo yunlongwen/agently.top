@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-07-01T14:55:39.399090",
+  "source": {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "label": "Anthropic",
+    "content_source": "Anthropic",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://www.anthropic.com/news",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Statement on the US government directive to suspend access to Fable 5 and Mythos 5",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "published_at": "Jun 12, 2026",
+      "original_summary": "The US government has issued an export control directive to suspend all access to Fable 5 and Mythos 5.",
+      "chinese_summary": "跟进报道：Anthropic 就 6 月 12 日美国政府出口管制指令发布声明，要求暂停对 Fable 5 与 Mythos 5 的全部访问。这意味着这两个模型在 API 中调用将立即返回不可用，团队此前任何指向 fable-5 / mythos-5 的 model id 都会失败。已有系统需立即做模型路由切换。",
+      "backend_focus": "立即行动：在代码与配置中替换 model 字段，从 fable-5、mythos-5 切换到 claude-sonnet-5 或 claude-opus-4.8；删除或灰度禁用任何硬编码这两个 model id 的 fallback 链路；检查计费监控告警，避免被无效调用耗尽 budget。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Opus 4.8 An upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consi",
+      "url": "https://www.anthropic.com/news/claude-opus-4-8",
+      "published_at": "Jun 30, 2026",
+      "original_summary": "Introducing Claude Sonnet 5 Sonnet 5 delivers frontier performance across coding, agents, and professional work at scale. Announcements  Claude Science, an AI workbench for scientists, is now available Claude Science is a customizable app that integrates the tools and packages researchers most often use, produces auditable artifacts, and provides flexible access to computing resources. Product  Introducing Claude Tag Claude Tag is a new way for teams to work with Claude. Policy  Policy on the AI...",
+      "chinese_summary": "Anthropic 发布 Claude Opus 4.8，在编码、agent 任务与专业工作负载上对 Opus 系列升级，是目前能力最强的 Opus 版本。这是 Opus 系列代际更新，Messages API 将以新 model id 接入，并在 coding 与长任务上显著强于 Opus 4.5。已在用 Opus 4.5 的系统应准备评估切换。",
+      "backend_focus": "在 Messages API 中将 model 切换到 claude-opus-4.8，重点验证 tool_use、长 context window、max_tokens 与 agent loop 的回归；关注 Anthropic 公布的 Opus 4.5 deprecation 时间窗口，提前在调用层做按 model id 的灰度与回滚。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Redeploying Fable 5",
+      "url": "https://www.anthropic.com/news/redeploying-fable-5",
+      "published_at": "Jun 30, 2026",
+      "original_summary": "Announcements",
+      "chinese_summary": "跟进报道：Anthropic 宣布 Redeploying Fable 5，意味着此前因美国政府出口管制暂停的 Fable 5 模型访问被恢复。这是相对 index 11 的解除消息，Fable 5 在 API 中重新可用，Mythos 5 的状态需继续关注。",
+      "backend_focus": "可将 model 字段从临时替代方案切回 fable-5（前提是仍符合区域合规）；同时核对 index 11 中 Mythos 5 的暂停范围是否仍然有效，更新模型路由矩阵与计费监控中的 model 白名单。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    }
+  ]
+}

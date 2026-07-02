@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-06-25T09:16:45.685881",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 7,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 14,120 | Forks: 1,040 | 9,589 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单二进制零依赖。158 种语言，亚毫秒查询，普通仓库索引毫秒级完成，给 LLM 用可省 99% token。对比 Sourcegraph/scip 这类重型方案，它走 MCP 协议直接挂 Claude/Cursor，不改 IDE 也不需要服务端；缺点是知识图谱层抽象较薄，跨仓库引用追踪能力未在描述中体现。上手成本：下载二进制，配一行 MCP client 配置立刻能用。",
+      "backend_focus": "在团队 IDE 里挂上：下载静态二进制 → 在 ~/.config/claude/mcp.json 加一行 stdio 入口 → 用本仓库做 query 验证亚毫秒延迟，同时打 Langfuse 看 token 消耗是否真的降到原来的 1%。",
+      "meta": {
+        "language": "C",
+        "stars": 14120,
+        "forks": 1040,
+        "stars_period": "9,589 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,447 | Forks: 2,421 | 3,915 stars this week",
+      "chinese_summary": "Google Research 的时间序列基础模型，零样本预测，无需训练。对比 Prophet/statsforecast/Nixtla 系列传统统计模型，TimesFM 拿 Foundation Model 的泛化能力硬扛冷启动场景（新品上线、新指标没历史）；缺点是单模型体积大、推理需要 GPU/加速器，CPU 跑长序列会卡。上手成本：pip install 后读 CSV 就能 predict，但要进生产得自己包 batching 和推理服务。",
+      "backend_focus": "起一个对照实验：pip install timesfm → 拿团队业务指标（比如 DAU/订单量）跑 zero-shot forecasting → 与现有 Prophet/AutoGluon 模型同窗口对比 MASE 和 MAPE，评估是否替换掉冷启动场景。",
+      "meta": {
+        "language": "Python",
+        "stars": 25447,
+        "forks": 2421,
+        "stars_period": "3,915 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,695 | Forks: 488 | 1,196 stars this week",
+      "chinese_summary": "Rust 模块化网络栈，用 content-addressable dial keys 替代 IP。NAT/重启/换网都不影响连通性，libp2p 之外少见的「连得上比知道地址更重要」方案。对比 libp2p，iroh API 更克制、单二进制部署友好；缺点是生态年轻、生产案例少于 libp2p，做 P2P 文件分发/边缘节点直连场景值得评估，长尾业务通信建议等 v1 稳定。上手成本：cargo add iroh，几行代码建 relay+hole punching 通道。",
+      "backend_focus": "POC 一个边缘场景：cargo new 后接入 iroh，让两个 NAT 后面的测试节点通过 dial key 互传 1GB 文件，对比现有 WebRTC/Tailscale 方案的连通率和延迟，验证是否替换内网穿透组件。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10695,
+        "forks": 488,
+        "stars_period": "1,196 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 45,731 | Forks: 7,510 | 2,662 stars this week",
+      "chinese_summary": "持续更新的 LLM 系统提示词泄露仓库，覆盖 Claude/GPT/Gemini/Grok/Cursor/VS Code 等主流产品。对标各家官方 docs，这是逆向工程的「黑盒 prompt」语料，价值在 prompt engineering 和 red-team 测试；不是生产工具，但作为提示词研究的参考语料值得 star。缺点：纯信息聚合仓库，不提供可运行代码。上手成本：clone 后 grep 即可，不进生产链路。",
+      "backend_focus": "用此仓库做两件事：① grep 跟你业务相关的领域关键词，提取厂商 prompt 写法套路；② 拿 Claude Code/GPT-5 的 system prompt 做 red-team 模板，喂给内部 prompt 防火墙做越狱测试。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 45731,
+        "forks": 7510,
+        "stars_period": "2,662 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 39,725 | Forks: 3,147 | 6,752 stars this week",
+      "chinese_summary": "给 AI agent 用的「全网只读眼睛」，一条 CLI 覆盖 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书，零 API 费用。对标 Apify/Bright Data 这类付费 scraping 平台，Agent-Reach 直接复用 cookie 跑 Playwright，绕过官方 API 计费；缺点是依赖登录态、目标站点改版即坏，ToS 风险由使用者承担。上手成本：pip install + 配一次 cookie，agent 调 CLI 即可搜内容。",
+      "backend_focus": "接到内部 agent：在 staging 环境 pip install agent-reach 并注入测试 cookie → 让 agent 跑一次 Reddit+GitHub 双源查询 → 跟 Tavily/Exa API 对比召回质量与成本，确认能否砍掉付费 search API。",
+      "meta": {
+        "language": "Python",
+        "stars": 39725,
+        "forks": 3147,
+        "stars_period": "6,752 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,617 | Forks: 371 | 1,415 stars this week",
+      "chinese_summary": "Astro 团队出的 sandbox agent 框架，把 agent 跑在隔离沙箱里执行不可信代码。对标 E2B/Firecracker 这类 microVM 沙箱，flue 走更轻量的进程级隔离（描述里未给出具体安全边界），主打给 coding agent 当执行环境；缺点是新项目、生产案例少，沙箱逃逸防护未在描述中量化。上手成本：npm install 后写几十行 TypeScript 定义 tool 即可接入。",
+      "backend_focus": "跑一个最小 sandbox demo：npm install flue 后挂到一个 Claude/GPT agent 上，让 agent 在沙箱里跑 npm test → 对比 E2B 的启动延迟（冷启动秒级 vs 沙箱进程级），评估是否作为内部 agent 执行层。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6617,
+        "forks": 371,
+        "stars_period": "1,415 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "jamiepine/voicebox",
+      "url": "https://github.com/jamiepine/voicebox",
+      "published_at": "",
+      "original_summary": "The open-source AI voice studio. Clone, dictate, create. | 语言: TypeScript | Stars: 33,867 | Forks: 4,074 | 3,583 stars this week",
+      "chinese_summary": "开源 AI 语音工作室，支持声音克隆、听写、创作。对标 ElevenLabs/PlayHT 这类商业 TTS 平台，voicebox 卖点是 self-host + 模型可换 + 一次性买断成本；缺点是音质/多语种能力依赖底层模型选型（描述未指明默认模型），商用授权条款需逐条确认。上手成本：clone 后 docker compose + 下载一个 ASR/TTS checkpoint 即可开用。",
+      "backend_focus": "本地起一份对比环境：docker compose up voicebox → 用团队产品话术录 5 分钟做 clone → 与 ElevenLabs 同文本对比 MOS 评分和延迟 → 同时让法务审一遍 LICENSE，确认商用边界再上生产。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 33867,
+        "forks": 4074,
+        "stars_period": "3,583 stars this week"
+      }
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "generated_at": "2026-06-23T10:23:12.627467",
+  "source": {
+    "id": "rss-solidot",
+    "name": "Solidot",
+    "url": "https://www.solidot.org/index.rss",
+    "category": "开源科技",
+    "display_priority": "medium",
+    "enabled": true,
+    "max_age_days": 2,
+    "max_items": 10,
+    "kind": "rss",
+    "label": "Solidot",
+    "content_source": "Solidot"
+  },
+  "item_count": 7,
+  "items": [
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "回顾对 AUR 的攻击",
+      "url": "https://www.solidot.org/story?sid=84647",
+      "published_at": "2026-06-22T14:47:40+00:00",
+      "original_summary": "由用户递交的软件仓库 Arch User Repository(AUR)最近遭遇了大规模恶意攻击，攻击者创建了一系列新账号，然后通过这些账号接管无人维护的软件包（被称为 orphaned packages），植入恶意代码，推送恶意更新。Arch 项目的维护者现已关闭了新用户注册，正在讨论如何处理这些被恶意滥用的无人维护软件包。AUR 中的软件包由用户递交，其他用户可通过搜索下载 PKGBUILD 文件、解依、编译、安装和更新软件。它不提供软件的二进制版本。目前 AUR 中有逾 107,000 个软件包，其中近 14,000 个无人维护可供认领。任何注册用户都可以认领和修改无人维护的软件包。它提供的软件包未经审核，风险由用户自己承担。其它 Linux 发行版也都有类似的软件仓库，如 Fedora 的 Copr，openSUSE 的 Open Build Service (OBS)，Ubuntu 的 Personal Package Archives (PPA)。但这些服务与 AUR 有显著区别：它们提供了类似官方软件包的构建环境，而且不允许预编译二进制文件或私有软件。AUR 的规定过于宽",
+      "chinese_summary": "Arch Linux 的用户软件仓库 AUR 遭遇大规模恶意接管攻击，攻击者注册账号接管 14000+ orphaned packages 推送恶意代码。Arch 已关闭新用户注册。这是一次软件供应链安全事件，对在生产环境使用 AUR 的服务器/容器有直接安全影响。使用基于 Arch 的镜像（如 Manjaro、SteamOS）构建 CI/CD 的团队需立即排查。",
+      "backend_focus": "立即行动：检查 CI/CD、容器镜像和开发机是否从 AUR 安装软件包，对照受影响包列表做哈希校验；建议在镜像构建中固定 yay/paru 版本并锁定 PKGBUILD 哈希。考虑迁移到官方仓库或 vetted AUR helper 策略。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84647"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Anthropic 对特定功能访问要求身份验证",
+      "url": "https://www.solidot.org/story?sid=84645",
+      "published_at": "2026-06-22T11:02:33+00:00",
+      "original_summary": "Anthropic 更新了其隐私政策，从 2026 年 7 月 8 日起，部分功能将需要身份验证，该验证将由 Persona 公司负责。Persona 是一家第三方身份验证公司，由 Peter Thiel 投资。此前 Discord 因用户强烈反对以及 2026 年 2 月发生的一起数据泄露事件而终止了在年龄验证上与 Persona 的合作。\n<p></p>",
+      "chinese_summary": "Anthropic 更新隐私政策，自 2026 年 7 月 8 日起部分功能将要求通过第三方 Persona 公司做身份验证。相较此前匿名可用的功能，新增加强了 KYC/身份核验。这对在生产环境集成 Anthropic API（Claude 系列）的系统有直接兼容影响——若产品场景涉及未成年人或地区合规，需关注是否会被拦截。",
+      "backend_focus": "立即行动：7 月 8 日前盘点 Anthropic 各产品功能使用情况，确认目标用户群体是否需要身份验证。准备 fallback 流程并关注 Anthropic 官方文档关于「auth-required endpoints」的具体清单，及时更新 SDK 调用逻辑。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84645"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Linux 7.2 内核完全移除 strncpy 函数",
+      "url": "https://www.solidot.org/story?sid=84644",
+      "published_at": "2026-06-22T10:55:05+00:00",
+      "original_summary": "在 6 年 362 个补丁之后，Linux 7.2 内核终于完全移除了 strncpy() 函数。strncpy() 是一个 C 语言字符串复制函数，内核文档将其标记为“极度危险（actively dangerous）”。strncpy()是一类内存错误的主要来源：包含敏感数据的内核缓冲区可能会在未终止字符串边界外泄漏字节，导致内存信息泄露。strncpy()被 5 个不同函数取代：strscpy() 用于 NUL 结尾的目的地址，strscpy_pad() 用于 NUL 结尾零填充的目标地址， strtomem_pad() 用于非 NUL 结尾固定宽度字段，memcpy_and_pad() 用于显式填充的有边界复制，memcpy()用于已知长度的内存复制。\n<p></p>",
+      "chinese_summary": "Linux 7.2 内核在历经 6 年 362 个补丁后完全移除 strncpy() 函数，原因为其会导致未终止字符串越界泄漏敏感数据，由 strscpy/strscpy_pad/strtomem_pad/memcpy_and_pad/memcpy 五个替代函数取代。这是内核层面的硬性 API 移除，对直接参与内核或驱动开发的工程师有强制迁移要求。",
+      "backend_focus": "立即行动：升级到 Linux 7.2 前全局 grep 移除 strncpy 调用，按目标语义替换为 strscpy（有 NUL 结尾）、strscpy_pad（需零填充）、strtomem_pad（非 NUL 固定字段）、memcpy_and_pad 或 memcpy。内核模块和驱动代码需在 7.2 之前完成迁移。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84644"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "日本宣布新超算理究",
+      "url": "https://www.solidot.org/story?sid=84642",
+      "published_at": "2026-06-22T09:18:41+00:00",
+      "original_summary": "日本理化学研究所 19 日宣布，为利用 AI 进行科学研究而建设的新超级计算机命名为“理究”。该名称寓意利用 AI 探“究”自然现象背后的“理”。该超算将设在神户市中央区的理研神户地区，力争 7 月投入使用。理化所还在同一天宣布了另一台量子计算-高性能计算混合平台超算 ROQUO，两台超算都使用了英伟达的 GB200 NVL4 系统。其中 ROQUO 配备了 135 个计算节点，540 (NVIDIA Blackwell)&nbsp; GPU 以及 270 (NVIDIA Grace) CPU，FP64 峰值逾 21 PFLOPS，FP8 峰值 5 EFLOPS 等。\n<p></p>",
+      "chinese_summary": "日本理化学研究所宣布新超算「理究」将于 7 月投入使用，搭配另一台 ROQUO 超算，均使用 NVIDIA GB200 NVL4 系统（ROQUO 含 540 Blackwell GPU + 270 Grace CPU，FP8 峰值 5 EFLOPS）。这是国家级超算基础设施公告，对在日本做大规模模型训练的研究机构/企业有算力获取意义。",
+      "backend_focus": "无需立即行动。如在日本做 AI 训练可关注理研理究 7 月正式上线后的共享使用申请通道；目前尚未开放 API/SDK，需等正式开放公告。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84642"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "美国芯片安全法案将强制性要求位置跟踪 AI 芯片",
+      "url": "https://www.solidot.org/story?sid=84641",
+      "published_at": "2026-06-22T07:53:11+00:00",
+      "original_summary": "美国国会正在审议芯片安全法案（Chip Security Act），该法案将为先进 AI 芯片加入更严格的安全验证功能，将要求芯片出口商通过定制的位置验证硬件或软件追踪先进芯片的流向，确保先进芯片不会进入中国等国家。美国众议院外交事务委员会于 3 月下旬以 42 比 0 的投票结果一致通过了芯片安全法案，将其提交到众议院全体会议审议。参议院的配套立法则尚处于审议的第一个阶段。美国芯片行业组织反对这项法案，认为会阻碍芯片出口。最大的 AI 芯片制造商英伟达去年 12 月宣布它已开发出能满足该法案部分要求的技术。\n<p></p>",
+      "chinese_summary": "美国国会正在审议「Chip Security Act」，要求先进 AI 芯片强制加入位置跟踪硬件/软件以防止流入中国等国家。众议院外委会已 42:0 通过，英伟达去年 12 月已声称开发出可满足部分要求的技术。这是政策法规动态，对中国 AI 芯片采购和云服务有间接影响。",
+      "backend_focus": "关注合规风险：如使用 H100/H200/B200 等美方先进芯片的海外服务需评估位置跟踪是否影响性能/合规；目前法案仍在审议阶段，工程团队无需立即改动配置，但建议采购/合规团队跟踪立法进展。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84641"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Polymarket 付费给内容创作者制作假的押注获胜视频",
+      "url": "https://www.solidot.org/story?sid=84639",
+      "published_at": "2026-06-22T06:36:08+00:00",
+      "original_summary": "最大预测市场 Polymarket 付费给数十名内容创作者制作了假的押注获胜视频。它搭建了与其网站几乎一模一样的假网站，指示内容创作者在假网站上进行虚假交易，隐瞒受雇于 Polymarket 的事实。在虚假获胜视频发布之后，Polymarket 再雇佣水军传播和扩散这些视频，营造很多人通过押注赚钱的假象。内容创作者称，他们一个月的收入最高为 2000-3000 美元。对假视频的分析显示，大部分押注都是在 Polymarket 工程师的测试环境中进行的。创作者称他们会将拍完的视频发送给 Polymarket 审核。如果视频不够吸引人，或者有明显造假痕迹，Polymarket 会要求重拍。\n<p></p>",
+      "chinese_summary": "预测市场 Polymarket 被曝光付费给内容创作者制作虚假的押注获胜视频，通过伪造交易和水军传播营造暴富假象。这是平台造假丑闻，对 Polymarket API 使用者或集成方有声誉/信任风险，但不涉及 Polymarket 交易协议或 SDK 的变更。",
+      "backend_focus": "如产品集成 Polymarket 预测数据用于决策，建议增加可信度校验（多源交叉验证交易哈希）；但 API 接口本身未变化，无需迁移。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84639"
+      }
+    },
+    {
+      "source": "rss-solidot",
+      "category": "开源科技",
+      "title": "Canonical 将为 Ubuntu 桌面加入语音文本转录 AI 功能",
+      "url": "https://www.solidot.org/story?sid=84638",
+      "published_at": "2026-06-22T06:02:52+00:00",
+      "original_summary": "Canonical 宣布将为 Ubuntu 桌面加入语音文本转录 AI 功能，它正在征询用户对该功能的反馈。预计于今年 10 月发布的 Ubuntu 26.10 将包含被称为 Myna 的 AI 功能的早期版本。在 Myna 中，语音识别在名为 Canonical Inference Snap 的沙盒组件中进行，Speech Orchestrator 负责管理会话，Audio Adapter 处理麦克风拾取的音频，在音频到达模型前对其进行降噪和分块处理。语音识别将在本地进行，一旦安装相应模型后就不再需要连接互联网。音频数据也不会被长期保存，将在会话结束后立即被丢弃。Myna 暂时不会支持语音输入密码、持续监听、翻译等功能。\n<p></p>",
+      "chinese_summary": "Canonical 宣布将在 Ubuntu 26.10（预计 2026 年 10 月）中加入本地语音转录 AI 功能「Myna」，架构包含 Canonical Inference Snap 沙盒、Speech Orchestrator 会话管理和 Audio Adapter 降噪分块，识别全程本地运行无需联网。这是 Ubuntu 桌面端的新 AI 能力，对运行 Ubuntu 的开发机/工作站用户体验有影响。",
+      "backend_focus": "无需立即行动。Ubuntu 26.10 才正式发布，可关注其 GA 后 Myna 在 Inference Snap 中的 API/CLI 调用方式；对服务器无影响，仅桌面端相关。",
+      "meta": {
+        "guid": "https://www.solidot.org/story?sid=84638"
+      }
+    }
+  ]
+}

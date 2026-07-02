@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-06-23T02:38:57.602812",
+  "source": {
+    "id": "openai",
+    "name": "OpenAI",
+    "label": "OpenAI",
+    "content_source": "OpenAI",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://openai.com/news/",
+      "rss_url": "https://openai.com/news/rss.xml",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "OpenAI",
+      "category": "Security",
+      "title": "Daybreak: Tools for securing every organization in the world",
+      "url": "https://openai.com/index/daybreak-securing-the-world",
+      "published_at": "Mon, 22 Jun 2026 10:00:00 GMT",
+      "original_summary": "OpenAI introduces new Daybreak tools, including Codex Security and GPT-5.5-Cyber, to help organizations find, validate, and patch vulnerabilities at scale.",
+      "chinese_summary": "OpenAI 发布 Daybreak 安全工具套件，包含 Codex Security 和新模型 GPT-5.5-Cyber，用于在大规模场景下发现、验证并修补漏洞。相对此前，Codex Security 是一类新的安全专用产品形态，GPT-5.5-Cyber 是面向网络安全任务的新模型分支，与通用 GPT-5.5 系列不同。是否需要迁移取决于是否购买该企业级安全服务，与现有 Chat Completions / Responses API 无直接替换关系。",
+      "backend_focus": "评估动作：若已在用 OpenAI 企业版，关注 Admin Console 中是否出现 Codex Security 模块和 GPT-5.5-Cyber 的计费项；走 Chat Completions 的现有业务无需改 model 字段，等官方公布 GPT-5.5-Cyber 的 API 端点和 rate limit。",
+      "meta": {}
+    },
+    {
+      "source": "OpenAI",
+      "category": "Product",
+      "title": "New usage analytics and updated spend controls for enterprises",
+      "url": "https://openai.com/index/chatgpt-enterprise-spend-controls",
+      "published_at": "Thu, 18 Jun 2026 17:00:00 GMT",
+      "original_summary": "OpenAI introduces new spend controls and usage analytics for ChatGPT Enterprise, helping organizations manage costs and scale AI with confidence.",
+      "chinese_summary": "OpenAI 在 ChatGPT Enterprise 管理后台推出新的使用分析（usage analytics）面板和更新的支出控制（spend controls）能力，让企业更细粒度地管理成本与配额。相对此前，预算/限速配置从顶层粗粒度升级为按部门/项目/用户维度的可观测与硬性封顶，接口字段层面 Admin API 可能新增 cost center 维度。现有按月硬限额的逻辑仍兼容，但建议迁移到新控制以获得明细。",
+      "backend_focus": "升级方式：让 IT/财务同学进入 ChatGPT Enterprise Admin Console 配置新 spend controls（按 user/team 的 monthly cap）和 usage analytics 仪表盘；API 端调用方无需改 model 字段，但需要让上层做成本归集的代码读取新的 usage report 字段。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "OpenAI",
+      "category": "Product",
+      "title": "Improving health intelligence in ChatGPT",
+      "url": "https://openai.com/index/improving-health-intelligence-in-chatgpt",
+      "published_at": "Thu, 18 Jun 2026 11:00:00 GMT",
+      "original_summary": "Learn how GPT-5.5 Instant improves ChatGPT’s health and wellness responses with stronger reasoning, better context, clearer communication, and physician-informed evaluations.",
+      "chinese_summary": "OpenAI 将 ChatGPT 健康类问答的默认路由模型升级为 GPT-5.5 Instant，强化推理、上下文和沟通能力，并引入医师参与评估体系。相对此前的健康回答模型，新版本在医学推理上更强但仍走 Instant 类低延迟路径；通过 Chat Completions 显式指定 gpt-5.5-instant 的调用方无需改动即可享受升级，自动路由用户则由 ChatGPT 端生效。",
+      "backend_focus": "升级方式：医疗/健康类业务把 Chat Completions 的 model 字段从 gpt-4o/gpt-4.1 等切到 gpt-5.5-instant，关注 max_tokens 和 response_format 是否仍支持原有 strict 模式；如依赖 JSON 结构化输出，先在 staging 跑回归。",
+      "meta": {
+        "content_type": "Product"
+      }
+    }
+  ]
+}

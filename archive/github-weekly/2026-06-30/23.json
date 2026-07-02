@@ -1,0 +1,164 @@
+{
+  "generated_at": "2026-06-30T08:13:43.101553",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 9,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 28,522 | Forks: 3,180 | 18,703 stars this week",
+      "chinese_summary": "开源 agentic 视频制作系统，把 AI 编码助手（Cursor/Claude Code 等）变成视频工作室。核心是 12 条流水线 + 52 个工具 + 500+ agent skills 的 MCP 协议集成，覆盖剪辑/字幕/合成全流程。比 Runway、Pika 这类端到端 SaaS 更适合已有 coding agent 工作流的团队二次定制；缺点是它不是独立产品，必须配合 Claude/Cursor 这类 host 才能跑，没有图形界面，自己做交付就别想了。上手成本：clone 仓库后在 IDE 里加载 skills 即可，但视频管线依赖 FFmpeg、Whisper 等本地模型，显存要够。",
+      "backend_focus": "先在 Cursor 里加载它提供的 skills，跑一个 5 分钟素材的样片，记录 FFmpeg + Whisper 占用的显存和端到端耗时，再决定是否接入内部视频自动化流水线。",
+      "meta": {
+        "language": "Python",
+        "stars": 28522,
+        "forks": 3180,
+        "stars_period": "18,703 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 21,413 | Forks: 1,538 | 8,926 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单二进制零依赖。158 种语言的代码库毫秒级建索引，子毫秒查询，比 Sourcegraph 的部署轻量一个量级（不用 Elasticsearch 集群），token 消耗降低 99% 直接利好 LLM 上下文窗口。适合喂给 Claude/Cursor 当 long-term codebase memory；硬伤是它只解决 indexing+query，不做 code review/lint 这种语义任务，单机存储上限也得自己压。上手成本：下载二进制 → 启动 daemon → MCP 配置加一行，5 分钟能跑起来。",
+      "backend_focus": "git clone 后启动二进制，对你们最常改的那个 monorepo 跑一遍 index，接到 Claude Desktop 的 MCP 配置里，对比 RAG 走文件读取时的 token 消耗差，记录到团队 wiki。",
+      "meta": {
+        "language": "C",
+        "stars": 21413,
+        "forks": 1538,
+        "stars_period": "8,926 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 23,189 | Forks: 1,835 | 6,728 stars this week",
+      "chinese_summary": "Google Labs 出的 DESIGN.md 规范，让 coding agent 持久理解设计系统。核心是把 design tokens / 组件约束 / 间距规则写成结构化 markdown，喂给 Cursor/Claude/Copilot 避免每次生成都跑偏。跟 Figma Tokens、Style Dictionary 比，它不是工具而是协议，更轻量、跨 IDE 通用；缺点是没有运行时校验，agent 写出来的 HTML 还是得肉眼 review。上手成本：写一份 DESIGN.md 就行，但要让 agent 真听话得配合 few-shot 示例，不然规范就是摆设。",
+      "backend_focus": "挑团队最常用的 1 个组件库，按它的 schema 写一份 DESIGN.md 喂给 Claude Code，跑 5 个真实页面生成用例对比改造前后的 token 偏离率。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23189,
+        "forks": 1835,
+        "stars_period": "6,728 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 4,327 | Forks: 242 | 2,449 stars this week",
+      "chinese_summary": "Go 写的 git pre-push 钩子工具，号称能拦截常见错误再 push。看名字是「no-mistakes」但仓库描述只给了一句口号，具体拦截规则还得看源码。跟 husky、pre-commit、lefthook 这类通用 lint 框架比，它专注 push 阶段而不是 commit/check 阶段；3 千周 star 但总 star 才 4 千多，属于新冒出来的实验项目，生产引入需谨慎。上手成本：go install 完改 .git/hooks 一个文件就生效，但要确认它的规则集覆盖你们 team 的真实踩坑场景。",
+      "backend_focus": "先翻它的规则列表确认覆盖了你团队上周踩的 push 事故类型，再 go install 后挂到 staging 仓库的测试分支跑一周，看误报率再决定是否铺开。",
+      "meta": {
+        "language": "Go",
+        "stars": 4327,
+        "forks": 242,
+        "stars_period": "2,449 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "JCodesMore/ai-website-cloner-template",
+      "url": "https://github.com/JCodesMore/ai-website-cloner-template",
+      "published_at": "",
+      "original_summary": "Clone any website with one command using AI coding agents | 语言: TypeScript | Stars: 23,474 | Forks: 3,344 | 5,317 stars this week",
+      "chinese_summary": "TypeScript 写的「一键克隆任意网站」AI 模板，靠 coding agent 抓取 + 复刻页面。核心是给 Claude/Cursor 一套 prompt + 抓取脚本，让 agent 还原 DOM/CSS/资源。和传统爬虫（Scrapy、Puppeteer）比它偏「视觉还原」不是「数据抽取」，产物是 React/Next 代码不是 JSON；法律风险很高（版权、ToS、robots.txt），生产对外面向 C 端直接用基本不可能。上手成本：clone 后填个 URL 跑 agent 就行，但出来的代码 80% 要人工重写。",
+      "backend_focus": "挑一个内部已知站点跑一遍，对比输出代码和原站 Lighthouse 评分、可维护性指标，评估能否用在内部 admin 系统迁移这类对版权不敏感的灰色场景。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23474,
+        "forks": 3344,
+        "stars_period": "5,317 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "interviewstreet/hiring-agent",
+      "url": "https://github.com/interviewstreet/hiring-agent",
+      "published_at": "",
+      "original_summary": "AI agent to evaluate and score resumes. | 语言: Python | Stars: 3,778 | Forks: 770 | 1,973 stars this week",
+      "chinese_summary": "Python 写的简历评估 AI agent，自动给候选人打分。底层是 LLM + 简历解析 + 评分 rubric，给 HR 团队筛简历用。和 HireEZ、Greenhouse 的 ATS 模块比，它是开源可自托管的，能塞私有 JD/面试题库，不上传候选人数据到第三方；硬伤是没有 offer/面试调度那些 ATS 后半段功能，单点工具不是平台。上手成本：pip install + 配 LLM API key 就能跑，但要接企业微信/飞书通知得自己写 webhook。",
+      "backend_focus": "搭起来接你们最近 100 份历史简历做回测，对比 agent 评分和真实面试通过率的相关性，相关性 <0.6 就别上生产。",
+      "meta": {
+        "language": "Python",
+        "stars": 3778,
+        "forks": 770,
+        "stars_period": "1,973 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 51,805 | Forks: 44,982 | 7,045 stars this week",
+      "chinese_summary": "Python 写的多市场股票 LLM 分析系统，整合行情/新闻/决策看板/自动推送，支持零成本定时跑。核心是 LLM 选股 + 情绪分析 + 多源行情聚合，配飞书/微信推送。和同花顺、雪球这类终端比它是开源可定制的，策略可以自己改；致命缺陷是它依赖 LLM API，长期跑 token 费用不低，所谓「零成本」是默认用免费额度。上手成本：clone 改 config 配 API key 就能跑，但要真正稳定 cron 得自己接 Docker。",
+      "backend_focus": "跑起来后用你们已有的选股回测框架（backtrader/zipline）对比它最近 30 天的虚拟持仓收益率，跑输基准指数就别当决策工具用，只能当新闻聚合。",
+      "meta": {
+        "language": "Python",
+        "stars": 51805,
+        "forks": 44982,
+        "stars_period": "7,045 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "",
+      "original_summary": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile. | 语言: TypeScript | Stars: 9,085 | Forks: 621 | 2,769 stars this week",
+      "chinese_summary": "TypeScript 写的多 agent 并行编排桌面/移动端工具（ADE = Agentic Dev Environment），用自己订阅的 coding agent 并行跑任务。核心是把多个 Claude/Codex session 并起来，配任务分发 + 结果合并 UI。和 Cursor、Aider 这类单 agent IDE 比，它解决的是「多个独立 task 并行」的场景（比如批量重构 10 个 service）；移动端能跑是个差异点，但工程实用性待验证。上手成本：装桌面端配订阅 token 就能用，移动端要走 TestFlight。",
+      "backend_focus": "选 5 个互不依赖的小重构任务（比如给 5 个 service 加 health check endpoint），用它并行跑一遍对比串行用时的实际加速比，<2x 就别铺开。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 9085,
+        "forks": 621,
+        "stars_period": "2,769 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 45,721 | Forks: 3,624 | 7,692 stars this week",
+      "chinese_summary": "Python 写的 CLI 工具，让 AI agent 能读 Twitter/Reddit/YouTube/GitHub/Bilibili/小红书，统一一个接口零 API 费用。核心是各平台反爬抓取 + 反爬绕过，对接 MCP 协议给 agent 当 tool 用。比官方 API（Twitter API $100/月起）便宜，但合规风险大（违反 ToS、IP 封禁），小红书/B 站这种反爬严的稳定性差。上手成本：pip install + 配 MCP 客户端就行，但跑高频抓取要自备代理池。",
+      "backend_focus": "接入 Claude Desktop 的 MCP 配置后，对比它抓 Reddit 帖子的字段完整度和官方 API 的差距，先用 API 仍可用的 Reddit/GitHub 验证准确率再决定哪些平台敢切。",
+      "meta": {
+        "language": "Python",
+        "stars": 45721,
+        "forks": 3624,
+        "stars_period": "7,692 stars this week"
+      }
+    }
+  ]
+}

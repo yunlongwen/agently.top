@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-06-23T01:25:48.449733",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 7,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 11,227 | Forks: 833 | 6,372 stars this week",
+      "chinese_summary": "代码知识图谱 MCP 服务端，喂给 Cursor/Claude Code 之类的 Agent 跑代码检索。158 种语言、亚毫秒查询、token 消耗比普通 grep 少 99%，单静态二进制零依赖。比起 Sourcegraph / cursor 的内置索引（Cody/Continue），它是独立进程 + 知识图谱而非纯文本搜索，跨仓库查询更准；但目前 11k star 偏早期，生产环境需自己做索引一致性兜底。上手成本：下一个二进制挂到 MCP 配置里 5 分钟搞定，不改现有 IDE 流程。",
+      "backend_focus": "在本地 clone 三个本团队 repo 跑一遍 indexer，对照现在用的 Sourcegraph / Cody 索引，在 Cursor 里实测一次跨仓函数调用查询，看 token 用量与首 token 延迟再决定是否接入团队 MCP gateway。",
+      "meta": {
+        "language": "C",
+        "stars": 11227,
+        "forks": 833,
+        "stars_period": "6,372 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 37,678 | Forks: 2,991 | 8,233 stars this week",
+      "chinese_summary": "AI Agent 网络读取 CLI 工具，覆盖 Twitter/Reddit/YouTube/GitHub/B站/小红书，零 API 费。比直接调各平台官方 API 强在免 token 免账号免代理；比起自建 scraper 集群，它把 6 个平台收口成一个统一接口。但本质上还是抓公开页，频率一高 IP 就被风控，商用 SLA 没有保证。上手成本：pip install 后 export 几个 cookie 即可，对已有 Agent 框架可作为 tool 直接注册。",
+      "backend_focus": "先在一个内部 Agent 试点：pip install agent-reach 并按文档导出 Twitter/Reddit cookie，注册到现有 LangGraph/CrewAI 工具集，跑 10 次真实查询看风控触发频率再决定是否进生产。",
+      "meta": {
+        "language": "Python",
+        "stars": 37678,
+        "forks": 2991,
+        "stars_period": "8,233 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,517 | Forks: 479 | 1,712 stars this week",
+      "chinese_summary": "Rust 模块化网络栈，核心思路是用拨号 key 取代 IP 寻址，专为 NAT 穿透和 P2P 设计。比起 libp2p 它更轻（单 crate、零外部 C 依赖）且提供 content-addressed 的 iroh-net 子模块；想自建类似 Syncthing/BitTorrent 的去中心化同步、或者给 SaaS 做 P2P 文件传输时用得着；但它不是 VPN 替代品，应用层协议要自己设计。上手成本：cargo add iroh 跑 docs 里 30 行 echo demo 即可,需要 Rust 1.70+。",
+      "backend_focus": "在 staging 跑一次：cargo new p2p-test && 复制 docs 里 dial-by-key 示例，把内部 1GB 压测包通过 iroh 传输，记录 NAT 穿透成功率与 90 分位延迟,跟现在的 Tailscale/SSH tunnel 转发方案做对比再决定是否替换。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10517,
+        "forks": 479,
+        "stars_period": "1,712 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,080 | Forks: 2,388 | 4,114 stars this week",
+      "chinese_summary": "Google Research 开源的时序预测基础模型，预训练 200M+ 时间点，零样本即可做单变量/多变量预测。比起 Chronos / TimeGPT 它是纯学术开源、推理可离线跑（PyTorch 权重直接 load），但比传统 Prophet / DeepAR 强在 zero-shot 不需训练。生产里建议先在内部时序（KPI、订单量）上跑 backtest，别直接替换已上线的 LSTM pipeline。上手成本：pip install timesfm 后 5 行 Python 调 predict,GPU 可选。",
+      "backend_focus": "pip install timesfm 拉本团队近 90 天的某个核心业务指标（DAU/订单/告警量）做 backtest,对比现用 Prophet 的 MAPE 与延迟,评估在非关键看板直接接入 zero-shot 预测的可行性。",
+      "meta": {
+        "language": "Python",
+        "stars": 25080,
+        "forks": 2388,
+        "stars_period": "4,114 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,396 | Forks: 359 | 1,272 stars this week",
+      "chinese_summary": "Astro 团队出的沙箱 Agent 框架，定位是隔离环境里跑 AI 生成的代码/脚本。比起 E2B / Daytona 这类云沙箱它是 TypeScript 原生且能本地跑；比起 Docker 单容器它针对 agent 的 tool calling/文件挂载做了优化。生产里适合做 unsafe code execution（如用户上传的 LLM 生成脚本）、CI 沙箱测试。上手成本：npm install + 配一个 sandbox config 即可,需要 Node 20+。",
+      "backend_focus": "npm install @withastro/flue 跑 example/sandbox 目录,本团队挑一个会执行用户上传 SQL 的内部服务,改成把 SQL 路由到 flue sandbox 执行,对比延迟与原直连 DB 的差异再考虑灰度。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6396,
+        "forks": 359,
+        "stars_period": "1,272 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 9,323 | Forks: 726 | 4,055 stars this week",
+      "chinese_summary": "NVIDIA 出的 AI Agent skill 安全扫描器，Python 实现，能检测恶意/漏洞 skill 文件。定位是给 Anthropic MCP skill / Claude skill / 自定义 tool spec 做静态扫描，比单纯 regex 匹配牛在它结合了 prompt injection 模式与代码漏洞模式。生产场景：企业内部 Agent 平台接入第三方 skill 前必过这一道。上手成本：pip install 后 1 条命令扫目录,需要 Python 3.9+。",
+      "backend_focus": "pip install skillspector 跑一次本团队 Agent 平台的第三方 skills 目录,看是否有高危项;接着在 CI 里加一步 pre-commit skillspector scan skills/ ,卡住带 high severity 的 PR。",
+      "meta": {
+        "language": "Python",
+        "stars": 9323,
+        "forks": 726,
+        "stars_period": "4,055 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "teslamate-org/teslamate",
+      "url": "https://github.com/teslamate-org/teslamate",
+      "published_at": "",
+      "original_summary": "A self-hosted data logger for your Tesla 🚘 [main maintainer=@JakobLichterfeld] | 语言: Elixir | Stars: 8,561 | Forks: 966 | 431 stars this week",
+      "chinese_summary": "Elixir 写的自托管 Tesla 数据记录器,持续记录行车数据(速度/电池/温度/位置)进 Postgres + Grafana。Elixir/Phoenix LiveDashboard 实时展示,跟官方 TeslaFi 比完全自托管、隐私可控;跟 TeslaMate 自己的竞品 Tessie 比是开源免费。生产价值在于车队管理、电池健康分析。上手成本：docker compose up 即可,依赖 Docker + Postgres + Grafana 镜像。",
+      "backend_focus": "docker compose up -d 拉起 teslamate,在自己车/公司车上跑一周采集真实数据,接着用内置 Grafana 看板看电池衰减曲线,评估是否接入车队管理后台做长期数据源。",
+      "meta": {
+        "language": "Elixir",
+        "stars": 8561,
+        "forks": 966,
+        "stars_period": "431 stars this week"
+      }
+    }
+  ]
+}

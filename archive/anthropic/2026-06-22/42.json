@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-06-22T17:33:17.444812",
+  "source": {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "label": "Anthropic",
+    "content_source": "Anthropic",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://www.anthropic.com/news",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 2,
+  "items": [
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Statement on the US government directive to suspend access to Fable 5 and Mythos 5",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "published_at": "Jun 12, 2026",
+      "original_summary": "The US government has issued an export control directive to suspend all access to Fable 5 and Mythos 5.",
+      "chinese_summary": "Anthropic 发布声明：美国政府已下达出口管制指令，要求暂停对 Claude Fable 5 与 Claude Mythos 5 的全部访问。这是区域性合规与可用性事件，直接影响调用对应模型的应用。这是模型层级的强制下线，而非 deprecation 周期，调用方会立即收到不可用错误。",
+      "backend_focus": "紧急：立即在代码库中排查 model 字段是否出现 claude-fable-5 / claude-mythos-5（以及 InfoQ 报道中提到的 Fable 5 别名），将所有相关调用降级或回退到 Claude Opus 4.8 / Claude Sonnet 4 系列；为相关调用路径添加 try/catch 与降级策略，避免上游不可用导致线上故障。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Opus 4.8 An upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consi",
+      "url": "https://www.anthropic.com/news/claude-opus-4-8",
+      "published_at": "Jun 11, 2026",
+      "original_summary": "Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Expanding Project Glasswing We’re extending Project Glasswing to approx...",
+      "chinese_summary": "Anthropic 发布 Claude Opus 4.8，Opus 系列模型升级，编码、agentic 任务与专业工作负载表现更强，并显著降低相关成本（按上下文信息推断）。这是 Opus 主线版本号跃迁（4.5 → 4.8），调用方可通过 model 字段指定新版本，旧 Opus 4.5 调用仍兼容但官方可能随后推动迁移。",
+      "backend_focus": "升级方式：Chat Completions / Messages API 的 model 字段从 claude-opus-4-5 切换到 claude-opus-4-8，对编码和 agent 场景做 A/B 评估；建议在内部 routing 逻辑中为高复杂度任务优先分配 Opus 4.8，并关注 Anthropic 后续 deprecation 时间线以便把 4.5 替换下来。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    }
+  ]
+}

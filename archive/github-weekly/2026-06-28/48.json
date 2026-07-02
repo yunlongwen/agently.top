@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-28T21:10:07.486562",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 3,925 | Forks: 221 | 2,229 stars this week",
+      "chinese_summary": "Go 写的 git pre-push 拦截工具，名字直白——`git push no-mistakes`，装上后 push 时自动跑检查再决定是否放行。定位和 lefthook/husky/pre-commit 框架重叠但更轻量、单文件二进制、零 npm/Node 依赖；和 husky 比省掉了 Node toolchain 这一环，对纯 Go/裸 shell 仓库特别友好。缺点是项目本身几乎无文档，社区还非常小，长期维护风险高，复杂检查建议还是上 pre-commit。",
+      "backend_focus": "在 staging 跑一遍：go install github.com/kunchenguid/no-mistakes@latest，配到团队的 core 仓库 .git/hooks/pre-push 试一周，统计误拦截率和漏检率，对比现用 husky 的延迟差异再决定是否全面替换。",
+      "meta": {
+        "language": "Go",
+        "stars": 3925,
+        "forks": 221,
+        "stars_period": "2,229 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 22,675 | Forks: 1,810 | 6,014 stars this week",
+      "chinese_summary": "Google Labs 出的设计系统描述规范，让 DESIGN.md 成为喂给 coding agent 的结构化设计 token 文件。比直接给 Figma 链接或一坨截图的优势是文本化、可 diff、可进 Git 评审；和 Storybook + 设计 token JSON 比，它面向 agent 而非人类开发者，强调语义而非组件树。适合 UI 频繁迭代但设计稿散落各处的团队。缺点是规范刚出，agent 厂商支持程度参差不齐，可能要手动塞进 prompt。",
+      "backend_focus": "把团队当前产品的 design tokens（颜色/字号/spacing）导出一份 DESIGN.md 放到 repo 根目录，喂给 Cursor/Claude 跑一个改 UI 的小任务，对比有没有 DESIGN.md 时生成的代码一致性差异。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 22675,
+        "forks": 1810,
+        "stars_period": "6,014 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "JCodesMore/ai-website-cloner-template",
+      "url": "https://github.com/JCodesMore/ai-website-cloner-template",
+      "published_at": "",
+      "original_summary": "Clone any website with one command using AI coding agents | 语言: TypeScript | Stars: 22,537 | Forks: 3,225 | 4,565 stars this week",
+      "chinese_summary": "一键克隆任意网站到本地代码栈的 AI 模板，依赖 AI coding agent 跑爬取+分析+代码生成。比直接 wget + manual rewrite 强在能输出可二次开发的 React/Next 框架而非死 HTML；和 v0/Lovable 的差异是它是开源模板、用你自己的 agent 订阅、没有 vendor lock。短板是动态站/SPA 还原度看模型能力，登录墙/反爬基本过不了。上手成本：clone 后按 README 配好 agent key 即可。",
+      "backend_focus": "在隔离的 sandbox 机器上跑一次：git clone 该模板，配 Cursor CLI，挑 3 个不同复杂度的竞品站克隆，对比生成代码的可运行率和首屏 Lighthouse 分，评估能否用于内部 landing page 快速搭建。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 22537,
+        "forks": 3225,
+        "stars_period": "4,565 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "interviewstreet/hiring-agent",
+      "url": "https://github.com/interviewstreet/hiring-agent",
+      "published_at": "",
+      "original_summary": "AI agent to evaluate and score resumes. | 语言: Python | Stars: 3,109 | Forks: 695 | 1,836 stars this week",
+      "chinese_summary": "用 AI agent 自动评分简历的招聘工具，Python 写的工作流引擎。强在可自定义 rubric、接 ATS API、能跑批；和 Greenhouse HireEZ 这种 SaaS 比它是开源本地部署、数据不出公司。短板是 LLM 评分本质是 prompt 工程，偏见和幻觉控制差，关键岗位还得人工过。上手成本：装 Python 环境、配 LLM key、连简历源。",
+      "backend_focus": "clone 后跑一份 demo，准备 100 份历史已筛简历打标后跑一遍，对比 AI 评分和 HR 评分的相关性矩阵（Kendall tau），看是否值得嵌入当前 ATS 流程做初筛层。",
+      "meta": {
+        "language": "Python",
+        "stars": 3109,
+        "forks": 695,
+        "stars_period": "1,836 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 50,850 | Forks: 44,278 | 7,137 stars this week",
+      "chinese_summary": "LLM 驱动的多市场股票分析系统，多源行情+实时新闻+决策看板+自动推送，主打零成本定时跑（GitHub Actions 免费额度）。和 akshare + 自己写脚本比强在开箱即用、推送链路完整；和 Wind/同花顺 iFinD 比弱在没有 Level-2 和机构数据，定位散户/个人研究。50k+ star 也意味着用户基数大、坑基本被踩过。上手成本：fork 改 secrets 就能跑，无需改现有架构。",
+      "backend_focus": "fork 仓库，配 OPENAI_API_KEY 和可选的 PushPlus/Telegram 凭证，开 GitHub Actions 定时任务跑 A 股+美股日报，先用模拟盘模式跑两周观察信号胜率再决定是否接实盘通知。",
+      "meta": {
+        "language": "Python",
+        "stars": 50850,
+        "forks": 44278,
+        "stars_period": "7,137 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "",
+      "original_summary": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile. | 语言: TypeScript | Stars: 8,474 | Forks: 590 | 2,554 stars this week",
+      "chinese_summary": "并行 agent 编排桌面客户端（ADE），TypeScript 写，能用你自己订阅跑任意 coding agent（Claude/Cursor/Aider 等）做 fleet 调度。强在多 agent 并发跑任务、任务编排可视化、桌面+移动端同步；和 LangGraph/AutoGen 这类 SDK 比它是 GUI 而非代码框架，对非工程师友好。和 aider --watch 多任务模式比更结构化、能看每个 agent 的 diff。短板是早期项目、生态还在长。",
+      "backend_focus": "npm i 后拉团队最大的 code migration 任务（例：批量把 React class 组件转 hooks）跑 10 个并行 agent，对比单 agent 串行的时间差和冲突率，写一份内部 SOP 评估是否值得采购。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 8474,
+        "forks": 590,
+        "stars_period": "2,554 stars this week"
+      }
+    }
+  ]
+}

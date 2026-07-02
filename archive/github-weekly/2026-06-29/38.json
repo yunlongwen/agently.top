@@ -1,0 +1,84 @@
+{
+  "generated_at": "2026-06-29T15:19:25.452100",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 4,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 4,145 | Forks: 233 | 2,449 stars this week",
+      "chinese_summary": "Go 写的 git pre-receive 守门员，本质是把代码评审、lint、测试、secret 扫描这些 CI 检查压到 push 阶段。跟 Husky/lefthook 这类客户端 hook 比，它跑在 server 端（bare repo），绕过本地绕过；跟 pre-commit.com 框架比，更轻、纯 Go 单二进制。差异化场景：团队里有成员不爱跑 CI 推烂代码；不该用的场景：单 repo <10 人且已有 PR pipeline。上手成本：go build 后挂到 git 服务的 pre-receive hook，10 行配置。",
+      "backend_focus": "go build 编译后挂到团队自建 Gitea/GitLab bare repo 的 custom_hooks/pre-receive，先 dry-run 模式跑一周收集误报，再打开 block 模式；注意需要把所有检查逻辑（lint/test/secret scan）做成独立脚本被它调用。",
+      "meta": {
+        "language": "Go",
+        "stars": 4145,
+        "forks": 233,
+        "stars_period": "2,449 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 22,988 | Forks: 1,823 | 6,728 stars this week",
+      "chinese_summary": "Google Labs 出的设计系统规范文件格式（DESIGN.md），给 coding agent 一份结构化的视觉品牌说明书。跟 Storybook + Chromatic 比，DESIGN.md 是给 LLM 读的纯文本契约，不解决组件测试；跟 Figma Tokens 比，它覆盖交互/动效/可访问性/文案语调而不只是色板。差异化场景：AI 批量生成符合品牌的前端页面；不该用的场景：纯设计师手工产出，agent 走不到。上手成本：写一份 markdown，零依赖。",
+      "backend_focus": "把团队现有 Figma token + 组件文档整理成一份 DESIGN.md（参考仓库里的 schema 模板），丢到仓库根目录，在 Cursor/Claude 里跑一次「基于此规范生成登录页」对比纯自然语言 prompt 输出的还原度，记录差异。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 22988,
+        "forks": 1823,
+        "stars_period": "6,728 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "interviewstreet/hiring-agent",
+      "url": "https://github.com/interviewstreet/hiring-agent",
+      "published_at": "",
+      "original_summary": "AI agent to evaluate and score resumes. | 语言: Python | Stars: 3,303 | Forks: 711 | 1,973 stars this week",
+      "chinese_summary": "Python 写的简历筛选 agent，给候选人简历打分+给出淘汰理由。跟 Greenhouse/Lever 这类 ATS 比，它不是 ATS 而是在 ATS 前面加一层 LLM 评估，可以接你现有 ATS；跟 rule-based 关键词过滤比，能理解项目复杂度。差异化场景：HR 一天收 500+ 简历的初筛环节；不该用的场景：<50 份/天的招聘，引入成本不值，且有 EEOC 合规风险。上手成本：需要 LLM API 和简历解析（pdf/docx），还要人工校准 rubric。",
+      "backend_focus": "拉仓库、配 OPENAI_API_KEY，先用 50 份已知 outcome 的历史简历（已发 offer / 已拒）跑 calibration，看评分和实际录用率的相关性，再决定是否接进 Greenhouse webhook；注意 EU 候选人需关闭敏感字段采集以免违反 GDPR。",
+      "meta": {
+        "language": "Python",
+        "stars": 3303,
+        "forks": 711,
+        "stars_period": "1,973 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "",
+      "original_summary": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile. | 语言: TypeScript | Stars: 8,784 | Forks: 606 | 2,769 stars this week",
+      "chinese_summary": "TypeScript 写的 Agent Development Environment，桌面+移动端，同时编排多个 coding agent（Claude Code/Cursor/Aider 等）跑并行任务，订阅复用你自己的。跟 aider 集群跑法比，它有 GUI+任务队列+成本面板；跟 Devin 这类商业 ADE 比，订阅不走它、走你原账号。差异化场景：需要并行消化一堆 issue/refactor/PR review 的工程团队；不该用的场景：单兵开发或敏感代码——并行 agent 共享上下文容易越权。上手成本：npm install + 各 agent CLI 配齐。",
+      "backend_focus": "git clone && pnpm install && pnpm dev，配上 Claude/Cursor 的 API key，在 staging 仓库里并行派 3 个 agent：1) 修 lint 2) 加单测 3) 写文档，跑一轮看 task queue 调度和 token 成本面板数据，再决定是否纳入团队工具链。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 8784,
+        "forks": 606,
+        "stars_period": "2,769 stars this week"
+      }
+    }
+  ]
+}

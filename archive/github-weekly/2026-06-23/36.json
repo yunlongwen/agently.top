@@ -1,0 +1,148 @@
+{
+  "generated_at": "2026-06-23T16:07:34.974952",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 8,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 12,034 | Forks: 888 | 7,560 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server。给 Cursor/Claude Code 这类 AI 编码助手用的：扫一遍仓库建索引，毫秒级查询，比 tree-sitter + ripgrep 自己拼的方案少 99% token。158 种语言都吃，单二进制丢进 PATH 就能接 MCP，比 Sourcegraph Cody 这种重后端轻多了。缺查询语义理解（只做符号级），重语义检索还得配 Qdrant。上手：curl 拉二进制改一行 MCP config 即可。",
+      "backend_focus": "curl 拉最新 release 的 static binary，把二进制路径写到 ~/.config/claude/claude_desktop_config.json 的 mcpServers 里，挑一个超过 50 万行代码的 monorepo 跑一次冷启动索引，盯一下内存占用和首查延迟，确认能不能塞进现有的 CI agent 工作流。",
+      "meta": {
+        "language": "C",
+        "stars": 12034,
+        "forks": 888,
+        "stars_period": "7,560 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 38,139 | Forks: 3,025 | 8,108 stars this week",
+      "chinese_summary": "Python CLI：给 AI agent 抓社交平台内容。不走官方 API（零费用），直接爬 Twitter/Reddit/YouTube/Bilibili/小红书。对个人 agent 玩票够用，但反爬一升级就挂——生产场景里数据稳定性和合规都比官方 API 差。适合内部调研小工具，别上对外产品。pip install 直接用。",
+      "backend_focus": "pip install agent-reach，把 twitter、reddit、youtube 三个子命令挨个跑一遍看实际可用性，把 rate limit 和反爬触发频率记到内部 wiki，再决定能不能替换掉团队现有的官方 API 抓取脚本。",
+      "meta": {
+        "language": "Python",
+        "stars": 38139,
+        "forks": 3025,
+        "stars_period": "8,108 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,572 | Forks: 482 | 1,806 stars this week",
+      "chinese_summary": "Rust 的 P2P 网络栈，用「dial key」取代 IP。给需要穿透 NAT、不想维护 IP 白名单的服务用——libp2p 太重、自己撸 TCP/QUIC 又太底层，iroh 介于两者之间，单二进制 + 自带 relay。比 libp2p 编译快、API 干净；缺成熟的 pubsub 和 DHT 生态。上手：cargo add iroh 后 50 行写个 echo demo。",
+      "backend_focus": "cargo new 一个 demo，把 iroh-net 和 iroh-blobs 加进 Cargo.toml，照着 examples/chat 写一个端到端两端穿透 demo，在两台不同 NAT 环境的机器上验证连接成功率，对比现有基于 Tailscale 的内网穿透方案是否值得迁移。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10572,
+        "forks": 482,
+        "stars_period": "1,806 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,197 | Forks: 2,399 | 4,259 stars this week",
+      "chinese_summary": "Google 出品的时间序列基础模型。预训练好的 zero-shot forecasting，给做监控/预测的后端直接调 API 出预测值，CPU 也能跑。比传统 Prophet/ARIMA 准确率高，比 Chronos/BoltzTS 这种开源同类更新更勤、文档全。弱在长序列外推和协变量支持弱，金融高频和带 exogenous feature 的场景建议 fine-tune。上手：pip install timesfm，调 forecast() 就行。",
+      "backend_focus": "pip install timesfm，挑团队线上监控的三个核心 metric（QPS/P99/错误率）拉过去 90 天数据，喂给 TimesFmHparams().forecast() 跑 zero-shot 预测，对比现有 Prophet 模型的 MAPE 和推理时延，写一份评估 wiki 决定是否替换。",
+      "meta": {
+        "language": "Python",
+        "stars": 25197,
+        "forks": 2399,
+        "stars_period": "4,259 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "iptv-org/iptv",
+      "url": "https://github.com/iptv-org/iptv",
+      "published_at": "",
+      "original_summary": "Collection of publicly available IPTV channels from all over the world | 语言: TypeScript | Stars: 127,748 | Forks: 7,029 | 5,017 stars this week",
+      "chinese_summary": "全球公开 IPTV 频道列表合集，TypeScript 维护。给做直播聚合、IPTV 客户端、媒体研究的团队当频道源数据用，不是播放器。比自己抓 m3u8 列表省事，但频道随时失效、版权灰色——C 端产品直接用有法务风险。clone 仓库配 m3u 即可上手。",
+      "backend_focus": "git clone 整个仓库，把 data/channels 目录导入到现有的媒体 ETL 流水线里，先统计一遍频道可用率（拿 100 个样本跑 curl 检查 m3u8 状态），再决定能否作为内部测试环境的频道源，生产环境别直接对接。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 127748,
+        "forks": 7029,
+        "stars_period": "5,017 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 45,167 | Forks: 7,437 | 2,612 stars this week",
+      "chinese_summary": "JavaScript 仓库，持续扒各路 AI 产品系统 prompt。给做 prompt engineering、对齐研究和安全测试的工程师当语料库，不是生产工具。星标数高纯粹因为信息差，真实工程价值有限——拿不到 runtime 数据，模型一更新就过期。clone 看一眼即可，别指望稳定。",
+      "backend_focus": "git clone 到本地，用 jq 把 prompts/ 目录里 Claude Code 和 Cursor 的部分抽出来 diff 一遍自家 agent 的 system prompt，看有没有 prompt injection 防护思路可以借鉴，不建议直接当作生产 prompt 模板。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 45167,
+        "forks": 7437,
+        "stars_period": "2,612 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,459 | Forks: 364 | 1,413 stars this week",
+      "chinese_summary": "Astro 出的 sandbox agent 框架，TypeScript 写的。给需要在隔离环境跑 AI agent 的团队用，比直接给 agent root 权限安全。比 E2B/Cloudflare Sandbox 强在自托管 + 能嵌进现有 Node 流水线，弱在生态刚起步、没现成模板。Docker-bake 起 sandbox，适合跑 untrusted code。",
+      "backend_focus": "在 staging 跑 npm create flue@latest 起一个项目，照 quickstart 把 Claude/OpenAI agent 包进 sandbox，拿一段恶意 prompt（比如读 /etc/shadow）实测隔离效果，确认能落地再考虑替换现有的 Firecracker microVM 方案。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6459,
+        "forks": 364,
+        "stars_period": "1,413 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 9,513 | Forks: 747 | 3,302 stars this week",
+      "chinese_summary": "NVIDIA 出的 AI agent skill 安全扫描器，Python 写。给部署 MCP/Cursor/Claude Code skill 的团队做供应链审计——manifest 静态扫描 + 行为模式匹配。比手审快，比 Snyk 这类传统 SCA 多了「agent skill 语义」理解，但只能扫已知模式，0day 还是要 runtime sandbox。pip install 一行。",
+      "backend_focus": "pip install skillspector，把团队 agent skills 目录（一般是 ~/.claude/skills 或 .cursor/skills）喂进去跑一次 skillspector scan --path，对照报告把 high/critical 级别的 skill 全部下架或加 sandbox 隔离，下周前出清理报告。",
+      "meta": {
+        "language": "Python",
+        "stars": 9513,
+        "forks": 747,
+        "stars_period": "3,302 stars this week"
+      }
+    }
+  ]
+}

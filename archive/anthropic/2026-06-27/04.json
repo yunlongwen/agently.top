@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-06-27T01:31:50.176993",
+  "source": {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "label": "Anthropic",
+    "content_source": "Anthropic",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://www.anthropic.com/news",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 3,
+  "items": [
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Statement on the US government directive to suspend access to Fable 5 and Mythos 5",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "published_at": "Jun 12, 2026",
+      "original_summary": "The US government has issued an export control directive to suspend all access to Fable 5 and Mythos 5.",
+      "chinese_summary": "跟进报道：Anthropic 确认收到美国政府出口管制指令，全面暂停 Fable 5 与 Mythos 5 的所有访问权限（含海外 region）。相对此前的区域分级限流，这次是跨地域的硬性切断，调用方无法通过切换 region 绕过。受影响团队需要立刻在所有环境停用这两个 model ID，否则会收到 403/区域不可用错误。",
+      "backend_focus": "立即行动：在所有调用 Anthropic API 的服务里把 model 字段从 fable-5 / mythos-5 替换为可用替代（如 claude-opus-4.7 或 4.8），并清理 SDK 中的 model alias 映射表；同时在多 region 路由配置中移除 US region 的兜底逻辑，避免 fallback 仍打到被禁模型。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Opus 4.8 An upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consi",
+      "url": "https://www.anthropic.com/news/claude-opus-4-8",
+      "published_at": "Jun 23, 2026",
+      "original_summary": "Introducing Claude Tag Claude Tag is a new way for teams to work with Claude. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across Am...",
+      "chinese_summary": "Anthropic 正式发布 Claude Opus 4.8，作为 Opus 系列升级版，在 coding、agentic 任务与专业工作上表现更强，并配套相关安全能力（原文摘要被截断）。相对 Opus 4.7，这是同档位代际升级，预期保持相同 API 端点、context window 与 Tool Use/MCP 协议兼容性。已有 Opus 4.x 调用方建议关注 prompt cache、max_tokens 是否变化。",
+      "backend_focus": "升级方式：在 Messages API 把 model 字段从 claude-opus-4-7 切换为 claude-opus-4-8，先在 5%-10% 流量灰度并对比 latency 与成本；同步检查 prompt caching 是否仍按 4.x 规则计费，关注官方是否公布 Opus 4.7 的 deprecation 时间线以便后续迁移。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Anthropic opens Seoul office and announces new partnerships across the Korean AI ecosystem",
+      "url": "https://www.anthropic.com/news/seoul-office-partnerships-korean-ai-ecosystem",
+      "published_at": "Jun 17, 2026",
+      "original_summary": "Announcements",
+      "chinese_summary": "Anthropic 开设首尔办公室并宣布与韩国 AI 生态的多项新合作，是 APAC 区域市场拓展动作。相对此前以美/欧为主的布局，这次在韩国落地本地存在，可能影响未来韩国 region 的 Claude API 可用性与数据驻留策略，但当前未涉及 API 接口、定价或模型版本变更。",
+      "backend_focus": "关注后续：若团队服务韩国用户，留意 api.anthropic.com 是否新增 KR region 端点、latency 与 data residency 配置；若计划在韩国部署合规业务，可把首尔 region 加入多 region 路由白名单，但当前无需改动现有调用代码。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    }
+  ]
+}

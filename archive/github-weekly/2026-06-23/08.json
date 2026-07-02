@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-23T03:56:58.800291",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 11,336 | Forks: 839 | 6,372 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单二进制部署。对 158 种语言做语义索引，平均仓库毫秒级入库、亚毫秒查询，比传统 LSP + grep 链路少 99% token。跟 Sourcegraph/mcphub 这类方案比，它不用拉远端服务、零依赖，适合想给 Claude/Cursor 接 codebase 检索又不想维护索引集群的小团队；几千万行级别的 monorepo 上建议先压测。上手：下个二进制配进 MCP client 即可。",
+      "backend_focus": "拉二进制跑在本地，配进 Cursor/Claude 的 mcp.json 试试你们最大那个 repo 的索引耗时和检索 latency；如果超过 10 秒入库就拆 repo 索引，别硬扛。",
+      "meta": {
+        "language": "C",
+        "stars": 11336,
+        "forks": 839,
+        "stars_period": "6,372 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 37,733 | Forks: 2,995 | 8,233 stars this week",
+      "chinese_summary": "Python CLI，让 AI agent 直接读 Twitter/Reddit/YouTube/GitHub/B 站/小红书，不用各家 API key 也不走付费 gateway。跟自建 scraper + 各家官方 API 比，省掉了反爬对抗和 key 申请成本，适合做舆情监控、竞品抓取的 agent 场景；缺点是依赖第三方抓取层稳定性、合规风险自担、高频抓取容易被限流。上手：pip install 后一条命令起 read/search。",
+      "backend_focus": "pip install agent-reach，配进你们现有 agent 的 tool registry，先用 search 命令压 Reddit/GitHub 两个源看返回延迟和被限频的阈值，别上来就跑生产 cron。",
+      "meta": {
+        "language": "Python",
+        "stars": 37733,
+        "forks": 2995,
+        "stars_period": "8,233 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,528 | Forks: 479 | 1,712 stars this week",
+      "chinese_summary": "Rust 写的模块化点对点网络栈，用 dial key 替代 IP 做寻址。跟 libp2p 比 API 更克制、crate 拆分更细，适合做 IoT、边缘节点、跨 NAT 的服务发现；不像 libp2p 那样全套 Kademlia/Gossip 都有，更像一个可以挑模块拼的 toolkit。生产直接替换 TCP 路径不建议，需要先想清楚 NAT 穿透和 relay 拓扑。上手：cargo add iroh 起 demo 几行代码就能建立节点。",
+      "backend_focus": "cargo add iroh 跑 examples/connect 小 demo，验证你们 NAT 环境下的打洞成功率；如果目标是替代部分 mTLS+固定 IP 的服务发现，先在一个边缘节点试点别全量切换。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10528,
+        "forks": 479,
+        "stars_period": "1,712 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,103 | Forks: 2,391 | 4,114 stars this week",
+      "chinese_summary": "Google Research 开源的时间序列基础模型，zero-shot 预测，无需训练。跟 StatsForecast/NeuralForecast/Darts 这类传统时序库比它走 foundation model 路线、长序列外推效果更稳，适合没有标注数据又想快速出基线的场景；可解释性差、fine-tune 链路不成熟，强季节性 + 业务规则多的场景（如金融 tick）别盲上。上手：pip install 后 model.load_from_checkpoint 一行起预测。",
+      "backend_focus": "pip install timesfm，拿你们最近 6 个月的 KPI/流量时序跑 zero-shot，对比现有 Prophet/LSTM 基线的 MAPE 和推理耗时，评估是否能替换 forecast 服务里那块纯预测模块。",
+      "meta": {
+        "language": "Python",
+        "stars": 25103,
+        "forks": 2391,
+        "stars_period": "4,114 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,407 | Forks: 361 | 1,272 stars this week",
+      "chinese_summary": "TypeScript 写的 sandbox agent framework，定位是让 AI agent 在隔离环境里执行代码。跟 E2B/Modal/Cloudflare Sandbox 这类托管沙箱比它偏自托管、可以跑在自有 K8s 上，适合数据敏感不能上第三方沙箱的金融/政企场景；冷启动和资源调度要自己优化，不像托管方案开箱即用。上手：npm install 后写 agent config 即可。",
+      "backend_focus": "npm install flue，按 quickstart 起一个本地 sandbox，跑你们 agent 里最危险的那条 code-exec 路径，对比 E2B 的冷启动延迟和隔离性，评估替换的 ROI。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6407,
+        "forks": 361,
+        "stars_period": "1,272 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "NVIDIA/SkillSpector",
+      "url": "https://github.com/NVIDIA/SkillSpector",
+      "published_at": "",
+      "original_summary": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks. | 语言: Python | Stars: 9,347 | Forks: 729 | 4,055 stars this week",
+      "chinese_summary": "NVIDIA 开源的 AI agent skill 安全扫描器，检测 skill 文件里的漏洞、恶意 pattern 和风险操作。跟 Semgrep/Trivy 这类传统 SAST 比它专门针对 agent skill 这种新资产形态，理解 prompt injection/exfiltration 等 agent 特有威胁；跟护栏类方案（如 NeMo Guardrails）比它偏事前静态扫描不是运行时拦截。适合上线 Claude/Cursor skill 的团队做 CI 卡点。上手：pip install 后命令行扫目录。",
+      "backend_focus": "pip install skillspector，先扫你们内部 skill 仓库出一份风险报告，挑出 high 级别的塞进 CI gate，任何新增 skill 必须 scan 通过才能 merge。",
+      "meta": {
+        "language": "Python",
+        "stars": 9347,
+        "forks": 729,
+        "stars_period": "4,055 stars this week"
+      }
+    }
+  ]
+}

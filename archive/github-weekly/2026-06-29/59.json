@@ -1,0 +1,164 @@
+{
+  "generated_at": "2026-06-29T23:38:39.031330",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 9,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 28,193 | Forks: 3,136 | 18,703 stars this week",
+      "chinese_summary": "Agentic 视频生产线。把 Claude/Cursor 这类编码 agent 套上 12 条 pipeline + 52 个工具直接产出视频，Python 项目，本质是一堆 prompt+ffmpeg 编排。比 n8n+ComfyUI 更省心不用自己搭图节点，但产出的视频质量上限受 LLM 剪片逻辑限制，远不如 Runway/Pika 这种专用视频模型；适合做内部 demo、培训视频这类对质量没那么敏感的批量内容。上手成本：clone 下来配好 API key 就能跑，但需要本地有 ffmpeg 且输出效果严重依赖底模。",
+      "backend_focus": "找个非关键场景的内部视频需求（比如周会 recap），clone 仓库配 Anthropic/OpenAI key 跑一条完整 pipeline，对比人手工剪辑耗时，评估能否进团队内容生产 SOP。",
+      "meta": {
+        "language": "Python",
+        "stars": 28193,
+        "forks": 3136,
+        "stars_period": "18,703 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 20,987 | Forks: 1,501 | 8,926 stars this week",
+      "chinese_summary": "代码知识图谱 MCP 服务。C 写的单二进制，毫秒级建索引，亚毫秒级查询，支持 158 种语言。比 Sourcegraph/ZippyDB 这类需要部署整套服务的方案轻太多，一个二进制扔到任意机器就能给 Cursor/Cline 喂上下文；明显短板是只服务单 repo 级别的语义检索，跨 monorepo 跨组织这种场景不顶用，且没有权限模型不能直接接到生产代码。上手成本：下载二进制加进 MCP config 五分钟搞定，零外部依赖。",
+      "backend_focus": "下载二进制加进团队 Cursor/Claude Desktop 的 mcp config，挑一个中等体量内部服务 repo 跑一遍，问一次跨文件调用链问题看返回质量，再决定是否给全员铺开。",
+      "meta": {
+        "language": "C",
+        "stars": 20987,
+        "forks": 1501,
+        "stars_period": "8,926 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 23,114 | Forks: 1,833 | 6,728 stars this week",
+      "chinese_summary": "Google Labs 出的设计 token 规范。TypeScript schema 定义视觉系统，让 coding agent 在写组件时持久化记住设计语言，本质是一个 DESIGN.md 契约文件。比 Storybook+Tailwind config 这类人维护的设计 token 体系更适配 agent 上下文——agent 一次读完所有约束；但它只解决「设计一致性」一个点，不替代 Figma 协作也不管动效逻辑。上手成本：在 repo 根放一份 DESIGN.md，Cursor/Cline 就能直接读，几乎零迁移。",
+      "backend_focus": "把团队当前组件库的设计 token（颜色/字号/spacing）抽出来写成一份 DESIGN.md 放 repo 根，让 Claude Code 改一个老组件看是否自动遵循新规范，没效果就当文档沉淀。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23114,
+        "forks": 1833,
+        "stars_period": "6,728 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 4,251 | Forks: 237 | 2,449 stars this week",
+      "chinese_summary": "Git hook 拦截工具。Go 单二进制，装上后 git push 时自动跑 LLM 检查代码再决定放不放行，本质是给 push 加 AI pre-receive 拦截。比 Husky/lint-staged 这种静态检查更「语义」——能 catch 出 commit message 不规范、潜在 bug 注释，但每 push 都打 LLM 一笔账单且 CI 延迟会显著增加（多 3-10 秒）。上手成本：go install 后 git config 配个 alias 一行命令完事。",
+      "backend_focus": "go install 后配到个人 repo 测一周 push 拦截效果，重点看 LLM 误报率和额外延迟，团队决定要不要全员工位铺。",
+      "meta": {
+        "language": "Go",
+        "stars": 4251,
+        "forks": 237,
+        "stars_period": "2,449 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "JCodesMore/ai-website-cloner-template",
+      "url": "https://github.com/JCodesMore/ai-website-cloner-template",
+      "published_at": "",
+      "original_summary": "Clone any website with one command using AI coding agents | 语言: TypeScript | Stars: 23,358 | Forks: 3,333 | 5,317 stars this week",
+      "chinese_summary": "一键克隆网站的 AI 模板。TypeScript 项目，给 Cursor/Cline 一条指令就把目标站点 HTML+样式+交互复刻下来，本质是给 agent 配好了一套 prompt+工具链。比手动喂 DevTools 代码给 GPT 更省 token，但产出的站点法律风险大（字体、图片、版权代码），商用前必须重写；适合做 landing page 快速 A/B 或内部 admin 后台原型。上手成本：clone 仓库丢给 agent 加一句 \"clone example.com\" 就行，但目标站越复杂越容易卡。",
+      "backend_focus": "克隆团队内部某个老旧 admin 后台作为新前端重构的视觉参考起点，验证 agent 能否识别 React/Vue 组件结构，省掉人工截图对照成本。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23358,
+        "forks": 3333,
+        "stars_period": "5,317 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "interviewstreet/hiring-agent",
+      "url": "https://github.com/interviewstreet/hiring-agent",
+      "published_at": "",
+      "original_summary": "AI agent to evaluate and score resumes. | 语言: Python | Stars: 3,614 | Forks: 747 | 1,973 stars this week",
+      "chinese_summary": "简历评估 AI agent。Python 实现，包装一套 prompt 给 hiring 流程用，能批量打分简历。本质是个 prompt 模板仓库，没什么算法含量；比 Greenhouse 自带的 AI 评分更可定制，但稳定性差——同一份简历不同时间跑分可能差 20%，HR 法务上很难直接采信结论。上手成本：pip install 加 OpenAI key 就能跑，但接入 ATS 需要写适配层。",
+      "backend_focus": "拉一堆脱敏历史简历跑打分，跟 HR 人工评分结果做相关性分析，低于 0.6 就别接进流程，留作内部效率工具就好。",
+      "meta": {
+        "language": "Python",
+        "stars": 3614,
+        "forks": 747,
+        "stars_period": "1,973 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 51,722 | Forks: 44,927 | 7,045 stars this week",
+      "chinese_summary": "LLM 驱动的多市场股票分析系统。Python 项目，整合行情/新闻/LLM 决策输出，支持定时推送。50k+ star 看似夸张但本质是 prompt 编排 + akshare/yfinance 数据拉取，对接 LLM 出报告。比雪球/同花顺这类终端更自动化不需要人盯盘，但 LLM 给的交易建议没有任何回测保障，公开业绩也无法独立验证；技术含量集中在调度和推送，工程价值远大于投资价值。上手成本：docker-compose up 配好 API key 就能跑，需要定时任务的机器。",
+      "backend_focus": "docker-compose up 起来盯一周推送质量，重点看数据延迟和 LLM 报告的可读性；不要接真实交易 API，只当团队内部技术雷达用。",
+      "meta": {
+        "language": "Python",
+        "stars": 51722,
+        "forks": 44927,
+        "stars_period": "7,045 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "",
+      "original_summary": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile. | 语言: TypeScript | Stars: 8,993 | Forks: 617 | 2,769 stars this week",
+      "chinese_summary": "并行 agent 编排桌面客户端。TypeScript 写的 ADE（Agentic Development Environment），能用自己订阅的 Claude/ChatGPT key 同时跑多个 coding agent。比直接开 N 个 Cursor 窗口省 token 费（共享上下文复用），但本身不提供模型只做调度，agent 质量天花板取决于底模；移动端能跑 agent 算差异化但移动端写代码实用性存疑。上手成本：装客户端登账号配 API key 即可。",
+      "backend_focus": "下载桌面端配好 Claude 订阅，挑一个并行重构任务（比如同时改 5 个模块的同一类 typo）对比单 agent 的耗时和 token 消耗。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 8993,
+        "forks": 617,
+        "stars_period": "2,769 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 45,412 | Forks: 3,597 | 7,692 stars this week",
+      "chinese_summary": "AI agent 网络读取工具集。Python CLI 包装了 Twitter/Reddit/YouTube/GitHub/B站/小红书的免登录爬虫接口，让 agent 能直接搜社媒。比官方 API 省认证费也不需要申请开发者账号，但免登录抓取随时可能被反爬封 IP，稳定性远不如官方 API；小红书/B站这类强反爬站点跑几小时就会触发验证码。上手成本：pip install 加进 agent tool registry 一行配置。",
+      "backend_focus": "pip install agent-reach 接进内部 agent 工具集，跑一次 Reddit 关键词监控验证反爬存活率；如团队对数据可靠性要求高，建议只做原型 demo 不进生产链路。",
+      "meta": {
+        "language": "Python",
+        "stars": 45412,
+        "forks": 3597,
+        "stars_period": "7,692 stars this week"
+      }
+    }
+  ]
+}

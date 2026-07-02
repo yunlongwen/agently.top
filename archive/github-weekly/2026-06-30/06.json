@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-30T01:26:36.991918",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 21,125 | Forks: 1,511 | 8,926 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单二进制零依赖，给 LLM agent 当代码大脑。支持 158 种语言、亚毫秒级查询、token 消耗降低 99%。比 Sourcegraph/LSP 轻量（无 index server、无语言服务器），适合在 IDE agent 里直接塞 repo；不适合需要跨团队增量同步、权限管控的企业级代码搜索场景。上手成本：下载二进制 + MCP 配置一行 JSON，无需数据库和 schema 迁移。",
+      "backend_focus": "把二进制下下来，配进 Claude/Cursor 的 mcp_servers.json，拿团队主仓库跑一遍大文件解析（>10k 行），对比原来逐文件 Read 的 token 账单，评估是否替换现有 codebase 检索流程。",
+      "meta": {
+        "language": "C",
+        "stars": 21125,
+        "forks": 1511,
+        "stars_period": "8,926 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 23,129 | Forks: 1,833 | 6,728 stars this week",
+      "chinese_summary": "Google Labs 出的 DESIGN.md 规范，让 coding agent 持久化理解设计系统。把颜色/字号/间距/组件契约写成结构化 markdown，喂给 Claude/Cursor/Aider。比 Style Dictionary/Figma Tokens 偏的是面向 LLM agent 而非构建工具链——它解决「agent 生成 UI 总跑偏」的痛点；不适合纯设计师协作场景（没 Figma 插件）。上手成本：在 repo 根目录建一个 DESIGN.md，无需任何构建步骤。",
+      "backend_focus": "把团队现有 Figma Variables 或 Storybook theme 导出成一份 DESIGN.md，丢进 Cursor/Claude 项目根，跑一次「用这个设计系统重写登录页」评估 UI 一致性是否提升。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23129,
+        "forks": 1833,
+        "stars_period": "6,728 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 4,264 | Forks: 239 | 2,449 stars this week",
+      "chinese_summary": "Go 写的 Git hook 工具，commit 前自动跑检查拦截低级错误（凭据泄露、lint、secret、巨大文件等）。比 pre-commit/Husky 轻量（单二进制、零 Node/Python 依赖），比 git-secrets 覆盖更广（不只 secret 还含常见代码异味）。适合 CI 还没接或本地要先卡一道的团队；不适合已经有成熟 CI 门禁的项目。上手成本：go install 后 `no-mistakes init` 一条命令挂到 git hooks。",
+      "backend_focus": "go install github.com/kunchenguid/no-mistakes && 在主仓库跑 no-mistakes init，故意塞一个 AWS key 进 test 文件验证拦截动作，再决定是否推全团队。",
+      "meta": {
+        "language": "Go",
+        "stars": 4264,
+        "forks": 239,
+        "stars_period": "2,449 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "interviewstreet/hiring-agent",
+      "url": "https://github.com/interviewstreet/hiring-agent",
+      "published_at": "",
+      "original_summary": "AI agent to evaluate and score resumes. | 语言: Python | Stars: 3,659 | Forks: 753 | 1,973 stars this week",
+      "chinese_summary": "Python 写的简历评估 AI agent，给 HR/招聘方批量打分简历。支持自定义评分维度、可接 ATS。比传统规则匹配（关键词+学历）强在语义理解和上下文推理，弱在 LLM 幻觉导致打分不稳定、需人工复核。生产建议：作为初筛过滤（top 30% 进面试），不作为唯一决策依据。上手成本：pip install + 配置 LLM API，需要一份带标注简历集做 prompt 校准。",
+      "backend_focus": "拉一份团队过去 6 个月通过的 200 份简历 + 拒绝的 200 份简历做 ground truth，跑一次 precision@20 评估，对比当前人工筛选漏掉的优质简历比例。",
+      "meta": {
+        "language": "Python",
+        "stars": 3659,
+        "forks": 753,
+        "stars_period": "1,973 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "",
+      "original_summary": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile. | 语言: TypeScript | Stars: 9,016 | Forks: 617 | 2,769 stars this week",
+      "chinese_summary": "TypeScript 写的多 agent 并行调度桌面端 ADE（Agentic Development Environment），桌面+移动端可用，可接各家 coding agent 订阅。比 Claude Code 单进程强在「fleet 编排」（多仓库多 agent 并跑、共享上下文），弱在依赖各家订阅（自己不是模型）。适合管理多个并行 PR/多个微服务改造的团队；不适合只有单仓库小团队。上手成本：桌面客户端安装 + 配各 agent API key，开箱即用无服务端。",
+      "backend_focus": "下载桌面客户端，配上团队已在用的 Claude/GPT 订阅，挑一个 3-PR 并行场景（比如同时重构 3 个 service 的日志）跑一次，比单 agent 串行提速多少。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 9016,
+        "forks": 617,
+        "stars_period": "2,769 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 45,517 | Forks: 3,609 | 7,692 stars this week",
+      "chinese_summary": "Python CLI，给 AI agent 提供 Twitter/Reddit/YouTube/GitHub/B站/小红书的免 API 检索能力（爬虫+解析封装）。比官方 API 强在零费用+免申请+覆盖国内平台，弱在违反平台 ToS、稳定性依赖页面结构（改版就坏）、无合规审计。生产慎用，仅适合内部 demo / 数据集构建；不适合对外产品直接调用。上手成本：pip install 后一行命令接入 agent，但需自备代理 IP 池防封。",
+      "backend_focus": "在隔离的 dev 机器上 pip install agent-reach，拿 agent 跑一次「搜最近一周 GitHub 上 Go 1.23 相关的高 star repo」，评估返回质量和延迟，确认是否值得用作内部 research agent 的检索后端。",
+      "meta": {
+        "language": "Python",
+        "stars": 45517,
+        "forks": 3609,
+        "stars_period": "7,692 stars this week"
+      }
+    }
+  ]
+}

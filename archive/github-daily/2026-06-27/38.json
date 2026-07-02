@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-06-27T14:48:55.491958",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 7,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "simplex-chat/simplex-chat",
+      "url": "https://github.com/simplex-chat/simplex-chat",
+      "published_at": "",
+      "original_summary": "SimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱! | 语言: Haskell | Stars: 12,852 | Forks: 734 | 432 stars today",
+      "chinese_summary": "去中心化端到端加密聊天协议栈，Haskell 写核心，iOS/Android/Desktop 全平台客户端。无用户 ID、无手机号、无元数据是最大卖点。和 Signal 相比连电话号码都不要注册，但代价是群组/发现/生态都弱一截，适合对隐私有极致要求的小团队自建；不适合做客服/客服 IM 或大群运营场景。上手成本：要自建 SMP/XFTP 中继服务器，Docker compose 能起，但运维 Haskell 二进制不友好。",
+      "backend_focus": "git clone 后用 docker-compose up 起一组 SMP/XFTP relay，再用 simplex-chat CLI 连两台设备测消息送达延迟，重点验证中继故障时消息能否缓存重投，评估是否替换内部审计沟通的 Signal 群组。",
+      "meta": {
+        "language": "Haskell",
+        "stars": 12852,
+        "forks": 734,
+        "stars_period": "432 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 21,609 | Forks: 1,742 | 2,407 stars today",
+      "chinese_summary": "Google Labs 出的设计规范描述格式 DESIGN.md，本质是给 AI 编码 Agent 喂的结构化设计 token，让 Figma 风格变量/Spacing/Color 变成 Agent 可读的上下文。和 Figma Tokens、Materia UI Theme 比它瞄准的是「Agent 生成 UI 时不跑偏」，不是给设计师用的；适合 Cursor/Copilot/Claude Code 团队固化前端视觉一致性，不适合纯后端或无 AI 编程场景。上手成本：写一份 DESIGN.md 然后挂到仓库根目录就行，不改现有构建链。",
+      "backend_focus": "挑 1 个内部前端 repo，导出 Figma Tokens 为 DESIGN.md 挂到根目录，跑 Cursor/Claude Code 让它基于此生成新页面，对比无 DESIGN.md 时组件库选型偏差率，决定是否在所有前端工程强制引入。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 21609,
+        "forks": 1742,
+        "stars_period": "2,407 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 3,567 | Forks: 210 | 398 stars today",
+      "chinese_summary": "Go 写的 git pre-push hook 框架，对接 LLM 自动审 diff 拦明显错误（语法/泄露密钥/敏感词）。和 husky+lint-staged 的纯本地 lint 比，它把审前移到 push 阶段并能调外部模型；和 SonarQube/Snyk 比它更轻、不需要服务端，适合小团队或 monorepo 子项目；超 100 人代码库建议还是接 PR Bot。上手成本：go install 后在 .git/hooks 里挂一下，不改 CI。",
+      "backend_focus": "go install 后写一份 .no-mistakes.yaml 配置 OpenAI/Anthropic key，git push 故意带一个 AKIA 开头 AWS key 验证拦截命中率，再压 push 延迟 P95 别超过 30s，否则调低扫描上下文长度。",
+      "meta": {
+        "language": "Go",
+        "stars": 3567,
+        "forks": 210,
+        "stars_period": "398 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "grafana/grafana",
+      "url": "https://github.com/grafana/grafana",
+      "published_at": "",
+      "original_summary": "The open and composable observability and data visualization platform. Visualize metrics, logs, and traces from multiple sources like Prometheus, Loki, Elasticsearch, InfluxDB, Postgres and many more. | 语言: TypeScript | Stars: 74,993 | Forks: 14,132 | 32 stars today",
+      "chinese_summary": "可组合观测/可视化平台，TS/Go 双栈，原生支持 Prometheus/Loki/Tempo/ES/Influx/PG 等多种数据源。比 Kibana 更适合 metrics+logs+traces 统一视图，比 Datadog 自托管成本低一个量级；劣势是大集群 (>50 节点) 渲染 dashboard 会卡，APM 探针不如 Datadog 全。上手成本：Docker/Helm 一键起，存量 Prom/Loki 直接接 datasource 不用迁。",
+      "backend_focus": "helm install grafana 接入现有 Prometheus/Loki，给核心 API 服务挂上 Pyroscope/Tempo 探针，跑一次 load test 在 Grafana 看 trace→logs→metrics 三跳联动，确认火焰图能定位到具体 handler 再批量铺。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 74993,
+        "forks": 14132,
+        "stars_period": "32 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ripienaar/free-for-dev",
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "published_at": "",
+      "original_summary": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev | 语言: HTML | Stars: 123,832 | Forks: 13,056 | 90 stars today",
+      "chinese_summary": "运维/基础设施免费额度清单 repo，123k+ star 的 SaaS/PaaS/IaaS 福利目录，覆盖 DB/CDN/CI/Mail/Storage 等。和 IndieHackers/Free-tiers.club 比分类更细、社区维护更勤，每天 PR 都在更新。严格说不是「工具」，是选型速查表，适合成本敏感创业团队和独立开发者；不适合大厂采购流程。上手成本：clone 或直接读 README.md 即可。",
+      "backend_focus": "挑出团队目前在付费的 5 项服务（Sentry/Cloudinary/Mailgun 等），对照 README 表格找同档免费替代，跑一周 staging 验证 SLA 和配额，跑通再下季度预算砍掉。",
+      "meta": {
+        "language": "HTML",
+        "stars": 123832,
+        "forks": 13056,
+        "stars_period": "90 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "opendatalab/MinerU",
+      "url": "https://github.com/opendatalab/MinerU",
+      "published_at": "",
+      "original_summary": "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows. | 语言: Python | Stars: 70,598 | Forks: 5,942 | 960 stars today",
+      "chinese_summary": "PDF/Office/Doc 转 LLM-ready Markdown/JSON 的开源文档解析器，Python+多模态模型链路。和 Unstructured/Tika 比它对中文扫描件、公式、表格、复杂排版的还原度高得多，专为 RAG/Agent 工作流设计；劣势是 GPU 推理依赖较重，CPU 模式慢 10 倍以上。适合做企业知识库/KB-ingestion；不适合纯英文标准 PDF。上手成本：pip install mineru 后 docker pull 模型即可，需 GPU。",
+      "backend_focus": "pip install magic-pdf 后用团队最难搞的 20 份扫描 PDF（含表格/公式/印章）跑 batch 转换，对比现有 Unstructured 输出质量（公式 LaTeX 保留率、表格 cell 对齐率），GPU 显存占用别超过 24G。",
+      "meta": {
+        "language": "Python",
+        "stars": 70598,
+        "forks": 5942,
+        "stars_period": "960 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "mauriceboe/TREK",
+      "url": "https://github.com/mauriceboe/TREK",
+      "published_at": "",
+      "original_summary": "A self-hosted travel/trip planner with real-time collaboration, interactive maps, PWA support, SSO, budgets, packing lists, and more. | 语言: TypeScript | Stars: 7,811 | Forks: 661 | 1,060 stars today",
+      "chinese_summary": "自托管旅行/行程规划器，TS 全栈，含实时协作、地图、PWA、SSO、预算、清单。比 TripIt/Roam Around 强在完全私有、不锁数据、多人协作；和 Notion 模板比它专为 trip 设计而非通用 DB。适合小团队/家庭出行或旅行社内部协同；不适合高并发公开 SaaS 场景。上手成本：docker-compose 一键起，Postgres+Mapbox token 需要外部准备。",
+      "backend_focus": "git clone 后 docker-compose up，配 MAPBOX_TOKEN 和 Postgres，导入团队之前 1 次出国行程 CSV 验证实时协作延迟（两人同时编辑同一行程项），测 PWA 离线模式能否继续读写，作为内部出行 wiki 试点。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 7811,
+        "forks": 661,
+        "stars_period": "1,060 stars today"
+      }
+    }
+  ]
+}

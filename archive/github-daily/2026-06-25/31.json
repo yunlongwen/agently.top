@@ -1,0 +1,164 @@
+{
+  "generated_at": "2026-06-25T12:23:21.812087",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 9,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "published_at": "",
+      "original_summary": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio. | 语言: Python | Stars: 19,975 | Forks: 2,254 | 3,719 stars today",
+      "chinese_summary": "一句话定位：把 AI 编程助手改造成全自动视频剪辑工作室的开源 skill 集。核心能力：内置 12 条 pipeline、52 个工具、500+ agent skill，覆盖脚本生成、镜头拼接、字幕、配音到成片导出全流程，本质上是给 Claude/Cursor 这类 agent 加一层视频领域 MCP 工具。横向对比：跟 Runway、Pika 这类闭源视频生成不同，它不生成画面，而是把已有素材按剧本编排；跟 ffmpeg 脚本相比省了手写滤镜链，但底层还是要调 ffmpeg。适合做短视频矩阵、AI 播客可视化等批量化场景；不适合对画质有电影级要求的团队。上手成本：克隆仓库后按 README 喂给 Claude Code 或 Cursor，按 skill 描述调用即可，本地需要 ffmpeg + Python 环境。",
+      "backend_focus": "本周末抽半天：git clone 该仓库，按 docs 接到 Claude Code 或 Cursor，准备 5 段现成素材跑一遍\"短解说\"pipeline，对比纯 ffmpeg 脚本节省的人时；若团队有短视频需求再考虑封装成内部 MCP server 共享给全员。",
+      "meta": {
+        "language": "Python",
+        "stars": 19975,
+        "forks": 2254,
+        "stars_period": "3,719 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 48,786 | Forks: 43,084 | 1,468 stars today",
+      "chinese_summary": "一句话定位：LLM 驱动的多市场 A 股/港美股日报分析推送工具。核心能力：抓取行情+新闻+公告，喂给 LLM 生成买卖决策看板，支持企业微信/飞书/Telegram 定时推送，强调\"零成本\"指用本地 LLM 或免费额度跑分析。横向对比：相比 akshare+自己写 prompt 的散装方案，它把数据源清洗、prompt 模板、回测框架都封装好了；相比付费的 Wind/同花顺 iFinD 弱在实时性，但胜在免费且可定制。痛点是 LLM 调用 API 仍是主要开销，描述里说的\"零成本\"只在用本地 Ollama 时成立。上手成本：clone 后配 .env（LLM key + 推送 webhook），GitHub Actions 跑定时，Python 依赖常规。",
+      "backend_focus": "今晚花 1 小时：fork 仓库，配好 LLM API key 和企业微信 webhook，GitHub Actions 设成每个交易日 15:30 跑；先观察一周信号准确率再决定是否接入实盘交易 API，注意 .env 别把 key 推到公开 fork。",
+      "meta": {
+        "language": "Python",
+        "stars": 48786,
+        "forks": 43084,
+        "stars_period": "1,468 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "apple/container",
+      "url": "https://github.com/apple/container",
+      "published_at": "",
+      "original_summary": "A tool for creating and running Linux containers using lightweight virtual machines on a Mac. It is written in Swift, and optimized for Apple silicon. | 语言: Swift | Stars: 42,426 | Forks: 1,247 | 1,838 stars today",
+      "chinese_summary": "一句话定位：Apple 官方出的 macOS 原生 Linux 容器运行时，基于 Swift + 轻量 VM。核心能力：在 Apple Silicon 上每个容器跑在独立 microVM（基于自家 Virtualization.framework）里，比传统 Docker Desktop 启动快、内存占用低，CLI 跟 docker 命令对齐（container run/exec/cp）。横向对比：跟 OrbStack 比，官方背书+不收订阅费，但目前还在早期、镜像生态薄；跟 Colima（也是 macOS 上跑 Linux VM）比省了一层 Lima 包装，集成度更高。痛点：暂只支持 Apple Silicon，Intel Mac 没法用；镜像基本要重拉，不像 Docker 那样能直接共享本地缓存。上手成本：brew 安装后基本零配置，已用 Docker 的人无缝切换。",
+      "backend_focus": "M2/M3 团队成员今天就能装：brew install --cask container，把现有 docker-compose 项目里把 docker compose 换成 container compose 试跑 staging，对比启动时间和 idle 内存；如果团队还在用 Colima 或付费 OrbStack，评估是否直接切到官方版省一笔订阅费。",
+      "meta": {
+        "language": "Swift",
+        "stars": 42426,
+        "forks": 1247,
+        "stars_period": "1,838 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "interviewstreet/hiring-agent",
+      "url": "https://github.com/interviewstreet/hiring-agent",
+      "published_at": "",
+      "original_summary": "AI agent to evaluate and score resumes. | 语言: Python | Stars: 2,335 | Forks: 610 | 203 stars today",
+      "chinese_summary": "一句话定位：用 AI agent 批量筛选和打分简历的招聘工具。核心能力：接收 PDF/DOCX 简历，agent 自动解析结构化字段（工作年限、技能、学历），按预设 JD 维度打分排序，支持自定义评分规则和多轮追问。横向对比：跟传统 ATS（如 Greenhouse、Lever）比，AI agent 优势在能处理非结构化 JD 和软技能描述；跟单纯 LLM 调 API 自己写 prompt 比，它内置了简历解析 + 多轮 follow-up 链。痛点是评分模型本身的黑盒风险，HR 团队需要有人复核低分漏网案例。上手成本：本地 Python 跑，要 LLM API key，没有现成 SaaS 化部署文档，建议内部用。",
+      "backend_focus": "HR 同事拉 50 份真实简历做 ground truth 跑一遍：git clone + pip install，配 LLM key，对比人工评分与 agent 评分的 Pearson 相关系数；如果团队有现成 ATS，先做单向数据导入评估，避免重复录入。",
+      "meta": {
+        "language": "Python",
+        "stars": 2335,
+        "forks": 610,
+        "stars_period": "203 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "JCodesMore/ai-website-cloner-template",
+      "url": "https://github.com/JCodesMore/ai-website-cloner-template",
+      "published_at": "",
+      "original_summary": "Clone any website with one command using AI coding agents | 语言: TypeScript | Stars: 19,491 | Forks: 2,899 | 692 stars today",
+      "chinese_summary": "一句话定位：一行命令让 AI agent 复刻任意网站前端代码的模板。核心能力：基于 Claude/Cursor 这类 coding agent 跑 scrape → 拆组件 → 生成 React/Next/Tailwind 代码的 workflow，自带截图对比和样式微调 skill。横向对比：跟传统爬站工具（HTTrack、wget -r）比，它输出的是可维护的组件代码而不是静态 HTML；跟 v0/Lovable 比，它是开源本地运行、不锁定厂商模型，适合代码要进自家仓库的场景。痛点：动态网站（大量 client-side render）的复刻保真度依赖截图比对循环，跑一次 token 消耗不小。上手成本：克隆后按 README 喂给 Cursor/Claude Code，零服务端依赖。",
+      "backend_focus": "前端同事用 3 个真实目标站验证：选公司官网、竞品落地页、内部旧版页面各一个，跑一遍看生成代码的 component 拆分粒度和样式还原度；重点检查是否有硬编码图片和漏掉的交互态，决定能否用于内部官网重构。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 19491,
+        "forks": 2899,
+        "stars_period": "692 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "revfactory/harness",
+      "url": "https://github.com/revfactory/harness",
+      "published_at": "",
+      "original_summary": "A meta-skill that designs domain-specific agent teams, defines specialized agents, and generates the skills they use. | 语言: HTML | Stars: 7,803 | Forks: 1,063 | 277 stars today",
+      "chinese_summary": "一句话定位：自动设计领域专属 agent 团队编排方案的\"元 skill\"。核心能力：输入业务问题（如\"做代码 review\"），它自动产出 N 个专职 agent 的角色定义、协作流程、所需工具清单和 skill prompt，本质是 agent 架构的代码生成器。横向对比：跟 LangGraph/AutoGen 这类编程式 agent 框架比，它不写代码、产出的是可读的 markdown 规范；跟 CrewAI 的模板库比，它根据问题动态生成而不是套固定模板。适合在动手写多 agent 系统前先做架构草稿；不适合直接当 runtime 用。上手成本：HTML 单页应用，本地浏览器打开就能用，无后端。",
+      "backend_focus": "产品/架构师今天就能试：把团队下一个多 agent 项目需求（如\"自动化 PR review + 漏洞扫描\"）贴进去跑一遍，看生成的 agent 拆分和工具清单是否合理；产物可作为内部 RFC 起点，再决定是否落到 LangGraph/CrewAI 实现。",
+      "meta": {
+        "language": "HTML",
+        "stars": 7803,
+        "forks": 1063,
+        "stars_period": "277 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "flutter/flutter",
+      "url": "https://github.com/flutter/flutter",
+      "published_at": "",
+      "original_summary": "Flutter makes it easy and fast to build beautiful apps for mobile and beyond | 语言: Dart | Stars: 177,420 | Forks: 30,550 | 73 stars today",
+      "chinese_summary": "一句话定位：Google 维护的跨端 UI 框架，本次热度来自某次版本更新。核心能力：单一 Dart codebase 编译到 iOS/Android/Web/Windows/macOS/Linux 六个平台，自带 Skia 渲染引擎保证一致性，hot reload 是开发体验核心卖点。横向对比：跟 React Native 比，渲染层自绘不依赖原生组件，UI 一致性更好但跟系统 UI 融合要靠平台 channel；跟 Compose Multiplatform 比，生态更成熟、第三方包多，但 Dart 生态本身比 Kotlin 生态小。痛点：包体偏大、跟原生 SDK 深度集成时仍要写 platform channel。上手成本：装 Flutter SDK + 各平台 toolchain，首次配环境约 1-2 小时。",
+      "backend_focus": "后端同学一般用不到，但如果团队要快速做个内部工具 App（iOS+Android+Web 三端），按官网 quickstart 跑一遍 hello world，对比 React Native 的搭建时间评估是否值得引入；不需要就忽略本次更新。",
+      "meta": {
+        "language": "Dart",
+        "stars": 177420,
+        "forks": 30550,
+        "stars_period": "73 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "published_at": "",
+      "original_summary": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile. | 语言: TypeScript | Stars: 6,925 | Forks: 500 | 331 stars today",
+      "chinese_summary": "一句话定位：Stability AI 出的并行 agent 编排桌面客户端，叫 ADE。核心能力：在桌面/手机端统一管理多个并行 coding agent（Claude Code、Codex、Gemini CLI 等），用自家订阅而不是每次计费，支持任务分派和结果汇总。横向对比：跟直接开 N 个 tmux 跑 CLI 比，它有可视化的任务状态、token 用量统计和跨设备同步；跟 Aider/Cline 这类单 agent 工具比，它定位是 fleet manager 而非单一 agent runtime。痛点：依赖各家 CLI 工具已装好且登录态有效，本质是个外壳。上手成本：下载安装包，注册/登录各家 agent 订阅即可。",
+      "backend_focus": "团队先小范围试用：选 2 个开发各装一份，把当前 sprint 里的独立小任务（如写单测、生成 mock 数据）分给并行 agent 跑，对比单 agent 串行总耗时；重点看 token 消耗是否真走订阅 quota 而非额外计费，再决定是否全员推。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6925,
+        "forks": 500,
+        "stars_period": "331 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 17,523 | Forks: 1,577 | 619 stars today",
+      "chinese_summary": "一句话定位：Google Labs 出的 DESIGN.md 规范，让 coding agent 持久理解项目设计系统。核心能力：定义一套 markdown 格式描述品牌色、字号、间距、组件 token、栅格规则等视觉资产，agent 读这份文件就能在生成代码时遵守设计规范，避免每次都要人肉 review。横向对比：跟传统 design token（Style Dictionary、Tokens Studio）比，它面向 LLM 而非编译器，格式更接近自然语言而不是 JSON；跟 Figma Variables 比，它解决的是\"代码侧一致性\"而非\"设计侧单一来源\"。痛点：依赖 agent 真的会读并遵守，需要在系统 prompt 里强制。上手成本：纯 markdown 文档，写一份贴进 repo 根目录即可。",
+      "backend_focus": "前端 TL 今天就能落地：在主仓库根写一份 DESIGN.md（参考仓库 examples），把品牌色、字号、间距填齐；在 Cursor/Claude Code 的 system prompt 里加一条\"生成 UI 前必读 ./DESIGN.md\"，下次生成组件时检查是否真的遵守，没遵守就在 prompt 里再强化一次。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 17523,
+        "forks": 1577,
+        "stars_period": "619 stars today"
+      }
+    }
+  ]
+}

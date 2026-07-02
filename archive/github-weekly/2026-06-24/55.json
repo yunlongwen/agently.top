@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-06-24T22:19:08.102516",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 7,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 13,803 | Forks: 1,016 | 8,536 stars this week",
+      "chinese_summary": "C 写的代码检索 MCP server，单二进制零依赖。索引中型 repo 毫秒级，支持 158 种语言、查询亚毫秒。跟传统 ctags/LSP 比，它把整库建成持久知识图谱给 Agent 用，token 消耗降低 99%；跟 Sourcegraph 比，它是本地单机版、不能做分布式跨仓库查询。适合塞进 Cursor/Claude Code 当 codebase 记忆层，超过百万文件的多 monorepo 场景不建议。",
+      "backend_focus": "直接下载静态二进制，配进 .cursor/mcp.json 或 claude_desktop_config.json，挑一个本团队最常改的 10 万行 repo 做对比实验，看 Agent 答架构问题时的 token 消耗是否真的降一个量级。",
+      "meta": {
+        "language": "C",
+        "stars": 13803,
+        "forks": 1016,
+        "stars_period": "8,536 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,388 | Forks: 2,417 | 4,376 stars this week",
+      "chinese_summary": "Google 出品的时间序列基础模型，零样本预测能力强。Python 包一行 pip install 就能跑，支持长 horizon、多频混合序列。跟 statsforecast/sktime 这类传统统计库比，它免特征工程、跨域泛化好；跟自家 Vertex AI Forecast 比，它是开源权重、本地推理可控，但精度上限依赖预训练数据分布，金融高频 tick 数据建议 fine-tune 再上。",
+      "backend_focus": "pip install timesfm 跑 demo notebook，把团队内部现有的 Prophet/AutoGluon 预测任务（流量/销量/指标）抽 3-5 个出来做 A/B 对比 baseline，记录 MAPE 和推理延迟再决定是否替换。",
+      "meta": {
+        "language": "Python",
+        "stars": 25388,
+        "forks": 2417,
+        "stars_period": "4,376 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "n0-computer/iroh",
+      "url": "https://github.com/n0-computer/iroh",
+      "published_at": "",
+      "original_summary": "IP addresses break, dial keys instead. Modular networking stack in Rust. | 语言: Rust | Stars: 10,665 | Forks: 488 | 1,531 stars this week",
+      "chinese_summary": "Rust 写的模块化网络栈，核心思想是用 content addressable key 替代 IP 做寻址，点对点直连不依赖中心化 DNS。libp2p 是同生态最直接的对照，iroh 接口更窄、抽象更少、单 binary 部署更干净；wireguard+自定义 NAT 穿透方案相比它省去维护 stun/turn 的痛点。适合需要设备间直接连、IP 经常变的 IoT/边缘场景，传统 C/S 架构没必要引入。",
+      "backend_focus": "cargo add iroh 写一个 50 行 demo，让两台机器在不同 NAT 后用 key 直连传文件，对比现在团队用的 frp/tailscale 链路延迟和穿透成功率，记录差异后再评估接入。",
+      "meta": {
+        "language": "Rust",
+        "stars": 10665,
+        "forks": 488,
+        "stars_period": "1,531 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 39,334 | Forks: 3,116 | 6,915 stars this week",
+      "chinese_summary": "CLI 工具给 AI Agent 装上「读互联网」的眼睛，覆盖 Twitter/Reddit/YouTube/GitHub/B站/小红书。零 API key 费用，靠爬公开页面。跟 Tavily/Exa 这类搜索 API 比，它不收费但合规风险高、容易被反爬封 IP；跟自建 scraper 比，它打包了站点解析器省事，但不保证 SLA、不能进生产核心链路。适合内部 demo 和研究 Agent，不建议对外服务直接暴露。",
+      "backend_focus": "pip install agent-reach 后把本团队 Agent 里现有的 serper/tavily 搜索调用替换掉挑两个非关键场景试一周，观察反爬拦截率和数据完整度再决定是否保留。",
+      "meta": {
+        "language": "Python",
+        "stars": 39334,
+        "forks": 3116,
+        "stars_period": "6,915 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 53,424 | Forks: 3,435 | 3,423 stars this week",
+      "chinese_summary": "开源设计协作平台，Figma 的开源替代。Clojure + ClojureScript 全栈，自托管友好，支持设计稿转代码。跟 Figma 比，它免授权费、可私有化部署，但生态插件和社区资产少一个数量级；跟 Penpot 自家历史版本比，现在 SVG 导出和设计 tokens 已经稳定。适合受合规约束不能上 SaaS 的团队，3 人以下小团队没必要自托管。",
+      "backend_focus": "拉官方 docker-compose 起来，给设计团队开一个试点项目，把现有 Figma 文件导出 SVG 导入对比组件还原度，让设计师评一周再决定是否迁移主工作区。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 53424,
+        "forks": 3435,
+        "stars_period": "3,423 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "withastro/flue",
+      "url": "https://github.com/withastro/flue",
+      "published_at": "",
+      "original_summary": "The sandbox agent framework. | 语言: TypeScript | Stars: 6,583 | Forks: 368 | 1,489 stars this week",
+      "chinese_summary": "Astro 团队出的 sandbox agent framework，让 AI Agent 在隔离沙箱里安全执行任意命令。TypeScript 写，跟传统 child_process 跑命令比，它做了资源限制、网络隔离、快照回滚；跟 E2B/Firecracker 微虚拟化方案比，它更轻量、进程级隔离，不是 VM 级强隔离。适合在生产环境跑不可信 Agent 代码，强隔离需求还是上 gVisor/Firecracker。",
+      "backend_focus": "npm install flue 写一个最小 demo，让 Agent 跑 rm -rf / 之类危险命令验证沙箱拦截和快照回滚，对比团队现在用的 Docker exec 隔离方案记录资源开销差异。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 6583,
+        "forks": 368,
+        "stars_period": "1,489 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "jamiepine/voicebox",
+      "url": "https://github.com/jamiepine/voicebox",
+      "published_at": "",
+      "original_summary": "The open-source AI voice studio. Clone, dictate, create. | 语言: TypeScript | Stars: 33,655 | Forks: 4,061 | 2,883 stars this week",
+      "chinese_summary": "开源 AI 语音工作室，支持声音克隆、听写、内容生成。TypeScript 全栈，本地跑 Whisper + TTS 模型。跟 ElevenLabs SaaS 比，它免订阅费、数据不出本地；跟 Coqui TTS 这种纯模型库比，它带 UI 和完整 workflow、能给非工程师用，但模型质量和音色丰富度落后商业方案。适合做内部播客/有声内容工具，对音色真实度要求高的商业场景不够。",
+      "backend_focus": "git clone && pnpm dev 跑起来，挑一段本团队内部会议录音测听写准确率，对比 Whisper.cpp 直跑的 WER，评估能否替换现有转写脚本。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 33655,
+        "forks": 4061,
+        "stars_period": "2,883 stars this week"
+      }
+    }
+  ]
+}

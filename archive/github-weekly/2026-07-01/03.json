@@ -1,0 +1,100 @@
+{
+  "generated_at": "2026-07-01T01:15:23.496117",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 5,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "simplex-chat/simplex-chat",
+      "url": "https://github.com/simplex-chat/simplex-chat",
+      "published_at": "",
+      "original_summary": "SimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱! | 语言: Haskell | Stars: 17,260 | Forks: 1,003 | 4,847 stars this week",
+      "chinese_summary": "无用户标识符的端到端加密消息协议 + 客户端（iOS/Android/桌面），用 Haskell 实现核心协议栈。痛点是传统 IM（Signal/Telegram）必须绑定手机号或 handle，存在元数据泄露；SimpleX 连「对方是谁」都不暴露，连 libp2p 类 P2P 通信也得掂量其匿名性。上手成本：客户端开箱即用，自建 server 需 Haskell toolchain，普通后端团队接入门槛偏高。",
+      "backend_focus": "如果在做隐私/医疗/法务类 IM POC，先用官方 Docker 镜像跑 standalone server，前端集成参考 docs/s simplex-chat/protocol；不要直接 fork 协议栈改 Haskell 代码，性价比低。",
+      "meta": {
+        "language": "Haskell",
+        "stars": 17260,
+        "forks": 1003,
+        "stars_period": "4,847 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 23,635 | Forks: 1,863 | 7,104 stars this week",
+      "chinese_summary": "Google Labs 出的 DESIGN.md 格式规范，给 AI 编码 agent 喂结构化视觉系统（颜色/字号/spacing/组件 token）。核心解决「agent 改 UI 风格每次都跑偏」的痛点，和 shadcn/ui、Tailwind config 比，它面向的是 LLM 而非人类开发者，写法是 prompt-friendly markdown。上手成本：零依赖，仓库里写一份 DESIGN.md 给 Cursor/Claude Code 读即可，但要重写现有组件库对齐成本不小。",
+      "backend_focus": "在仓库根目录放一份 DESIGN.md，把现有 design token（颜色/间距/圆角）翻译成 spec 格式，让 Claude Code / Cursor 改组件时引用，对比改前后 style drift 程度。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 23635,
+        "forks": 1863,
+        "stars_period": "7,104 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 22,563 | Forks: 1,634 | 9,899 stars this week",
+      "chinese_summary": "C 写的 MCP server，把代码库索引成持久知识图谱，宣称 158 种语言、毫秒级索引、查询亚毫秒、token 用量砍 99%，单二进制零依赖。比 Sourcegraph/Cody LSP 系轻量（无 daemon），比 Grep/RG 类语义浅；适合塞进 IDE agent 工具链，缺点是静态分析深度未知，超大规模 monorepo 表现待验。上手成本：下载二进制 + MCP 配置一行 JSON。",
+      "backend_focus": "下一步：在 Cursor/Claude Desktop 的 mcp_config.json 里加一段指向 release 二进制的 stdio 配置，拿本团队一个 50 万行 monorepo 跑一次索引，对比 Grep + 上下文注入的 token 消耗和响应延迟。",
+      "meta": {
+        "language": "C",
+        "stars": 22563,
+        "forks": 1634,
+        "stars_period": "9,899 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 4,462 | Forks: 256 | 2,677 stars this week",
+      "chinese_summary": "Go 写的 git pre-push 钩子工具，标语就是「git push no-mistakes」，本质是把常见代码风险（明文密钥、误提交大文件、调试日志）在 push 前拦下来。痛点解决：比 Husky/lefthook 这种通用 hook 框架更聚焦「push 前」这一动作，省得自己写 shell 校验。上手成本：单 Go 二进制，`go install` 后配个 Makefile target 就能挂上。",
+      "backend_focus": "在 CI 之前先本地拦一道：go install github.com/kunchenguid/no-mistakes@latest，写个 Makefile 调 `no-mistakes check` 挂到 .git/hooks/pre-push，先在 feature 分支跑两周再考虑合入 main 保护规则。",
+      "meta": {
+        "language": "Go",
+        "stars": 4462,
+        "forks": 256,
+        "stars_period": "2,677 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "alibaba/page-agent",
+      "url": "https://github.com/alibaba/page-agent",
+      "published_at": "",
+      "original_summary": "JavaScript in-page GUI agent. Control web interfaces with natural language. | 语言: TypeScript | Stars: 20,757 | Forks: 1,778 | 1,858 stars this week",
+      "chinese_summary": "阿里开源的「页面内」GUI agent，纯 JS 注入到网页就能用自然语言操作 DOM，不需要后端 LLM 代理。比 Anthropic Computer Use / Skyvern 这类需要截屏 + 视觉模型的方案更轻（直接走 DOM API），token 也省；缺点是只能操作前端可见元素，绕过 SPA 路由/iframe 边界时容易卡死。上手成本：npm 包或 CDN script，业务页面加一行引入即可。",
+      "backend_focus": "先在内部管理系统（OA/低代码平台）挑一个表单页面试点：npm i page-agent，按 README 加 script 标签，跑自然语言填表 demo，对比团队现在 RPA/Selenium 脚本的维护成本。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 20757,
+        "forks": 1778,
+        "stars_period": "1,858 stars this week"
+      }
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-06-27T00:12:08.652214",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 6,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "simplex-chat/simplex-chat",
+      "url": "https://github.com/simplex-chat/simplex-chat",
+      "published_at": "",
+      "original_summary": "SimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱! | 语言: Haskell | Stars: 12,099 | Forks: 689 | 191 stars today",
+      "chinese_summary": "无用户标识符的隐私消息网络。无 ID 设计（无手机号/邮箱/用户名）从根本上规避元数据泄露，比 Signal/Element 在抗流量分析上更激进；双 ratchet 协议 + SMP 校验防中间人。客户端覆盖 iOS/Android/桌面，端到端加密默认开启。代价是 Haskell 单核消息路由，新群组建立需 N² 条握手，万人级群不如 Matrix/Element 成熟。上手成本：直接装 app 即可，服务器自托管门槛高（Haskell + SMP 协议栈）。",
+      "backend_focus": "不在主流程用，先在内部安全/合规群跑两周评估元数据防护能力；要自托管看 https://simplex.chat/docs/server.html，docker-compose 起一个 SMP relay 试消息延迟与并发连接数。",
+      "meta": {
+        "language": "Haskell",
+        "stars": 12099,
+        "forks": 689,
+        "stars_period": "191 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "published_at": "",
+      "original_summary": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system. | 语言: TypeScript | Stars: 20,727 | Forks: 1,695 | 2,319 stars today",
+      "chinese_summary": "给 coding agent 喂设计规范的 markdown 格式。DESIGN.md 用结构化 token（color/spacing/typography）替代散落的 Figma 链接，Claude Code/Cursor 读这一份文件就能保持设计一致性。比手写 system prompt 维护 token 更系统，但跟 Style Dictionary、Tailwind config 相比它不产出可执行代码，只产出 prompt 上下文。上手成本：零依赖，照 schema 写一份塞仓库根目录即可。",
+      "backend_focus": "挑一个前端项目，按 https://github.com/google-labs-code/design.md 模板写一份 DESIGN.md，在 Cursor/Cline 里跑个改组件任务对比加/不加 DESIGN.md 的输出差异，决定是否纳入前端 AI 协作 SOP。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 20727,
+        "forks": 1695,
+        "stars_period": "2,319 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "kunchenguid/no-mistakes",
+      "url": "https://github.com/kunchenguid/no-mistakes",
+      "published_at": "",
+      "original_summary": "git push no-mistakes | 语言: Go | Stars: 3,243 | Forks: 192 | 412 stars today",
+      "chinese_summary": "Git pre-push hook，拦截密码/密钥/隐私提交。Go 单二进制 ~3MB，gitleaks 规则集做正则匹配，比 git-secrets 更激进（默认连身份证/手机号都拦），也比 pre-commit 的 detect-secrets 启动快 10 倍。痛点：误报率高（测试 fixture 里的 18 位数字也会触发），需要 .no-mistakes-allowlist 维护白名单。上手成本：一行 brew install / go install + git config core.hooksPath。",
+      "backend_focus": "团队下周一：brew tap kunchenguid/tap && brew install no-mistakes，给所有 repo 配 core.hooksPath 指向全局 hooks 目录；先把已知 fixture 加白名单跑两周统计误报率。",
+      "meta": {
+        "language": "Go",
+        "stars": 3243,
+        "forks": 192,
+        "stars_period": "412 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "grafana/grafana",
+      "url": "https://github.com/grafana/grafana",
+      "published_at": "",
+      "original_summary": "The open and composable observability and data visualization platform. Visualize metrics, logs, and traces from multiple sources like Prometheus, Loki, Elasticsearch, InfluxDB, Postgres and many more. | 语言: TypeScript | Stars: 74,784 | Forks: 14,117 | 17 stars today",
+      "chinese_summary": "主流可组合可观测平台。TS/Go 前端 + 后端插件化数据源，原生支持 Prometheus/Loki/Tempo/ES/PG/InfluxDB，比 Kibana 轻、查 metrics 比 Datadog 便宜 90%。新版本主推 Grafana 12 的 Scenes 框架做 dashboard-as-code。痛点：集群模式要 MySQL/PG 元数据库 + 至少 2 节点，OSS 版告警路由比 Enterprise 弱很多。上手成本：docker run grafana/grafana 起一个最简，单机够 demo 不够生产。",
+      "backend_focus": "查 https://grafana.com/docs/grafana/latest/upgrade/ 评估从当前版本升 12 的 breaking change；新项目直接 docker-compose 起 grafana + prometheus + lokai 三件套，替代自研的 metrics 看板。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 74784,
+        "forks": 14117,
+        "stars_period": "17 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ripienaar/free-for-dev",
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "published_at": "",
+      "original_summary": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev | 语言: HTML | Stars: 123,593 | Forks: 13,044 | 137 stars today",
+      "chinese_summary": "免费 SaaS/PaaS/IaaS 资源索引（HTML 列表）。123k star 的 devops 福利清单，覆盖数据库/邮件/CDN/监控等免费额度，比 awesome-selfhosted 聚焦云厂商免费层而非自托管。每条带额度数字和过期提醒。痛点：信息靠社区 PR 维护，部分厂商条款过期但条目没及时更新，签合同前必须复核官网。上手成本：纯静态页，clone 下来本地 grep 关键词找自家项目能薅的服务。",
+      "backend_focus": "grep -iE 'redis|postgres|s3|kafka' README.md 列出当前 SaaS 已经在用 + 还有免费层可升的服务，本周内审计是否能从付费版降级到免费层。",
+      "meta": {
+        "language": "HTML",
+        "stars": 123593,
+        "forks": 13044,
+        "stars_period": "137 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "opendatalab/MinerU",
+      "url": "https://github.com/opendatalab/MinerU",
+      "published_at": "",
+      "original_summary": "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows. | 语言: Python | Stars: 70,199 | Forks: 5,929 | 944 stars today",
+      "chinese_summary": "复杂文档转 LLM-ready 结构化数据。Python pipeline 支持 PDF/Word/PPT/图片 OCR + 表格识别 + 公式转 LaTeX，输出 markdown/JSON/HTML，比 unstructured.io 在中文/扫描件上准确率高，比 marker-pdf 多表格识别和版面分析。依赖 paddleocr/onnxruntime 模型，单机 GPU 可跑。痛点：首次跑要下载 ~2GB 模型，冷启 30s+。上手成本：pip install mineru[full] 即可，CLI/SDK/Python 三种入口。",
+      "backend_focus": "pip install 'mineru[full]' --extra-index-url https://wheels.opendatalab.com/simple；在 RAG 知识库里塞 100 篇带表格/公式的 PDF 跑一遍，对比现有 PyPDF2+unstructured 流水线的 chunk 质量与 chunk 数。",
+      "meta": {
+        "language": "Python",
+        "stars": 70199,
+        "forks": 5929,
+        "stars_period": "944 stars today"
+      }
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-06-26T14:56:46.091109",
+  "source": {
+    "id": "github-weekly",
+    "name": "GitHub Weekly",
+    "label": "GitHub 周榜",
+    "content_source": "GitHub Trending Weekly",
+    "category": "开源趋势",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 7,
+  "items": [
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "DeusData/codebase-memory-mcp",
+      "url": "https://github.com/DeusData/codebase-memory-mcp",
+      "published_at": "",
+      "original_summary": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. | 语言: C | Stars: 14,950 | Forks: 1,097 | 8,024 stars this week",
+      "chinese_summary": "C 写的代码知识图谱 MCP server，单静态二进制零依赖，给 Claude/Cursor 这种 AI 编码工具当代码外挂大脑。声称毫秒级索引、亚毫秒查询、158 种语言、token 消耗砍 99%。横向对比 ripgrep+ctags 它多了跨文件语义图；对比 Sourcegraph Cody 后端太重它是单文件本地服务，不适合超大规模 monorepo（千万行级会爆内存）。上手成本：下载二进制加进 MCP 配置就行。",
+      "backend_focus": "在团队主力 monorepo 跑一遍：wget 静态二进制 → 在 ~/.claude.json 或 .cursor/mcp.json 注册 codebase-memory → 让 Claude 问个跨 20 个文件的架构问题对比原本传全文件的 token 数，把数据贴到 #eng-tools 频道评估替换 ripgrep 工作流。",
+      "meta": {
+        "language": "C",
+        "stars": 14950,
+        "forks": 1097,
+        "stars_period": "8,024 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "google-research/timesfm",
+      "url": "https://github.com/google-research/timesfm",
+      "published_at": "",
+      "original_summary": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | 语言: Python | Stars: 25,597 | Forks: 2,432 | 3,040 stars this week",
+      "chinese_summary": "Google 出品的时间序列基础模型，预训练即用做 zero-shot 预测。横向对比传统统计模型 Prophet/ARIMA 不用调参就能 handle 长序列和非平稳；对比 Lag-Llama、Nixtla TimeGPT 它是 Apache 开源 + 200M 参数可下载自部署，不走 API。零样本场景强但下游 fine-tune 文档偏少，需要团队自己写 LoRA 适配。上手成本：pip install 后 5 行代码加载 checkpoint 出预测。",
+      "backend_focus": "pip install timesfm 后挑团队一个核心业务指标（订单量/在线人数/QPS）跑 5 分钟 zero-shot，对比现有 Prophet 模型的 MAPE 和推理延迟，把结果发到数据组周会判断是否能替换线上 forecasting job。",
+      "meta": {
+        "language": "Python",
+        "stars": 25597,
+        "forks": 2432,
+        "stars_period": "3,040 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "penpot/penpot",
+      "url": "https://github.com/penpot/penpot",
+      "published_at": "",
+      "original_summary": "Penpot: The open-source design tool for design and code collaboration | 语言: Clojure | Stars: 53,780 | Forks: 3,468 | 3,379 stars this week",
+      "chinese_summary": "开源设计 + 代码协作平台，Clojure 写后端 + 自研渲染引擎，对标 Figma。横向比 Figma 它完全自托管 + 设计稿导出真 SVG 不锁 vendor lock；缺点是组件库生态和插件市场远不及 Figma，团队从 Figma 迁来要重做组件库。上手成本：docker run 一行起服务，对接 SSO 需要写 OIDC 配置。",
+      "backend_focus": "运维同学先在 staging 跑官方 docker-compose，把团队 Figma 现有 design token 用 penpot 的 tokens 格式手动迁一套验证兼容性，再决定是否给设计组切 5 人小团队试点。",
+      "meta": {
+        "language": "Clojure",
+        "stars": 53780,
+        "forks": 3468,
+        "stars_period": "3,379 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "jamiepine/voicebox",
+      "url": "https://github.com/jamiepine/voicebox",
+      "published_at": "",
+      "original_summary": "The open-source AI voice studio. Clone, dictate, create. | 语言: TypeScript | Stars: 34,290 | Forks: 4,128 | 3,688 stars this week",
+      "chinese_summary": "开源 AI 语音工作室，TypeScript 全栈，支持声音克隆 + 听写 + TTS。横向比 ElevenLabs 它是本地可部署不上传声纹到第三方，但克隆质量取决于底模（通常用 XTTS/SO-VITS）；缺点是 GPU 推理资源消耗大，没有 ElevenLabs 那种全球 CDN 流式分发。上手成本：需 NVIDIA GPU + 装好 PyTorch + 下载底模权重。",
+      "backend_focus": "硬件组先确认有空闲 A10/A100，git clone 后按 README 跑 web demo 录 30 秒样本克隆声纹测一次 TTS MOS 分，对比 ElevenLabs API 输出决定是否用于内部有声书/客服语音场景。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 34290,
+        "forks": 4128,
+        "stars_period": "3,688 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "asgeirtj/system_prompts_leaks",
+      "url": "https://github.com/asgeirtj/system_prompts_leaks",
+      "published_at": "",
+      "original_summary": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly. | 语言: JavaScript | Stars: 46,135 | Forks: 7,564 | 2,720 stars this week",
+      "chinese_summary": "收集各家 LLM 和编码工具泄露的 system prompt，资料库性质非生产工具。覆盖 Claude/GPT/Gemini/Grok/Cursor/Copilot 等产品线。横向比 LangSmith 这类 prompt 调试平台它不能调试只能读；适合做 prompt 工程参考和竞品分析。零部署成本，纯 clone 仓库 grep 即可。",
+      "backend_focus": "让团队 prompt 工程师 clone 仓库后 grep 提取 Claude Code 和 Cursor 的 tool use schema，对比自己内部 agent 的 tool 定义有没有遗漏关键 instruction 或安全护栏，产物同步到内部 prompt 规范文档。",
+      "meta": {
+        "language": "JavaScript",
+        "stars": 46135,
+        "forks": 7564,
+        "stars_period": "2,720 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "published_at": "",
+      "original_summary": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees. | 语言: Python | Stars: 41,543 | Forks: 3,300 | 6,830 stars this week",
+      "chinese_summary": "让 AI agent 能读推特/Reddit/YouTube/GitHub/B站/小红书的统一 CLI，纯 Python 调用各家公开页面而非官方 API。声称零 API 费用。横向对比官方 API（要付费 + 审批）它免钱但有反爬失效风险，Twitter/X 没付费接口后基本靠 Playwright 抓取稳定性差；适合 demo/研究不适合生产 SLA 场景。上手成本：pip install 加一条 cookie 配置。",
+      "backend_focus": "跑 pip install agent-reach 后配 cookie.json，让 Claude Code 跑一次\"抓本项目本周 GitHub trending Top 5 摘要\"验证稳定性，能连续 7 天不挂再考虑接入舆情监控；别上核心生产链。",
+      "meta": {
+        "language": "Python",
+        "stars": 41543,
+        "forks": 3300,
+        "stars_period": "6,830 stars this week"
+      }
+    },
+    {
+      "source": "GitHub Trending Weekly",
+      "category": "开源趋势-每周热点",
+      "title": "ZhuLinsen/daily_stock_analysis",
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "published_at": "",
+      "original_summary": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. | 语言: Python | Stars: 49,733 | Forks: 43,591 | 6,383 stars this week",
+      "chinese_summary": "LLM 驱动的多市场股票分析系统：拉行情/新闻 → LLM 决策 → 推送飞书/微信，支持零成本定时。横向对比传统量化回测框架（Backtrader/QuantConnect）它偏决策解读而非策略回测；缺点是 LLM 幻觉会污染信号，没风控的自动跟单会爆仓。上手成本：配 LLM API key + 推送 webhook 后 cron 跑。",
+      "backend_focus": "配 API key 在 staging 跑一次 daily_job.py，把生成的某只票分析结果和东方股吧人工分析对比，验证信息密度；如果团队不做投顾业务，建议只作为内部学习项目 fork 改造成公司财报自动化摘要服务。",
+      "meta": {
+        "language": "Python",
+        "stars": 49733,
+        "forks": 43591,
+        "stars_period": "6,383 stars this week"
+      }
+    }
+  ]
+}

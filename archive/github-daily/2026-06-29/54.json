@@ -1,0 +1,164 @@
+{
+  "generated_at": "2026-06-29T22:07:05.371868",
+  "source": {
+    "id": "github-daily",
+    "name": "GitHub Daily",
+    "label": "GitHub 日榜",
+    "content_source": "GitHub Trending Daily",
+    "category": "开源趋势",
+    "display_priority": "high",
+    "enabled": true,
+    "fetcher": "spiders.github_trending",
+    "config": {
+      "top_count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 9,
+  "items": [
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "simplex-chat/simplex-chat",
+      "url": "https://github.com/simplex-chat/simplex-chat",
+      "published_at": "",
+      "original_summary": "SimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱! | 语言: Haskell | Stars: 16,055 | Forks: 930 | 1,611 stars today",
+      "chinese_summary": "去中心化端端加密聊天协议，无用户标识符，Haskell 实现。核心能力：双 ratchet 加密、消息队列去耦收发双方身份、跨平台客户端（iOS/Android/桌面）。对比 Signal：两者都强加密，但 SimpleX 连用户 ID 都没有，metadata 抗关联性更强；代价是 Haskell 技术栈小众，服务器运维、二进制审计门槛高，新人想自建 relay 基本劝退。适合对元数据泄露零容忍的隐私刚需场景，企业 IM 没必要上。",
+      "backend_focus": "先在 staging 拉一个 simplex-chat 容器，把 OpenAPI 和 SMP 协议文档读完，评估自建 relay 的 Haskell 编译和运维成本，再决定是否给合规团队做 POC。",
+      "meta": {
+        "language": "Haskell",
+        "stars": 16055,
+        "forks": 930,
+        "stars_period": "1,611 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "msitarzewski/agency-agents",
+      "url": "https://github.com/msitarzewski/agency-agents",
+      "published_at": "",
+      "original_summary": "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with personality, processes, and proven deliverables. | 语言: Shell | Stars: 118,380 | Forks: 19,416 | 1,221 stars today",
+      "chinese_summary": "AI Agent 人设 prompt 集合库，Shell 写就。核心是给 Claude/GPT 一堆专家角色定义（前端、SEO、社群、现实校验），按场景加载。跟 LangChain Agent / MetaGPT 相比，agency-agents 不做框架只做人设文件，可直接塞进现有 Claude Code 或 Codex 工作流；但缺乏工具调用编排，要自己写 routing 逻辑。无技术门槛，clone 下来照着改 prompt 就行。",
+      "backend_focus": "git clone 后挑 3 个跟你们业务最贴的 agent（比如 code-reviewer、api-designer）拷到 .claude/agents/ 下，用本周真实 PR 跑一轮 diff，让团队评估 prompt 质量再决定是否纳入 CI 流程。",
+      "meta": {
+        "language": "Shell",
+        "stars": 118380,
+        "forks": 19416,
+        "stars_period": "1,221 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "cupy/cupy",
+      "url": "https://github.com/cupy/cupy",
+      "published_at": "",
+      "original_summary": "NumPy & SciPy for GPU | 语言: Python | Stars: 11,712 | Forks: 1,075 | 352 stars today",
+      "chinese_summary": "GPU 版 NumPy/SciPy，NumPy API drop-in 替换。核心能力：把 ndarray 运算直接 dispatch 到 CUDA/cuBLAS/cuDNN/RocBLAS，支持多卡 NCCL 通信和内存池。跟 PyTorch/JAX 比，cupy 对老 NumPy 代码零改动收益最大，尤其科学计算、信号处理、稀疏矩阵场景；缺点是没有 autograd，做训练还得回 PyTorch。上手成本：pip install cupy-cuda12x，需要 CUDA 驱动和 NVIDIA 卡，AMD 要装 ROCm 版。",
+      "backend_focus": "挑一个 CPU 跑得慢的 NumPy 脚本（推荐矩阵分解或卷积），pip install cupy-cuda12x 后只改 import numpy as np 为 import cupy as np 跑一遍，统计 GPU 加速比再决定是否铺到 ETL pipeline。",
+      "meta": {
+        "language": "Python",
+        "stars": 11712,
+        "forks": 1075,
+        "stars_period": "352 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "soxoj/maigret",
+      "url": "https://github.com/soxoj/maigret",
+      "published_at": "",
+      "original_summary": "🕵️‍♂️ Collect a dossier on a person by username from 3000+ sites | 语言: Python | Stars: 34,146 | Forks: 2,588 | 191 stars today",
+      "chinese_summary": "用户名 OSINT 工具，跨 3000+ 站点查重。Python + aiohttp 异步抓取，支持截图和报告输出。跟 Sherlock 比，maigret 站点覆盖更广（3000+ vs 400+），单次扫描慢但漏检率低；输出格式可定制。上手成本：pip install 直接跑，但大规模扫描容易被目标站 rate-limit 甚至封 IP，生产环境必须加代理池和退避。",
+      "backend_focus": "用 docker run -it soxoj/maigret 跑一遍你们公司品牌名 + 高管 username，验证是否被恶意抢注；并把报告输出接入风控告警 channel。",
+      "meta": {
+        "language": "Python",
+        "stars": 34146,
+        "forks": 2588,
+        "stars_period": "191 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "commaai/openpilot",
+      "url": "https://github.com/commaai/openpilot",
+      "published_at": "",
+      "original_summary": "openpilot is an operating system for robotics. Currently, it upgrades the driver assistance system on 300+ supported cars. | 语言: Python | Stars: 62,668 | Forks: 11,105 | 465 stars today",
+      "chinese_summary": "机器人 / 自动驾驶 OS，Python + C++。已在 300+ 车型上做 ADAS 升级。核心能力：板端感知、控制、规划全栈，支持 comma 3X 硬件和部分第三方设备。跟 Autoware / Apollo 比，openpilot 真在消费级车型大规模跑过，但绑定 comma 硬件生态，移植到自己车队需要 fork 大改。无现成仿真闭环的话，别指望直接上车。",
+      "backend_focus": "拉一份 openpilot 源码跑 selfdrive/test 下 unit test 熟悉架构，关注 panda 和 openpilot 的 CAN 协议文档，评估是否能在你们的机器人底盘控制栈里复用 cereal 消息总线。",
+      "meta": {
+        "language": "Python",
+        "stars": 62668,
+        "forks": 11105,
+        "stars_period": "465 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "ripienaar/free-for-dev",
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "published_at": "",
+      "original_summary": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev | 语言: HTML | Stars: 126,436 | Forks: 13,240 | 1,971 stars today",
+      "chinese_summary": "免费 SaaS/PaaS/IaaS 资源清单站，HTML 静态页。13 万 star 的 DevOps 福利表，按类别整理了有免费额度的云服务、数据库、监控、CI 等。跟自维护 awesome-list 比，作者长期更新且有 PR 审核机制。零上手成本，clone 下来当内部 wiki 模板都行。",
+      "backend_focus": "翻一遍 Database 和 CI/CD 章节，标记你们当前在付费但实际能切免费的 3 个服务，下周内做切换评估并写一篇内部对比 memo。",
+      "meta": {
+        "language": "HTML",
+        "stars": 126436,
+        "forks": 13240,
+        "stars_period": "1,971 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "logto-io/logto",
+      "url": "https://github.com/logto-io/logto",
+      "published_at": "",
+      "original_summary": "🧑‍🚀 Authentication and authorization infrastructure for SaaS and AI apps, built on OIDC and OAuth 2.1 with multi-tenancy, SSO, and RBAC. | 语言: TypeScript | Stars: 12,391 | Forks: 848 | 77 stars today",
+      "chinese_summary": "现代身份认证基础设施，TypeScript 实现，OIDC + OAuth 2.1 一栈搞定。核心：多租户、SSO、RBAC、Machine-to-Machine 凭据、原生支持 AI agent 身份。跟 Auth0 / Clerk / Keycloak 比，Logto 开源可自托管、UI 完善不用自己画登录页；缺点是生态和文档比 Keycloak 薄，企业 SAML/SCIM 高级特性要查清楚是否覆盖。上手成本：docker compose 一键起，需要 Postgres + Redis。",
+      "backend_focus": "docker compose up -d 起一套本地 Logto，把现有 Auth0 tenant 迁一个 non-prod 应用过去对比 token 签发延迟和 MFA 流程，确认 SAML/SCIM 需求后评估替换 ROI。",
+      "meta": {
+        "language": "TypeScript",
+        "stars": 12391,
+        "forks": 848,
+        "stars_period": "77 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "xbtlin/ai-berkshire",
+      "url": "https://github.com/xbtlin/ai-berkshire",
+      "published_at": "",
+      "original_summary": "AI 时代的伯克希尔：基于 Claude Code / Codex 的价值投资研究框架。巴菲特·芒格·段永平·李录四大师方法论 + 多Agent并行研究。| AI-era Berkshire: a value investing research framework built for Claude Code / Codex. 4 masters' methodologies + multi-agent adversarial analysis. | 语言: Python | Stars: 6,371 | Forks: 837 | 1,397 stars today",
+      "chinese_summary": "AI 时代价值投资研究框架，包装 4 位投资大师方法论 + 多 Agent 对抗分析。Python，本质是 Claude Code / Codex 的 prompt 编排。跟 auto-GPT / crewAI 比，垂直在金融研究、prompt 是真写过的，但产出只能当 input 不能当 signal，自带免责声明。上手成本：clone 后配 ANTHROPIC_API_KEY，跟着 README 跑示例就行。",
+      "backend_focus": "拉一份代码到本地，配好 ANTHROPIC_API_KEY 后用你们当前关注的一只票跑一遍 multi-agent 对比，把输出贴进飞书讨论组让分析师评估 prompt 质量，决定是否作为研究辅助工具。",
+      "meta": {
+        "language": "Python",
+        "stars": 6371,
+        "forks": 837,
+        "stars_period": "1,397 stars today"
+      }
+    },
+    {
+      "source": "GitHub Trending Daily",
+      "category": "开源趋势-每日热点",
+      "title": "browser-use/video-use",
+      "url": "https://github.com/browser-use/video-use",
+      "published_at": "",
+      "original_summary": "Edit videos with coding agents | 语言: Python | Stars: 11,633 | Forks: 1,545 | 976 stars today",
+      "chinese_summary": "用 coding agent 编辑视频的 Python 库，基于 browser-use 扩展。核心能力：把视频编辑转成自然语言/代码指令，agent 解析后调用 ffmpeg/opencv 执行。跟 Descript / Runway 比，video-use 走代码路径，可版本控制和批处理；缺点是依赖 LLM 推理成本高，编辑一个 10 分钟视频可能要烧几毛到几块 token。上手成本：pip install 后配 OpenAI key，需要本地 ffmpeg。",
+      "backend_focus": "pip install video-use 并配 OPENAI_API_KEY，拿一段 1 分钟的产品 demo 跑 cut the silences + add subtitles 两条指令，对比人工剪辑耗时和成本评估是否进短视频生产 pipeline。",
+      "meta": {
+        "language": "Python",
+        "stars": 11633,
+        "forks": 1545,
+        "stars_period": "976 stars today"
+      }
+    }
+  ]
+}

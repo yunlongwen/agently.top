@@ -1,0 +1,73 @@
+{
+  "generated_at": "2026-06-28T13:09:40.813551",
+  "source": {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "label": "Anthropic",
+    "content_source": "Anthropic",
+    "category": "AI 官方更新",
+    "display_priority": "low",
+    "enabled": true,
+    "fetcher": "spiders.official_ai_sources",
+    "config": {
+      "news_url": "https://www.anthropic.com/news",
+      "count": 10
+    },
+    "kind": "builtin"
+  },
+  "item_count": 4,
+  "items": [
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Statement on the US government directive to suspend access to Fable 5 and Mythos 5",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "published_at": "Jun 12, 2026",
+      "original_summary": "The US government has issued an export control directive to suspend all access to Fable 5 and Mythos 5.",
+      "chinese_summary": "跟进报道：Anthropic 再次声明，美国政府出口管制指令要求即刻暂停 Fable 5 与 Mythos 5 的全部访问，Anthropic 已执行。这是合规层面的强制下线，相对此前仅部分限流，本次是全面断供。已在生产使用 Fable 5/Mythos 5 的服务必须立即迁移到替代模型（如 Claude Opus 4.8 或 Sonnet 系列），否则会收到 403/region unavailable 错误。",
+      "backend_focus": "行动：立刻在调用代码中将 model 字段从 fable-5/mythos-5 切到可用替代（如 claude-opus-4-8）。在网关层加 region/feature gate，校验 model 名称合法性，避免下线模型触发 403 风暴。审计日志中排查是否仍有残留调用。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Tag Claude Tag is a new way for teams to work with Claude.",
+      "url": "https://www.anthropic.com/news/introducing-claude-tag",
+      "published_at": "Jun 23, 2026",
+      "original_summary": "Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America. Announcements  Expanding Project Glasswing We’re extending Project Glas...",
+      "chinese_summary": "Anthropic 推出 Claude Tag，定位为「团队与 Claude 协作的新方式」，属产品功能发布，但摘要文本被同站其他公告（Claude Corps、Glasswing、政策）刷屏，具体能力（是分享标签、prompt 模板还是协作空间）未在摘要中体现。需进入正文确认是否新增 API 字段、SDK hook 或仅是 UI/控制台特性。",
+      "backend_focus": "行动：访问官网正文确认 Claude Tag 是否暴露 SDK/API 能力。若仅是 Console 协作特性，后端无需改动；若提供 API，则评估是否需要新增 tag 注入逻辑到 prompt 构建流程。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Introducing Claude Opus 4.8 An upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consi",
+      "url": "https://www.anthropic.com/news/claude-opus-4-8",
+      "published_at": "Jun 23, 2026",
+      "original_summary": "Introducing Claude Tag Claude Tag is a new way for teams to work with Claude. Policy  Policy on the AI Exponential AI is advancing at exponential speed, and the policymaking process was built for a slower world. We’re sharing policy proposals to prepare our institutions for AI progress. Announcements  Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across Am...",
+      "chinese_summary": "Anthropic 发布 Claude Opus 4.8，Opus 系列升级版，在编码、agentic 任务与专业工作上更强。相对 Opus 4.5/4.7 在 long-horizon agent 与复杂编码场景的能力进一步增强；上下文窗口与 tool use 兼容性需以官方文档为准。Opus 4.x 老版本不会被强制下线，但建议压测后切换。",
+      "backend_focus": "行动：调用代码将 model 字段升级为 claude-opus-4-8。先在 staging 用 tool use、context window、max_tokens 做回归，确认与 Anthropic SDK 最新版兼容后再灰度到生产。关注 Opus 4.5 的 deprecation 时间线。",
+      "meta": {
+        "content_type": "Product"
+      }
+    },
+    {
+      "source": "Anthropic",
+      "category": "AI 官方更新",
+      "title": "Anthropic opens Seoul office and announces new partnerships across the Korean AI ecosystem",
+      "url": "https://www.anthropic.com/news/seoul-office-partnerships-korean-ai-ecosystem",
+      "published_at": "Jun 17, 2026",
+      "original_summary": "Announcements",
+      "chinese_summary": "Anthropic 在首尔开设办公室并宣布韩国 AI 生态多项合作。区域扩张意味着 Claude 在韩国的可用性、本地支持与合规通道增强，对已在韩国部署的服务利好。",
+      "backend_focus": "行动：使用海外 region 路由的团队可评估是否切到 Anthropic 韩国 region 端点以降低延迟。检查现有 IAM/API key 是否需要在韩国数据驻留要求下重新签约。",
+      "meta": {
+        "content_type": "Announcements"
+      }
+    }
+  ]
+}
